@@ -1,0 +1,171 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot=
+    start>
+    <ion-back-button defaultHref="/learningmodules"></ion-back-button>
+  </ion-buttons>
+    <ion-title *ngIf="learningModule.id">{{learningModule.moduleTitle}} Module Details</ion-title>
+    <ion-title *ngIf="!learningModule.id">Create New Learning Module</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-item>
+    <ion-text>Module ID: {{learningModule.id}}</ion-text>
+  </ion-item>
+
+  <ion-item-divider color="medium">
+    <ion-label>
+      About Module
+    </ion-label>
+  </ion-item-divider>
+
+  <ion-item>
+    <ion-label position="stacked">Module Title</ion-label>
+    <ion-input [(ngModel)]="learningModule.moduleTitle"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="stacked">Module Description</ion-label>
+    <ion-input [(ngModel)]="learningModule.moduleDescription"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>Display Module During Weeks</ion-label>
+    <ion-select [(ngModel)]="learningModule.moduleVisibilityTime" multiple="true" cancelText="Cancel" okText="Ok">
+      <ion-select-option>Always</ion-select-option>
+      <ion-select-option>1</ion-select-option>
+      <ion-select-option>2</ion-select-option>
+      <ion-select-option>3</ion-select-option>
+      <ion-select-option>4</ion-select-option>
+      <ion-select-option>5</ion-select-option>
+      <ion-select-option>6</ion-select-option>
+      <ion-select-option>7</ion-select-option>
+      <ion-select-option>8</ion-select-option>
+      <ion-select-option>9</ion-select-option>
+      <ion-select-option>10</ion-select-option>
+      <ion-select-option>11</ion-select-option>
+      <ion-select-option>12</ion-select-option>
+      <ion-select-option>13</ion-select-option>
+      <ion-select-option>14</ion-select-option>
+      <ion-select-option>15</ion-select-option>
+      <ion-select-option>16</ion-select-option>
+      <ion-select-option>17</ion-select-option>
+      <ion-select-option>18</ion-select-option>
+      <ion-select-option>19</ion-select-option>
+      <ion-select-option>20</ion-select-option>
+      <ion-select-option>21</ion-select-option>
+      <ion-select-option>22</ion-select-option>
+      <ion-select-option>23</ion-select-option>
+      <ion-select-option>24</ion-select-option>
+      <ion-select-option>25</ion-select-option>
+      <ion-select-option>26</ion-select-option>
+      <ion-select-option>27</ion-select-option>
+      <ion-select-option>28</ion-select-option>
+      <ion-select-option>29</ion-select-option>
+      <ion-select-option>30</ion-select-option>
+      <ion-select-option>31</ion-select-option>
+      <ion-select-option>32</ion-select-option>
+      <ion-select-option>33</ion-select-option>
+      <ion-select-option>34</ion-select-option>
+      <ion-select-option>35</ion-select-option>
+      <ion-select-option>36</ion-select-option>
+      <ion-select-option>37</ion-select-option>
+      <ion-select-option>38</ion-select-option>
+      <ion-select-option>39</ion-select-option>
+      <ion-select-option>40</ion-select-option>
+      <ion-select-option>41</ion-select-option>
+      <ion-select-option>42</ion-select-option>
+    </ion-select>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="stacked">Number of Reward Points</ion-label>
+    <ion-input [(ngModel)]="learningModule.modulePointsWorth"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="stacked">Module Contents</ion-label>
+    <ion-textarea [(ngModel)]="learningModule.moduleContent" rows="3"></ion-textarea>
+  </ion-item>
+
+  <ion-item-divider color="medium">
+    <ion-label>
+      Module Media
+    </ion-label>
+  </ion-item-divider>
+
+  <ion-item>
+    <ion-label position="stacked">Module Video ID (YouTube Video ID)</ion-label>
+    <ion-input [(ngModel)]="learningModule.moduleVideoID"></ion-input>
+  </ion-item>
+
+  <ion-item *ngIf="learningModule.id && sanitizedVideoURL" lines="none">
+    <iframe [src]="sanitizedVideoURL" allowfullscreen></iframe> 
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="stacked">Module PowerPoint URL (src)</ion-label>
+    <ion-input [(ngModel)]="learningModule.modulePPTurl"></ion-input>
+  </ion-item>
+
+  <ion-item *ngIf="learningModule.id && sanitizedPPTurl" lines="none">
+    <iframe [src]="sanitizedPPTurl" allowfullscreen></iframe> 
+  </ion-item>
+  
+  <ion-item-divider color="medium">
+    <ion-label>
+      Module Quiz
+    </ion-label>
+  </ion-item-divider>
+
+  <ion-item>
+    <ion-text>Module Quiz</ion-text>
+    <ion-card button (click)="openQuestion(quizQuestion)" *ngFor="let quizQuestion of ( learningModule.moduleQuiz )">
+      <ion-card-title>
+        {{ quizQuestion.questionText }}
+      </ion-card-title>
+    </ion-card>
+  </ion-item>
+
+  <ion-button (click)="addQuestion()">Add Quiz Question</ion-button>
+
+  <ion-item-divider color="medium">
+    <ion-label>
+      Link to Another Learning Module
+    </ion-label>
+  </ion-item-divider>
+
+  <ion-item>
+    <ion-label position="stacked">Next Module (ID)</ion-label>
+    <ion-input [(ngModel)]="learningModule.moduleNext"></ion-input>
+  </ion-item>
+
+</ion-content>
+ 
+<ion-footer *ngIf="!learningModule.id">
+  <ion-toolbar color="success">
+    <ion-button expand="full" fill="clear" color="light" (click)="addLearningModule()">
+      <ion-icon name="checkmark" slot="start"></ion-icon>
+      Add Learning Module
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>
+ 
+<ion-footer *ngIf="learningModule.id">
+  <ion-row no-padding text-center>
+    <ion-col size="6">
+      <ion-button expand="block" fill="outline" color="danger" (click)="deleteModuleConfirmation()">
+        <ion-icon name="trash" slot="start"></ion-icon>
+        Delete
+      </ion-button>
+    </ion-col>
+    <ion-col size="6">
+      <ion-button expand="block" fill="solid" color="success" (click)="updateLearningModule()">
+        <ion-icon name="save" slot="start"></ion-icon>
+        Update
+      </ion-button>
+    </ion-col>
+  </ion-row>
+</ion-footer>

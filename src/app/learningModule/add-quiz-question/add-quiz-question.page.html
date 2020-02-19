@@ -1,0 +1,46 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Add Quiz Question</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-item>
+    <ion-label position="stacked">Question Text</ion-label>
+    <ion-input [(ngModel)]="quizQuestion.questionText"></ion-input>
+  </ion-item>
+  
+  <ion-item>
+    <ion-label position="stacked">Choice 1</ion-label>
+    <ion-input [(ngModel)]="quizQuestion.choice1"></ion-input>
+  </ion-item>
+  
+  <ion-item>
+    <ion-label position="stacked">Choice 2</ion-label>
+    <ion-input [(ngModel)]="quizQuestion.choice2"></ion-input>
+  </ion-item>
+  
+  <ion-item>
+    <ion-label position="stacked">Choice 3</ion-label>
+    <ion-input [(ngModel)]="quizQuestion.choice3"></ion-input>
+  </ion-item>
+  
+  <ion-item>
+    <ion-label position="stacked">Choice 4</ion-label>
+    <ion-input [(ngModel)]="quizQuestion.choice4"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="stacked">Correct Answer (retype the choice text)</ion-label>
+    <ion-input [(ngModel)]="quizQuestion.correctAnswer"></ion-input>
+  </ion-item>
+
+  <ion-row>
+    <ion-col text-center>
+      <ion-button (click)="dismiss()">Cancel</ion-button>
+      <ion-button (click)="closeModal()">Save Question</ion-button>
+    </ion-col>
+  </ion-row>
+
+</ion-content>

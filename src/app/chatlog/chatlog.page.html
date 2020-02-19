@@ -1,0 +1,72 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>{{ id }}'s Cohort Chat Log</ion-title>
+    <ion-buttons slot="start">
+      <ion-menu-button autoHide="false"></ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <div *ngFor="let chat of (chats | async)" class="message-wrap">
+
+      <!-- Automatic message -->
+      <div *ngIf="chat.type == 'auto'; else elseBlock">
+          <!--
+        <div align-self-center class="timestamp">
+          {{ chat.timestamp.seconds * 1000 | date:'MM-dd-yyyy h:mm a' }}
+        </div>
+
+        <div class="message">
+          <ion-button class="user-img" fill="clear">
+            <img class="user-img" src="{{ chat.profilePic }}" alt="" >
+          </ion-button>
+          <div class="auto-msg-detail">
+            <div class="msg-info">
+              <p>
+                {{ chat.username }}
+              </p>
+              <p>
+                {{ chat.userID }}
+              </p>
+            </div>
+            <div class="msg-content">
+              <span class="triangle"></span>
+              <p class="line-breaker ">{{chat.message}}</p>
+            </div>
+              <ion-item>
+                  <ion-button slot="end" color="danger" (click)="deleteChat(chat.id)"> Delete Chat </ion-button>
+              </ion-item>
+          </div>
+        </div>-->
+      </div>
+
+      <!-- User message -->
+      <ng-template #elseBlock>
+        <div align-self-center class="timestamp">
+          {{ chat.timestamp.seconds * 1000 | date:'MM-dd-yyyy h:mm a' }}
+        </div>
+
+        <div class="message">
+          <ion-button class="user-img" fill="clear">
+            <img class="user-img" src="{{ chat.profilePic }}" alt="" >
+          </ion-button>
+          <div class="msg-detail">
+            <div class="msg-info">
+              <p>
+                {{ chat.username }}&nbsp;&nbsp;&nbsp;</p>
+            </div>
+            <div class="msg-content">
+              <span class="triangle"></span>
+              <p class="line-breaker ">{{chat.message}}</p>
+            </div>
+              <ion-item>
+                  <ion-button slot="end" color="danger" (click)="deleteChat(chat.id)"> Delete Chat </ion-button>
+              </ion-item>
+          </div>
+        </div>
+      </ng-template>
+    </div>
+
+</ion-content>
+

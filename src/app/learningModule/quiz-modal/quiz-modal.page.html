@@ -1,0 +1,36 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Module Quiz Question: {{text}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-item>
+    <ion-text>Choice 1: {{choice1}}</ion-text>
+  </ion-item>
+  
+  <ion-item>
+    <ion-text>Choice 2: {{choice2}}</ion-text>
+  </ion-item>
+  
+  <ion-item>
+    <ion-text>Choice 3: {{choice3}}</ion-text>
+  </ion-item>
+  
+  <ion-item>
+    <ion-text>Choice 4: {{choice4}}</ion-text>
+  </ion-item>
+  
+  <ion-item>
+    <ion-text>Correct Answer: {{correctAnswer}}</ion-text>
+  </ion-item>
+  
+  <ion-row>
+    <ion-col text-center>
+      <ion-button fill="outline" color="danger" (click)="deleteQuestionConfirmation()">Delete</ion-button>
+      <ion-button (click)="dismiss()">Ok</ion-button>
+    </ion-col>
+  </ion-row>
+
+</ion-content>

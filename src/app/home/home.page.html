@@ -1,0 +1,152 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Users</ion-title>
+    <ion-buttons slot="start">
+      <ion-menu-button autoHide="false"></ion-menu-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button (click)="logOut()">
+        Log Out
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-button size="large" (click)="showUsers()"> Users</ion-button>
+  <ion-button size="large" (click)="showProviders()"> Providers </ion-button>
+  <ion-button size="large" (click)="showAdmins()"> Administrators </ion-button>
+
+  <!-- Show users -->
+  <div *ngIf="userView">
+    <ion-button expand="full" (click)="addUser()">
+      Add User
+    </ion-button>
+    <div *ngIf="codeView">
+      <h6>
+          Please give new user the code: {{ user.code }}
+      </h6>
+    </div>
+  </div>
+  <div *ngIf="userView">
+    <ion-list>
+      <ion-item *ngFor="let user of (users | async)">
+        <p>
+        Code: {{ user.code }}<br>
+        Email: {{ user.email }}<br>
+        Username: {{ user.username }}<br>
+        Cohort: {{ user.cohort }}<br>
+        Location: {{ user.location }}<br>
+        Security Q: {{ user.securityQ }}<br>
+        Security A: {{ user.securityA }}<br>
+
+        </p>
+
+        <ion-buttons  slot="end">
+          <ion-button (click)="updateUser(user.id)">
+            Update User
+          </ion-button>
+          <ion-button color='danger' (click)="deleteUser(user.id)">
+            Delete User
+          </ion-button>
+        </ion-buttons>
+      </ion-item>
+    </ion-list>
+  </div>
+
+  <!-- Show providers -->
+  <div *ngIf="providerView">
+    <ion-button expand="full" (click)="showAddProvider()">
+      Add Provider
+    </ion-button>
+
+
+    <div *ngIf="displayAddProvider">
+      <form [formGroup]="addProviderForm">
+        <ion-item>
+          <ion-label position="stacked">Enter First Name:</ion-label>
+          <ion-input formControlName="nameFirst" placeholder="First Name"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="stacked">Enter Last Name:</ion-label>
+          <ion-textarea formControlName="nameLast" placeholder="Last Name"></ion-textarea>
+        </ion-item>
+        <ion-item>
+          <ion-label position="stacked">Enter Date of Birth (mm/dd/yyyy):</ion-label>
+          <ion-textarea formControlName="dob" placeholder="mm/dd/yyyy"></ion-textarea>
+        </ion-item>
+        <ion-item>
+          <ion-label position="stacked">Enter Email:</ion-label>
+          <ion-textarea formControlName="email" placeholder="Email"></ion-textarea>
+        </ion-item>
+        <ion-button size="small" [disabled]="!addProviderForm.valid" (click)="addProvider(addProviderForm)"> Submit </ion-button>
+      </form>
+    </div>
+
+    <div *ngIf="codeView">
+      <h6>
+        Please give new provider the code: {{ provider.code }}
+      </h6>
+    </div>
+  </div>
+  <ion-content *ngIf="providerView">
+    <ion-list>
+      <ion-item *ngFor="let provider of (providers | async)">
+        <p>
+          Code: {{ provider.code }}<br>
+          Name: {{ provider.nameFirst }} {{ provider.nameLast }}<br>
+          Email: {{ provider.email }}<br>
+          Username: {{ provider.username }}<br>
+          DOB: {{ provider.dob }} <br>
+        </p>
+
+        <ion-button slot="end" color='danger' (click)="deleteProvider(provider.id)">
+          Delete Provider
+        </ion-button>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+
+  <!-- Show admin -->
+  <div *ngIf="adminView">
+    <ion-button expand="full" (click)="showAddAdmin()">
+      Add Admin
+    </ion-button>
+
+    <div *ngIf="displayAddAdmin">
+      <form [formGroup]="addAdminForm">
+        <ion-item>
+
+          <ion-label position="stacked">Enter Email:</ion-label>
+          <ion-textarea formControlName="email" placeholder="Enter Email"></ion-textarea>
+        </ion-item>
+        <ion-button size="small" [disabled]="!addAdminForm.valid" (click)="addAdmin(addAdminForm)"> Submit </ion-button>
+      </form>
+
+    </div>
+
+    <div *ngIf="codeView">
+      <h6>
+        Please give new administrator the code: {{ admin.code }}
+      </h6>
+    </div>
+  </div>
+  <ion-content *ngIf="adminView">
+    <ion-list>
+      <ion-item *ngFor="let admin of (admins | async)">
+        <p>
+          Code: {{ admin.code }}<br>
+          Email: {{ admin.email }}<br>
+          Username: {{ admin.username }}<br>
+        </p>
+
+        <ion-button slot="end" color='danger' (click)="deleteAdmin(admin.id)">
+          Delete Provider
+        </ion-button>
+
+      </ion-item>
+    </ion-list>
+  </ion-content>
+
+</ion-content>
+

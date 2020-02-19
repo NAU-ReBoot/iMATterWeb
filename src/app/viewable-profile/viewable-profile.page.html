@@ -1,0 +1,63 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button (click)="goBackToPost()"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="wrap" *ngIf="userType == 'user'; else ElseBlock">
+    <div>
+      <ion-avatar class="img">
+      <img src="{{ user.profilePic }}" alt="">
+      </ion-avatar>
+    </div>
+    <div class="username">
+      <ion-text  padding-horizontal>
+        {{ user.username }}
+      </ion-text>
+    </div>
+    <div class="cohort">
+      <ion-text padding-horizontal>
+        Cohort: {{ user.cohort }}
+      </ion-text>
+    </div>
+    <div class="weeks">
+      <ion-text padding-horizontal>
+        Weeks Pregnant: {{ user.weeksPregnant }}
+      </ion-text>
+    </div>
+    <div class="emotion">
+      <ion-text padding-horizontal>
+        Currently feeling: {{ user.currentEmotion }}
+      </ion-text>
+    </div>
+    <div class="bio">
+      <ion-text >
+        Bio: {{ user.bio }}
+      </ion-text>
+    </div>
+  </div>
+
+    <ng-template #ElseBlock>
+      <div class="wrap">
+      <div>
+        <ion-avatar class="img">
+          <img src="{{ provider.profilePic }}" alt="">
+        </ion-avatar>
+      </div>
+      <div class="username">
+        <ion-text  padding-horizontal>
+          {{ provider.username }}
+        </ion-text>
+      </div>
+      <div class="bio">
+        <ion-text >
+          Bio: {{ provider.bio }}
+        </ion-text>
+      </div>
+      </div>
+    </ng-template>
+
+</ion-content>

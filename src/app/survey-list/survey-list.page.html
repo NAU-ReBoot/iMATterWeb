@@ -1,0 +1,21 @@
+<ion-header>
+  <ion-toolbar color="secondary">
+    <ion-title>Survey List</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button routerLink="/surveys">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+
+  <ion-list>
+    <ion-item button *ngFor="let survey of (surveys | async)" [routerLink]="['/surveys', survey.id]">
+      {{ survey.title }}
+    </ion-item>
+  </ion-list>
+
+</ion-content>

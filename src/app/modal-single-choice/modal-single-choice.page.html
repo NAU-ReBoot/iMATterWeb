@@ -1,0 +1,37 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Make a Question</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-item>
+    <ion-label position="stacked" color="primary">Question</ion-label>l
+    <ion-input [(ngModel)]="question.questionText"></ion-input>
+  </ion-item>
+  
+  <ion-item>
+    <ion-label position="stacked">Choice 1</ion-label>
+    <ion-input [(ngModel)]="question.choice1" rows="8"></ion-input>
+  </ion-item>
+  
+  <ion-item>
+    <ion-label position="stacked">Choice 2</ion-label>
+    <ion-input [(ngModel)]="question.choice2" rows="8"></ion-input>
+  </ion-item>
+  
+  <ion-item>
+    <ion-label position="stacked">Choice 3</ion-label>
+    <ion-input [(ngModel)]="question.choice3" rows="8"></ion-input>
+  </ion-item>
+  
+  <ion-item>
+    <ion-label position="stacked">Choice 4</ion-label>
+    <ion-input [(ngModel)]="question.choice4" rows="8"></ion-input>
+  </ion-item>
+
+  <ion-button (click)="addQuestion()">Add</ion-button>
+  <ion-button (click)="closeModal()">Close</ion-button>
+
+</ion-content>
