@@ -7,22 +7,9 @@ import { Observable } from 'rxjs';
 export interface Survey {
   id?: string;
   title: string;
-  questions: Question[];
-}
-
-export interface Question{
-  questionText: string;
-  choice1: string;
-  choice2: string;
-  choice3: string;
-  choice4: string;
-  choiceSelected?: string;
-  type: string;
-}
-
-export interface User {
-  id?: string;
-  answered: [];
+  startTime: string;
+  endTime: string;
+  surveyLink: string;
 }
 
 @Injectable({
@@ -32,34 +19,34 @@ export interface User {
 export class FireService {
   private surveys: Observable<Survey[]>;
   private surveyCollection: AngularFirestoreCollection<Survey>;
-  
+
   constructor(private angularfs: AngularFirestore) {
     this.surveyCollection = this.angularfs.collection<Survey>('surveys');
     this.surveys = this.surveyCollection.snapshotChanges().pipe(
-      map(actions => {
-        return actions.map(a => {
-          const data = a.payload.doc.data();
-          const id = a.payload.doc.id;
-          return { id, ...data };
-        });
-      })
+        map(actions => {
+          return actions.map(a => {
+            const data = a.payload.doc.data();
+            const id = a.payload.doc.id;
+            return { id, ...data };
+          });
+        })
     );
-   }
+  }
 
-   getSurveys(){
+  getSurveys(){
     return this.surveys;
   }
 
   getSurvey(id: string){
     return this.surveyCollection.doc<Survey>(id).valueChanges().pipe(
-      take(1),
-      map(survey => {
-        survey.id = id;
-        return survey  
-      })
+        take(1),
+        map(survey => {
+          survey.id = id;
+          return survey
+        })
     );
   }
-  
+
   addSurvey(survey: Survey): Promise<DocumentReference>{
     return this.surveyCollection.add(survey);
   }
@@ -68,16 +55,28 @@ export class FireService {
     return this.surveyCollection.doc(id).delete();
   }
 
-  updateQuestions(surveyId: string, questions: Question[]) {
-    return this.angularfs
-      .collection('surveys')
-      .doc(surveyId)
-      .update({ questions });
+  updateSurvey(survey: Survey): Promise<void>{
+    return this.surveyCollection.doc(survey.id).update({
+      title: survey.title,
+      startTime: survey.startTime,
+      endTime: survey.endTime,
+      surveyLink: survey.surveyLink });
   }
 
-  userAnswerSubmit(answers: any[]){
-    return this.angularfs.collection('users').add({
-      answered: answers
-    });
+  getTime(timeString: string){
+
+    var dateFormat = timeString.split("-");
+    var dateSplit = dateFormat[2].split(":");
+    var minute = dateSplit[1];
+    var year = dateFormat[0];
+    var month = dateFormat[1];
+
+    var secondSplit = dateSplit[0].split("T");
+    var day = secondSplit[0];
+    var hour = secondSplit[1];
+
+    var dateChose = year + " " + month + " " + day + " " + hour + " " + minute;
+
+    return dateChose;
   }
 }

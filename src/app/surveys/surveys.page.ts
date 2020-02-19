@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ToastController, ModalController } from '@ionic/angular';
-import { FireService, Survey, Question } from '../services/fire/fire.service';
-import { ModalSingleChoicePage } from '../modal-single-choice/modal-single-choice.page';
+import { ToastController } from '@ionic/angular';
+import { FireService, Survey } from '../services/fire/fire.service';
 
 
 @Component({
@@ -13,27 +12,18 @@ import { ModalSingleChoicePage } from '../modal-single-choice/modal-single-choic
 
 export class SurveysPage implements OnInit {
 
-  selectedType = null;
-
-  question: Question = {
-    questionText: '',
-    choice1: '',
-    choice2: '',
-    choice3: '',
-    choice4: '',
-    type: '',
-  }
-
   survey: Survey = {
     title: '',
-    questions: [this.question],
-  }
+    startTime: '',
+    endTime: '',
+    surveyLink: ''
+  };
 
   constructor(private activatedRoute: ActivatedRoute,
-    private fs: FireService,
-    private toastCtrl: ToastController,
-    private router: Router, 
-    private modalController: ModalController) { }
+              private fs: FireService,
+              private toastCtrl: ToastController,
+              private router: Router
+  ) { }
 
   ngOnInit() {
     let id = this.activatedRoute.snapshot.paramMap.get('id');
@@ -46,13 +36,14 @@ export class SurveysPage implements OnInit {
   }
 
   addSurvey(){
-    this.question.type = this.selectedType;
-    
+    this.survey.startTime = this.fs.getTime(this.survey.startTime);
+    this.survey.endTime = this.fs.getTime(this.survey.endTime);
+
     this.fs.addSurvey(this.survey).then(() => {
       this.router.navigateByUrl('/survey-list');
       this.showToast('Survey added');
     }, err => {
-        this.showToast('There was a problem adding your survey');
+      this.showToast('There was a problem adding your survey');
     });
   }
 
@@ -61,10 +52,21 @@ export class SurveysPage implements OnInit {
       this.router.navigateByUrl('/survey-list');
       this.showToast('Survey deleted');
     }, err => {
-        this.showToast('There was a problem deleting your survey');
+      this.showToast('There was a problem deleting your survey');
     });
   }
-  
+
+  updateSurvey(){
+    this.survey.startTime = this.fs.getTime(this.survey.startTime);
+    this.survey.endTime = this.fs.getTime(this.survey.endTime);
+
+    this.fs.updateSurvey(this.survey).then(() => {
+      this.showToast('Survey updated');
+    }, err => {
+      this.showToast('There was a problem updating your survey');
+    });
+  }
+
   showToast(msg){
     this.toastCtrl.create({
       message: msg,
@@ -72,31 +74,5 @@ export class SurveysPage implements OnInit {
     }).then(toast => toast.present());
   }
 
-  chosenType(){
-    console.log(this.selectedType);
-  }
-
-  get isSingleChoice(){
-    return this.selectedType === 'Single Choice';
-  }
-
-  get isMultAnswer(){
-    return this.selectedType === 'Multiple Answer';
-  }
-
-  get isWordAnswer(){
-    return this.selectedType === 'Worded Answer';
-  }
-  
-  async openSingleAnswer(){
-    const modal = await this.modalController.create({
-      component: ModalSingleChoicePage,
-      componentProps: {
-        survey_id: this.survey.id,
-      }
-    });
-
-    return await modal.present();
-  }
 
 }

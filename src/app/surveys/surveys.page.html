@@ -10,149 +10,54 @@
 <ion-content>
 
   <ion-item>
-    <ion-label position="stacked">Name</ion-label>l
+    <ion-label position="stacked">Survey Name</ion-label>
     <ion-input [(ngModel)]="survey.title"></ion-input>
   </ion-item>
 
-  <ion-list>
-    <ion-item>
-      <ion-label color="primary">Questionnaire Type</ion-label>
-      <ion-select [(ngModel)]="selectedType" (ionChange)="chosenType()" placeholder="Select One">
-        <ion-select-option  value="Single Choice">Single Choice</ion-select-option>
-        <ion-select-option  value="Multiple Answer">Multiple Answer</ion-select-option>
-        <ion-select-option  value="Worded Answer">Worded Answer</ion-select-option>
-      </ion-select>
-    </ion-item>
-  </ion-list>
-  
-  <div *ngIf="isSingleChoice">
-    
-    <div *ngIf="!survey.id">
-     
-      <ion-item>
-        <ion-label position="stacked" color="primary">Question</ion-label>l
-        <ion-input [(ngModel)]="question.questionText"></ion-input>
-      </ion-item>
-      
-      <ion-item>
-        <ion-label position="stacked">Choice 1</ion-label>
-        <ion-input [(ngModel)]="question.choice1" rows="8"></ion-input>
-      </ion-item>
-      
-      <ion-item>
-        <ion-label position="stacked">Choice 2</ion-label>
-        <ion-input [(ngModel)]="question.choice2" rows="8"></ion-input>
-      </ion-item>
-      
-      <ion-item>
-        <ion-label position="stacked">Choice 3</ion-label>
-        <ion-input [(ngModel)]="question.choice3" rows="8"></ion-input>
-      </ion-item>
-      
-      <ion-item>
-        <ion-label position="stacked">Choice 4</ion-label>
-        <ion-input [(ngModel)]="question.choice4" rows="8"></ion-input>
-      </ion-item>
-      <ion-button (click)="addSurvey()">Save</ion-button>
-    
-    </div>
-  
-    <div
-    *ngFor="let question of survey.questions; let i = index"
-    >
+  <ion-item>
+    <ion-label stacked> Start Time </ion-label>
+    <ion-datetime
+            displayFormat="YYYY-MMM-DDhh:mma"
+            [(ngModel)]='survey.startTime'>
+    </ion-datetime>
+  </ion-item>
 
-    <div  *ngIf="question.type == 'Single Choice'">
-      <ion-card>
-        <ion-card-header>
-          <ion-card-title>{{ question.questionText }}</ion-card-title>
-        </ion-card-header>
-      </ion-card>
-    </div>
-  
-  </div>
-  
-  <div *ngIf="survey.id">
+  <ion-item>
+    <ion-label stacked> End Time </ion-label>
+    <ion-datetime
+            displayFormat="YYYY-MMM-DDhh:mma"
+            [(ngModel)]='survey.endTime'>
+    </ion-datetime>
+  </ion-item>
 
-    <ion-button (click)="openSingleAnswer()">
-      Add a question
-    </ion-button>
-
-  </div>
-
-</div>
-
-<div *ngIf="isMultAnswer">
+  <ion-item>
+    <ion-label floating>URL</ion-label>
+    <ion-input type="url" [(ngModel)]="survey.surveyLink"></ion-input>
+  </ion-item>
 
   <div *ngIf="!survey.id">
-     
-    <ion-item>
-      <ion-label position="stacked" color="primary">Question</ion-label>l
-      <ion-input [(ngModel)]="question.questionText"></ion-input>
-    </ion-item>
-    
-    <ion-item>
-      <ion-label position="stacked">Choice 1</ion-label>
-      <ion-input [(ngModel)]="question.choice1" rows="8"></ion-input>
-    </ion-item>
-    
-    <ion-item>
-      <ion-label position="stacked">Choice 2</ion-label>
-      <ion-input [(ngModel)]="question.choice2" rows="8"></ion-input>
-    </ion-item>
-    
-    <ion-item>
-      <ion-label position="stacked">Choice 3</ion-label>
-      <ion-input [(ngModel)]="question.choice3" rows="8"></ion-input>
-    </ion-item>
-    
-    <ion-item>
-      <ion-label position="stacked">Choice 4</ion-label>
-      <ion-input [(ngModel)]="question.choice4" rows="8"></ion-input>
-    </ion-item>
     <ion-button (click)="addSurvey()">Save</ion-button>
-  
   </div>
-
-  <div
-  *ngFor="let question of survey.questions; let i = index"
-  >
-
-  <div  *ngIf="question.type === 'Multiple Answer'">
-    <ion-card>
-      <ion-card-header>
-        <ion-card-title>{{ question.questionText }}</ion-card-title>
-      </ion-card-header>
-    </ion-card>
-  </div>
-
-</div>
-
-<div *ngIf="survey.id">
-
-  <ion-button (click)="openMultipleAnswer()">
-    Add a question
-  </ion-button>
-
-</div>
-
-</div>
-
-<div *ngIf="isWordAnswer">
-  <ion-item>
-    <ion-label position="stacked">Question Text</ion-label>
-    <ion-input color="dark"></ion-input>
-  </ion-item>
-</div>
 
 </ion-content>
 
 <ion-footer *ngIf="survey.id">
   <ion-row no-padding text-center>
+
     <ion-col size="6">
       <ion-button expand="block" fill="outline" color="danger" (click)="deleteSurvey()">
         <ion-icon name="trash"></ion-icon>
         Delete
       </ion-button>
     </ion-col>
+
+    <ion-col size="6">
+      <ion-button expand="block" fill="solid" color="success" (click)="updateSurvey()">
+        <ion-icon name="save" slot="start"></ion-icon>
+        Update
+      </ion-button>
+    </ion-col>
+
   </ion-row>
+
 </ion-footer>
