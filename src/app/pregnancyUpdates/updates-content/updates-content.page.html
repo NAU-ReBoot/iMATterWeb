@@ -1,0 +1,55 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot=start>
+      <ion-back-button defaultHref="/pregnancy-updates"></ion-back-button>
+    </ion-buttons>
+    <ion-title> Day {{pregnancyUpdateCard.day}} Update Details</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-item>
+    <ion-label position="stacked">Pregnancy Update Day</ion-label>
+    <ion-input [(ngModel)]="pregnancyUpdateCard.day"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="stacked">Pregnancy Update Information/Description</ion-label>
+    <ion-input [(ngModel)]="pregnancyUpdateCard.description"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="stacked">Current Image Displayed</ion-label>
+    <img padding [src]="pregnancyUpdateCard.picture" />
+    <ion-label position="stacked">Change Image to Be Displayed with Information</ion-label>
+    <ion-card text-center>
+      <ion-card-content>
+        <div class="fileUpload btn btn-primary">
+          <input id="uploadBtn" type="file" class="upload" (change)="newImage = true; uploadedImage = $event.target.files"/>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </ion-item>
+</ion-content>
+
+<ion-footer>
+  <ion-row no-padding text-center>
+    <ion-col size="6">
+      <ion-button expand="block" fill="outline" color="danger" (click)="deletePregnancyUpdate()">
+        <ion-icon name="trash" slot="start"></ion-icon>
+        Delete
+      </ion-button>
+    </ion-col>
+    <ion-col size="6">
+      <ion-button *ngIf="!newImage" expand="block" fill="solid" color="success" (click)="updatePregnancyUpdate()">
+        <ion-icon name="save" slot="start"></ion-icon>
+        Update
+      </ion-button>
+      <ion-button *ngIf="newImage" expand="block" fill="solid" color="success"
+                  (click)="uploadImage(uploadedImage, pregnancyUpdateCard.fileName)">
+        <ion-icon name="save" slot="start"></ion-icon>
+        Update
+      </ion-button>
+    </ion-col>
+  </ion-row>
+</ion-footer>

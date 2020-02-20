@@ -1,0 +1,26 @@
+
+<ion-header>
+  <ion-toolbar>
+    <ion-title>User Pregnancy Updates List</ion-title>
+    <ion-buttons slot="start">
+      <ion-menu-button autoHide="false"></ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-button [routerLink]="['/add-update']">
+    Add New Pregnancy Update
+  </ion-button>
+
+  <ion-list>
+    <ion-card button [routerLink]="['/updates-content/', pregUpdateCard.id]" *ngFor="let pregUpdateCard of ( pregnancyUpdates | async )">
+      <ion-card-header>
+        <ion-card-title>
+          {{ pregUpdateCard.day }}
+        </ion-card-title>
+      </ion-card-header>
+    </ion-card>
+  </ion-list>
+
+</ion-content>
