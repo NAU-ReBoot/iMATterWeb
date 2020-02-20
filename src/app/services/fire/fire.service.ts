@@ -7,9 +7,18 @@ import { Observable } from 'rxjs';
 export interface Survey {
   id?: string;
   title: string;
-  startTime: string;
-  endTime: string;
+  daysTillRelease: number;
   surveyLink: string;
+}
+
+export interface Question{
+  questionText: string;
+  choice1: string;
+  choice2: string;
+  choice3: string;
+  choice4: string;
+  choiceSelected?: string;
+  type: string;
 }
 
 @Injectable({
@@ -58,8 +67,7 @@ export class FireService {
   updateSurvey(survey: Survey): Promise<void>{
     return this.surveyCollection.doc(survey.id).update({
       title: survey.title,
-      startTime: survey.startTime,
-      endTime: survey.endTime,
+      daysTillRelease: survey.daysTillRelease,
       surveyLink: survey.surveyLink });
   }
 

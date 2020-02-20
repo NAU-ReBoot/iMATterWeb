@@ -15,19 +15,8 @@
   </ion-item>
 
   <ion-item>
-    <ion-label stacked> Start Time </ion-label>
-    <ion-datetime
-            displayFormat="YYYY-MMM-DDhh:mma"
-            [(ngModel)]='survey.startTime'>
-    </ion-datetime>
-  </ion-item>
-
-  <ion-item>
-    <ion-label stacked> End Time </ion-label>
-    <ion-datetime
-            displayFormat="YYYY-MMM-DDhh:mma"
-            [(ngModel)]='survey.endTime'>
-    </ion-datetime>
+    <ion-label position="stacked">Number of days before release</ion-label>
+    <ion-input type="number" [(ngModel)]="survey.daysTillRelease"></ion-input>
   </ion-item>
 
   <ion-item>

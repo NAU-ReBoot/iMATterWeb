@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
-import { FireService, Survey } from '../services/fire/fire.service';
+import { FireService, Survey, Question } from '../services/fire/fire.service';
 
 
 @Component({
@@ -14,8 +14,7 @@ export class SurveysPage implements OnInit {
 
   survey: Survey = {
     title: '',
-    startTime: '',
-    endTime: '',
+    daysTillRelease: 0,
     surveyLink: ''
   };
 
@@ -36,9 +35,6 @@ export class SurveysPage implements OnInit {
   }
 
   addSurvey(){
-    this.survey.startTime = this.fs.getTime(this.survey.startTime);
-    this.survey.endTime = this.fs.getTime(this.survey.endTime);
-
     this.fs.addSurvey(this.survey).then(() => {
       this.router.navigateByUrl('/survey-list');
       this.showToast('Survey added');
@@ -57,9 +53,6 @@ export class SurveysPage implements OnInit {
   }
 
   updateSurvey(){
-    this.survey.startTime = this.fs.getTime(this.survey.startTime);
-    this.survey.endTime = this.fs.getTime(this.survey.endTime);
-
     this.fs.updateSurvey(this.survey).then(() => {
       this.showToast('Survey updated');
     }, err => {
