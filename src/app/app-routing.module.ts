@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
-import { AuthGuard } from './services/user/auth.guard';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 const routes: Routes = [
@@ -26,7 +25,7 @@ const routes: Routes = [
     loadChildren: () => import('./handleUserPages/reset-password/reset-password.module').then( m => m.ResetPasswordPageModule)
   },
   {
-      path: 'signup/:id', loadChildren: './handleUserPages/signup/signup.module#SignupPageModule'
+    path: 'signup/:id', loadChildren: './handleUserPages/signup/signup.module#SignupPageModule'
   },
   {
     path: 'chatlog/:id',
@@ -40,7 +39,7 @@ const routes: Routes = [
     path: 'surveys',
     loadChildren: () => import('./surveys/surveys.module').then( m => m.SurveysPageModule)
   },
-    {
+  {
     path: 'surveys/:id',
     loadChildren: () => import('./surveys/surveys.module').then( m => m.SurveysPageModule)
   },
@@ -94,8 +93,19 @@ const routes: Routes = [
   {
     path: 'chat-cohort-list',
     loadChildren: () => import('./chat-cohort-list/chat-cohort-list.module').then( m => m.ChatCohortListPageModule)
+  },
+  {
+    path: 'pregnancy-updates',
+    loadChildren: () => import('./pregnancyUpdates/pregnancy-updates/pregnancy-updates.module').then(m => m.PregnancyUpdatesPageModule)
+  },
+  {
+    path: 'updates-content/:id',
+    loadChildren: () => import('./pregnancyUpdates/updates-content/updates-content.module').then(m => m.UpdatesContentPageModule)
+  },
+  {
+    path: 'add-update',
+    loadChildren: () => import('./pregnancyUpdates/add-update/add-update.module').then(m => m.AddUpdatePageModule)
   }
-
 ];
 @NgModule({
   imports: [

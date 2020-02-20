@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>analytics</ion-title>
+    <ion-title>Analytics</ion-title>
     <ion-buttons slot="start">
       <ion-menu-button autoHide="false"></ion-menu-button>
     </ion-buttons>
@@ -8,5 +8,88 @@
 </ion-header>
 
 <ion-content>
+  <div class="ion-padding">
 
+    <ion-button (click) = "getAllSessions()" (click)= "getAllUserPages()" padding = 100 size = "large" type='button'>
+      All Users
+    </ion-button>
+    <ion-item>
+      <ion-label position = "floating"> User ID</ion-label>
+      <ion-input type = "text" [(ngModel)] = "USERID" id="input"></ion-input>
+    </ion-item>
+    <ion-button (click)= "getUserSessions()"  padding type='button'>
+      submit
+    </ion-button>
+    <ion-item *ngFor= "let session of (sessions| async)" >
+      <ion-card>
+
+        <div class = "LoginTime">
+          LoginTime: {{ session.LoginTime.seconds * 1000 | date:'MM-dd-yyyy h:mm a' }}
+        </div>
+        <div>
+          LogOutTime: {{ session.LogOutTime.seconds * 1000 | date:'MM-dd-yyyy h:mm a' }}
+        </div>
+        <div>
+          UserID: {{ session.userID }}
+        </div>
+      </ion-card>
+    </ion-item>
+    <ion-item *ngFor= "let analytic of (analytics | async)" >
+
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <div >
+              User: {{ analytic.userID }}
+            </div>
+          </ion-col>
+          <ion-col>
+            <div>
+              Time Stamp: {{ analytic.timestamp.seconds * 1000 | date:'MM-dd-yyyy h:mm a' }}
+            </div>
+          </ion-col>
+          <ion-col>
+            <div>
+              Session ID: {{ analytic.sessionID }}
+            </div>
+          </ion-col>
+          <ion-col>
+            <div>
+              Page: {{ analytic.page }}
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+
+    </ion-item>
+
+    <ion-item *ngFor= "let unqiueSession of (uniqueSessions | async)" >
+
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <div class = "LoginTime">
+              User: {{ unqiueSession.userID }}
+            </div>
+          </ion-col>
+          <ion-col>
+            <div>
+              Time Stamp: {{ unqiueSession.timestamp.seconds * 1000 | date:'MM-dd-yyyy h:mm a' }}
+            </div>
+          </ion-col>
+          <ion-col>
+            <div>
+              Session ID: {{ unqiueSession.sessionID }}
+            </div>
+          </ion-col>
+          <ion-col>
+            <div>
+              Page: {{ unqiueSession.page }}
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+
+    </ion-item>
+  </div>
 </ion-content>

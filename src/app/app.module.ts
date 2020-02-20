@@ -13,6 +13,7 @@ import { IonicStorageModule } from '@ionic/storage';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFirestoreModule, FirestoreSettingsToken, AngularFirestore } from '@angular/fire/firestore';
+import { AngularFireStorageModule } from '@angular/fire/storage';
 import { environment } from '../environments/environment';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
@@ -20,19 +21,20 @@ import { QuizModalPageModule } from './learningModule/quiz-modal/quiz-modal.modu
 import { AddQuizQuestionPageModule } from './learningModule/add-quiz-question/add-quiz-question.module';
 
 @NgModule({
-  declarations: [AppComponent], 
+  declarations: [AppComponent],
   entryComponents: [],
-  imports: [BrowserModule, 
+  imports: [BrowserModule,
     IonicModule.forRoot(),
     IonicStorageModule.forRoot(),
-    AppRoutingModule, 
-    AngularFirestoreModule, 
+    AppRoutingModule,
+    AngularFirestoreModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireAuthModule,
     ReactiveFormsModule,
     FormsModule,
     QuizModalPageModule,
-    AddQuizQuestionPageModule
+    AddQuizQuestionPageModule,
+    AngularFireStorageModule
   ],
   providers: [
     StatusBar,

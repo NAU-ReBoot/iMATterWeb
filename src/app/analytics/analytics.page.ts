@@ -1,22 +1,103 @@
-import { Component, OnInit } from '@angular/core';
-import { Storage } from '@ionic/storage';
-import { Router } from '@angular/router';
+import { Component, ViewChild, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { AngularFirestore } from '@angular/fire/firestore';
+import * as firebase from 'firebase/app';
+import { map, take } from 'rxjs/operators';
+// import { Chart } from 'chart.js';
+import {IonContent} from '@ionic/angular';
+import { AnalyticsService, Analytics, Sessions, UniqueSessions} from '../services/analytics-service.service';
 
 @Component({
   selector: 'app-analytics',
   templateUrl: './analytics.page.html',
   styleUrls: ['./analytics.page.scss'],
 })
-export class AnalyticsPage implements OnInit {
 
-  constructor(private router: Router, private storage: Storage) { }
+export class AnalyticsPage {
+//  @ViewChild('barChart') barChart;
 
-  ngOnInit() {
-    this.storage.get('authenticated').then((val) => {
-      if (val === 'false') {
-        this.router.navigate(['/login/']);
-      }
-    });
+//  @ViewChild('lineChart') lineChart;
+
+  @ViewChild('content', {static: true}) content: IonContent;
+
+  analytic: Analytics =
+      {
+        page: '',
+        userID: '',
+        timestamp: '',
+        sessionID: ''
+      };
+
+  session : Sessions =
+      {
+        userID: '',
+        LogOutTime: '',
+        LoginTime: '',
+        //  sessionID: '',
+      };
+
+  uniqueSession: UniqueSessions =
+      {
+        page: '',
+        userID: '',
+        timestamp: '',
+        sessionID: ''
+        //  sessionID: string
+      };
+
+
+  USERID: string;
+  myBarChart:any;
+  myLineChart:any;
+  private db: any;
+  ARRAYOFIDS=[];
+  COUNTER =0 ;
+  INDEX = 0 ;
+
+  private analyticss : string;
+  private sessions : Observable<any>;
+  private analytics: Observable<any>;
+  private uniqueSessions: Observable<any>;
+
+
+  constructor(
+      //private storage: Storage,
+      public afs: AngularFirestore,
+      private analyticsService: AnalyticsService
+  ) {
+    this.db = firebase.firestore();
   }
+
+
+  ionViewWillEnter() {
+  }
+
+
+  getAllSessions ()
+  {
+    this.sessions = this.analyticsService.getAllSessions();
+  }
+
+  getAllUserPages()
+  {
+    this.analytics = this.analyticsService.getAllUserPages();
+  }
+
+
+
+  getUserSessions(){
+
+    console.log(this.USERID);
+
+
+    this.uniqueSessions = this.analyticsService.getUniqueUserStorage(this.USERID);
+
+  }
+
+  getPageViews(id)
+  {
+    this.analyticsService.getPageViews(id);
+  }
+
 
 }

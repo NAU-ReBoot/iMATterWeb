@@ -1,17 +1,20 @@
 <ion-app>
-  <ion-menu contentId="content1" side="start">
+  <ion-menu contentId="content1" side="start" swipeGesture="false">
     <ion-header>
       <ion-toolbar>
         <ion-title>Menu</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content>
-      <ion-item-option color="primary" routerLink="/tabs/home">Users</ion-item-option>
-      <ion-item-option color="primary" routerLink="/forum">Information Desk</ion-item-option>
-	  <ion-item-option color="primary" routerLink="/chat-cohort-list/">Chat Log</ion-item-option>
-	  <ion-item-option color="primary" routerLink="/learningmodules">Learning Modules</ion-item-option>
-	  <ion-item-option color="primary" routerLink="/surveys">Surveys</ion-item-option>
+      <ion-list>
+        <ion-item-option color="primary" routerLink="/tabs/home">Users</ion-item-option>
+        <ion-item-option color="primary" routerLink="/forum">Information Desk</ion-item-option>
+        <ion-item-option color="primary" routerLink="/chat-cohort-list/">Chat Log</ion-item-option>
+        <ion-item-option color="primary" routerLink="/learningmodules">Learning Modules</ion-item-option>
+        <ion-item-option color="primary" routerLink="/survey-list">Surveys</ion-item-option>
+        <ion-item-option color="primary" routerLink="/pregnancy-updates">Pregnancy Updates</ion-item-option>
         <ion-item-option color="primary" routerLink="/analytics">Analytics</ion-item-option>
+      </ion-list>
     </ion-content>
   </ion-menu>
   <ion-router-outlet id="content1" main></ion-router-outlet>
