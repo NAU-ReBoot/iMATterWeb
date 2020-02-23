@@ -22,7 +22,12 @@ export interface Sessions
   userID: string,
   LogOutTime: any,
   LoginTime: any,
-//  sessionID: string
+  numOfClickChat: number,
+  numOfClickCalendar: number,
+  numOfClickLModule: number,
+  numOfClickInfo: number,
+  numOfClickSurvey: number,
+  numOfClickProfile: number,
 }
 
 
@@ -34,7 +39,7 @@ export interface UniqueSessions
   userID: string,
   timestamp: any,
   sessionID: string
-//  sessionID: string
+
 }
 
 @Injectable({
@@ -150,7 +155,7 @@ export class AnalyticsService {
           });
         })
     );
-  }
+}
 
   async addView(analytic: Analytics) {
     this.afs.collection('analyticsStorage').add({

@@ -35,7 +35,12 @@ export class AnalyticsPage {
             userID: '',
             LogOutTime: '',
             LoginTime: '',
-            //  sessionID: '',
+            numOfClickChat: 0,
+            numOfClickCalendar: 0,
+            numOfClickLModule: 0,
+            numOfClickInfo: 0,
+            numOfClickSurvey: 0,
+            numOfClickProfile: 0
         }
 
 
