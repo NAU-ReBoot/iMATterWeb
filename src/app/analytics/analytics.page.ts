@@ -40,7 +40,8 @@ export class AnalyticsPage {
             numOfClickLModule: 0,
             numOfClickInfo: 0,
             numOfClickSurvey: 0,
-            numOfClickProfile: 0
+            numOfClickProfile: 0,
+            numOfClickMore: 0
         }
 
 
@@ -58,9 +59,21 @@ export class AnalyticsPage {
     myBarChart:any;
     myLineChart:any;
     private db: any;
-    ARRAYOFIDS=[];
-    COUNTER =0 ;
-    INDEX = 0 ;
+    public ref: any;
+    public chatCounter: number
+    public chatHolder: number;
+    public calendarCounter: number;
+    public calendarHolder: number;
+    public infoCounter: number;
+    public infoHolder: number;
+    public moduleCounter: number;
+    public moduleHolder: number;
+    public surveyCounter: number;
+    public surveyHolder: number;
+    public profileCounter: number;
+    public profileHolder: number;
+    public moreCounter: number;
+    public moreHolder: number;
 
     private analyticss : string;
     private sessions : Observable<any>;
@@ -77,7 +90,9 @@ export class AnalyticsPage {
     }
 
 
-    ionViewWillEnter(){
+    ionViewWillEnter()
+    {
+
     }
 
 
@@ -93,19 +108,140 @@ export class AnalyticsPage {
 
 
 
-    getUserSessions(){
+    getUserSessions()
+    {
 
         console.log(this.USERID);
 
-
         this.uniqueSessions= this.analyticsService.getUniqueUserStorage(this.USERID);
-
     }
 
     getPageViews(id)
     {
         this.analyticsService.getPageViews(id);
     }
+
+
+
+    getUserTotalClicks()
+    {
+
+      let ref = this.afs.firestore.collection("analyticsSessions");
+      ref.where('userID', '==', this.USERID)
+          .get().then((result) =>{
+
+           this.chatCounter =0;
+           this.calendarCounter =0;
+           this.infoCounter = 0 ;
+           this.surveyCounter =0;
+           this.moduleCounter =0;
+           this.profileCounter = 0;
+           this.moreCounter = 0 ;
+
+            result.forEach(doc =>{
+
+              this.chatCounter = this.chatCounter + doc.get("numOfClickChat");
+              this.calendarCounter = this.calendarCounter + doc.get("numOfClickCalendar");
+              this.moduleCounter = this.moduleCounter + doc.get("numOfClickLModule");
+              this.infoCounter = this.infoCounter + doc.get("numOfClickInfo");
+              this.surveyCounter = this.surveyCounter + doc.get("numOfClickSurvey");
+              this.profileCounter = this.profileCounter + doc.get("numOfClickProfile");
+              this.moreCounter = this.moreCounter + doc.get("numOfClickMore");
+
+            });
+            this.chatClicksSaver( this.chatCounter);
+            this.calendarClicksSaver(this.calendarCounter);
+            this.moduleClicksSaver(this.moduleCounter);
+            this.infoClicksSaver(this.infoCounter);
+            this.surveyClicksSaver(this.surveyCounter);
+            this.profileClicksSaver(this.profileCounter);
+            this.moreClicksSaver(this.moreCounter);
+
+          });
+    }
+
+
+
+    getAllTotalClicks()
+    {
+
+      let ref = this.afs.firestore.collection("analyticsSessions")
+          .get().then((result) =>{
+
+           this.chatCounter =0;
+           this.calendarCounter =0;
+           this.infoCounter = 0 ;
+           this.surveyCounter =0;
+           this.moduleCounter =0;
+           this.profileCounter = 0;
+           this.moreCounter = 0 ;
+
+            result.forEach(doc =>{
+
+              this.chatCounter = this.chatCounter + doc.get("numOfClickChat");
+              this.calendarCounter = this.calendarCounter + doc.get("numOfClickCalendar");
+              this.moduleCounter = this.moduleCounter + doc.get("numOfClickLModule");
+              this.infoCounter = this.infoCounter + doc.get("numOfClickInfo");
+              this.surveyCounter = this.surveyCounter + doc.get("numOfClickSurvey");
+              this.profileCounter = this.profileCounter + doc.get("numOfClickProfile");
+              this.moreCounter = this.moreCounter + doc.get("numOfClickMore");
+
+            });
+            this.chatClicksSaver( this.chatCounter);
+            this.calendarClicksSaver(this.calendarCounter);
+            this.moduleClicksSaver(this.moduleCounter);
+            this.infoClicksSaver(this.infoCounter);
+            this.surveyClicksSaver(this.surveyCounter);
+            this.profileClicksSaver(this.profileCounter);
+            this.moreClicksSaver(this.moreCounter);
+
+          });
+    }
+
+
+
+  chatClicksSaver(chatCounter)
+  {
+     this.chatHolder = this.chatCounter;
+     console.log(this.chatHolder);
+  }
+
+  calendarClicksSaver(calendarCounter)
+  {
+     this.calendarHolder = this.calendarCounter;
+     console.log(this.calendarHolder);
+  }
+
+  moduleClicksSaver(moduleCounter)
+  {
+     this.moduleHolder = this.moduleCounter;
+     console.log(this.moduleHolder);
+  }
+
+  infoClicksSaver(infoCounter)
+  {
+     this.infoHolder = this.infoCounter;
+     console.log(this.infoHolder);
+  }
+
+  surveyClicksSaver(surveyCounter)
+  {
+     this.surveyHolder = this.surveyCounter;
+     console.log(this.surveyHolder);
+  }
+
+  profileClicksSaver(profileCounter)
+  {
+     this.profileHolder = this.profileCounter;
+     console.log(this.profileHolder);
+  }
+
+  moreClicksSaver(moreCounter)
+  {
+     this.moreHolder = this.moreCounter;
+     console.log(this.moreHolder);
+  }
+
 
 
 }
