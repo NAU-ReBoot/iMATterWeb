@@ -7,8 +7,13 @@ import { Observable } from 'rxjs';
 export interface Survey {
   id?: string;
   title: string;
-  daysTillRelease: number;
   surveyLink: string;
+  type: string;
+  daysTillRelease: string;
+  daysBeforeDueDate: string;
+  daysTillExpire: number;
+  daysInactive: number;
+  emotionChosen: string;
 }
 
 export interface Question{
@@ -60,15 +65,20 @@ export class FireService {
     return this.surveyCollection.add(survey);
   }
 
-  deleteSurvey(id: string): Promise<void>{
-    return this.surveyCollection.doc(id).delete();
+  updateSurvey(survey: Survey): Promise<void>{
+    return this.surveyCollection.doc(survey.id).update({ 
+      title: survey.title,
+      surveyLink: survey.surveyLink,
+      type: survey.type,
+      daysTillRelease: survey.daysTillRelease,
+      daysBeforeDueDate: survey.daysBeforeDueDate,
+      daysTillExpire: survey.daysTillExpire,
+      daysInactive: survey.daysInactive,
+      emotionChosen: survey.emotionChosen });
   }
 
-  updateSurvey(survey: Survey): Promise<void>{
-    return this.surveyCollection.doc(survey.id).update({
-      title: survey.title,
-      daysTillRelease: survey.daysTillRelease,
-      surveyLink: survey.surveyLink });
+  deleteSurvey(id: string): Promise<void>{
+    return this.surveyCollection.doc(id).delete();
   }
 
   getTime(timeString: string){
@@ -82,9 +92,9 @@ export class FireService {
     var secondSplit = dateSplit[0].split("T");
     var day = secondSplit[0];
     var hour = secondSplit[1];
-
+    
     var dateChose = year + " " + month + " " + day + " " + hour + " " + minute;
-
+    
     return dateChose;
   }
 }

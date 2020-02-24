@@ -14,9 +14,14 @@ export class SurveysPage implements OnInit {
 
   survey: Survey = {
     title: '',
-    daysTillRelease: 0,
-    surveyLink: ''
-  };
+    surveyLink: '',
+    type: '',
+    daysTillRelease: '',
+    daysBeforeDueDate: '',
+    daysTillExpire: 0,
+    daysInactive: 0,
+    emotionChosen: '',
+  }
 
   constructor(private activatedRoute: ActivatedRoute,
               private fs: FireService,
@@ -34,12 +39,12 @@ export class SurveysPage implements OnInit {
     }
   }
 
-  addSurvey(){
+  addSurvey(){    
     this.fs.addSurvey(this.survey).then(() => {
       this.router.navigateByUrl('/survey-list');
       this.showToast('Survey added');
     }, err => {
-      this.showToast('There was a problem adding your survey');
+        this.showToast('There was a problem adding your survey');
     });
   }
 
@@ -48,15 +53,15 @@ export class SurveysPage implements OnInit {
       this.router.navigateByUrl('/survey-list');
       this.showToast('Survey deleted');
     }, err => {
-      this.showToast('There was a problem deleting your survey');
+        this.showToast('There was a problem deleting your survey');
     });
   }
 
-  updateSurvey(){
+  updateSurvey(){    
     this.fs.updateSurvey(this.survey).then(() => {
       this.showToast('Survey updated');
     }, err => {
-      this.showToast('There was a problem updating your survey');
+        this.showToast('There was a problem updating your survey');
     });
   }
 

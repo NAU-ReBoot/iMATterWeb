@@ -10,13 +10,81 @@
 <ion-content>
 
   <ion-item>
-    <ion-label position="stacked">Survey Name</ion-label>
+    <ion-label position="stacked">Choose the name of the survey</ion-label>
     <ion-input [(ngModel)]="survey.title"></ion-input>
   </ion-item>
 
+  <div *ngIf="!survey.id">
+
+    <ion-list>
+      <ion-item>
+        <ion-label color="primary">Choose the type of survey</ion-label>
+        <ion-select [(ngModel)]="survey.type" (ionChange)="chosenType()" placeholder="Select One">
+          <ion-select-option  value="After Joining">After user Joining</ion-select-option>
+          <ion-select-option  value="Due Date">Before Due Date</ion-select-option>
+          <ion-select-option  value="Inactive">Inactive User</ion-select-option>
+          <ion-select-option  value="Emotion">Particular Mood</ion-select-option>
+        </ion-select>
+      </ion-item>
+    </ion-list>
+
+  </div>
+
+  <div *ngIf="isAfterJoining">
+    
+    <ion-item>
+      <ion-label position="stacked">Choose one or more days the survey is released after a user joins</ion-label>
+      <ion-input type="string" [(ngModel)]="survey.daysTillRelease"></ion-input>
+    </ion-item>
+
+  </div>
+
+  <div *ngIf="isDueDate">
+    
+    <ion-item>
+      <ion-label position="stacked">Choose one or more days the survey is released before a user's due date</ion-label>
+      <ion-input type="string" [(ngModel)]="survey.daysBeforeDueDate"></ion-input>
+    </ion-item>
+
+  </div>
+
+  <div *ngIf="isInactive">
+    
+    <ion-item>
+      <ion-label position="stacked">Choose the number of days of inactivity before survey displays to user</ion-label>
+      <ion-input type="number" [(ngModel)]="survey.daysInactive"></ion-input>
+    </ion-item>
+
+  </div>
+
+  <div *ngIf="isEmotion">
+
+    <ion-radio-group
+    allow-empty-selection = "true"
+    [(ngModel)]="survey.emotionChosen">
+
+    <ion-item>
+      <ion-label>Release if mood is Negative</ion-label>
+      <ion-radio slot="start" value="Negative"></ion-radio>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Release if mood is Indifferent</ion-label>
+      <ion-radio slot="start" value="Indifferent"></ion-radio>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Release if mood is Postive</ion-label>
+      <ion-radio slot="start" value="Postive"></ion-radio>
+    </ion-item>
+
+  </ion-radio-group>
+
+  </div>
+
   <ion-item>
-    <ion-label position="stacked">Number of days before release</ion-label>
-    <ion-input type="number" [(ngModel)]="survey.daysTillRelease"></ion-input>
+    <ion-label position="stacked">Choose the number of days after release before the survey expires</ion-label>
+    <ion-input type="number" [(ngModel)]="survey.daysTillExpire"></ion-input>
   </ion-item>
 
   <ion-item>
