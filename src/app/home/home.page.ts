@@ -12,10 +12,11 @@ import { Router } from "@angular/router";
 })
 
 
-export class HomePage implements OnInit{
+export class HomePage implements OnInit {
 
   public addAdminForm: FormGroup;
   public addProviderForm: FormGroup;
+  private updateUserForm: FormGroup;
 
   constructor(private createUserService: CreateUserService,
               private formBuilder: FormBuilder,
@@ -46,6 +47,18 @@ export class HomePage implements OnInit{
         Validators.compose([Validators.required, Validators.email]),
       ]
     });
+
+    this.updateUserForm = this.formBuilder.group({
+      email: [
+        '',
+        Validators.compose([Validators.nullValidator, Validators.email]),
+      ],
+      points: [
+        '',
+        Validators.compose([Validators.nullValidator]),
+      ]
+    });
+
   }
 
   user: User = {
@@ -61,7 +74,8 @@ export class HomePage implements OnInit{
     securityQ: '',
     securityA: '',
     currentEmotion: '',
-    bio:  ''
+    bio:  '',
+    points: 0
   };
 
   provider: Provider =  {
@@ -89,7 +103,8 @@ export class HomePage implements OnInit{
   private userView = true;
   private providerView = false;
   private adminView = false;
-  private codeView = false
+  private codeView = false;
+  private showUpdateUser = false;
 
   private displayAddAdmin = false;
   private displayAddProvider = false;
@@ -149,8 +164,15 @@ export class HomePage implements OnInit{
     this.codeView = true;
   }
 
-  updateUser(id) {
+  updateUser(updateUserForm, id) {
+    /*
+    const email: string = this.updateUserForm.value.email;
+    this.user.email = email;
+    const points = this.updateUserForm.value.points;
+    this.user.points = points;
 
+    this.createUserService.updateUser(id, this.user);
+    this.showUpdateUser = false;*/
   }
 
   deleteUser(id) {
