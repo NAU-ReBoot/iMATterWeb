@@ -12,7 +12,7 @@
 <ion-content padding>
     <ion-card>
       <ion-row>
-        <ion-col size="2.5" *ngIf="!question.anon; else elseBlock">
+        <ion-col size=".7" *ngIf="!question.anon; else elseBlock">
           <ion-button class="thumbnail" fill="clear"  (click)="goToProfile(question.userID, question.id)">
             <ion-thumbnail slot="start">
               <ion-img src="{{ question.profilePic }}"> </ion-img>
@@ -20,11 +20,13 @@
           </ion-button>
         </ion-col>
         <ng-template #elseBlock>
+          <ion-col size=".7">
           <ion-button fill="clear"  disabled="true">
             <ion-thumbnail slot="start">
               <ion-img src="{{ question.profilePic }}"> </ion-img>
             </ion-thumbnail>
           </ion-button>
+          </ion-col>
         </ng-template>
         <ion-col>
           {{ question.username }}
@@ -59,7 +61,7 @@
       <ion-item *ngFor="let comment of (comments | async)">
         <ion-card>
           <ion-row>
-            <ion-col size="2.5">
+            <ion-col size=".7">
               <ion-button class="thumbnail" fill="clear" *ngIf="!comment.anon && comment.type != 'admin'; else elseBlock" (click)="goToProfile(comment.userID, question.id)">
                 <ion-thumbnail  slot="start">
                   <ion-img src="{{ comment.profilePic }}"> </ion-img>

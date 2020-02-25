@@ -23,6 +23,7 @@ export class ViewableProfilePage implements OnInit {
     location: 0,
     cohort: '',
     bio: '',
+    points: 0,
     securityQ: '',
     securityA: '',
     currentEmotion: '',

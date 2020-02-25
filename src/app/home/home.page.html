@@ -39,17 +39,31 @@
         Location: {{ user.location }}<br>
         Security Q: {{ user.securityQ }}<br>
         Security A: {{ user.securityA }}<br>
-
+        Point Total: {{ user.points }}<br>
         </p>
 
         <ion-buttons  slot="end">
-          <ion-button (click)="updateUser(user.id)">
+          <ion-button (click)="showUpdateUser = true">
             Update User
           </ion-button>
           <ion-button color='danger' (click)="deleteUser(user.id)">
             Delete User
           </ion-button>
         </ion-buttons>
+
+        <div *ngIf="showUpdateUser">
+          <form [formGroup]="updateUserForm">
+            <ion-item>
+              <ion-label position="stacked">Enter New Email:</ion-label>
+              <ion-input formControlName="email" placeholder="New Email"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label position="stacked">Enter Points:</ion-label>
+              <ion-input formControlName="points" placeholder="New Point Total"></ion-input>
+            </ion-item>
+            <ion-button size="small" [disabled]="!updateUserForm.valid" (click)="updateUser(updateUserForm, user.id)"> Submit </ion-button>
+          </form>
+        </div>
       </ion-item>
     </ion-list>
   </div>

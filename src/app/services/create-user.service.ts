@@ -19,6 +19,7 @@ export interface User {
   securityA: string;
   currentEmotion: string;
   bio: string;
+  points: number;
 }
 
 export interface Provider {
@@ -106,6 +107,15 @@ export class CreateUserService {
           return user;
         })
     );
+  }
+
+  updateUser(userID: string, user: User) {
+    this.afs.firestore.collection('users').where('code', '==', userID)
+        .get().then(snapshot => {
+      snapshot.forEach(doc => {
+        return this.afs.firestore.collection('users').doc(userID).update(user);
+      });
+    });
   }
 
   deleteUser(id: string): Promise<void> {

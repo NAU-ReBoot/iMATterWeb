@@ -1,0 +1,28 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      Type: {{ submission.type }}
+    </ion-title>
+    <ion-buttons slot="start">
+      <ion-menu-button autoHide="false"></ion-menu-button>
+    </ion-buttons>
+    <ion-button slot="end" color="danger" (click)="deleteSubmission()"> Delete Submission </ion-button>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item>
+      Submitted by: {{ submission.username }}
+    </ion-item>
+    <ion-item>
+      User ID: {{ submission.userID }}
+    </ion-item>
+    <ion-item>
+      Title: {{ submission.title }}
+    </ion-item>
+    <ion-item>
+      Description: {{ submission.description }}
+    </ion-item>
+  </ion-list>
+</ion-content>

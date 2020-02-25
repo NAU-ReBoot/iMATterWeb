@@ -105,6 +105,10 @@ const routes: Routes = [
   {
     path: 'add-update',
     loadChildren: () => import('./pregnancyUpdates/add-update/add-update.module').then(m => m.AddUpdatePageModule)
+  },
+  {
+    path: 'inbox',
+    loadChildren: () => import('./inbox/inbox.module').then( m => m.InboxPageModule)
   }
 ];
 @NgModule({
