@@ -44,6 +44,17 @@ export interface UniqueSessions
 //  sessionID: string
 }
 
+
+export interface ClickAlls
+{
+  id?: string,
+  page: string,
+  userID: string,
+  timestamp: any,
+  sessionID: string
+//  sessionID: string
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -62,6 +73,10 @@ export class AnalyticsService {
 
   private uniqueSessions: Observable<UniqueSessions[]>;
   private UniqueSessionsCollection: AngularFirestoreCollection<UniqueSessions>;
+
+  private clickAlls: Observable<ClickAlls[]>;
+  private clickAllsCollection: AngularFirestoreCollection<ClickAlls>;
+  private clickAll : ClickAlls;
 
 
 
@@ -90,6 +105,20 @@ export class AnalyticsService {
           });
         })
     );
+
+    this.clickAllsCollection = this.afs.collection<ClickAlls>('analyticsStorage');
+    this.clickAlls= this.clickAllsCollection.snapshotChanges().pipe(
+        map(actions => {
+          return actions.map(a => {
+            const data = a.payload.doc.data();
+            const id = a.payload.doc.id;
+            return {id, ...data};
+          });
+        })
+    );
+
+
+
   }
 
 
@@ -111,6 +140,18 @@ export class AnalyticsService {
       map(session =>{
         session.id = id;
         return session;
+      })
+    );
+  }
+
+
+
+  getSessionClick(id: string): Observable<ClickAlls>{
+    return this.clickAllsCollection.doc<ClickAlls>(id).valueChanges().pipe(
+      take(1),
+      map(clickAll =>{
+        clickAll.id = id;
+        return clickAll;
       })
     );
   }

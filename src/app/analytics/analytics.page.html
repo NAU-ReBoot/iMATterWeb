@@ -17,17 +17,43 @@
         <ion-label position = "floating"> User ID</ion-label>
         <ion-input type = "text" [(ngModel)] = "USERID" id="input"></ion-input>
       </ion-item>
-      <ion-button (click)= "getUserSessions()" (click)="getUserTotalClicks()" padding = "100" type='button'>
+      <ion-button (click)= "getUserSessions()"  (click)= "getUserTotalClicks()" padding = "100" type='button'>
         submit
       </ion-button>
+      <ion-item >
+        <ion-card>
+
+          <div class = "cal vistis">
+            Calendar Visits: {{ calendarHolder }}
+          </div>
+          <div class = "chat vistis">
+            Chat Visits: {{ chatHolder }}
+          </div>
+          <div class = "info vistis">
+            Info Desk Visits: {{ infoHolder }}
+          </div>
+          <div class = "module vistis">
+            Learning Module Visits: {{ moduleHolder }}
+          </div>
+          <div class = "profile vistis">
+            Profile Visits: {{ profileHolder }}
+          </div>
+          <div class = "more vistis">
+            More Page Visits: {{ moreHolder }}
+          </div>
+          <div class = "survey vistis">
+            Survey Visits: {{ moduleHolder }}
+          </div>
+        </ion-card>
+      </ion-item>
       <ion-item *ngFor= "let session of (sessions| async)" >
         <ion-card>
 
           <div class = "LoginTime">
-            LoginTime: {{ session.LoginTime.seconds * 1000 | date:'MM-dd-yyyy h:mm a' }}
+            LoginTime: {{ session.LoginTime.seconds * 1000 | date:'MM-dd-yyyy h:mm a'}}
           </div>
           <div>
-            LogOutTime: {{ session.LogOutTime.seconds * 1000 | date:'MM-dd-yyyy h:mm a' }}
+            LogOutTime: {{ session.LogOutTime.seconds * 1000 | date:'MM-dd-yyyy h:mm a'}}
           </div>
           <div>
             UserID: {{ session.userID }}
@@ -45,7 +71,7 @@
             </ion-col>
             <ion-col>
               <div>
-                Time Stamp: {{ analytic.timestamp.seconds * 1000 | date:'MM-dd-yyyy h:mm a' }}
+                Time Stamp: {{ analytic.timestamp.seconds * 1000 | date:'MM-dd-yyyy h:mm a'}}
               </div>
             </ion-col>
             <ion-col>
