@@ -16,18 +16,36 @@ export interface Analytics
   sessionID: string
 }
 
+
 export interface Sessions
 {
   id?: string,
   userID: string,
   LogOutTime: any,
   LoginTime: any,
-//  sessionID: string
+  numOfClickChat: number,
+  numOfClickCalendar: number,
+  numOfClickLModule: number,
+  numOfClickInfo: number,
+  numOfClickSurvey: number,
+  numOfClickProfile: number,
+  numOfClickMore: number
 }
 
 
 
 export interface UniqueSessions
+{
+  id?: string,
+  page: string,
+  userID: string,
+  timestamp: any,
+  sessionID: string
+//  sessionID: string
+}
+
+
+export interface ClickAlls
 {
   id?: string,
   page: string,
@@ -56,6 +74,10 @@ export class AnalyticsService {
   private uniqueSessions: Observable<UniqueSessions[]>;
   private UniqueSessionsCollection: AngularFirestoreCollection<UniqueSessions>;
 
+  private clickAlls: Observable<ClickAlls[]>;
+  private clickAllsCollection: AngularFirestoreCollection<ClickAlls>;
+  private clickAll : ClickAlls;
+
 
 
 
@@ -83,6 +105,20 @@ export class AnalyticsService {
           });
         })
     );
+
+    this.clickAllsCollection = this.afs.collection<ClickAlls>('analyticsStorage');
+    this.clickAlls= this.clickAllsCollection.snapshotChanges().pipe(
+        map(actions => {
+          return actions.map(a => {
+            const data = a.payload.doc.data();
+            const id = a.payload.doc.id;
+            return {id, ...data};
+          });
+        })
+    );
+
+
+
   }
 
 
@@ -100,11 +136,23 @@ export class AnalyticsService {
 
   getSession(id: string): Observable<Sessions>{
     return this.sessionCollection.doc<Sessions>(id).valueChanges().pipe(
-        take(1),
-        map(session =>{
-          session.id = id;
-          return session;
-        })
+      take(1),
+      map(session =>{
+        session.id = id;
+        return session;
+      })
+    );
+  }
+
+
+
+  getSessionClick(id: string): Observable<ClickAlls>{
+    return this.clickAllsCollection.doc<ClickAlls>(id).valueChanges().pipe(
+      take(1),
+      map(clickAll =>{
+        clickAll.id = id;
+        return clickAll;
+      })
     );
   }
 
@@ -120,16 +168,16 @@ export class AnalyticsService {
   getUniqueUserStorageCollection(userID)
   {
     this.UniqueSessionsCollection = this.afs.collection('analyticsStorage',
-        ref => ref.where("userID", '==', userID).orderBy('timestamp'));
+      ref => ref.where("userID", '==', userID).orderBy('timestamp'));
     this.uniqueSessions = this.UniqueSessionsCollection.snapshotChanges().pipe(
-        map(actions => {
-          return actions.map(a => {
-            const data = a.payload.doc.data();
-            const id = a.payload.doc.id;
-            return {id, ...data};
-          });
-        })
-    );
+            map(actions => {
+              return actions.map(a => {
+                const data = a.payload.doc.data();
+                const id = a.payload.doc.id;
+                return {id, ...data};
+              });
+            })
+        );
   }
 
   getUniqueUserStorage(userID) {
@@ -140,46 +188,77 @@ export class AnalyticsService {
   getAnalyticsStorageCollection(sessionID)
   {
     this.analyticsCollection = this.afs.collection('analyticsStorage',
-        ref => ref.where("analyticsStorage", '==', sessionID).orderBy('timestamp'));
+      ref => ref.where("analyticsStorage", '==', sessionID).orderBy('timestamp'));
     this.analytics = this.analyticsCollection.snapshotChanges().pipe(
-        map(actions => {
-          return actions.map(a => {
-            const data = a.payload.doc.data();
-            const id = a.payload.doc.id;
-            return {id, ...data};
-          });
-        })
-    );
+            map(actions => {
+              return actions.map(a => {
+                const data = a.payload.doc.data();
+                const id = a.payload.doc.id;
+                return {id, ...data};
+              });
+            })
+        );
   }
 
   async addView(analytic: Analytics) {
-    this.afs.collection('analyticsStorage').add({
-      page: analytic.page,
-      userID: analytic.userID,
-      sessionID: this.idReference,
-      timestamp: analytic.timestamp
+  this.afs.collection('analyticsStorage').add({
+    page: analytic.page,
+    userID: analytic.userID,
+    sessionID: this.idReference,
+    timestamp: analytic.timestamp
 
-    });
-  }
+  });
+}
 
   async addSession(session: Sessions ){
     this.afs.collection('analyticsSessions').add({
       userID: session.userID,
       LogOutTime: session.LogOutTime,
       LoginTime: session.LoginTime,
-      //    sessionID: session.sessionID
-    })
-        .then ( ref => {
-          this.idReference = ref.id;
-          console.log(ref.id);
+      numOfClickChat: session.numOfClickChat,
+      numOfClickCalendar: session.numOfClickCalendar,
+      numOfClickLModule: session.numOfClickLModule,
+      numOfClickInfo: session.numOfClickInfo,
+      numOfClickSurvey: session.numOfClickSurvey,
+      numOfClickProfile: session.numOfClickProfile,
+      numOfClickMore: session.numOfClickMore
+  ,
+  })
+    .then ( ref => {
+      this.idReference = ref.id;
+      console.log(ref.id);
 
-        });
+    });
   }
 
   async updateLogOut (session: Sessions){
     this.sessionCollection.doc(this.idReference).update({LogOutTime: firebase.firestore.FieldValue.serverTimestamp()});
   }
 
+
+  updateProfileClicks (session: Sessions){
+    this.sessionCollection.doc(this.idReference).update({numOfClickProfile:  firebase.firestore.FieldValue.increment(1)});
+  }
+
+  updateChatClicks (session: Sessions){
+    this.sessionCollection.doc(this.idReference).update({numOfClickChat:  firebase.firestore.FieldValue.increment(1)});
+  }
+
+  updateCalendarClicks (session: Sessions){
+    this.sessionCollection.doc(this.idReference).update({numOfClickCalendar:  firebase.firestore.FieldValue.increment(1)});
+  }
+
+  updateMoreClicks (session: Sessions){
+    this.sessionCollection.doc(this.idReference).update({numOfClickMore:  firebase.firestore.FieldValue.increment(1)});
+  }
+
+  updateLModuleClicks (session: Sessions){
+    this.sessionCollection.doc(this.idReference).update({numOfClickLModule:  firebase.firestore.FieldValue.increment(1)});
+  }
+
+  updateInfoClicks (session: Sessions){
+    this.sessionCollection.doc(this.idReference).update({numOfClickInfo:  firebase.firestore.FieldValue.increment(1)});
+  }
 
 
 
