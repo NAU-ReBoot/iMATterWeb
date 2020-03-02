@@ -109,6 +109,10 @@ const routes: Routes = [
   {
     path: 'inbox',
     loadChildren: () => import('./inbox/inbox.module').then( m => m.InboxPageModule)
+  },
+  {
+    path: 'mobile-settings',
+    loadChildren: () => import('./mobile-settings/mobile-settings.module').then( m => m.MobileSettingsPageModule)
   }
 ];
 @NgModule({
