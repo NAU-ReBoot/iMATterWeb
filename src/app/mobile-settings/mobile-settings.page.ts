@@ -75,4 +75,25 @@ export class MobileSettingsPage implements OnInit {
     });
     await alert.present();
   }
+
+  async updateChatHoursToLive(): Promise<void> {
+    const alert = await this.alertController.create({
+      inputs: [
+        { name: 'newHours', placeholder: 'New Hours to Last'},
+      ],
+      buttons: [
+        { text: 'Cancel' },
+        { text: 'Update',
+          handler: data => {
+            this.msService.updateChatHourstoLive(
+                data.newHours
+            );
+            this.getChatRoomHourSetting();
+          },
+        },
+      ],
+    });
+    await alert.present();
+  }
 }
+

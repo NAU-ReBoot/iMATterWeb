@@ -34,4 +34,11 @@ export class MobileSettingsService {
     }
   }
 
+  updateChatHourstoLive(newHours) {
+    return this.afs.firestore.collection('mobileSettings')
+        .doc('chatHours').update({hours: newHours});
+  }
+
+
+
 }

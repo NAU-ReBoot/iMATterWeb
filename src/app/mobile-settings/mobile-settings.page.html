@@ -34,9 +34,9 @@
       <ion-label> Hours for Messages to Last </ion-label>
     </ion-item>
     <ion-item>
-      <ion-label> Delete After: </ion-label>
-      <ion-input [(ngModel)]="chatHoursToLive" (ngModelChange)="showUpdateButton()"></ion-input>
-      <ion-button *ngIf="displayUpdateButton == true"> Update </ion-button>
+      <ion-label position="stacked"> Delete After: </ion-label>
+      <ion-text> {{ chatHoursToLive }}</ion-text>
+      <ion-button slot="end" (click)="updateChatHoursToLive()"> Update </ion-button>
     </ion-item>
   </ion-list>
 </ion-content>
