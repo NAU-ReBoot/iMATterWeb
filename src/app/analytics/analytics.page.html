@@ -17,7 +17,7 @@
         <ion-label position = "floating"> User ID</ion-label>
         <ion-input type = "text" [(ngModel)] = "USERID" id="input"></ion-input>
       </ion-item>
-      <ion-button (click)= "getUserSessions()"  (click)= "getUserTotalClicks()" padding = "100" type='button'>
+      <ion-button (click)= "getUserSessions()"  (click) = "getUserTime()" (click)= "getUserTotalClicks()" padding = "100" type='button'>
         submit
       </ion-button>
       <ion-item >
@@ -46,6 +46,8 @@
           </div>
         </ion-card>
       </ion-item>
+
+
       <ion-item *ngFor= "let session of (sessions| async)" >
         <ion-card>
 
@@ -60,8 +62,33 @@
           </div>
         </ion-card>
       </ion-item>
-      <ion-item *ngFor= "let analytic of (analytics | async)" >
 
+
+
+      <ion-item *ngFor= "let items of durationArray" >
+
+          <ion-grid>
+            <ion-row>
+              <ion-col>
+                <div >
+                  Page: {{ items.Page }}
+                </div>
+              </ion-col>
+              <ion-col>
+                <div>
+                  Minutes: {{ items.Time}}
+                </div>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+      </ion-item>
+
+
+
+
+
+
+      <ion-item *ngFor= "let analytic of (analytics | async)" >
         <ion-grid>
           <ion-row>
             <ion-col>
@@ -86,7 +113,6 @@
             </ion-col>
           </ion-row>
         </ion-grid>
-
       </ion-item>
 
       <ion-item *ngFor= "let unqiueSession of (uniqueSessions | async)" >
