@@ -65,6 +65,10 @@ export class SurveysPage implements OnInit {
     });
   }
 
+  chosenType(){
+    console.log(this.survey.type);
+  }
+
   showToast(msg){
     this.toastCtrl.create({
       message: msg,
@@ -72,5 +76,20 @@ export class SurveysPage implements OnInit {
     }).then(toast => toast.present());
   }
 
+  get isAfterJoining(){
+    return this.survey.type === 'After Joining';
+  }
+
+  get isDueDate(){
+    return this.survey.type === 'Due Date';
+  }
+
+  get isInactive(){
+    return this.survey.type === 'Inactive';
+  }
+
+  get isEmotion(){
+    return this.survey.type === 'Emotion';
+  }
 
 }
