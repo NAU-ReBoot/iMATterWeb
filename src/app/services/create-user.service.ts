@@ -110,16 +110,11 @@ export class CreateUserService {
     );
   }
 
-  updateUser(userID: string, user: User) {
-    this.afs.firestore.collection('users').where('code', '==', userID)
-        .get().then(snapshot => {
-      snapshot.forEach(doc => {
-        return this.afs.firestore.collection('users').doc(userID).update({
+  updateUser(userID: string, user: User): Promise<void> {
+    return this.afs.firestore.collection('users').doc(userID).update({
           email: user.email,
           cohort: user.cohort,
           points: user.points});
-      });
-    });
   }
 
   deleteUser(id: string): Promise<void> {
@@ -144,16 +139,11 @@ export class CreateUserService {
     );
   }
 
-  updateProvider(providerID: string, provider: Provider) {
-    this.afs.firestore.collection('providers').where('code', '==', providerID)
-        .get().then(snapshot => {
-      snapshot.forEach(doc => {
-        return this.afs.firestore.collection('providers').doc(providerID).update({
+  updateProvider(providerID: string, provider: Provider): Promise<void> {
+    return this.afs.firestore.collection('providers').doc(providerID).update({
           email: provider.email,
           firstName: provider.firstName,
           lastName: provider.lastName});
-      });
-    });
   }
 
   deleteProvider(id: string): Promise<void> {
@@ -179,13 +169,9 @@ export class CreateUserService {
     );
   }
 
-  updateAdmin(adminID: string, admin: Admin) {
-    this.afs.firestore.collection('admins').where('code', '==', adminID)
-        .get().then(snapshot => {
-      snapshot.forEach(doc => {
-        return this.afs.firestore.collection('admins').doc(adminID).update(admin);
-      });
-    });
+  updateAdmin(adminID: string, admin: Admin): Promise<void> {
+    return this.afs.firestore.collection('admins').doc(adminID).update({
+          email: admin.email});
   }
 
   deleteAdmin(id: string): Promise<void> {

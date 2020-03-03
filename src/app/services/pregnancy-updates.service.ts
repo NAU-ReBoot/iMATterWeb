@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument, DocumentReference } from '@angular/fire/firestore';
 import { map, take } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+import {ToastController} from '@ionic/angular';
 
 
 
@@ -70,5 +71,6 @@ export class PregnancyUpdatesService {
   deletePregnancyUpdate(id: string): Promise<void> {
     return this.pregnancyUpdatesCollection.doc(id).delete();
   }
+
 
 }
