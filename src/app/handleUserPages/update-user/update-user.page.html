@@ -78,15 +78,15 @@
       </ion-item>
       <ion-item>
         <ion-label position="stacked">First Name</ion-label>
-        <ion-input [(ngModel)]="provider.nameFirst"></ion-input>
+        <ion-input [(ngModel)]="provider.firstName"></ion-input>
       </ion-item>
       <ion-item>
         <ion-label position="stacked">Last Name</ion-label>
-        <ion-input [(ngModel)]="provider.nameLast"></ion-input>
+        <ion-input [(ngModel)]="provider.lastName"></ion-input>
       </ion-item>
     </ion-list>
 
-    <ion-button expand="block" fill="solid" color="success" (click)="updateUser(provider.id)">
+    <ion-button expand="block" fill="solid" color="success" (click)="updateProvider(provider.id)">
       <ion-icon name="save" slot="start"></ion-icon>
       Update Provider
     </ion-button>
@@ -113,7 +113,7 @@
     </ion-item>
   </ion-list>
 
-  <ion-button expand="block" fill="solid" color="success" (click)="updateUser(admin.id)">
+  <ion-button expand="block" fill="solid" color="success" (click)="updateAdmin(admin.id)">
     <ion-icon name="save" slot="start"></ion-icon>
     Update Admin
   </ion-button>

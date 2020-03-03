@@ -34,8 +34,8 @@ export class UpdateUserPage implements OnInit {
   provider: Provider =  {
     code: '',
     username: '',
-    nameFirst: '',
-    nameLast: '',
+    firstName: '',
+    lastName: '',
     email: '',
     password: '',
     bio: '',
@@ -75,15 +75,15 @@ export class UpdateUserPage implements OnInit {
     let id = this.activatedRoute.snapshot.paramMap.get('id');
     console.log(id);
     if (id) {
-      if(this.userType === 'user') {
+      if (this.userType === 'user') {
         this.createUserService.getUser(id).subscribe(user => {
           this.user = user;
         });
-      } else if(this.userType === 'admin') {
+      } else if (this.userType === 'admin') {
         this.createUserService.getAdmin(id).subscribe(admin => {
           this.admin = admin;
         });
-      } else if(this.userType === 'provider') {
+      } else if (this.userType === 'provider') {
         this.createUserService.getProvider(id).subscribe(provider => {
           this.provider = provider;
         });
@@ -92,7 +92,15 @@ export class UpdateUserPage implements OnInit {
   }
 
   updateUser(id) {
+    this.createUserService.updateUser(id, this.user);
+  }
 
+  updateProvider(id) {
+    this.createUserService.updateProvider(id, this.provider);
+  }
+
+  updateAdmin(id) {
+    this.createUserService.updateAdmin(id, this.admin);
   }
 
 }

@@ -105,18 +105,20 @@
       <ion-item *ngFor="let provider of (providers | async)">
         <p>
           Code: {{ provider.code }}<br>
-          Name: {{ provider.nameFirst }} {{ provider.nameLast }}<br>
+          Name: {{ provider.firstName }} {{ provider.lastName }}<br>
           Email: {{ provider.email }}<br>
           Username: {{ provider.username }}<br>
           DOB: {{ provider.dob }} <br>
         </p>
 
-        <ion-button (click)="updateUser('provider', provider.id)">
-          Update Provider
-        </ion-button>
-        <ion-button slot="end" color='danger' (click)="deleteProvider(provider.id)">
-          Delete Provider
-        </ion-button>
+        <ion-buttons  slot="end">
+          <ion-button (click)="updateUser('provider', provider.id)">
+            Update Provider
+          </ion-button>
+          <ion-button color='danger' (click)="deleteProvider(provider.id)">
+            Delete Provider
+          </ion-button>
+        </ion-buttons>
       </ion-item>
     </ion-list>
   </ion-content>
@@ -154,12 +156,15 @@
           Username: {{ admin.username }}<br>
         </p>
 
-        <ion-button (click)="updateUser('admin', admin.id)">
-          Update Admin
-        </ion-button>
-        <ion-button slot="end" color='danger' (click)="deleteAdmin(admin.id)">
-          Delete Admin
-        </ion-button>
+
+        <ion-buttons  slot="end">
+          <ion-button (click)="updateUser('admin', admin.id)">
+            Update Admin
+          </ion-button>
+          <ion-button color='danger' (click)="deleteAdmin(admin.id)">
+            Delete Admin
+          </ion-button>
+        </ion-buttons>
 
       </ion-item>
     </ion-list>

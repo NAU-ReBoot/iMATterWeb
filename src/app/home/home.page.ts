@@ -82,8 +82,8 @@ export class HomePage implements OnInit {
   provider: Provider =  {
   code: '',
   username: '',
-  nameFirst: '',
-  nameLast: '',
+  firstName: '',
+  lastName: '',
   email: '',
   password: '',
   bio: '',
@@ -188,8 +188,8 @@ export class HomePage implements OnInit {
       const nameLast: string = addProviderForm.value.nameLast;
       const dob: string = addProviderForm.value.dob;
 
-      this.provider.nameFirst = nameFirst;
-      this.provider.nameLast = nameLast;
+      this.provider.firstName = nameFirst;
+      this.provider.lastName = nameLast;
       this.provider.email = email;
       this.provider.dob = dob;
       this.provider.type = 'provider';
@@ -234,6 +234,18 @@ export class HomePage implements OnInit {
   logOut(): void {
     this.storage.set('authenticated', 'false');
     this.router.navigateByUrl('login');
+  }
+
+  ionViewDidLeave() {
+    this.codeView = false;
+
+    this.addProviderForm.value.email = '';
+    this.addProviderForm.value.nameFirst = '';
+    this.addProviderForm.value.nameLast = '';
+    this.addProviderForm.value.dob = '';
+
+    this.addAdminForm.value.email = '';
+
   }
 
 }

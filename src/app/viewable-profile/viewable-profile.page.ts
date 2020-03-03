@@ -34,8 +34,8 @@ export class ViewableProfilePage implements OnInit {
   provider: Provider = {
     code: '',
     username: '',
-    nameFirst: '',
-    nameLast: '',
+    firstName: '',
+    lastName: '',
     email: '',
     password: '',
     profilePic: '',

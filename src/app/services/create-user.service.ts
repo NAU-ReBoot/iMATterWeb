@@ -27,8 +27,8 @@ export interface Provider {
   id?: string;
   code: string;
   username: string;
-  nameFirst: string;
-  nameLast: string;
+  firstName: string;
+  lastName: string;
   email: string;
   password: string;
   profilePic: any;
@@ -114,7 +114,10 @@ export class CreateUserService {
     this.afs.firestore.collection('users').where('code', '==', userID)
         .get().then(snapshot => {
       snapshot.forEach(doc => {
-        return this.afs.firestore.collection('users').doc(userID).update(user);
+        return this.afs.firestore.collection('users').doc(userID).update({
+          email: user.email,
+          cohort: user.cohort,
+          points: user.points});
       });
     });
   }
@@ -141,13 +144,25 @@ export class CreateUserService {
     );
   }
 
+  updateProvider(providerID: string, provider: Provider) {
+    this.afs.firestore.collection('providers').where('code', '==', providerID)
+        .get().then(snapshot => {
+      snapshot.forEach(doc => {
+        return this.afs.firestore.collection('providers').doc(providerID).update({
+          email: provider.email,
+          firstName: provider.firstName,
+          lastName: provider.lastName});
+      });
+    });
+  }
+
   deleteProvider(id: string): Promise<void> {
     return this.providerCollection.doc(id).delete();
   }
 
   addProvider(provider: Provider): Promise<void> {
     return this.providerCollection.doc(provider.code).set({code: provider.code, email: provider.email,
-    dob: provider.dob, firstName: provider.nameFirst, lastName: provider.nameLast, type: provider.type});
+    dob: provider.dob, firstName: provider.firstName, lastName: provider.lastName, type: provider.type}, { merge: true });
   }
 
   getAdmins(): Observable<Admin[]> {
@@ -164,11 +179,20 @@ export class CreateUserService {
     );
   }
 
+  updateAdmin(adminID: string, admin: Admin) {
+    this.afs.firestore.collection('admins').where('code', '==', adminID)
+        .get().then(snapshot => {
+      snapshot.forEach(doc => {
+        return this.afs.firestore.collection('admins').doc(adminID).update(admin);
+      });
+    });
+  }
+
   deleteAdmin(id: string): Promise<void> {
     return this.adminCollection.doc(id).delete();
   }
 
   addAdmin(admin: Admin): Promise<void> {
-    return this.adminCollection.doc(admin.code).set({code: admin.code, email: admin.email, type: admin.type});
+    return this.adminCollection.doc(admin.code).set({code: admin.code, email: admin.email, type: admin.type}, { merge: true });
   }
 }
