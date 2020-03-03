@@ -82,12 +82,18 @@ export class AnalyticsPage {
     public prevTime: undefined | any;
     public timeDiff : any;
     public arrayHolder : {time:any, page: string, timeDiff: any} [] = [];
+    public epochArray: any = [];
+    public pageviewArray: any =[];
+    public durationHolder: any;
+    public durationArray:{ time: any, page:any}[] =[];
 
 
     private analyticss : string;
     private sessions : Observable<any>;
     private analytics: Observable<any>;
     private uniqueSessions: Observable<any>;
+
+
 
 
     constructor(
@@ -130,7 +136,7 @@ export class AnalyticsPage {
         this.analyticsService.getPageViews(id);
     }
 
-/*
+
 
     getUserTime()
     {
@@ -138,79 +144,52 @@ export class AnalyticsPage {
       let ref = this.afs.firestore.collection("analyticsStorage");
       ref.where('userID', '==', this.USERID).orderBy('timestamp')
           .get().then((result) =>{
-            //this.previousView = '';
-
+            this.currentTime = null;
+            this.currentView ='';
 
             result.forEach(doc =>{
 
               this.currentView = doc.get("page");
               this.currentTime = doc.get("timestamp");
-              this.currentTime = this.currentTime.toDate();
-              console.log(this.currentTime + '149');
-            //  console.log(this.prevTime.toString());
 
-
-
-              if ( this.prevTime && this.prevTime !== undefined)
-              {
-                console.log("else");
-                console.log(this.prevTime);
-
-
-                this.prevTime = this.prevTime.toDate();
-                this.timeDiff = this.prevTime.getTime() - this.currentTime.getTime();
-
-              }
-              else
-              {
-
-
-
-                console.log("null");
-                console.log(this.prevTime);
-
-                this.timeDiff = this.currentTime.getTime();
-
-              }
-
-
+//this.currentTime = Date.parse(this.currentTime.toDate());
+          //    this.currentTime = new Date(this.currentTime.toDate());
+              this.currentTime = new Date(this.currentTime.toDate());
+              this.currentTime = this.currentTime.getTime();
+              this.epochArray.push(this.currentTime);
+              this.pageviewArray.push(this.currentView);
             });
-            console.log(this.currentTime + '177');
-            console.log(this.prevTime+ '178');
-            console.log(this.currentView+ '179');
 
-            this.getPrevTime(this.currentTime);
-
-
-
-            this.getPrevPageHolder( this. currentTime, this.currentView , this.timeDiff);
-
-
-
-
+          this.calculatingDuration(this.epochArray, this.pageviewArray);
           });
+
+
     }
 
-    getPrevPageHolder(time, currentView , timeDiff)
+
+
+    calculatingDuration(epochArray, pageviewArray)
     {
-      this.previousView = this.currentView;
-      this.arrayHolder.push(time, currentView , timeDiff);
-      console.log(this.arrayHolder);
+      this.epochArray = epochArray;
+      this.pageviewArray = pageviewArray;
+      console.log(this.epochArray);
+      console.log(this.pageviewArray);
 
+      for(let index = 0; index < this.epochArray.length; index++)
+      {
+        if(index !== 0)
+        {
+        //  Math.round((timeStart.getTime() - (new Date()).getTime()) / 1000)
+        this.durationHolder = (this.epochArray[index+1] - this.epochArray[index]);
+        this.durationHolder =  Math.round((this.durationHolder/ 1000)/60 );
+        this.durationArray.push(this.durationHolder, this.pageviewArray[index]);
+        }
+      }
 
+      console.log(this.durationArray);
 
 
     }
-
-
-    getPrevTime(currentTime)
-    {
-      this.prevTime = currentTime;
-    }
-
-
-**/
-
 
         getUserTotalClicks()
         {
@@ -330,43 +309,43 @@ export class AnalyticsPage {
   chatClicksSaver(chatCounter)
   {
      this.chatHolder = this.chatCounter;
-     console.log(this.chatHolder);
+    // console.log(this.chatHolder);
   }
 
   calendarClicksSaver(calendarCounter)
   {
      this.calendarHolder = this.calendarCounter;
-     console.log(this.calendarHolder);
+  //   console.log(this.calendarHolder);
   }
 
   moduleClicksSaver(moduleCounter)
   {
      this.moduleHolder = this.moduleCounter;
-     console.log(this.moduleHolder);
+  //   console.log(this.moduleHolder);
   }
 
   infoClicksSaver(infoCounter)
   {
      this.infoHolder = this.infoCounter;
-     console.log(this.infoHolder);
+  //   console.log(this.infoHolder);
   }
 
   surveyClicksSaver(surveyCounter)
   {
      this.surveyHolder = this.surveyCounter;
-     console.log(this.surveyHolder);
+//     console.log(this.surveyHolder);
   }
 
   profileClicksSaver(profileCounter)
   {
      this.profileHolder = this.profileCounter;
-     console.log(this.profileHolder);
+//     console.log(this.profileHolder);
   }
 
   moreClicksSaver(moreCounter)
   {
      this.moreHolder = this.moreCounter;
-     console.log(this.moreHolder);
+//     console.log(this.moreHolder);
   }
 
 

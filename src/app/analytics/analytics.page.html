@@ -17,7 +17,7 @@
         <ion-label position = "floating"> User ID</ion-label>
         <ion-input type = "text" [(ngModel)] = "USERID" id="input"></ion-input>
       </ion-item>
-      <ion-button (click)= "getUserSessions()"  (click)= "getUserTotalClicks()" padding = "100" type='button'>
+      <ion-button (click)= "getUserSessions()"  (click) = "getUserTime()" (click)= "getUserTotalClicks()" padding = "100" type='button'>
         submit
       </ion-button>
       <ion-item >
