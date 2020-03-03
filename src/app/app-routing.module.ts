@@ -113,6 +113,10 @@ const routes: Routes = [
   {
     path: 'mobile-settings',
     loadChildren: () => import('./mobile-settings/mobile-settings.module').then( m => m.MobileSettingsPageModule)
+  },
+  {
+    path: 'update-user/:userType/:id',
+    loadChildren: () => import('./handleUserPages/update-user/update-user.module').then( m => m.UpdateUserPageModule)
   }
 ];
 @NgModule({

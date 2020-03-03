@@ -17,6 +17,7 @@ export interface User {
   cohort: string;
   securityQ: string;
   securityA: string;
+  joined: any;
   currentEmotion: string;
   bio: string;
   points: number;
@@ -130,6 +131,16 @@ export class CreateUserService {
     return this.providers;
   }
 
+  getProvider(id: string): Observable<Provider> {
+    return this.providerCollection.doc<Provider>(id).valueChanges().pipe(
+        take(1),
+        map(provider => {
+          provider.id = id;
+          return provider;
+        })
+    );
+  }
+
   deleteProvider(id: string): Promise<void> {
     return this.providerCollection.doc(id).delete();
   }
@@ -141,6 +152,16 @@ export class CreateUserService {
 
   getAdmins(): Observable<Admin[]> {
     return this.admins;
+  }
+
+  getAdmin(id: string): Observable<Admin> {
+    return this.adminCollection.doc<Admin>(id).valueChanges().pipe(
+        take(1),
+        map(admin => {
+          admin.id = id;
+          return admin;
+        })
+    );
   }
 
   deleteAdmin(id: string): Promise<void> {

@@ -1,0 +1,122 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Update {{ userType }}</ion-title>
+    <ion-buttons slot="start">
+      <ion-menu-button autoHide="false"></ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <!-- Update a user -->
+  <div *ngIf="userType == 'user'">
+    <ion-list>
+      <ion-list-header class="header"> Information </ion-list-header>
+      <ion-item>
+        <h2> Code: {{ user.code }}<br> </h2>
+      </ion-item>
+      <ion-item>
+        <h6> Username: {{ user.username }} </h6>
+      </ion-item>
+      <ion-item>
+        <h6> Date Joined: {{ user.joined.seconds * 1000 | date:'MM-dd-yyyy h:mm:ss a' }} </h6>
+      </ion-item>
+      <ion-item>
+        <h6> Location: {{ user.location }} </h6>
+      </ion-item>
+      <ion-item>
+         <h6> Security Q: {{ user.securityQ }} </h6>
+      </ion-item>
+      <ion-item>
+        <h6> Security A: {{ user.securityA }} </h6>
+      </ion-item>
+    </ion-list>
+
+
+    <ion-list>
+      <ion-list-header class="header"> Edit: </ion-list-header>
+        <ion-item>
+          <ion-label position="stacked">Email</ion-label>
+          <ion-input [(ngModel)]="user.email"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="stacked">Cohort</ion-label>
+          <ion-input [(ngModel)]="user.cohort"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label position="stacked">Point Total</ion-label>
+          <ion-input [(ngModel)]="user.points"></ion-input>
+        </ion-item>
+    </ion-list>
+
+    <ion-button expand="block" fill="solid" color="success" (click)="updateUser(user.id)">
+      <ion-icon name="save" slot="start"></ion-icon>
+      Update User
+    </ion-button>
+  </div>
+
+  <!-- Update a provider -->
+  <div *ngIf="userType == 'provider'">
+    <ion-list>
+      <ion-list-header class="header"> Information </ion-list-header>
+      <ion-item>
+        <h2> Code: {{ provider.code }}<br> </h2>
+      </ion-item>
+      <ion-item>
+        <h6> Username: {{ provider.username }} </h6>
+      </ion-item>
+      <ion-item>
+        <h6> DOB: {{ provider.dob }} </h6>
+      </ion-item>
+    </ion-list>
+
+    <ion-list>
+      <ion-list-header class="header"> Edit: </ion-list-header>
+      <ion-item>
+        <ion-label position="stacked">Email</ion-label>
+        <ion-input [(ngModel)]="provider.email"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="stacked">First Name</ion-label>
+        <ion-input [(ngModel)]="provider.nameFirst"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="stacked">Last Name</ion-label>
+        <ion-input [(ngModel)]="provider.nameLast"></ion-input>
+      </ion-item>
+    </ion-list>
+
+    <ion-button expand="block" fill="solid" color="success" (click)="updateUser(provider.id)">
+      <ion-icon name="save" slot="start"></ion-icon>
+      Update Provider
+    </ion-button>
+  </div>
+
+  <!-- Show admin -->
+<div *ngIf="userType == 'admin'">
+
+  <ion-list>
+    <ion-list-header class="header"> Information </ion-list-header>
+    <ion-item>
+      <h2> Code: {{ admin.code }}<br> </h2>
+    </ion-item>
+    <ion-item>
+      <h6> Username: {{ admin.username }} </h6>
+    </ion-item>
+  </ion-list>
+
+  <ion-list>
+    <ion-list-header class="header"> Edit: </ion-list-header>
+    <ion-item>
+      <ion-label position="stacked">Email</ion-label>
+      <ion-input [(ngModel)]="admin.email"></ion-input>
+    </ion-item>
+  </ion-list>
+
+  <ion-button expand="block" fill="solid" color="success" (click)="updateUser(admin.id)">
+    <ion-icon name="save" slot="start"></ion-icon>
+    Update Admin
+  </ion-button>
+</div>
+
+</ion-content>

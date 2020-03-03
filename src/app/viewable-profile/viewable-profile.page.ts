@@ -26,6 +26,7 @@ export class ViewableProfilePage implements OnInit {
     points: 0,
     securityQ: '',
     securityA: '',
+    joined: '',
     currentEmotion: '',
     profilePic: ''
   };

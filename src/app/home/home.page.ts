@@ -73,6 +73,7 @@ export class HomePage implements OnInit {
     profilePic: '',
     securityQ: '',
     securityA: '',
+    joined: '',
     currentEmotion: '',
     bio:  '',
     points: 0
@@ -164,15 +165,8 @@ export class HomePage implements OnInit {
     this.codeView = true;
   }
 
-  updateUser(updateUserForm, id) {
-    /*
-    const email: string = this.updateUserForm.value.email;
-    this.user.email = email;
-    const points = this.updateUserForm.value.points;
-    this.user.points = points;
-
-    this.createUserService.updateUser(id, this.user);
-    this.showUpdateUser = false;*/
+  updateUser(userType, id) {
+    this.router.navigate(['/update-user/', userType, id]);
   }
 
   deleteUser(id) {
