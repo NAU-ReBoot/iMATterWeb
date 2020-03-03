@@ -152,7 +152,7 @@ export class AnalyticsPage {
               this.currentView = doc.get("page");
               this.currentTime = doc.get("timestamp");
 
-//this.currentTime = Date.parse(this.currentTime.toDate());
+        //this.currentTime = Date.parse(this.currentTime.toDate());
           //    this.currentTime = new Date(this.currentTime.toDate());
               this.currentTime = new Date(this.currentTime.toDate());
               this.currentTime = this.currentTime.getTime();
@@ -181,7 +181,7 @@ export class AnalyticsPage {
         {
         //  Math.round((timeStart.getTime() - (new Date()).getTime()) / 1000)
         this.durationHolder = (this.epochArray[index+1] - this.epochArray[index]);
-        this.durationHolder =  Math.round((this.durationHolder/ 1000)/60 );
+        this.durationHolder =  Math.abs(Math.ceil((this.durationHolder/ 1000)/60 ));
         this.durationArray.push(this.durationHolder, this.pageviewArray[index]);
         }
       }
