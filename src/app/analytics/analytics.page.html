@@ -62,8 +62,33 @@
           </div>
         </ion-card>
       </ion-item>
-      <ion-item *ngFor= "let analytic of (analytics | async)" >
 
+
+
+      <ion-item *ngFor= "let items of durationArray" >
+
+          <ion-grid>
+            <ion-row>
+              <ion-col>
+                <div >
+                  Page: {{ items.Page }}
+                </div>
+              </ion-col>
+              <ion-col>
+                <div>
+                  Minutes: {{ items.Time}}
+                </div>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+      </ion-item>
+
+
+
+
+
+
+      <ion-item *ngFor= "let analytic of (analytics | async)" >
         <ion-grid>
           <ion-row>
             <ion-col>
@@ -88,7 +113,6 @@
             </ion-col>
           </ion-row>
         </ion-grid>
-
       </ion-item>
 
       <ion-item *ngFor= "let unqiueSession of (uniqueSessions | async)" >

@@ -51,7 +51,6 @@ export class AnalyticsPage {
             userID: '',
             timestamp: '',
             sessionID: ''
-            //  sessionID: string
         }
 
 
@@ -60,6 +59,7 @@ export class AnalyticsPage {
     myLineChart:any;
     private db: any;
     public ref: any;
+
     public chatCounter: number
     public chatHolder: number;
     public calendarCounter: number;
@@ -75,18 +75,12 @@ export class AnalyticsPage {
     public moreCounter: number;
     public moreHolder: number;
 
-
-
     public currentView : string;
     public currentTime: any;
-
-
-  //  public arrayHolder : {time:any, page: string, timeDiff: any} [] = [];
     public epochArray: any = [];
     public pageviewArray: any =[];
     public durationHolder: any;
     public durationArray: { Time: any, Page: string }[] =[];
-
 
     private analyticss : string;
     private sessions : Observable<any>;
@@ -152,8 +146,6 @@ export class AnalyticsPage {
               this.currentView = doc.get("page");
               this.currentTime = doc.get("timestamp");
 
-        //this.currentTime = Date.parse(this.currentTime.toDate());
-          //    this.currentTime = new Date(this.currentTime.toDate());
               this.currentTime = new Date(this.currentTime.toDate());
               this.currentTime = this.currentTime.getTime();
               this.epochArray.push(this.currentTime);
@@ -162,8 +154,6 @@ export class AnalyticsPage {
 
           this.calculatingDuration(this.epochArray, this.pageviewArray);
           });
-
-
     }
 
 
@@ -179,10 +169,10 @@ export class AnalyticsPage {
       {
         if(index !== 0)
         {
-        //  Math.round((timeStart.getTime() - (new Date()).getTime()) / 1000)
-        this.durationHolder = (this.epochArray[index+1] - this.epochArray[index]);
-        this.durationHolder =  Math.abs(Math.ceil((this.durationHolder/ 1000)/60 ));
-        this.durationArray.push({Time: this.durationHolder, Page: this.pageviewArray[index]});
+          //  Math.round((timeStart.getTime() - (new Date()).getTime()) / 1000)
+          this.durationHolder = (this.epochArray[index+1] - this.epochArray[index]);
+          this.durationHolder =  Math.abs(Math.ceil((this.durationHolder/ 1000)/60 ));
+          this.durationArray.push({Time: this.durationHolder, Page: this.pageviewArray[index]});
         }
         else
         {
@@ -191,8 +181,6 @@ export class AnalyticsPage {
       }
 
       console.log(this.durationArray);
-
-
     }
 
         getUserTotalClicks()
@@ -234,43 +222,6 @@ export class AnalyticsPage {
 
 
 /*
-    getID()
-    {
-      let ref = firebase.firestore().collection("analyticsSessions").get()
-      .then((result) => {
-        var documents:string [];
-        var index;
-        result.forEach(doc => {
-
-          documents[index] = doc.id;
-          index ++;
-        });
-        console.log(documents);
-
-        this.getidandclick(documents);
-        console.log("got to sending the documents");
-
-      });
-
-    }
-
-
-    getidandclick(documents)
-    {
-      var documentsHolder:any = [];
-      documentsHolder = documents;
-      var documentId;
-
-      for(let index = 0; documentsHolder.length > index ; index++ )
-      {
-        documentsHolder[ index] = documentId;
-        console.log("currently sending the documentId");
-
-        this.getAllTotalClicks(documentId);
-      }
-    }
-
-
 
     getAllTotalClicks(sessionID)
     {
