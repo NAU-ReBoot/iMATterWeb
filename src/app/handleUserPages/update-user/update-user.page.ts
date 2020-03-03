@@ -99,13 +99,13 @@ export class UpdateUserPage implements OnInit {
 
   updateProvider(id) {
     this.createUserService.updateProvider(id, this.provider).then(() => {
-      this.showToast('User updated');
+      this.showToast('Provider updated');
     });
   }
 
   updateAdmin(id) {
     this.createUserService.updateAdmin(id, this.admin).then(() => {
-      this.showToast('User updated');
+      this.showToast('Admin updated');
     });
   }
 
