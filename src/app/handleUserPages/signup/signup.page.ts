@@ -68,8 +68,8 @@ export class SignupPage implements OnInit {
   provider: Provider = {
     code: '',
     username: '',
-    nameFirst: '',
-    nameLast: '',
+    firstName: '',
+    lastName: '',
     email: '',
     password: '',
     bio: '',
@@ -123,8 +123,8 @@ export class SignupPage implements OnInit {
       ref.get().then((result) => {
             result.forEach(doc => {
               this.provider.email = doc.get('email');
-              this.provider.nameLast = doc.get('nameLast');
-              this.provider.nameFirst = doc.get('nameFirst');
+              this.provider.lastName = doc.get('nameLast');
+              this.provider.firstName = doc.get('nameFirst');
               this.provider.type = doc.get('type');
 
               this.authService.signupProvider(this.provider, password, username, this.provider.email, bio).then(() => {

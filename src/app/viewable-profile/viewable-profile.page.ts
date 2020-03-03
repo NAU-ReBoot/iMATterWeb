@@ -26,6 +26,7 @@ export class ViewableProfilePage implements OnInit {
     points: 0,
     securityQ: '',
     securityA: '',
+    joined: '',
     currentEmotion: '',
     profilePic: ''
   };
@@ -33,8 +34,8 @@ export class ViewableProfilePage implements OnInit {
   provider: Provider = {
     code: '',
     username: '',
-    nameFirst: '',
-    nameLast: '',
+    firstName: '',
+    lastName: '',
     email: '',
     password: '',
     profilePic: '',

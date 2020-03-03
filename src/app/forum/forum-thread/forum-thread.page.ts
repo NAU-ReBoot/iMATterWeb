@@ -42,7 +42,8 @@ export class ForumThreadPage implements OnInit {
   private comments: Observable<any>;
   private showDeleteOption: boolean;
 
-  constructor(private afs: AngularFirestore, private activatedRoute: ActivatedRoute, private questionService: QuestionService,
+  constructor(private afs: AngularFirestore,
+              private activatedRoute: ActivatedRoute, private questionService: QuestionService,
               private toastCtrl: ToastController, private router: Router, private storage: Storage) { }
 
   ngOnInit() {

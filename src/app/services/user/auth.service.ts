@@ -45,8 +45,8 @@ export class AuthServiceProvider {
   provider: Provider =  {
     code: '',
     username: '',
-    nameFirst: '',
-    nameLast: '',
+    firstName: '',
+    lastName: '',
     email: '',
     password: '',
     profilePic: '',
@@ -65,12 +65,12 @@ export class AuthServiceProvider {
 
   signupProvider(provider: Provider, password: string, username: string, email: string, bio: string): Promise<any> {
     return this.providerCollection.doc(provider.code).set({code: provider.code,
-        password: password, username: username, email: email, bio: bio, profilePic: provider.profilePic});
+        password: password, username: username, email: email, bio: bio, profilePic: provider.profilePic}, { merge: true } );
   }
 
   signupAdmin(admin: Admin, password: string, username: string, email: string): Promise<any> {
     return this.adminCollection.doc(admin.code).set({code: admin.code,
-      password: password, username: username, email: email, profilePic: admin.profilePic});
+      password: password, username: username, email: email, profilePic: admin.profilePic}, { merge: true });
   }
 
 }
