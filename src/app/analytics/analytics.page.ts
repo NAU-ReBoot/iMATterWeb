@@ -76,16 +76,16 @@ export class AnalyticsPage {
     public moreHolder: number;
 
 
-    public previousView: string ;
+
     public currentView : string;
     public currentTime: any;
-    public prevTime: undefined | any;
-    public timeDiff : any;
-    public arrayHolder : {time:any, page: string, timeDiff: any} [] = [];
+
+
+  //  public arrayHolder : {time:any, page: string, timeDiff: any} [] = [];
     public epochArray: any = [];
     public pageviewArray: any =[];
     public durationHolder: any;
-    public durationArray:{ time: any, page:any}[] =[];
+    public durationArray:{ time: any, page: string }[] =[];
 
 
     private analyticss : string;
