@@ -85,7 +85,7 @@ export class AnalyticsPage {
     public epochArray: any = [];
     public pageviewArray: any =[];
     public durationHolder: any;
-    public durationArray:{ time: any, page: string }[] =[];
+    public durationArray: { Time: any, Page: string }[] =[];
 
 
     private analyticss : string;
@@ -182,7 +182,11 @@ export class AnalyticsPage {
         //  Math.round((timeStart.getTime() - (new Date()).getTime()) / 1000)
         this.durationHolder = (this.epochArray[index+1] - this.epochArray[index]);
         this.durationHolder =  Math.abs(Math.ceil((this.durationHolder/ 1000)/60 ));
-        this.durationArray.push(this.durationHolder, this.pageviewArray[index]);
+        this.durationArray.push({Time: this.durationHolder, Page: this.pageviewArray[index]});
+        }
+        else
+        {
+          this.durationArray.push({ Time: 0 , Page : this.pageviewArray[index]});
         }
       }
 
