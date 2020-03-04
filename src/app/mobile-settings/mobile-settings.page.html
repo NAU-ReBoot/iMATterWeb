@@ -8,35 +8,87 @@
 </ion-header>
 
 <ion-content>
+  <!-- User Sign Up Settings -->
   <ion-list>
-    <ion-list-header class="header"> User Sign Up </ion-list-header>
-    <ion-item>
-      <ion-label> Security Questions </ion-label>
-    </ion-item>
+    <div *ngIf="displayUserSignUp == false">
+      <ion-list-header class="header" (click)="displayUserSignUp = true"> User Sign Up
+        <ion-icon size="large" name="arrow-dropright"></ion-icon>
+      </ion-list-header>
+    </div>
+    <div *ngIf="displayUserSignUp == true">
+      <ion-list-header class="header" (click)="displayUserSignUp = false"> User Sign Up
+        <ion-icon size="large" name="arrow-dropdown"></ion-icon>
+      </ion-list-header>
       <ion-item>
-        <ion-label position="stacked">Question 1: </ion-label>
-        <ion-text> {{ securityQ1 }}</ion-text>
-        <ion-button slot="end" (click)="updateSecurityQuestion('q1')"> Update </ion-button>
+        <ion-label class="label"> Security Questions </ion-label>
       </ion-item>
-      <ion-item>
-        <ion-label position="stacked">Question 2: </ion-label>
-        <ion-text> {{ securityQ2 }}</ion-text>
-        <ion-button slot="end" (click)="updateSecurityQuestion('q2')"> Update </ion-button>
-      </ion-item>
-      <ion-item>
-        <ion-label position="stacked">Question 3: </ion-label>
-        <ion-text> {{ securityQ3 }}</ion-text>
-        <ion-button slot="end" (click)="updateSecurityQuestion('q3')"> Update </ion-button>
-      </ion-item>
+        <ion-item>
+          <ion-label class="label" position="stacked">Question 1: </ion-label>
+          <ion-text> {{ securityQ1 }}</ion-text>
+          <ion-button slot="end" (click)="updateSecurityQuestion('q1')"> Update </ion-button>
+        </ion-item>
+        <ion-item>
+          <ion-label class="label" position="stacked">Question 2: </ion-label>
+          <ion-text> {{ securityQ2 }}</ion-text>
+          <ion-button slot="end" (click)="updateSecurityQuestion('q2')"> Update </ion-button>
+        </ion-item>
+        <ion-item>
+          <ion-label class="label" position="stacked">Question 3: </ion-label>
+          <ion-text> {{ securityQ3 }}</ion-text>
+          <ion-button slot="end" (click)="updateSecurityQuestion('q3')"> Update </ion-button>
+        </ion-item>
+    </div>
 
-    <ion-list-header class="header"> Chat Room </ion-list-header>
-    <ion-item>
-      <ion-label> Hours for Messages to Last </ion-label>
-    </ion-item>
-    <ion-item>
-      <ion-label position="stacked"> Delete After: </ion-label>
-      <ion-text> {{ chatHoursToLive }} hours </ion-text>
-      <ion-button slot="end" (click)="updateChatHoursToLive()"> Update </ion-button>
-    </ion-item>
+
+    <!-- User ChatRoom Settings -->
+
+    <div *ngIf="displayChatRoom == false">
+      <ion-list-header class="header" (click)="displayChatRoom = true"> Chat Room
+        <ion-icon size="large" name="arrow-dropright"></ion-icon>
+      </ion-list-header>
+    </div>
+
+    <div *ngIf="displayChatRoom == true">
+      <ion-list-header class="header" (click)="displayChatRoom = false"> Chat Room
+        <ion-icon size="large" name="arrow-dropdown"></ion-icon>
+      </ion-list-header>
+      <ion-item>
+        <ion-label class="label"> Hours for Messages to Last </ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-label class="label" position="stacked"> Delete After: </ion-label>
+        <ion-text> {{ chatHoursToLive }} hours </ion-text>
+        <ion-button slot="end" (click)="updateChatHoursToLive()"> Update </ion-button>
+      </ion-item>
+    </div>
+
+    <!-- Gift Card Settings -->
+
+    <div *ngIf="displayGCRedeem == false">
+      <ion-list-header class="header" (click)="displayGCRedeem = true"> Gift Card Redemption
+        <ion-icon size="large" name="arrow-dropright"></ion-icon>
+      </ion-list-header>
+    </div>
+
+    <div *ngIf="displayGCRedeem == true">
+      <ion-list-header class="header" (click)="displayGCRedeem = false"> Gift Card Redemption
+        <ion-icon size="large" name="arrow-dropdown"></ion-icon>
+      </ion-list-header>
+      <ion-item>
+        <ion-label class="label"> Email of Admin to Receive Gift Card Redemption Emails: </ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-text> {{ GCEmail }} </ion-text>
+        <ion-button slot="end" (click)="updateGCEmail()"> Update </ion-button>
+      </ion-item>
+      <ion-item>
+        <ion-label class="label"> Total Points for $5 Gift Card Redemption: </ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-text> {{ pointsToRedeemGC }} </ion-text>
+        <ion-button slot="end" (click)="updatePointsToRedeemGC()"> Update </ion-button>
+      </ion-item>
+    </div>
+
   </ion-list>
 </ion-content>

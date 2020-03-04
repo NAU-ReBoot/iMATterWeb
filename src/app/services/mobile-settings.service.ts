@@ -21,6 +21,14 @@ export class MobileSettingsService {
     return firebase.firestore().collection('mobileSettings').doc('chatHours').get();
   }
 
+  getCurrentGCEmail() {
+    return firebase.firestore().collection('mobileSettings').doc('giftCardEmailReceiver').get();
+  }
+
+  getPointsForGCRedeem() {
+    return firebase.firestore().collection('mobileSettings').doc('giftCardPoints').get();
+  }
+
   updateSecurityQ(newSecurityQ, securityQ) {
     if (securityQ === 'q1') {
       return this.afs.firestore.collection('mobileSettings')
@@ -39,6 +47,14 @@ export class MobileSettingsService {
         .doc('chatHours').update({hours: newHours});
   }
 
+  updateGCEmail(newEmail) {
+    return this.afs.firestore.collection('mobileSettings')
+        .doc('giftCardEmailReceiver').update({email: newEmail});
+  }
 
+  updatePointsToRedeemGC(newPoints) {
+    return this.afs.firestore.collection('mobileSettings')
+        .doc('giftCardPoints').update({points: newPoints});
+  }
 
 }

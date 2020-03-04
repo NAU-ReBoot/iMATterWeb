@@ -15,7 +15,11 @@ export class MobileSettingsPage implements OnInit {
   private securityQ2: string;
   private securityQ3: string;
   private chatHoursToLive: number;
-  private displayUpdateButton: boolean;
+  private GCEmail: string;
+  private pointsToRedeemGC: number;
+  private displayUserSignUp: boolean;
+  private displayChatRoom: boolean;
+  private displayGCRedeem: boolean;
 
 
   constructor(private msService: MobileSettingsService,
@@ -32,9 +36,14 @@ export class MobileSettingsPage implements OnInit {
       }
     });
 
-    this.displayUpdateButton = false;
+    this.displayUserSignUp = false;
+    this.displayChatRoom = false;
+    this.displayGCRedeem = false;
+
     this.getSecurityQs();
     this.getChatRoomHourSetting();
+    this.getPointsToRedeemGC();
+    this.getCurrentGCEmail();
   }
 
   getSecurityQs() {
@@ -51,9 +60,18 @@ export class MobileSettingsPage implements OnInit {
     });
   }
 
-  showUpdateButton(location) {
-    this.displayUpdateButton = true;
+  getCurrentGCEmail() {
+    this.msService.getCurrentGCEmail().then((result) => {
+      this.GCEmail = result.get('email');
+    });
   }
+
+  getPointsToRedeemGC() {
+    this.msService.getPointsForGCRedeem().then((result) => {
+      this.pointsToRedeemGC = result.get('points');
+    });
+  }
+
 
 
   async updateSecurityQuestion(securityQ): Promise<void> {
@@ -95,5 +113,47 @@ export class MobileSettingsPage implements OnInit {
     });
     await alert.present();
   }
+
+  async updateGCEmail(): Promise<void> {
+    const alert = await this.alertController.create({
+      inputs: [
+        { name: 'newEmail', placeholder: 'New Email'},
+      ],
+      buttons: [
+        { text: 'Cancel' },
+        { text: 'Update',
+          handler: data => {
+            this.msService.updateGCEmail(
+                data.newEmail
+            );
+            this.getCurrentGCEmail();
+          },
+        },
+      ],
+    });
+    await alert.present();
+  }
+
+  async updatePointsToRedeemGC(): Promise<void> {
+    const alert = await this.alertController.create({
+      inputs: [
+        { name: 'newPoints', placeholder: 'New Point Amount'},
+      ],
+      buttons: [
+        { text: 'Cancel' },
+        { text: 'Update',
+          handler: data => {
+            this.msService.updatePointsToRedeemGC(
+                data.newPoints
+            );
+            this.getPointsToRedeemGC();
+          },
+        },
+      ],
+    });
+    await alert.present();
+  }
+
+
 }
 
