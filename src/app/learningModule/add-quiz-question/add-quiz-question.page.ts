@@ -18,7 +18,8 @@ export class AddQuizQuestionPage implements OnInit {
     choice2: '',
     choice3: '',
     choice4: '',
-    correctAnswer: ''
+    correctAnswer: '',
+    pointsWorth: 0
   }
 
   constructor(private modalController: ModalController, private router: Router, private storage: Storage) { }

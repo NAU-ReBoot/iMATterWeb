@@ -36,7 +36,8 @@ export class LearningModuleContentPage implements OnInit {
     choice2: '',
     choice3: '',
     choice4: '',
-    correctAnswer: ''
+    correctAnswer: '',
+    pointsWorth: 0
   }
 
   sanitizedVideoURL: SafeResourceUrl;
@@ -89,11 +90,13 @@ export class LearningModuleContentPage implements OnInit {
           this.sanitizedPPTurl = this.domSanitizer.bypassSecurityTrustResourceUrl(this.learningModule.modulePPTurl);
         }
 
+        //Calculate 
+        this.calculatePointsWorth();
       });
       this.learningModule.id = id; //this line is important!! attaches the ID to the learning module so the content for that LM shows up
+      //this.calculatePointsWorth();
     }
   }
-
 
   addLearningModule()
   {
@@ -113,6 +116,15 @@ export class LearningModuleContentPage implements OnInit {
       this.showToast('Learning module updated!');
     })
   }
+
+  silentlyUpdateLearningModule()
+  {
+    this.learningModuleService.updateLearningModule(this.learningModule).then(() => 
+    {
+      console.log("silently updated learning module");
+    })
+  }
+
 
   deleteLearningModule() 
   {
@@ -146,7 +158,8 @@ export class LearningModuleContentPage implements OnInit {
         choice2: quizQuestion.choice2,
         choice3: quizQuestion.choice3,
         choice4: quizQuestion.choice4,
-        correctAnswer: quizQuestion.correctAnswer
+        correctAnswer: quizQuestion.correctAnswer,
+        pointsWorth: quizQuestion.pointsWorth
       }
     });
 
@@ -173,8 +186,6 @@ export class LearningModuleContentPage implements OnInit {
 
     //After modal is dismissed, check to see that something legitimate was returned
     modal.onDidDismiss().then((dataReturned) => {
-      console.log(dataReturned);
-      console.log(dataReturned.data);
       //dataReturned.data.dismissed == true means the "cancel" button was pressed
       //dataReturned.data.questionText == '' means they didn't input text for the question
       //in either of these cases, we won't bother pushing to database
@@ -184,6 +195,9 @@ export class LearningModuleContentPage implements OnInit {
         this.learningModule.moduleQuiz.push(dataReturned.data);
         //Update the learning module to reflect changes in database
         this.updateLearningModule();
+        
+        //Recalculate and update the number of points this learning module is worth
+        this.calculatePointsWorth();
       }
     });
     return await modal.present();
@@ -208,6 +222,9 @@ export class LearningModuleContentPage implements OnInit {
      }
      //update the learning module
      this.updateLearningModule();
+
+     //Recalculate and update the number of points learning module is worth
+     this.calculatePointsWorth();
   }
 
   async deleteModuleConfirmation() {
@@ -224,6 +241,21 @@ export class LearningModuleContentPage implements OnInit {
     });
 
     await alert.present();
+  }
+
+  /**
+   * Iterate through the quiz questions and add up their points to return
+   * the number of total points this module is worth
+   */
+  calculatePointsWorth()
+  {
+    var totalPoints = 0;
+    this.learningModule.moduleQuiz.forEach(element => {
+      totalPoints += Number(element.pointsWorth);
+    });
+
+    this.learningModule.modulePointsWorth = totalPoints;
+    this.silentlyUpdateLearningModule();
   }
 
 }
