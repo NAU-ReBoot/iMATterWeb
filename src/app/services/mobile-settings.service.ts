@@ -22,11 +22,6 @@ export class MobileSettingsService {
 
   }
 
-
-  getSecurityQs() {
-    return firebase.firestore().collection('mobileSettings').doc('securityQuestions').get();
-  }
-
   getChatRoomHourSetting() {
     return firebase.firestore().collection('mobileSettings').doc('chatHours').get();
   }
@@ -35,18 +30,8 @@ export class MobileSettingsService {
     return firebase.firestore().collection('mobileSettings').doc('giftCardSettings').get();
   }
 
-
-  updateSecurityQ(newSecurityQ, securityQ) {
-    if (securityQ === 'q1') {
-      return this.afs.firestore.collection('mobileSettings')
-          .doc('securityQuestions').update({q1: newSecurityQ});
-    } else if (securityQ === 'q2') {
-      return this.afs.firestore.collection('mobileSettings')
-          .doc('securityQuestions').update({q2: newSecurityQ});
-    } else if (securityQ === 'q3') {
-      return this.afs.firestore.collection('mobileSettings')
-          .doc('securityQuestions').update({q3: newSecurityQ});
-    }
+  getUserSignUpSettings() {
+    return firebase.firestore().collection('mobileSettings').doc('userSignUpSettings').get();
   }
 
   updateChatHourstoLive(newHours) {
@@ -72,6 +57,17 @@ export class MobileSettingsService {
   removeGCType(gcType) {
     return this.afs.firestore.collection('mobileSettings')
         .doc('giftCardSettings').update({types: firebase.firestore.FieldValue.arrayRemove(gcType)});
+  }
+
+
+  addNewSecurityQ(newQ) {
+    return this.afs.firestore.collection('mobileSettings')
+        .doc('userSignUpSettings').update({securityQs: firebase.firestore.FieldValue.arrayUnion(newQ)});
+  }
+
+  removeSecurityQ(newQ) {
+    return this.afs.firestore.collection('mobileSettings')
+        .doc('userSignUpSettings').update({securityQs: firebase.firestore.FieldValue.arrayRemove(newQ)});
   }
 
 

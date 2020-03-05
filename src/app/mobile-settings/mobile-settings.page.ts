@@ -12,9 +12,7 @@ import {Observable} from 'rxjs';
 })
 export class MobileSettingsPage implements OnInit {
 
-  private securityQ1: string;
-  private securityQ2: string;
-  private securityQ3: string;
+  private securityQs: Array<string>;
   private chatHoursToLive: number;
   private GCEmail: string;
   private typesOfGC: Array<GiftCardType>;
@@ -47,14 +45,11 @@ export class MobileSettingsPage implements OnInit {
     this.getPointsToRedeemGC();
     this.getCurrentGCEmail();
     this.getGCTypes();
-    console.log(this.typesOfGC);
   }
 
   getSecurityQs() {
-    this.msService.getSecurityQs().then((result) => {
-      this.securityQ1 = result.get('q1');
-      this.securityQ2 = result.get('q2');
-      this.securityQ3 = result.get('q3');
+    this.msService.getUserSignUpSettings().then((result) => {
+      this.securityQs = result.get('securityQs');
     });
   }
 
@@ -79,28 +74,7 @@ export class MobileSettingsPage implements OnInit {
   getGCTypes() {
     this.msService.getGCSettings().then((result) => {
       this.typesOfGC = result.get('types');
-      console.log(this.typesOfGC);
     });
-  }
-
-  async updateSecurityQuestion(securityQ): Promise<void> {
-    const alert = await this.alertController.create({
-      inputs: [
-        { name: 'newSecurityQ', placeholder: 'New Security Question'},
-      ],
-      buttons: [
-        { text: 'Cancel' },
-        { text: 'Update',
-          handler: data => {
-            this.msService.updateSecurityQ(
-                data.newSecurityQ, securityQ
-            );
-            this.getSecurityQs();
-          },
-        },
-      ],
-    });
-    await alert.present();
   }
 
   async updateChatHoursToLive(): Promise<void> {
@@ -187,6 +161,29 @@ export class MobileSettingsPage implements OnInit {
     await alert.present();
   }
 
+  async addNewSecurityQ(): Promise<void> {
+    const alert = await this.alertController.create({
+      inputs: [
+        { name: 'newQ', placeholder: 'New Security Question'},
+      ],
+      buttons: [
+        { text: 'Cancel' },
+        { text: 'Update',
+          handler: data => {
+            this.msService.addNewSecurityQ(
+                data.newQ);
+            this.getSecurityQs();
+          },
+        },
+      ],
+    });
+    await alert.present();
+  }
+
+  async deleteSecurityQ(securityQ): Promise<void> {
+    this.msService.removeSecurityQ(securityQ);
+    this.getSecurityQs();
+  }
 
   ionViewWillLeave() {
   this.displayUserSignUp = false;
