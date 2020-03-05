@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { MobileSettingsService } from '../services/mobile-settings.service';
+import { MobileSettingsService, GiftCardType } from '../services/mobile-settings.service';
 import {Storage} from '@ionic/storage';
 import {Router} from '@angular/router';
 import {AlertController} from '@ionic/angular';
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'app-mobile-settings',
@@ -16,11 +17,11 @@ export class MobileSettingsPage implements OnInit {
   private securityQ3: string;
   private chatHoursToLive: number;
   private GCEmail: string;
+  private typesOfGC: Array<GiftCardType>;
   private pointsToRedeemGC: number;
   private displayUserSignUp: boolean;
   private displayChatRoom: boolean;
   private displayGCRedeem: boolean;
-
 
   constructor(private msService: MobileSettingsService,
               private storage: Storage,
@@ -40,10 +41,13 @@ export class MobileSettingsPage implements OnInit {
     this.displayChatRoom = false;
     this.displayGCRedeem = false;
 
+
     this.getSecurityQs();
     this.getChatRoomHourSetting();
     this.getPointsToRedeemGC();
     this.getCurrentGCEmail();
+    this.getGCTypes();
+    console.log(this.typesOfGC);
   }
 
   getSecurityQs() {
@@ -61,18 +65,23 @@ export class MobileSettingsPage implements OnInit {
   }
 
   getCurrentGCEmail() {
-    this.msService.getCurrentGCEmail().then((result) => {
+    this.msService.getGCSettings().then((result) => {
       this.GCEmail = result.get('email');
     });
   }
 
   getPointsToRedeemGC() {
-    this.msService.getPointsForGCRedeem().then((result) => {
+    this.msService.getGCSettings().then((result) => {
       this.pointsToRedeemGC = result.get('points');
     });
   }
 
-
+  getGCTypes() {
+    this.msService.getGCSettings().then((result) => {
+      this.typesOfGC = result.get('types');
+      console.log(this.typesOfGC);
+    });
+  }
 
   async updateSecurityQuestion(securityQ): Promise<void> {
     const alert = await this.alertController.create({
@@ -137,14 +146,14 @@ export class MobileSettingsPage implements OnInit {
   async updatePointsToRedeemGC(): Promise<void> {
     const alert = await this.alertController.create({
       inputs: [
-        { name: 'newPoints', placeholder: 'New Point Amount'},
+        { name: 'newPoints', placeholder: 'New Point Amount', type: 'number'},
       ],
       buttons: [
         { text: 'Cancel' },
         { text: 'Update',
           handler: data => {
             this.msService.updatePointsToRedeemGC(
-                data.newPoints
+                Number(data.newPoints)
             );
             this.getPointsToRedeemGC();
           },
@@ -154,6 +163,35 @@ export class MobileSettingsPage implements OnInit {
     await alert.present();
   }
 
+  async deleteGCType(currentType): Promise<void> {
+    this.msService.removeGCType(currentType);
+    this.getGCTypes();
+  }
 
+  async addGCType(): Promise<void> {
+    const alert = await this.alertController.create({
+      inputs: [
+        { name: 'newType', placeholder: 'New Gift Card Type'},
+      ],
+      buttons: [
+        { text: 'Cancel' },
+        { text: 'Update',
+          handler: data => {
+            this.msService.addGCType(
+                data.newType);
+            this.getGCTypes();
+          },
+        },
+      ],
+    });
+    await alert.present();
+  }
+
+
+  ionViewWillLeave() {
+  this.displayUserSignUp = false;
+  this.displayChatRoom = false;
+  this.displayGCRedeem = false;
+  }
 }
 

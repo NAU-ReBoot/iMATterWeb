@@ -88,6 +88,19 @@
         <ion-text> {{ pointsToRedeemGC }} </ion-text>
         <ion-button slot="end" (click)="updatePointsToRedeemGC()"> Update </ion-button>
       </ion-item>
+
+      <ion-item>
+        <ion-label class="label"> Types of Gift Cards: </ion-label>
+      </ion-item>
+      <ion-row>
+        <ion-col>
+          <ion-button expand="true" fill="clear" (click)="addGCType()"> + Add New Gift Card Type</ion-button>
+        </ion-col>
+      </ion-row>
+      <ion-item *ngFor="let type of typesOfGC">
+        {{ type }}
+        <ion-button slot="end" color='danger' (click)="deleteGCType(type)"> Delete </ion-button>
+      </ion-item>
     </div>
 
   </ion-list>
