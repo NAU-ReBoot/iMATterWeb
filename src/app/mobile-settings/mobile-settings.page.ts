@@ -12,6 +12,8 @@ import {Observable} from 'rxjs';
 })
 export class MobileSettingsPage implements OnInit {
 
+  private autoProfilePic: string;
+  private profilePics: Array<string>;
   private securityQs: Array<string>;
   private chatHoursToLive: number;
   private GCEmail: string;
@@ -20,6 +22,15 @@ export class MobileSettingsPage implements OnInit {
   private displayUserSignUp: boolean;
   private displayChatRoom: boolean;
   private displayGCRedeem: boolean;
+  private displayAutoPic: boolean;
+  private displayProfilePics: boolean;
+  private displaySecurityQs: boolean;
+  private displayHoursForChats: boolean;
+  private displayEmailAdmin: boolean;
+  private displayTotalPoints: boolean;
+  private displayTypesOfGC: boolean;
+
+
 
   constructor(private msService: MobileSettingsService,
               private storage: Storage,
@@ -38,13 +49,33 @@ export class MobileSettingsPage implements OnInit {
     this.displayUserSignUp = false;
     this.displayChatRoom = false;
     this.displayGCRedeem = false;
-
+    this.displayAutoPic = false;
+    this.displayProfilePics = false;
+    this.displaySecurityQs = false;
+    this.displayHoursForChats = false;
+    this.displayEmailAdmin = false;
+    this.displayTotalPoints = false;
+    this.displayTypesOfGC = false;
 
     this.getSecurityQs();
     this.getChatRoomHourSetting();
     this.getPointsToRedeemGC();
     this.getCurrentGCEmail();
     this.getGCTypes();
+    this.getAutoProfilePic();
+    this.getProfilePics();
+  }
+
+  getAutoProfilePic() {
+    this.msService.getUserSignUpSettings().then((result) => {
+      this.autoProfilePic = result.get('autoProfilePic');
+    });
+  }
+
+  getProfilePics() {
+    this.msService.getUserSignUpSettings().then((result) => {
+      this.profilePics = result.get('profilePictures');
+    });
   }
 
   getSecurityQs() {
@@ -183,6 +214,42 @@ export class MobileSettingsPage implements OnInit {
   async deleteSecurityQ(securityQ): Promise<void> {
     this.msService.removeSecurityQ(securityQ);
     this.getSecurityQs();
+  }
+
+  async updateAutoProfilePic(): Promise<void> {
+
+  }
+
+  async addNewProfilePic(): Promise<void> {
+    const alert = await this.alertController.create({
+      inputs: [
+        { name: 'newQ', placeholder: 'New Security Question'},
+      ],
+      buttons: [
+        { text: 'Cancel' },
+        { text: 'Update',
+          handler: data => {
+            this.msService.addNewProfilePic(
+                data.newQ);
+            this.getProfilePics();
+          },
+        },
+      ],
+    });
+    await alert.present();
+  }
+
+  async deleteProfilePic(pic): Promise<void> {
+    this.msService.removeProfilePic(pic);
+    this.getProfilePics();
+  }
+
+  changeDisplay(display, displayBool) {
+    if (displayBool === 'true') {
+      display = true;
+    } else {
+      display = false;
+    }
   }
 
   ionViewWillLeave() {

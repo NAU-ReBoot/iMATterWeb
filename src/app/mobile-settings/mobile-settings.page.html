@@ -9,52 +9,138 @@
 
 <ion-content>
   <!-- User Sign Up Settings -->
+    <!-- Hide all content -->
   <ion-list>
     <div *ngIf="displayUserSignUp == false">
       <ion-list-header class="header" (click)="displayUserSignUp = true"> User Sign Up
         <ion-icon size="large" name="arrow-dropright"></ion-icon>
       </ion-list-header>
     </div>
+      <!-- Show all content -->
     <div *ngIf="displayUserSignUp == true">
       <ion-list-header class="header" (click)="displayUserSignUp = false"> User Sign Up
         <ion-icon size="large" name="arrow-dropdown"></ion-icon>
       </ion-list-header>
-      <ion-item>
-        <ion-label class="label"> Security Questions </ion-label>
-      </ion-item>
-      <ion-row>
-        <ion-col>
-          <ion-button expand="true" fill="clear" (click)="addNewSecurityQ()"> + Add New Security Question</ion-button>
-        </ion-col>
-      </ion-row>
-        <ion-item *ngFor="let question of securityQs">
-          <ion-text> {{ question }}</ion-text>
-          <ion-button slot="end" color='danger' (click)="deleteSecurityQ(question)"> Delete </ion-button>
+
+      <!-- Hide auto pic content -->
+      <div *ngIf="displayAutoPic == false">
+        <ion-item>
+          <ion-label class="label" (click)="displayAutoPic = true"> Auto Profile Picture
+            <ion-icon size="large" name="arrow-dropright"></ion-icon>
+          </ion-label>
         </ion-item>
+      </div>
+      <!-- Show auto pic content -->
+        <div *ngIf="displayAutoPic == true">
+          <ion-item>
+            <ion-label class="label" (click)="displayAutoPic = false"> Auto Profile Picture
+              <ion-icon size="large" name="arrow-dropdown"></ion-icon>
+            </ion-label>
+          </ion-item>
+        <ion-item>
+          <ion-thumbnail >
+            <ion-img src="{{autoProfilePic}}" ></ion-img>
+          </ion-thumbnail>
+          <ion-button slot="end"> Update </ion-button>
+        </ion-item>
+      </div>
+
+      <!-- Hide all profile pics content -->
+      <div *ngIf="displayProfilePics == false">
+        <ion-item>
+          <ion-label class="label" (click)="displayProfilePics = true"> Profile Pictures
+            <ion-icon size="large" name="arrow-dropright"></ion-icon>
+          </ion-label>
+        </ion-item>
+      </div>
+
+      <!-- Show all profile pics content -->
+      <div *ngIf="displayProfilePics == true">
+        <ion-item>
+          <ion-label class="label" (click)="displayProfilePics = false"> Profile Pictures
+            <ion-icon size="large" name="arrow-dropdown"></ion-icon>
+          </ion-label>
+        </ion-item>
+      <ion-row>
+          <ion-col>
+            <ion-button expand="true" fill="clear" (click)="addNewProfilePic()"> + Add New Profile Picture</ion-button>
+          </ion-col>
+        </ion-row>
+        <ion-item *ngFor="let pic of profilePics">
+          <ion-thumbnail >
+            <ion-img src="{{pic}}" ></ion-img>
+          </ion-thumbnail>
+          <ion-button slot="end" color='danger' (click)="deleteProfilePic(pic)"> Delete </ion-button>
+        </ion-item>
+      </div>
+
+      <!-- Hide all security questions content -->
+      <div *ngIf="displaySecurityQs == false">
+        <ion-item>
+          <ion-label class="label" (click)="displaySecurityQs = true"> Security Questions
+            <ion-icon size="large" name="arrow-dropright"></ion-icon>
+          </ion-label>
+        </ion-item>
+      </div>
+
+      <!-- Show all security questions content -->
+      <div *ngIf="displaySecurityQs == true">
+        <ion-item>
+          <ion-label class="label" (click)="displaySecurityQs = false"> Security Questions
+            <ion-icon slot="end" size="large" name="arrow-dropdown"></ion-icon>
+          </ion-label>
+        </ion-item>
+        <ion-row>
+          <ion-col>
+            <ion-button expand="true" fill="clear" (click)="addNewSecurityQ()"> + Add New Security Question</ion-button>
+          </ion-col>
+        </ion-row>
+          <ion-item *ngFor="let question of securityQs">
+            <ion-text> {{ question }}</ion-text>
+            <ion-button slot="end" color='danger' (click)="deleteSecurityQ(question)"> Delete </ion-button>
+          </ion-item>
+      </div>
     </div>
 
-
     <!-- User ChatRoom Settings -->
-
+      <!-- Hide all User ChatRoom Settings -->
     <div *ngIf="displayChatRoom == false">
       <ion-list-header class="header" (click)="displayChatRoom = true"> Chat Room
         <ion-icon size="large" name="arrow-dropright"></ion-icon>
       </ion-list-header>
     </div>
 
+    <!-- Show all User ChatRoom Settings -->
     <div *ngIf="displayChatRoom == true">
       <ion-list-header class="header" (click)="displayChatRoom = false"> Chat Room
         <ion-icon size="large" name="arrow-dropdown"></ion-icon>
       </ion-list-header>
-      <ion-item>
-        <ion-label class="label"> Hours for Messages to Last </ion-label>
-      </ion-item>
+
+      <!-- Hide Chat hours Settings -->
+      <div *ngIf="displayHoursForChats == false">
+        <ion-item>
+          <ion-label class="label" (click)="displayHoursForChats = true"> Hours for Messages to Last
+            <ion-icon size="large" name="arrow-dropright"></ion-icon>
+          </ion-label>
+        </ion-item>
+      </div>
+
+      <!-- Show Chat hours Settings -->
+      <div *ngIf="displayHoursForChats == true">
+        <ion-item>
+          <ion-label class="label" (click)="displayHoursForChats = false"> Hours for Messages to Last
+            <ion-icon size="large" name="arrow-dropdown"></ion-icon>
+          </ion-label>
+        </ion-item>
+
       <ion-item>
         <ion-label class="label" position="stacked"> Delete After: </ion-label>
         <ion-text> {{ chatHoursToLive }} hours </ion-text>
         <ion-button slot="end" (click)="updateChatHoursToLive()"> Update </ion-button>
       </ion-item>
+      </div>
     </div>
+
 
     <!-- Gift Card Settings -->
 
@@ -68,33 +154,80 @@
       <ion-list-header class="header" (click)="displayGCRedeem = false"> Gift Card Redemption
         <ion-icon size="large" name="arrow-dropdown"></ion-icon>
       </ion-list-header>
-      <ion-item>
-        <ion-label class="label"> Email of Admin to Receive Gift Card Redemption Emails: </ion-label>
-      </ion-item>
-      <ion-item>
-        <ion-text> {{ GCEmail }} </ion-text>
-        <ion-button slot="end" (click)="updateGCEmail()"> Update </ion-button>
-      </ion-item>
-      <ion-item>
-        <ion-label class="label"> Total Points for $5 Gift Card Redemption: </ion-label>
-      </ion-item>
-      <ion-item>
-        <ion-text> {{ pointsToRedeemGC }} </ion-text>
-        <ion-button slot="end" (click)="updatePointsToRedeemGC()"> Update </ion-button>
-      </ion-item>
 
-      <ion-item>
-        <ion-label class="label"> Types of Gift Cards: </ion-label>
-      </ion-item>
-      <ion-row>
-        <ion-col>
-          <ion-button expand="true" fill="clear" (click)="addGCType()"> + Add New Gift Card Type</ion-button>
-        </ion-col>
-      </ion-row>
-      <ion-item *ngFor="let type of typesOfGC">
-        {{ type }}
-        <ion-button slot="end" color='danger' (click)="deleteGCType(type)"> Delete </ion-button>
-      </ion-item>
+
+      <!-- Hide Admin Email -->
+      <div *ngIf="displayEmailAdmin == false">
+        <ion-item>
+          <ion-label class="label" (click)="displayEmailAdmin = true"> Email of Admin to Receive Gift Card Redemption Emails:
+            <ion-icon size="large" name="arrow-dropright"></ion-icon>
+          </ion-label>
+        </ion-item>
+      </div>
+
+      <!-- Show Admin Email -->
+      <div *ngIf="displayEmailAdmin == true">
+        <ion-item>
+          <ion-label class="label" (click)="displayEmailAdmin = false"> Email of Admin to Receive Gift Card Redemption Emails:
+            <ion-icon slot="end" size="large" name="arrow-dropdown"></ion-icon>
+          </ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-text> {{ GCEmail }} </ion-text>
+          <ion-button slot="end" (click)="updateGCEmail()"> Update </ion-button>
+        </ion-item>
+      </div>
+
+
+      <!-- Hide Total Points Email -->
+      <div *ngIf="displayTotalPoints == false">
+        <ion-item>
+          <ion-label class="label" (click)="displayTotalPoints = true"> Total Points for $5 Gift Card Redemption:
+            <ion-icon size="large" name="arrow-dropright"></ion-icon>
+          </ion-label>
+        </ion-item>
+      </div>
+
+      <!-- Show Total Points Email -->
+      <div *ngIf="displayTotalPoints == true">
+        <ion-item>
+          <ion-label class="label" (click)="displayTotalPoints = false"> Total Points for $5 Gift Card Redemption:
+            <ion-icon slot="end" size="large" name="arrow-dropdown"></ion-icon>
+          </ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-text> {{ pointsToRedeemGC }} </ion-text>
+          <ion-button slot="end" (click)="updatePointsToRedeemGC()"> Update </ion-button>
+        </ion-item>
+      </div>
+
+
+        <!-- Hide Types of GCs -->
+        <div *ngIf="displayTypesOfGC == false">
+          <ion-item>
+            <ion-label class="label" (click)="displayTypesOfGC = true"> Types of Gift Cards:
+              <ion-icon size="large" name="arrow-dropright"></ion-icon>
+            </ion-label>
+          </ion-item>
+        </div>
+
+        <!-- Show Types of GCs -->
+        <div *ngIf="displayTypesOfGC == true">
+        <ion-item>
+          <ion-label class="label" (click)="displayTypesOfGC = false"> Types of Gift Cards:
+            <ion-icon  slot="end" size="large" name="arrow-dropdown"></ion-icon>
+          </ion-label>
+        </ion-item>
+        <ion-row>
+          <ion-col>
+            <ion-button expand="true" fill="clear" (click)="addGCType()"> + Add New Gift Card Type</ion-button>
+          </ion-col>
+        </ion-row>
+        <ion-item *ngFor="let type of typesOfGC">
+          {{ type }}
+          <ion-button slot="end" color='danger' (click)="deleteGCType(type)"> Delete </ion-button>
+        </ion-item>
+        </div>
     </div>
 
   </ion-list>

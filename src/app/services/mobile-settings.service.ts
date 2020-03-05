@@ -34,6 +34,7 @@ export class MobileSettingsService {
     return firebase.firestore().collection('mobileSettings').doc('userSignUpSettings').get();
   }
 
+
   updateChatHourstoLive(newHours) {
     return this.afs.firestore.collection('mobileSettings')
         .doc('chatHours').update({hours: newHours});
@@ -70,5 +71,19 @@ export class MobileSettingsService {
         .doc('userSignUpSettings').update({securityQs: firebase.firestore.FieldValue.arrayRemove(newQ)});
   }
 
+  updateAutoProfilePic(newPic) {
+    return this.afs.firestore.collection('mobileSettings')
+        .doc('userSignUpSettings').update({autoProfilePic: newPic});
+  }
+
+  addNewProfilePic(newPic) {
+    return this.afs.firestore.collection('mobileSettings')
+        .doc('userSignUpSettings').update({ProfilePictures: firebase.firestore.FieldValue.arrayUnion(newPic)});
+  }
+
+  removeProfilePic(pic) {
+    return this.afs.firestore.collection('mobileSettings')
+        .doc('userSignUpSettings').update({ProfilePictures: firebase.firestore.FieldValue.arrayRemove(pic)});
+  }
 
 }
