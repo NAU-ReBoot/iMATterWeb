@@ -117,7 +117,11 @@ const routes: Routes = [
   {
     path: 'update-user/:userType/:id',
     loadChildren: () => import('./handleUserPages/update-user/update-user.module').then( m => m.UpdateUserPageModule)
+  },  {
+    path: 'recovery-code',
+    loadChildren: () => import('./handleUserPages/recovery-code/recovery-code.module').then( m => m.RecoveryCodePageModule)
   }
+
 ];
 @NgModule({
   imports: [

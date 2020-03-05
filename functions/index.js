@@ -12,7 +12,7 @@ require('dotenv').config()
 
 const {SENDER_EMAIL, SENDER_PASS}= process.env;
 
-exports.sendRecoveryEmail=functions.firestore.document('provider_recovery_email/{docID}').onCreate((snap,context)=>{	
+exports.sendProviderRecoveryEmail=functions.firestore.document('provider_recovery_email/{docID}').onCreate((snap,context)=>{	
 	const data=snap.data();
 	let authData = nodemailer.createTransport({
 		host:'smtp.gmail.com',
