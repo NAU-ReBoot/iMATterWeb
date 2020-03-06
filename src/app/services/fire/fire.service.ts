@@ -14,6 +14,7 @@ export interface Survey {
   daysTillExpire: number;
   daysInactive: number;
   emotionChosen: string;
+  pointsWorth: number;
 }
 
 export interface Question{
