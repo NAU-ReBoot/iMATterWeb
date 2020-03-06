@@ -2,12 +2,12 @@ import { Component, OnInit } from '@angular/core';
 
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { LoadingController, AlertController } from '@ionic/angular';
-import { AuthServiceProvider, User} from '../../../services/user/auth.service';
+import { AuthServiceProvider} from '../../services/user/auth.service';
 import { Router } from '@angular/router';
 import { AngularFirestore } from '@angular/fire/firestore';
 import {ToastController} from '@ionic/angular';
 import { Storage } from '@ionic/storage';
-import { ProfileService } from '../../../services/user/profile.service';
+import { ProfileService } from '../../services/user/profile.service';
 
 @Component({
   selector: 'app-recovery-code',
@@ -76,11 +76,11 @@ export class RecoveryCodePage implements OnInit {
 		//const newPassword: string = this.recoveryPassword;
 		let newPassword = this.enterCodeForm.controls['recoveryPassword'].value;
 		console.log(newPassword);
-        this.afs.firestore.collection('recovery_email').where('code', '==', this.recoveryCode)
+        this.afs.firestore.collection('provider_recovery_email').where('code', '==', this.recoveryCode)
             .get().then(snapshot => {
             if (snapshot.docs.length > 0) {
                 console.log(('exists'));
-				const recoveryRef = this.afs.firestore.collection('recovery_email');
+				const recoveryRef = this.afs.firestore.collection('provider_recovery_email');
 				recoveryRef.get().then((result) => {
                     result.forEach(doc => {
                         this.userID = doc.id;
@@ -94,17 +94,18 @@ export class RecoveryCodePage implements OnInit {
                     });
                 });				
 				
-                const userRef = this.afs.firestore.collection('users');
+                const userRef = this.afs.firestore.collection('providers');
                 userRef.get().then((result) => {
                     result.forEach(doc => {
                         this.userID = doc.id;
                         this.userEmail = doc.get('email');
 						this.password = doc.get('password');
-
+						//console.log(this.userID);
                         if ( this.userEmail === recoveryEmail) {                            							
 							this.wantedUserID = this.userID;
-							console.log(newPassword);
-							this.afs.firestore.collection('users').doc(this.wantedUserID).update({
+							
+							console.log(this.userID);
+							this.afs.firestore.collection('providers').doc(this.wantedUserID).update({
 								password: newPassword
 							});
 							this.router.navigate(['/login/']);
@@ -131,7 +132,7 @@ export class RecoveryCodePage implements OnInit {
           handler: data => {
             this.profileService.updatePassword(
                 data.newPassword,
-                data.oldPassword, this.userID
+                data.oldPassword,
             );
           },
         },

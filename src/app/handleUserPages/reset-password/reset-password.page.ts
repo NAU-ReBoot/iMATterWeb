@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthServiceProvider } from '../../../services/user/auth.service';
-import { recovery_emailService, Recovery_email } from '../../../services/recovery.service';
+import { AuthServiceProvider } from '../../services/user/auth.service';
+import { recovery_emailService, Recovery_email } from '../../services/recovery.service';
 import { AlertController } from '@ionic/angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
