@@ -70,6 +70,8 @@ export class LearningModuleContentPage implements OnInit {
         this.router.navigate(['/login/']);
       }
     });
+
+    this.learningModules = this.learningModuleService.getAllLearningModules();
   }
 
   ionViewWillEnter()
