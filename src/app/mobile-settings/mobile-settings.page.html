@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Settings for Mobile App</ion-title>
+    <ion-title>Settings</ion-title>
     <ion-buttons slot="start">
       <ion-menu-button autoHide="false"></ion-menu-button>
     </ion-buttons>
@@ -12,13 +12,14 @@
     <!-- Hide all content -->
   <ion-list>
     <div *ngIf="displayUserSignUp == false">
-      <ion-list-header class="header" (click)="displayUserSignUp = true" > User Sign Up
+      <ion-list-header class="header" (click)="displayUserSignUp = true" > Mobile User Sign Up
         <ion-icon size="large" name="arrow-dropright"></ion-icon>
       </ion-list-header>
     </div>
       <!-- Show all content -->
     <div *ngIf="displayUserSignUp == true">
-      <ion-list-header class="header" (click)="displayUserSignUp = false; displaySubCategories(false, 'userSignUp')"> User Sign Up
+      <ion-list-header class="header" (click)="displayUserSignUp = false; displaySubCategories(false, 'userSignUp')">
+        Mobile User Sign Up
         <ion-icon size="large" name="arrow-dropdown"></ion-icon>
       </ion-list-header>
 
@@ -41,7 +42,7 @@
           <ion-thumbnail>
             <ion-img src="{{autoProfilePic}}" ></ion-img>
           </ion-thumbnail>
-          <ion-button slot="end" (click)="displayUpdateAutoPic = true"> Update </ion-button>
+          <ion-button class="fill-button" slot="end" (click)="displayUpdateAutoPic = true"> Update </ion-button>
         </ion-item>
           <div *ngIf="displayUpdateAutoPic == true">
             <ion-row>
@@ -51,7 +52,7 @@
               </ion-thumbnail>
               </ion-item>
             </ion-row>
-            <ion-button fill="clear" expand="block" (click)="displayUpdateAutoPic = false"> Cancel </ion-button>
+            <ion-button class="text-button" fill="clear" expand="block" (click)="displayUpdateAutoPic = false"> Cancel </ion-button>
           </div>
       </div>
 
@@ -73,7 +74,7 @@
         </ion-item>
       <ion-row>
           <ion-col>
-            <ion-button expand="true" fill="clear" (click)="displayAddProfilePic = true"> + Add New Profile Picture</ion-button>
+            <ion-button class="text-button" expand="true" fill="clear" (click)="displayAddProfilePic = true"> + Add New Profile Picture</ion-button>
           </ion-col>
         </ion-row>
 
@@ -87,12 +88,12 @@
               </ion-card-content>
             </ion-card>
           </ion-item>
-          <ion-button *ngIf="newImage" expand="block" fill="clear"
+          <ion-button *ngIf="newImage" class="text-button" expand="block" fill="clear"
                       (click)="addNewProfilePic(uploadedImage); newImage = false; displayAddProfilePic = false">
             <ion-icon name="save" slot="start"></ion-icon>
             Add
           </ion-button>
-          <ion-button expand="block" fill="clear" (click)= "newImage = false; displayAddProfilePic = false">
+          <ion-button class="text-button" expand="block" fill="clear" (click)= "newImage = false; displayAddProfilePic = false">
             Cancel
           </ion-button>
         </div>
@@ -123,7 +124,7 @@
         </ion-item>
         <ion-row>
           <ion-col>
-            <ion-button expand="true" fill="clear" (click)="addNewSecurityQ()"> + Add New Security Question</ion-button>
+            <ion-button class="text-button" expand="true" fill="clear" (click)="addNewSecurityQ()"> + Add New Security Question</ion-button>
           </ion-col>
         </ion-row>
           <ion-item *ngFor="let question of securityQs">
@@ -136,14 +137,15 @@
     <!-- User ChatRoom Settings -->
       <!-- Hide all User ChatRoom Settings -->
     <div *ngIf="displayChatRoom == false">
-      <ion-list-header class="header" (click)="displayChatRoom = true"> Chat Room
+      <ion-list-header class="header" (click)="displayChatRoom = true"> Cohort Chat Room
         <ion-icon size="large" name="arrow-dropright"></ion-icon>
       </ion-list-header>
     </div>
 
     <!-- Show all User ChatRoom Settings -->
     <div *ngIf="displayChatRoom == true">
-      <ion-list-header class="header" (click)="displayChatRoom = false" (click)="displaySubCategories(false, 'chatRoom')"> Chat Room
+      <ion-list-header class="header" (click)="displayChatRoom = false" (click)="displaySubCategories(false, 'chatRoom')">
+        Cohort Chat Room
         <ion-icon size="large" name="arrow-dropdown"></ion-icon>
       </ion-list-header>
 
@@ -167,7 +169,7 @@
       <ion-item>
         <ion-label class="label" position="stacked"> Show Messages from past: </ion-label>
         <ion-text> {{ chatHoursToLive }} hours </ion-text>
-        <ion-button slot="end" (click)="updateChatHoursToLive()"> Update </ion-button>
+        <ion-button class="fill-button" slot="end" (click)="updateChatHoursToLive()"> Update </ion-button>
       </ion-item>
       </div>
     </div>
@@ -202,7 +204,7 @@
         </ion-item>
         <ion-item>
           <ion-text> {{ GCEmail }} </ion-text>
-          <ion-button slot="end" (click)="updateGCEmail()"> Update </ion-button>
+          <ion-button class="fill-button" slot="end" (click)="updateGCEmail()"> Update </ion-button>
         </ion-item>
       </div>
 
@@ -224,7 +226,7 @@
         </ion-item>
         <ion-item>
           <ion-text> {{ pointsToRedeemGC }} </ion-text>
-          <ion-button slot="end" (click)="updatePointsToRedeemGC()"> Update </ion-button>
+          <ion-button class="fill-button" slot="end" (click)="updatePointsToRedeemGC()"> Update </ion-button>
         </ion-item>
       </div>
 
@@ -246,7 +248,7 @@
         </ion-item>
         <ion-row>
           <ion-col>
-            <ion-button expand="true" fill="clear" (click)="addGCType()"> + Add New Gift Card Type</ion-button>
+            <ion-button class="text-button" expand="true" fill="clear" (click)="addGCType()"> + Add New Gift Card Type</ion-button>
           </ion-col>
         </ion-row>
         <ion-item *ngFor="let type of typesOfGC">

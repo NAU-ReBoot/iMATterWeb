@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>iMATter</ion-title>
-      <ion-button slot="end" expand="block" fill="clear" routerLink="/code">
+      <ion-button class="text-button" slot="end" expand="block" fill="clear" routerLink="/code">
         Create new account
       </ion-button>
   </ion-toolbar>
@@ -42,13 +42,12 @@
       </ion-col>
     </ion-row>
 
-
-    <ion-button (click)="validateUser(loginForm)" expand="block" [disabled]="!loginForm.valid">
+    <ion-button class="fill-button" (click)="validateUser(loginForm)" expand="block" [disabled]="!loginForm.valid">
       Log In
     </ion-button>
   </form>
 
-  <ion-button expand="block" fill="clear" routerLink="/reset-password">
+  <ion-button class="text-button" expand="block" fill="clear" routerLink="/reset-password">
     Forgot password?
   </ion-button>
 

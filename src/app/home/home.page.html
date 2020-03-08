@@ -5,23 +5,22 @@
       <ion-menu-button autoHide="false"></ion-menu-button>
     </ion-buttons>
     <ion-buttons slot="end">
-      <ion-button (click)="logOut()">
+      <ion-button class="text-button" (click)="logOut()">
         Log Out
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-
 <ion-row>
   <ion-col>
-    <ion-button expand="block" size="large" (click)="showUsers()"> Users</ion-button>
+    <ion-button class="fill-button" [class.noHighlight]="userView != true" expand="block" size="large" (click)="showUsers()"> Users</ion-button>
   </ion-col>
   <ion-col>
-    <ion-button expand="block" size="large" (click)="showProviders()"> Providers </ion-button>
+    <ion-button class="fill-button" [class.noHighlight]="providerView != true" expand="block" size="large" (click)="showProviders()"> Providers </ion-button>
   </ion-col>
   <ion-col>
-    <ion-button expand="block" size="large" (click)="showAdmins()"> Administrators </ion-button>
+    <ion-button class="fill-button" [class.noHighlight]="adminView != true" expand="block" size="large" (click)="showAdmins()"> Administrators </ion-button>
   </ion-col>
 </ion-row>
 
@@ -29,7 +28,7 @@
 <ion-content padding>
   <!-- Show users -->
   <div *ngIf="userView">
-    <ion-button slot="end" size="large" (click)="addUser()">
+    <ion-button class="fill-button" slot="end" size="large" (click)="addUser()">
       Add User
     </ion-button>
     <div *ngIf="codeView">
@@ -67,7 +66,7 @@
 
   <!-- Show providers -->
   <div *ngIf="providerView">
-    <ion-button slot="end" size="large" (click)="showAddProvider()">
+    <ion-button class="fill-button" slot="end" size="large" (click)="showAddProvider()">
       Add Provider
     </ion-button>
 
@@ -125,7 +124,7 @@
 
   <!-- Show admin -->
   <div *ngIf="adminView">
-    <ion-button slot="end" size="large" (click)="showAddAdmin()">
+    <ion-button class="fill-button" slot="end" size="large" (click)="showAddAdmin()">
       Add Admin
     </ion-button>
 

@@ -8,12 +8,10 @@
 </ion-header>
 
 <ion-content>
-  
-  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button routerLink="/surveys">
-      <ion-icon name="add"></ion-icon>
-    </ion-fab-button>
-  </ion-fab>
+
+  <ion-button class="fill-button" [routerLink]="['/surveys']">
+    Add New Survey
+  </ion-button>
 
   <ion-list>
     <ion-item button *ngFor="let survey of (surveys | async)" [routerLink]="['/surveys', survey.id]">

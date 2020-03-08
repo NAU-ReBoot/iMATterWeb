@@ -35,4 +35,15 @@ ion-input {
   }
 }
 
+.fill-button {
+  --background: var(--main-color);
+  --background-activated: var(--secondary-color);
+  --background-hover: var(--secondary-color);
+}
+
+.text-button {
+  --color: var(--main-color);
+}
+
+
 
