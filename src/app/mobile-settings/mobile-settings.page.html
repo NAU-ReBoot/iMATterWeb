@@ -44,7 +44,14 @@
           <ion-button slot="end" (click)="displayUpdateAutoPic = true"> Update </ion-button>
         </ion-item>
           <div *ngIf="displayUpdateAutoPic == true">
-
+            <ion-row>
+              <ion-item *ngFor="let pic of profilePics" lines="none">
+              <ion-thumbnail class="thumbnail" (click)="updateAutoProfilePic(pic); displayUpdateAutoPic = false">
+                <ion-img src="{{pic}}" ></ion-img>
+              </ion-thumbnail>
+              </ion-item>
+            </ion-row>
+            <ion-button fill="clear" expand="block" (click)="displayUpdateAutoPic = false"> Cancel </ion-button>
           </div>
       </div>
 
@@ -80,10 +87,13 @@
               </ion-card-content>
             </ion-card>
           </ion-item>
-          <ion-button *ngIf="newImage" expand="block" fill="solid" color="success"
+          <ion-button *ngIf="newImage" expand="block" fill="clear"
                       (click)="addNewProfilePic(uploadedImage); newImage = false; displayAddProfilePic = false">
             <ion-icon name="save" slot="start"></ion-icon>
             Add
+          </ion-button>
+          <ion-button expand="block" fill="clear" (click)= "newImage = false; displayAddProfilePic = false">
+            Cancel
           </ion-button>
         </div>
 
