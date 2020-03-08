@@ -37,11 +37,6 @@
               <ion-icon size="large" name="arrow-dropdown"></ion-icon>
             </ion-label>
           </ion-item>
-          <ion-row>
-            <ion-col>
-              <ion-button expand="true" fill="clear" (click)="updateAutoProfilePic()"> + Add New Profile Picture</ion-button>
-            </ion-col>
-          </ion-row>
         <ion-item>
           <ion-thumbnail>
             <ion-img src="{{autoProfilePic}}" ></ion-img>
@@ -49,20 +44,7 @@
           <ion-button slot="end" (click)="displayUpdateAutoPic = true"> Update </ion-button>
         </ion-item>
           <div *ngIf="displayUpdateAutoPic == true">
-            <ion-item>
-              <ion-card text-center>
-                <ion-card-content>
-                  <div class="fileUpload btn btn-primary">
-                    <input id="uploadBtn" type="file" class="upload" (change)="newImage = true; uploadedImage = $event.target.files"/>
-                  </div>
-                </ion-card-content>
-              </ion-card>
-            </ion-item>
-            <ion-button *ngIf="newImage" expand="block" fill="solid" color="success"
-                        (click)="updateAutoProfilePic(uploadedImage, autoProfilePic); newImage = false; displayUpdateAutoPic = false">
-              <ion-icon name="save" slot="start"></ion-icon>
-              Update
-            </ion-button>
+
           </div>
       </div>
 
@@ -84,9 +66,27 @@
         </ion-item>
       <ion-row>
           <ion-col>
-            <ion-button expand="true" fill="clear" (click)="addNewProfilePic()"> + Add New Profile Picture</ion-button>
+            <ion-button expand="true" fill="clear" (click)="displayAddProfilePic = true"> + Add New Profile Picture</ion-button>
           </ion-col>
         </ion-row>
+
+        <div *ngIf="displayAddProfilePic == true">
+          <ion-item>
+            <ion-card text-center>
+              <ion-card-content>
+                <div class="fileUpload btn btn-primary">
+                  <input id="uploadBtn" type="file" class="upload" (change)="newImage = true; uploadedImage = $event.target.files"/>
+                </div>
+              </ion-card-content>
+            </ion-card>
+          </ion-item>
+          <ion-button *ngIf="newImage" expand="block" fill="solid" color="success"
+                      (click)="addNewProfilePic(uploadedImage); newImage = false; displayAddProfilePic = false">
+            <ion-icon name="save" slot="start"></ion-icon>
+            Add
+          </ion-button>
+        </div>
+
         <ion-item *ngFor="let pic of profilePics">
           <ion-thumbnail >
             <ion-img src="{{pic}}" ></ion-img>

@@ -228,10 +228,11 @@ export class MobileSettingsPage implements OnInit {
     this.getSecurityQs();
   }
 
-  async updateAutoProfilePic(event: FileList, fileDownloadURL: string): Promise<void> {
+  async updateAutoProfilePic(picURL): Promise<void> {
 
-    const filePath = this.getFileName(fileDownloadURL);
-    // this.AFSStorage.ref('ProfileImages').child(filePath).delete();
+  }
+
+  async addNewProfilePic(event: FileList): Promise<void> {
     const file = event.item(0);
 
     // Validation for Images Only
@@ -255,41 +256,17 @@ export class MobileSettingsPage implements OnInit {
 
       this.UploadedFileURL.subscribe(resp => {
         this.autoProfilePic = resp;
-        this.msService.updateAutoProfilePic(resp);
+        this.msService.addNewProfilePic(resp);
+        this.getProfilePics();
       });
     });
   }
 
-  async addNewProfilePic(): Promise<void> {
-    const alert = await this.alertController.create({
-      inputs: [
-        { name: 'newQ', placeholder: 'New Security Question'},
-      ],
-      buttons: [
-        { text: 'Cancel' },
-        { text: 'Update',
-          handler: data => {
-            this.msService.addNewProfilePic(
-                data.newQ);
-            this.getProfilePics();
-          },
-        },
-      ],
-    });
-    await alert.present();
-  }
-
   async deleteProfilePic(pic): Promise<void> {
+    const filePath = this.getFileName(pic);
+    this.AFSStorage.ref('ProfileImages').child(filePath).delete();
     this.msService.removeProfilePic(pic);
     this.getProfilePics();
-  }
-
-  changeDisplay(display, displayBool) {
-    if (displayBool === 'true') {
-      display = true;
-    } else {
-      display = false;
-    }
   }
 
   displaySubCategories(display, displayType) {

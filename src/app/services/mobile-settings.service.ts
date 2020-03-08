@@ -78,12 +78,12 @@ export class MobileSettingsService {
 
   addNewProfilePic(newPic) {
     return this.afs.firestore.collection('mobileSettings')
-        .doc('userSignUpSettings').update({ProfilePictures: firebase.firestore.FieldValue.arrayUnion(newPic)});
+        .doc('userSignUpSettings').update({profilePictures: firebase.firestore.FieldValue.arrayUnion(newPic)});
   }
 
   removeProfilePic(pic) {
     return this.afs.firestore.collection('mobileSettings')
-        .doc('userSignUpSettings').update({ProfilePictures: firebase.firestore.FieldValue.arrayRemove(pic)});
+        .doc('userSignUpSettings').update({profilePictures: firebase.firestore.FieldValue.arrayRemove(pic)});
   }
 
 }
