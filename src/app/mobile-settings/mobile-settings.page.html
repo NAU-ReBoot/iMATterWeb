@@ -12,13 +12,13 @@
     <!-- Hide all content -->
   <ion-list>
     <div *ngIf="displayUserSignUp == false">
-      <ion-list-header class="header" (click)="displayUserSignUp = true"> User Sign Up
+      <ion-list-header class="header" (click)="displayUserSignUp = true" > User Sign Up
         <ion-icon size="large" name="arrow-dropright"></ion-icon>
       </ion-list-header>
     </div>
       <!-- Show all content -->
     <div *ngIf="displayUserSignUp == true">
-      <ion-list-header class="header" (click)="displayUserSignUp = false"> User Sign Up
+      <ion-list-header class="header" (click)="displayUserSignUp = false; displaySubCategories(false, 'userSignUp')"> User Sign Up
         <ion-icon size="large" name="arrow-dropdown"></ion-icon>
       </ion-list-header>
 
@@ -37,12 +37,33 @@
               <ion-icon size="large" name="arrow-dropdown"></ion-icon>
             </ion-label>
           </ion-item>
+          <ion-row>
+            <ion-col>
+              <ion-button expand="true" fill="clear" (click)="updateAutoProfilePic()"> + Add New Profile Picture</ion-button>
+            </ion-col>
+          </ion-row>
         <ion-item>
-          <ion-thumbnail >
+          <ion-thumbnail>
             <ion-img src="{{autoProfilePic}}" ></ion-img>
           </ion-thumbnail>
-          <ion-button slot="end"> Update </ion-button>
+          <ion-button slot="end" (click)="displayUpdateAutoPic = true"> Update </ion-button>
         </ion-item>
+          <div *ngIf="displayUpdateAutoPic == true">
+            <ion-item>
+              <ion-card text-center>
+                <ion-card-content>
+                  <div class="fileUpload btn btn-primary">
+                    <input id="uploadBtn" type="file" class="upload" (change)="newImage = true; uploadedImage = $event.target.files"/>
+                  </div>
+                </ion-card-content>
+              </ion-card>
+            </ion-item>
+            <ion-button *ngIf="newImage" expand="block" fill="solid" color="success"
+                        (click)="updateAutoProfilePic(uploadedImage, autoProfilePic); newImage = false; displayUpdateAutoPic = false">
+              <ion-icon name="save" slot="start"></ion-icon>
+              Update
+            </ion-button>
+          </div>
       </div>
 
       <!-- Hide all profile pics content -->
@@ -112,7 +133,7 @@
 
     <!-- Show all User ChatRoom Settings -->
     <div *ngIf="displayChatRoom == true">
-      <ion-list-header class="header" (click)="displayChatRoom = false"> Chat Room
+      <ion-list-header class="header" (click)="displayChatRoom = false" (click)="displaySubCategories(false, 'chatRoom')"> Chat Room
         <ion-icon size="large" name="arrow-dropdown"></ion-icon>
       </ion-list-header>
 
@@ -141,9 +162,7 @@
       </div>
     </div>
 
-
     <!-- Gift Card Settings -->
-
     <div *ngIf="displayGCRedeem == false">
       <ion-list-header class="header" (click)="displayGCRedeem = true"> Gift Card Redemption
         <ion-icon size="large" name="arrow-dropright"></ion-icon>
@@ -151,10 +170,9 @@
     </div>
 
     <div *ngIf="displayGCRedeem == true">
-      <ion-list-header class="header" (click)="displayGCRedeem = false"> Gift Card Redemption
+      <ion-list-header class="header" (click)="displayGCRedeem = false" (click)="displaySubCategories(false, 'giftCard')"> Gift Card Redemption
         <ion-icon size="large" name="arrow-dropdown"></ion-icon>
       </ion-list-header>
-
 
       <!-- Hide Admin Email -->
       <div *ngIf="displayEmailAdmin == false">
@@ -178,7 +196,6 @@
         </ion-item>
       </div>
 
-
       <!-- Hide Total Points Email -->
       <div *ngIf="displayTotalPoints == false">
         <ion-item>
@@ -200,7 +217,6 @@
           <ion-button slot="end" (click)="updatePointsToRedeemGC()"> Update </ion-button>
         </ion-item>
       </div>
-
 
         <!-- Hide Types of GCs -->
         <div *ngIf="displayTypesOfGC == false">
@@ -229,6 +245,6 @@
         </ion-item>
         </div>
     </div>
-
   </ion-list>
+
 </ion-content>

@@ -4,6 +4,7 @@ import {Storage} from '@ionic/storage';
 import {Router} from '@angular/router';
 import {AlertController} from '@ionic/angular';
 import {Observable} from 'rxjs';
+import { AngularFireStorage, AngularFireUploadTask } from '@angular/fire/storage';
 
 @Component({
   selector: 'app-mobile-settings',
@@ -12,6 +13,7 @@ import {Observable} from 'rxjs';
 })
 export class MobileSettingsPage implements OnInit {
 
+  // from db
   private autoProfilePic: string;
   private profilePics: Array<string>;
   private securityQs: Array<string>;
@@ -19,6 +21,8 @@ export class MobileSettingsPage implements OnInit {
   private GCEmail: string;
   private typesOfGC: Array<GiftCardType>;
   private pointsToRedeemGC: number;
+
+  //display booleans
   private displayUserSignUp: boolean;
   private displayChatRoom: boolean;
   private displayGCRedeem: boolean;
@@ -29,13 +33,21 @@ export class MobileSettingsPage implements OnInit {
   private displayEmailAdmin: boolean;
   private displayTotalPoints: boolean;
   private displayTypesOfGC: boolean;
+  private displayUpdateAutoPic: boolean;
+  private displayAddProfilePic: boolean;
 
-
+  // for uploading image
+  UploadedFileURL: Observable<string>;
+  fileName: string;
+  task: Promise<any>;
+  uploadedImage: FileList;
+  newImage: boolean;
 
   constructor(private msService: MobileSettingsService,
               private storage: Storage,
               private router: Router,
-              public alertController: AlertController
+              public alertController: AlertController,
+              private AFSStorage: AngularFireStorage,
               ) { }
 
   ngOnInit() {
@@ -216,8 +228,36 @@ export class MobileSettingsPage implements OnInit {
     this.getSecurityQs();
   }
 
-  async updateAutoProfilePic(): Promise<void> {
+  async updateAutoProfilePic(event: FileList, fileDownloadURL: string): Promise<void> {
 
+    const filePath = this.getFileName(fileDownloadURL);
+    // this.AFSStorage.ref('ProfileImages').child(filePath).delete();
+    const file = event.item(0);
+
+    // Validation for Images Only
+    if (file.type.split('/')[0] !== 'image') {
+      console.error('unsupported file type');
+      return;
+    }
+
+    this.fileName = file.name;
+
+    // The storage path
+    const path = `ProfileImages/${new Date().getTime()}_${file.name}`;
+
+    // File reference
+    const fileRef = this.AFSStorage.ref(path);
+
+    // The main task
+    this.task = this.AFSStorage.upload(path, file).then(() => {
+      // Get uploaded file storage path
+      this.UploadedFileURL = fileRef.getDownloadURL();
+
+      this.UploadedFileURL.subscribe(resp => {
+        this.autoProfilePic = resp;
+        this.msService.updateAutoProfilePic(resp);
+      });
+    });
   }
 
   async addNewProfilePic(): Promise<void> {
@@ -252,10 +292,42 @@ export class MobileSettingsPage implements OnInit {
     }
   }
 
+  displaySubCategories(display, displayType) {
+    if (displayType === 'userSignUp') {
+      this.displayAutoPic = display;
+      this.displayProfilePics = display;
+      this.displaySecurityQs = display;
+
+    } else if (displayType === 'chatRoom') {
+      this.displayHoursForChats = display;
+
+    } else if (displayType === 'giftCard') {
+      this.displayEmailAdmin = display;
+      this.displayTotalPoints = display;
+      this.displayTypesOfGC = display;
+    }
+  }
+
+  getFileName(downloadURL) {
+    console.log(downloadURL);
+    const fileSplit = downloadURL.split('%2F')[1];
+    console.log(fileSplit);
+    const filePath = fileSplit.split('?')[0];
+    console.log(filePath);
+    return filePath;
+  }
+
   ionViewWillLeave() {
-  this.displayUserSignUp = false;
-  this.displayChatRoom = false;
-  this.displayGCRedeem = false;
+    this.displayUserSignUp = false;
+    this.displayChatRoom = false;
+    this.displayGCRedeem = false;
+    this.displayAutoPic = false;
+    this.displayProfilePics = false;
+    this.displaySecurityQs = false;
+    this.displayHoursForChats = false;
+    this.displayEmailAdmin = false;
+    this.displayTotalPoints = false;
+    this.displayTypesOfGC = false;
   }
 }
 
