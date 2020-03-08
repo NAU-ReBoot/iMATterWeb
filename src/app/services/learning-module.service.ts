@@ -16,7 +16,9 @@ export interface LearningModule
   moduleVideoID?: string, //YouTube video ID, optional
   modulePPTurl?: string, //powerpoint URL, optional
   moduleContent: string,
-  moduleVisibilityTime: string[],
+  moduleVisibilityTime: string,
+  moduleExpiration: number,
+  moduleActive: boolean,
   moduleQuiz: Question[],
   modulePointsWorth: number,
   moduleNext?: string //ID of next learning module to go to, optional
@@ -89,8 +91,10 @@ export class LearningModuleService {
       modulePPTurl: learningModule.modulePPTurl, 
       moduleContent: learningModule.moduleContent, 
       moduleVisibilityTime: learningModule.moduleVisibilityTime,
+      moduleExpiration: Number(learningModule.moduleExpiration),
+      moduleActive: learningModule.moduleActive,
       moduleQuiz: learningModule.moduleQuiz,
-      modulePointsWorth: learningModule.modulePointsWorth,
+      modulePointsWorth: Number(learningModule.modulePointsWorth),
       moduleNext: learningModule.moduleNext});
   }
 

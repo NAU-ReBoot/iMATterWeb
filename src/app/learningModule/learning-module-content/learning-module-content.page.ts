@@ -23,7 +23,9 @@ export class LearningModuleContentPage implements OnInit {
     moduleContent: '',
     moduleVideoID: '',
     modulePPTurl: '',
-    moduleVisibilityTime: [''],
+    moduleVisibilityTime: '',
+    moduleExpiration: 0,
+    moduleActive: false,
     moduleQuiz: [],
     modulePointsWorth: 0,
     moduleNext: ''
