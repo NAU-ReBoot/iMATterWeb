@@ -103,9 +103,19 @@
     </ion-label>
   </ion-item-divider>
 
+  <!---
   <ion-item>
     <ion-label position="stacked">Next Module (ID)</ion-label>
     <ion-input [(ngModel)]="learningModule.moduleNext"></ion-input>
+  </ion-item>
+-->
+  <ion-item>
+    <ion-label>Link To Next Module</ion-label>
+      <ion-select multiple="false" cancelText="Cancel" okText="Ok">
+        <ion-select-option *ngFor="let learningMod of ( learningModules | async )" value="learningMod.id">
+          {{learningMod.moduleTitle}}
+        </ion-select-option>
+      </ion-select>
   </ion-item>
 
 </ion-content>

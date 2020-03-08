@@ -8,6 +8,7 @@ import { QuizModalPage } from '../quiz-modal/quiz-modal.page';
 import { AddQuizQuestionPage } from '../add-quiz-question/add-quiz-question.page';
 import { AlertController } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-learning-module-content',
@@ -15,6 +16,8 @@ import { Storage } from '@ionic/storage';
   styleUrls: ['./learning-module-content.page.scss'],
 })
 export class LearningModuleContentPage implements OnInit {
+
+  private learningModules: Observable<LearningModule[]>;
 
   learningModule: LearningModule = 
   {
@@ -50,7 +53,7 @@ export class LearningModuleContentPage implements OnInit {
   dataReturned:Question;
   //Question that needs to be deleted
   questionToDelete:string;
-
+  
   constructor(
     private activatedRoute: ActivatedRoute, 
     private learningModuleService: LearningModuleService, 
@@ -260,4 +263,5 @@ export class LearningModuleContentPage implements OnInit {
     this.silentlyUpdateLearningModule();
   }
 
+  
 }
