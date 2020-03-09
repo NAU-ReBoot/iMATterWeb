@@ -10,14 +10,16 @@
 <ion-content padding>
     <ion-card>
       <ion-row>
-        <ion-col size=".7" *ngIf="!question.anon; else elseBlock">
-          <ion-button class="thumbnail" fill="clear"  (click)="goToProfile(question.userID, question.id)">
-            <ion-thumbnail slot="start">
-              <ion-img src="{{ question.profilePic }}"> </ion-img>
-            </ion-thumbnail>
-          </ion-button>
-        </ion-col>
-        <ng-template #elseBlock>
+        <div *ngIf="!question.anon">
+          <ion-col size=".7">
+            <ion-button class="thumbnail" fill="clear"  (click)="goToProfile(question.userID, question.id)">
+              <ion-thumbnail slot="start">
+                <ion-img src="{{ question.profilePic }}"> </ion-img>
+              </ion-thumbnail>
+            </ion-button>
+          </ion-col>
+        </div>
+        <div *ngIf="question.anon">
           <ion-col size=".7">
           <ion-button class="thumbnail" fill="clear"  disabled="true">
             <ion-thumbnail slot="start">
@@ -25,9 +27,9 @@
             </ion-thumbnail>
           </ion-button>
           </ion-col>
-        </ng-template>
+        </div>
         <ion-col>
-          {{ question.username }}
+          <b> {{ question.username }} </b>
           <ion-row>
             Posted at: {{ question.timestamp.seconds * 1000 | date:'MM-dd-yyyy h:mm:ss a' }}
           </ion-row>
@@ -60,22 +62,24 @@
         <ion-card>
           <ion-row>
             <ion-col size=".7">
-              <ion-button class="thumbnail" fill="clear" *ngIf="!comment.anon && comment.type != 'admin'; else elseBlock" (click)="goToProfile(comment.userID, question.id)">
+              <div *ngIf="!comment.anon && comment.type != 'admin'">
+              <ion-button class="thumbnail" fill="clear" (click)="goToProfile(comment.userID, question.id)">
                 <ion-thumbnail  slot="start">
                   <ion-img src="{{ comment.profilePic }}"> </ion-img>
                 </ion-thumbnail>
               </ion-button>
-              <ng-template #elseBlock>
+              </div>
+              <div *ngIf="comment.anon || comment.type == 'admin'">
                 <ion-button class="thumbnail" fill="clear" disabled = "true">
                   <ion-thumbnail slot="start">
                     <ion-img src="{{ comment.profilePic }}"> </ion-img>
                   </ion-thumbnail>
                 </ion-button>
-              </ng-template>
+              </div>
             </ion-col>
             <ion-col>
-              {{ comment.username }}
-              <ion-row>
+              <b> {{ comment.username }} </b>
+              <ion-row class="comment-type">
                 {{ comment.type }}
               </ion-row>
               <ion-row>

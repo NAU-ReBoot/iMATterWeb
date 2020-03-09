@@ -10,25 +10,38 @@
 </ion-header>
 
 <ion-content>
-  <ion-card>
-    <ion-card-title padding-horizontal>
-      {{ provider.username }}
-    </ion-card-title>
-    <ion-card-content>
-      {{ provider.bio }}
-    </ion-card-content>
-  </ion-card>
+  <div class="wrap">
+    <div>
+      <ion-avatar class="img">
+        <img src="{{ provider.profilePic }}" alt="">
+      </ion-avatar>
+    </div>
+    <div class="username">
+      <ion-text  padding-horizontal>
+        {{ provider.username }}
+      </ion-text>
+    </div>
+    <div class="providerType">
+      <ion-text>
+        {{ provider.providerType }}
+      </ion-text>
+    </div>
+    <div class="bio">
+      <ion-text >
+        Bio: {{ provider.bio }}
+      </ion-text>
+    </div>
+  </div>
 
   <ion-list>
     <ion-list-header> Personal Information </ion-list-header>
-
     <ion-item>
       <ion-label>
         <ion-grid>
           <ion-row>
             <ion-col class="text-left" size="5"> Name </ion-col>
             <ion-col class="text-center" size="7">
-              {{provider.nameFirst}} {{ provider.nameLast }}
+              {{provider.firstName}} {{ provider.lastName }}
             </ion-col>
           </ion-row>
         </ion-grid>

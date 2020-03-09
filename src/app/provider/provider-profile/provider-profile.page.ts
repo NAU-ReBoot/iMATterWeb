@@ -63,6 +63,7 @@ export class ProviderProfilePage implements OnInit {
             this.provider.password = doc.get('password');
             this.provider.bio = doc.get('bio');
             this.provider.providerType = doc.get('providerType');
+            this.provider.profilePic = doc.get('profilePic');
           });
         });
       }

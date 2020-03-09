@@ -74,6 +74,12 @@
     <div *ngIf="displayAddProvider">
       <form [formGroup]="addProviderForm">
         <ion-item>
+          <ion-label>Choose Provider Type</ion-label>
+          <ion-select formControlName="providerType" placeholder="Select Provider Type" >
+            <ion-select-option *ngFor="let type of (providerTypes | async)" >{{type.type}}</ion-select-option>
+          </ion-select>
+        </ion-item>
+        <ion-item>
           <ion-label position="stacked">Enter First Name:</ion-label>
           <ion-input formControlName="nameFirst" placeholder="First Name"></ion-input>
         </ion-item>
@@ -88,12 +94,6 @@
         <ion-item>
           <ion-label position="stacked">Enter Email:</ion-label>
           <ion-textarea formControlName="email" placeholder="Email"></ion-textarea>
-        </ion-item>
-        <ion-item>
-          <ion-label>Choose Provider Type</ion-label>
-          <ion-select formControlName="providerType" placeholder="Select Provider Type" >
-            <ion-select-option *ngFor="let type of (providerTypes | async)" >{{type.type}}</ion-select-option>
-          </ion-select>
         </ion-item>
 
         <ion-row>

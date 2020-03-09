@@ -98,7 +98,7 @@ export class LoginPage implements OnInit {
                                 if (this.userPassword === this.password) {
                                     this.storage.set('userCode', this.userID);
                                     this.storage.set('username', doc.get('username'));
-                                    this.storage.set('type', doc.get('type'));
+                                    this.storage.set('type', doc.get('providerType'));
                                     this.storage.set('authenticated', 'true');
 
                                     this.loginForm.reset();
