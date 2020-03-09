@@ -151,10 +151,19 @@ export class CreateUserService {
     return this.providerCollection.doc(id).delete();
   }
 
-  addProvider(provider: Provider): Promise<void> {
-    return this.providerCollection.doc(provider.code).set({code: provider.code, email: provider.email,
-    dob: provider.dob, firstName: provider.firstName, lastName: provider.lastName, type: provider.type, providerType: provider.providerType}, { merge: true });
+  addProvider(provider: Provider) {
+    return this.providerCollection.doc(provider.code).set({
+      code: provider.code,
+      email: provider.email,
+      dob: provider.dob,
+      firstName: provider.firstName,
+      lastName: provider.lastName,
+      type: provider.type,
+      profilePic: provider.profilePic,
+      providerType: provider.providerType,
+    }, {merge: true});
   }
+
 
   getAdmins(): Observable<Admin[]> {
     return this.admins;

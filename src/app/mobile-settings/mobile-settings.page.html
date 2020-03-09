@@ -320,20 +320,15 @@
           </ion-button>
         </div>
 
-
         <ion-item *ngFor="let type of (providerTypes | async)">
           <ion-thumbnail>
             <ion-img src="{{type.profilePic}}" ></ion-img>
           </ion-thumbnail>
           <ion-text> {{ type.type }} </ion-text>
-          <ion-button slot="end" color='danger' (click)="deleteProviderType(type.id)"> Delete </ion-button>
+          <ion-button slot="end" color='danger' (click)="deleteProviderType(type.id, type.profilePic)"> Delete </ion-button>
         </ion-item>
-
-
       </div>
     </div>
-
-
   </ion-list>
 
 </ion-content>

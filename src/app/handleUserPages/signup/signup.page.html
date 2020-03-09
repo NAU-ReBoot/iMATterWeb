@@ -44,11 +44,6 @@
   <form [formGroup]="signupProviderForm">
 
     <ion-item>
-      <ion-label position="stacked">Profile Picture: </ion-label>
-      <img *ngIf="!showImages" class="img" src='{{ picURL }}' alt="">
-    </ion-item>
-
-    <ion-item>
       <ion-label position="stacked">Username</ion-label>
       <ion-input formControlName="username" type="email" placeholder="Your Username"></ion-input>
     </ion-item>

@@ -305,7 +305,7 @@ export class MobileSettingsPage implements OnInit {
       this.UploadedFileURL.subscribe(resp => {
         provider.profilePic = resp;
         this.msService.addNewProviderType(provider);
-        this.newProviderTypeName = '';
+        this.providerType.type = '';
         this.getProfilePics();
       });
     });

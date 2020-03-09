@@ -89,6 +89,13 @@
           <ion-label position="stacked">Enter Email:</ion-label>
           <ion-textarea formControlName="email" placeholder="Email"></ion-textarea>
         </ion-item>
+        <ion-item>
+          <ion-label>Choose Provider Type</ion-label>
+          <ion-select formControlName="providerType" placeholder="Select Provider Type" >
+            <ion-select-option *ngFor="let type of (providerTypes | async)" >{{type.type}}</ion-select-option>
+          </ion-select>
+        </ion-item>
+
         <ion-row>
           <ion-button class="text-button" fill="clear" size="small" (click)="displayAddProvider = false; clearProviderForm()"> Cancel </ion-button>
           <ion-button class="fill-button" size="small" [disabled]="!addProviderForm.valid" (click)="addProvider(addProviderForm)"> Submit </ion-button>

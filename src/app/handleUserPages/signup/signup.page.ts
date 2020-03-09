@@ -120,10 +120,6 @@ export class SignupPage implements OnInit {
       this.provider.password = password;
       this.provider.bio = bio;
 
-      this.provider.profilePic = 'https://firebasestorage.googleapis.com/v0/b/techdemofirebase.appspot.com/o/ProviderProfileImages%2F1453544.png?alt=media&token=fd46b228-4473-4d30-907d-f3209dc1b790';
-
-
-
       const ref = this.afs.firestore.collection('providers').where('code', '==', this.id);
       ref.get().then((result) => {
             result.forEach(doc => {
