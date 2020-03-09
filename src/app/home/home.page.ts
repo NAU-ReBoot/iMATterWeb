@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { CreateUserService, User, Provider, Admin } from 'src/app/services/create-user.service';
 import { Observable } from 'rxjs';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Storage } from "@ionic/storage";
-import { Router } from "@angular/router";
+import { Storage } from '@ionic/storage';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-tab1',
@@ -38,6 +38,9 @@ export class HomePage implements OnInit {
       dob: [
         '',
         Validators.compose([Validators.required, Validators.pattern('^(0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])[- /.](19|20)\\d\\d$')]),
+      ],
+      providerType: [
+        Validators.compose([Validators.required]),
       ]
     });
 
@@ -89,7 +92,8 @@ export class HomePage implements OnInit {
   bio: '',
   dob: '',
   profilePic: '',
-  type: ''
+  type: '',
+  providerType: ''
 };
 
   admin: Admin = {
@@ -198,6 +202,9 @@ export class HomePage implements OnInit {
       this.createUserService.addProvider(this.provider);
       this.codeView = true;
       this.displayAddProvider = false;
+
+      this.clearProviderForm();
+
     }
   }
 
@@ -224,6 +231,7 @@ export class HomePage implements OnInit {
       this.createUserService.addAdmin(this.admin);
       this.codeView = true;
       this.displayAddAdmin = false;
+      this.clearAdminForm();
     }
   }
 
@@ -236,15 +244,21 @@ export class HomePage implements OnInit {
     this.router.navigateByUrl('login');
   }
 
+  clearProviderForm() {
+    this.addProviderForm.reset();
+  }
+
+  clearAdminForm() {
+    this.addAdminForm.reset();
+  }
+
   ionViewDidLeave() {
     this.codeView = false;
+    this.displayAddProvider = false;
+    this.displayAddAdmin = false;
 
-    this.addProviderForm.value.email = '';
-    this.addProviderForm.value.nameFirst = '';
-    this.addProviderForm.value.nameLast = '';
-    this.addProviderForm.value.dob = '';
-
-    this.addAdminForm.value.email = '';
+    this.clearProviderForm();
+    this.clearAdminForm();
 
   }
 

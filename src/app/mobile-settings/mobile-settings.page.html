@@ -11,13 +11,13 @@
   <!-- User Sign Up Settings -->
     <!-- Hide all content -->
   <ion-list>
-    <div *ngIf="displayUserSignUp == false">
+    <div *ngIf="displayUserSignUp == false" padding-bottom>
       <ion-list-header class="header" (click)="displayUserSignUp = true" > Mobile User Sign Up
         <ion-icon size="large" name="arrow-dropright"></ion-icon>
       </ion-list-header>
     </div>
       <!-- Show all content -->
-    <div *ngIf="displayUserSignUp == true">
+    <div *ngIf="displayUserSignUp == true" padding-bottom>
       <ion-list-header class="header" (click)="displayUserSignUp = false; displaySubCategories(false, 'userSignUp')">
         Mobile User Sign Up
         <ion-icon size="large" name="arrow-dropdown"></ion-icon>
@@ -25,7 +25,7 @@
 
       <!-- Hide auto pic content -->
       <div *ngIf="displayAutoPic == false">
-        <ion-item>
+        <ion-item class="subheader">
           <ion-label class="label" (click)="displayAutoPic = true"> Auto Profile Picture
             <ion-icon size="large" name="arrow-dropright"></ion-icon>
           </ion-label>
@@ -33,7 +33,7 @@
       </div>
       <!-- Show auto pic content -->
         <div *ngIf="displayAutoPic == true">
-          <ion-item>
+          <ion-item class="subheader">
             <ion-label class="label" (click)="displayAutoPic = false"> Auto Profile Picture
               <ion-icon size="large" name="arrow-dropdown"></ion-icon>
             </ion-label>
@@ -58,7 +58,7 @@
 
       <!-- Hide all profile pics content -->
       <div *ngIf="displayProfilePics == false">
-        <ion-item>
+        <ion-item class="subheader">
           <ion-label class="label" (click)="displayProfilePics = true"> Profile Pictures
             <ion-icon size="large" name="arrow-dropright"></ion-icon>
           </ion-label>
@@ -67,7 +67,7 @@
 
       <!-- Show all profile pics content -->
       <div *ngIf="displayProfilePics == true">
-        <ion-item>
+        <ion-item class="subheader">
           <ion-label class="label" (click)="displayProfilePics = false"> Profile Pictures
             <ion-icon size="large" name="arrow-dropdown"></ion-icon>
           </ion-label>
@@ -108,7 +108,7 @@
 
       <!-- Hide all security questions content -->
       <div *ngIf="displaySecurityQs == false">
-        <ion-item>
+        <ion-item class="subheader">
           <ion-label class="label" (click)="displaySecurityQs = true"> Security Questions
             <ion-icon size="large" name="arrow-dropright"></ion-icon>
           </ion-label>
@@ -117,7 +117,7 @@
 
       <!-- Show all security questions content -->
       <div *ngIf="displaySecurityQs == true">
-        <ion-item>
+        <ion-item class="subheader">
           <ion-label class="label" (click)="displaySecurityQs = false"> Security Questions
             <ion-icon slot="end" size="large" name="arrow-dropdown"></ion-icon>
           </ion-label>
@@ -136,22 +136,22 @@
 
     <!-- User ChatRoom Settings -->
       <!-- Hide all User ChatRoom Settings -->
-    <div *ngIf="displayChatRoom == false">
+    <div *ngIf="displayChatRoom == false" padding-bottom>
       <ion-list-header class="header" (click)="displayChatRoom = true"> Cohort Chat Room
         <ion-icon size="large" name="arrow-dropright"></ion-icon>
       </ion-list-header>
     </div>
 
     <!-- Show all User ChatRoom Settings -->
-    <div *ngIf="displayChatRoom == true">
+    <div *ngIf="displayChatRoom == true" padding-bottom>
       <ion-list-header class="header" (click)="displayChatRoom = false" (click)="displaySubCategories(false, 'chatRoom')">
         Cohort Chat Room
         <ion-icon size="large" name="arrow-dropdown"></ion-icon>
       </ion-list-header>
 
       <!-- Hide Chat hours Settings -->
-      <div *ngIf="displayHoursForChats == false">
-        <ion-item>
+      <div *ngIf="displayHoursForChats == false" >
+        <ion-item class="subheader">
           <ion-label class="label" (click)="displayHoursForChats = true"> Hours for Messages to Last
             <ion-icon size="large" name="arrow-dropright"></ion-icon>
           </ion-label>
@@ -160,13 +160,13 @@
 
       <!-- Show Chat hours Settings -->
       <div *ngIf="displayHoursForChats == true">
-        <ion-item>
+        <ion-item class="subheader">
           <ion-label class="label" (click)="displayHoursForChats = false"> Hours for Messages to Last
             <ion-icon size="large" name="arrow-dropdown"></ion-icon>
           </ion-label>
         </ion-item>
 
-      <ion-item>
+      <ion-item class="subheader">
         <ion-label class="label" position="stacked"> Show Messages from past: </ion-label>
         <ion-text> {{ chatHoursToLive }} hours </ion-text>
         <ion-button class="fill-button" slot="end" (click)="updateChatHoursToLive()"> Update </ion-button>
@@ -175,20 +175,20 @@
     </div>
 
     <!-- Gift Card Settings -->
-    <div *ngIf="displayGCRedeem == false">
+    <div *ngIf="displayGCRedeem == false" padding-bottom>
       <ion-list-header class="header" (click)="displayGCRedeem = true"> Gift Card Redemption
         <ion-icon size="large" name="arrow-dropright"></ion-icon>
       </ion-list-header>
     </div>
 
-    <div *ngIf="displayGCRedeem == true">
+    <div *ngIf="displayGCRedeem == true" padding-bottom>
       <ion-list-header class="header" (click)="displayGCRedeem = false" (click)="displaySubCategories(false, 'giftCard')"> Gift Card Redemption
         <ion-icon size="large" name="arrow-dropdown"></ion-icon>
       </ion-list-header>
 
       <!-- Hide Admin Email -->
       <div *ngIf="displayEmailAdmin == false">
-        <ion-item>
+        <ion-item class="subheader">
           <ion-label class="label" (click)="displayEmailAdmin = true"> Email of Admin to Receive Gift Card Redemption Emails:
             <ion-icon size="large" name="arrow-dropright"></ion-icon>
           </ion-label>
@@ -197,7 +197,7 @@
 
       <!-- Show Admin Email -->
       <div *ngIf="displayEmailAdmin == true">
-        <ion-item>
+        <ion-item class="subheader">
           <ion-label class="label" (click)="displayEmailAdmin = false"> Email of Admin to Receive Gift Card Redemption Emails:
             <ion-icon slot="end" size="large" name="arrow-dropdown"></ion-icon>
           </ion-label>
@@ -210,7 +210,7 @@
 
       <!-- Hide Total Points Email -->
       <div *ngIf="displayTotalPoints == false">
-        <ion-item>
+        <ion-item class="subheader">
           <ion-label class="label" (click)="displayTotalPoints = true"> Total Points for $5 Gift Card Redemption:
             <ion-icon size="large" name="arrow-dropright"></ion-icon>
           </ion-label>
@@ -219,7 +219,7 @@
 
       <!-- Show Total Points Email -->
       <div *ngIf="displayTotalPoints == true">
-        <ion-item>
+        <ion-item class="subheader">
           <ion-label class="label" (click)="displayTotalPoints = false"> Total Points for $5 Gift Card Redemption:
             <ion-icon slot="end" size="large" name="arrow-dropdown"></ion-icon>
           </ion-label>
@@ -232,7 +232,7 @@
 
         <!-- Hide Types of GCs -->
         <div *ngIf="displayTypesOfGC == false">
-          <ion-item>
+          <ion-item class="subheader">
             <ion-label class="label" (click)="displayTypesOfGC = true"> Types of Gift Cards:
               <ion-icon size="large" name="arrow-dropright"></ion-icon>
             </ion-label>
@@ -241,7 +241,7 @@
 
         <!-- Show Types of GCs -->
         <div *ngIf="displayTypesOfGC == true">
-        <ion-item>
+        <ion-item class="subheader">
           <ion-label class="label" (click)="displayTypesOfGC = false"> Types of Gift Cards:
             <ion-icon  slot="end" size="large" name="arrow-dropdown"></ion-icon>
           </ion-label>
@@ -257,6 +257,83 @@
         </ion-item>
         </div>
     </div>
+
+
+    <!-- Provider Settings -->
+    <!-- Hide all User ChatRoom Settings -->
+    <div *ngIf="displayProviderSettings == false" padding-bottom>
+      <ion-list-header class="header" (click)="displayProviderSettings = true"> Provider Settings
+        <ion-icon size="large" name="arrow-dropright"></ion-icon>
+      </ion-list-header>
+    </div>
+    <!-- Show all Provider Settings -->
+    <div *ngIf="displayProviderSettings == true" padding-bottom>
+      <ion-list-header class="header" (click)="displayProviderSettings = false" (click)="displaySubCategories(false, 'provider')">
+        Provider Settings
+        <ion-icon size="large" name="arrow-dropdown"></ion-icon>
+      </ion-list-header>
+
+      <!-- Hide Provider Type Settings -->
+      <div *ngIf="displayProviderProfilePics == false">
+        <ion-item class="subheader">
+          <ion-label class="label" (click)="displayProviderProfilePics = true"> Provider Types
+            <ion-icon size="large" name="arrow-dropright"></ion-icon>
+          </ion-label>
+        </ion-item>
+      </div>
+
+      <!-- Show Provider Type Settings -->
+      <div *ngIf="displayProviderProfilePics == true">
+        <ion-item class="subheader">
+          <ion-label class="label" (click)="displayProviderProfilePics = false"> Provider Types
+            <ion-icon size="large" name="arrow-dropdown"></ion-icon>
+          </ion-label>
+        </ion-item>
+
+        <ion-row>
+          <ion-col>
+            <ion-button class="text-button" expand="true" fill="clear" (click)="displayAddProviderType = true"> + Add New Provider Type</ion-button>
+          </ion-col>
+        </ion-row>
+
+        <div *ngIf="displayAddProviderType == true">
+          <ion-item>
+            <ion-label position="stacked">Enter Provider Type Name:</ion-label>
+            <ion-input [(ngModel)]="providerType.type" (change)="newProviderTypeEntered = true;"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-card text-center>
+              <ion-card-content>
+                <div class="fileUpload btn btn-primary">
+                  <input id="uploadBtn" type="file" class="upload" (change)="newImage = true; uploadedImage = $event.target.files"/>
+                </div>
+              </ion-card-content>
+            </ion-card>
+          </ion-item>
+          <ion-button *ngIf="newImage && newProviderTypeEntered" class="text-button" expand="block" fill="clear"
+                      (click)="addNewProviderType(uploadedImage, providerType); newImage = false; displayAddProviderType = false">
+            <ion-icon name="save" slot="start"></ion-icon>
+            Add
+          </ion-button>
+          <ion-button class="text-button" expand="block" fill="clear" (click)= "newImage = false; displayAddProviderType = false">
+            Cancel
+          </ion-button>
+        </div>
+
+
+        <ion-item *ngFor="let type of (providerTypes | async)">
+          <ion-thumbnail>
+            <ion-img src="{{type.profilePic}}" ></ion-img>
+          </ion-thumbnail>
+          <ion-text> {{ type.type }} </ion-text>
+          <ion-button slot="end" color='danger' (click)="deleteProviderType(type.id)"> Delete </ion-button>
+        </ion-item>
+
+
+      </div>
+    </div>
+
+
   </ion-list>
 
 </ion-content>

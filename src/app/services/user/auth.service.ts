@@ -52,7 +52,8 @@ export class AuthServiceProvider {
     profilePic: '',
     bio: '',
     dob: '',
-    type: ''
+    type: '',
+    providerType: ''
   };
 
   admin: Admin = {

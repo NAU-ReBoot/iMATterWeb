@@ -35,6 +35,7 @@ export interface Provider {
   dob: string;
   bio: string;
   type: string;
+  providerType: string;
 }
 
 export interface Admin {
@@ -152,7 +153,7 @@ export class CreateUserService {
 
   addProvider(provider: Provider): Promise<void> {
     return this.providerCollection.doc(provider.code).set({code: provider.code, email: provider.email,
-    dob: provider.dob, firstName: provider.firstName, lastName: provider.lastName, type: provider.type}, { merge: true });
+    dob: provider.dob, firstName: provider.firstName, lastName: provider.lastName, type: provider.type, providerType: provider.providerType}, { merge: true });
   }
 
   getAdmins(): Observable<Admin[]> {

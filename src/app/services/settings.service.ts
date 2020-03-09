@@ -2,24 +2,41 @@ import { Injectable } from '@angular/core';
 import * as firebase from 'firebase/app';
 import {AngularFirestore, AngularFirestoreCollection} from '@angular/fire/firestore';
 import {Observable} from 'rxjs';
-import {Comment, Question} from './infoDesk/question.service';
 import {map} from 'rxjs/operators';
+import {Question} from './infoDesk/question.service';
 
 export interface GiftCardType {
   id?: string;
   type: string;
 }
 
+export interface ProviderType {
+  id?: string;
+  type: string;
+  profilePic: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
 
+export class SettingsService {
 
-export class MobileSettingsService {
-
+  private providerTypes: Observable<ProviderType[]>;
+  private providerTypeCollection: AngularFirestoreCollection<ProviderType>;
 
   constructor(public afs: AngularFirestore) {
+    this.providerTypeCollection = this.afs.collection<ProviderType>('providerTypes');
 
+    this.providerTypes = this.providerTypeCollection.snapshotChanges().pipe(
+        map(actions => {
+          return actions.map(a => {
+            const data = a.payload.doc.data();
+            data.id = a.payload.doc.id;
+            return data;
+          });
+        })
+    );
   }
 
   getChatRoomHourSetting() {
@@ -34,6 +51,9 @@ export class MobileSettingsService {
     return firebase.firestore().collection('mobileSettings').doc('userSignUpSettings').get();
   }
 
+  getProviderTypes() {
+    return this.providerTypes;
+  }
 
   updateChatHourstoLive(newHours) {
     return this.afs.firestore.collection('mobileSettings')
@@ -86,4 +106,12 @@ export class MobileSettingsService {
         .doc('userSignUpSettings').update({profilePictures: firebase.firestore.FieldValue.arrayRemove(pic)});
   }
 
+
+  addNewProviderType(providerType) {
+    return this.providerTypeCollection.add(providerType);
+  }
+
+  removeProviderType(docID) {
+    return this.providerTypeCollection.doc(docID).delete();
+  }
 }

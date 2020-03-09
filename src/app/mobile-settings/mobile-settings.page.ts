@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { MobileSettingsService, GiftCardType } from '../services/mobile-settings.service';
-import {Storage} from '@ionic/storage';
-import {Router} from '@angular/router';
-import {AlertController} from '@ionic/angular';
-import {Observable} from 'rxjs';
+import { SettingsService, GiftCardType } from '../services/settings.service';
+import { Storage } from '@ionic/storage';
+import { Router } from '@angular/router';
+import { AlertController } from '@ionic/angular';
+import { Observable } from 'rxjs';
 import { AngularFireStorage, AngularFireUploadTask } from '@angular/fire/storage';
+import { ProviderType } from '../services/settings.service';
 
 @Component({
   selector: 'app-mobile-settings',
@@ -12,6 +13,11 @@ import { AngularFireStorage, AngularFireUploadTask } from '@angular/fire/storage
   styleUrls: ['./mobile-settings.page.scss'],
 })
 export class MobileSettingsPage implements OnInit {
+
+  providerType: ProviderType = {
+    type: '',
+    profilePic: ''
+  };
 
   // from db
   private autoProfilePic: string;
@@ -21,8 +27,10 @@ export class MobileSettingsPage implements OnInit {
   private GCEmail: string;
   private typesOfGC: Array<GiftCardType>;
   private pointsToRedeemGC: number;
+  private providerTypes: Observable<any>;
 
-  //display booleans
+
+  // display booleans
   private displayUserSignUp: boolean;
   private displayChatRoom: boolean;
   private displayGCRedeem: boolean;
@@ -35,6 +43,9 @@ export class MobileSettingsPage implements OnInit {
   private displayTypesOfGC: boolean;
   private displayUpdateAutoPic: boolean;
   private displayAddProfilePic: boolean;
+  private displayProviderSettings: boolean;
+  private displayProviderProfilePics: boolean;
+  private displayAddProviderType: boolean;
 
   // for uploading image
   UploadedFileURL: Observable<string>;
@@ -43,7 +54,10 @@ export class MobileSettingsPage implements OnInit {
   uploadedImage: FileList;
   newImage: boolean;
 
-  constructor(private msService: MobileSettingsService,
+  private newProviderTypeName: string;
+  private newProviderTypeEntered: boolean;
+
+  constructor(private msService: SettingsService,
               private storage: Storage,
               private router: Router,
               public alertController: AlertController,
@@ -57,17 +71,7 @@ export class MobileSettingsPage implements OnInit {
         this.router.navigate(['/login/']);
       }
     });
-
-    this.displayUserSignUp = false;
-    this.displayChatRoom = false;
-    this.displayGCRedeem = false;
-    this.displayAutoPic = false;
-    this.displayProfilePics = false;
-    this.displaySecurityQs = false;
-    this.displayHoursForChats = false;
-    this.displayEmailAdmin = false;
-    this.displayTotalPoints = false;
-    this.displayTypesOfGC = false;
+    this.initDisplaysToFalse();
 
     this.getSecurityQs();
     this.getChatRoomHourSetting();
@@ -76,6 +80,8 @@ export class MobileSettingsPage implements OnInit {
     this.getGCTypes();
     this.getAutoProfilePic();
     this.getProfilePics();
+    this.providerTypes = this.getProviderTypes();
+
   }
 
   getAutoProfilePic() {
@@ -118,6 +124,10 @@ export class MobileSettingsPage implements OnInit {
     this.msService.getGCSettings().then((result) => {
       this.typesOfGC = result.get('types');
     });
+  }
+
+  getProviderTypes() {
+    return this.msService.getProviderTypes();
   }
 
   async updateChatHoursToLive(): Promise<void> {
@@ -270,6 +280,44 @@ export class MobileSettingsPage implements OnInit {
     this.getProfilePics();
   }
 
+  async addNewProviderType(event: FileList, provider: ProviderType): Promise<void> {
+    const file = event.item(0);
+
+    // Validation for Images Only
+    if (file.type.split('/')[0] !== 'image') {
+      console.error('unsupported file type');
+      return;
+    }
+
+    this.fileName = file.name;
+
+    // The storage path
+    const path = `ProviderProfileImages/${new Date().getTime()}_${file.name}`;
+
+    // File reference
+    const fileRef = this.AFSStorage.ref(path);
+
+    // The main task
+    this.task = this.AFSStorage.upload(path, file).then(() => {
+      // Get uploaded file storage path
+      this.UploadedFileURL = fileRef.getDownloadURL();
+
+      this.UploadedFileURL.subscribe(resp => {
+        provider.profilePic = resp;
+        this.msService.addNewProviderType(provider);
+        this.newProviderTypeName = '';
+        this.getProfilePics();
+      });
+    });
+  }
+
+  async deleteProviderType(id, pic) {
+    const filePath = this.getFileName(pic);
+    this.AFSStorage.ref('ProviderProfileImages').child(filePath).delete();
+    this.msService.removeProviderType(id);
+    this.providerTypes = this.getProviderTypes();
+  }
+
   displaySubCategories(display, displayType) {
     if (displayType === 'userSignUp') {
       this.displayAutoPic = display;
@@ -283,6 +331,8 @@ export class MobileSettingsPage implements OnInit {
       this.displayEmailAdmin = display;
       this.displayTotalPoints = display;
       this.displayTypesOfGC = display;
+    } else if (displayType === 'provider') {
+
     }
   }
 
@@ -295,7 +345,7 @@ export class MobileSettingsPage implements OnInit {
     return filePath;
   }
 
-  ionViewWillLeave() {
+  initDisplaysToFalse() {
     this.displayUserSignUp = false;
     this.displayChatRoom = false;
     this.displayGCRedeem = false;
@@ -306,6 +356,13 @@ export class MobileSettingsPage implements OnInit {
     this.displayEmailAdmin = false;
     this.displayTotalPoints = false;
     this.displayTypesOfGC = false;
+    this.displayProviderSettings = false;
+    this.displayProviderProfilePics = false;
+    this.displayAddProviderType = false;
+  }
+
+  ionViewWillLeave() {
+    this.initDisplaysToFalse();
   }
 }
 

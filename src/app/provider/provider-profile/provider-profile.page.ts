@@ -22,7 +22,8 @@ export class ProviderProfilePage implements OnInit {
     bio: '',
     dob: '',
     profilePic: '',
-    type: ''
+    type: '',
+    providerType: ''
   };
 
   public providerProfileID: any;
@@ -61,6 +62,7 @@ export class ProviderProfilePage implements OnInit {
             this.provider.email = doc.get('email');
             this.provider.password = doc.get('password');
             this.provider.bio = doc.get('bio');
+            this.provider.providerType = doc.get('providerType');
           });
         });
       }

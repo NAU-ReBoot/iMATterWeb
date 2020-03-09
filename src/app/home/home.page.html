@@ -41,15 +41,15 @@
     <ion-list>
       <ion-item *ngFor="let user of (users | async)">
         <p>
-        Code: {{ user.code }}<br>
-        Email: {{ user.email }}<br>
-        Username: {{ user.username }}<br>
-        Date Joined: {{ user.joined.seconds * 1000 | date:'MM-dd-yyyy h:mm:ss a' }}<br>
-        Cohort: {{ user.cohort }}<br>
-        Location: {{ user.location }}<br>
-        Security Q: {{ user.securityQ }}<br>
-        Security A: {{ user.securityA }}<br>
-        Point Total: {{ user.points }}<br>
+          <b>Code:</b> {{ user.code }}<br>
+          <b>Email:</b> {{ user.email }}<br>
+          <b>Username:</b> {{ user.username }}<br>
+          <b>Date Joined:</b> {{ user.joined.seconds * 1000 | date:'MM-dd-yyyy h:mm:ss a' }}<br>
+          <b>Cohort:</b> {{ user.cohort }}<br>
+          <b>Location:</b> {{ user.location }}<br>
+          <b>Security Q:</b> {{ user.securityQ }}<br>
+          <b>Security A:</b> {{ user.securityA }}<br>
+          <b>Point Total:</b> {{ user.points }}<br>
         </p>
 
         <ion-buttons  slot="end">
@@ -89,7 +89,10 @@
           <ion-label position="stacked">Enter Email:</ion-label>
           <ion-textarea formControlName="email" placeholder="Email"></ion-textarea>
         </ion-item>
-        <ion-button size="small" [disabled]="!addProviderForm.valid" (click)="addProvider(addProviderForm)"> Submit </ion-button>
+        <ion-row>
+          <ion-button class="text-button" fill="clear" size="small" (click)="displayAddProvider = false; clearProviderForm()"> Cancel </ion-button>
+          <ion-button class="fill-button" size="small" [disabled]="!addProviderForm.valid" (click)="addProvider(addProviderForm)"> Submit </ion-button>
+        </ion-row>
       </form>
     </div>
 
@@ -103,11 +106,11 @@
     <ion-list>
       <ion-item *ngFor="let provider of (providers | async)">
         <p>
-          Code: {{ provider.code }}<br>
-          Name: {{ provider.firstName }} {{ provider.lastName }}<br>
-          Email: {{ provider.email }}<br>
-          Username: {{ provider.username }}<br>
-          DOB: {{ provider.dob }} <br>
+          <b>Code:</b> {{ provider.code }}<br>
+          <b>Name:</b> {{ provider.firstName }} {{ provider.lastName }}<br>
+          <b>Email:</b> {{ provider.email }}<br>
+          <b>Username:</b> {{ provider.username }}<br>
+          <b>DOB:</b> {{ provider.dob }} <br>
         </p>
 
         <ion-buttons  slot="end">
@@ -135,9 +138,11 @@
           <ion-label position="stacked">Enter Email:</ion-label>
           <ion-textarea formControlName="email" placeholder="Enter Email"></ion-textarea>
         </ion-item>
-        <ion-button size="small" [disabled]="!addAdminForm.valid" (click)="addAdmin(addAdminForm)"> Submit </ion-button>
+        <ion-row>
+          <ion-button class="text-button" fill="clear" size="small" (click)="displayAddAdmin = false; clearAdminForm()"> Cancel </ion-button>
+          <ion-button class="fill-button" size="small" [disabled]="!addAdminForm.valid" (click)="addAdmin(addAdminForm)"> Submit </ion-button>
+        </ion-row>
       </form>
-
     </div>
 
     <div *ngIf="codeView">
@@ -150,11 +155,10 @@
     <ion-list>
       <ion-item *ngFor="let admin of (admins | async)">
         <p>
-          Code: {{ admin.code }}<br>
-          Email: {{ admin.email }}<br>
-          Username: {{ admin.username }}<br>
+          <b>Code:</b> {{ admin.code }}<br>
+          <b>Email:</b> {{ admin.email }}<br>
+          <b>Username:</b> {{ admin.username }}<br>
         </p>
-
 
         <ion-buttons  slot="end">
           <ion-button (click)="updateUser('admin', admin.id)">
