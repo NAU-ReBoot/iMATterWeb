@@ -37,12 +37,12 @@
   </ion-item>
 
   <ion-item>
-    <ion-label position="stacked">Display Module During Weeks</ion-label>
+    <ion-label position="stacked">Display Module During Weeks (enter 0 for always visible)</ion-label>
     <ion-input [(ngModel)]="learningModule.moduleVisibilityTime"></ion-input>
   </ion-item>
 
   <ion-item>
-    <ion-label position="stacked" type="number">Days Visible Before Expiration (enter 0 for always visible)</ion-label>
+    <ion-label position="stacked" type="number">Days Visible Before Expiration (enter 0 for never expires)</ion-label>
     <ion-input [(ngModel)]="learningModule.moduleExpiration"></ion-input>
   </ion-item>
 
