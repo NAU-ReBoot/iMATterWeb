@@ -103,15 +103,13 @@
     </ion-label>
   </ion-item-divider>
 
-  <!---
+  
   <ion-item>
     <ion-label position="stacked">Next Module (ID)</ion-label>
     <ion-input [(ngModel)]="learningModule.moduleNext"></ion-input>
-    <ion-select-option *ngFor="let learningMod of ( learningModules | async )" value="learningMod.id">
-          {{learningMod.moduleTitle}}
-        </ion-select-option>
   </ion-item>
--->
+
+  <!---
   <ion-item>
     <ion-label>Next Module</ion-label>
       <ion-select [(ngModel)]="learningModule.moduleNext" multiple="false" cancelText="Cancel" okText="Ok">
@@ -123,7 +121,7 @@
         </ion-select-option>
       </ion-select>
   </ion-item>
-
+-->
 </ion-content>
  
 <ion-footer *ngIf="!learningModule.id">

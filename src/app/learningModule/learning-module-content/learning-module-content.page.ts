@@ -9,6 +9,7 @@ import { AddQuizQuestionPage } from '../add-quiz-question/add-quiz-question.page
 import { AlertController } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
 import { Observable } from 'rxjs';
+import { Pipe, PipeTransform } from '@angular/core';
 
 @Component({
   selector: 'app-learning-module-content',
@@ -16,8 +17,6 @@ import { Observable } from 'rxjs';
   styleUrls: ['./learning-module-content.page.scss'],
 })
 export class LearningModuleContentPage implements OnInit {
-
-  private learningModules: Observable<LearningModule[]>;
 
   learningModule: LearningModule = 
   {
@@ -72,7 +71,6 @@ export class LearningModuleContentPage implements OnInit {
       }
     });
 
-    this.learningModules = this.learningModuleService.getAllLearningModules();
   }
 
   ionViewWillEnter()
@@ -224,7 +222,7 @@ export class LearningModuleContentPage implements OnInit {
        //if the question is found
        if (this.learningModule.moduleQuiz[index].questionText == text)
        {
-         //starting at the inded of the found question, remove one element (the question)
+         //starting at the index of the found question, remove one element (the question)
           this.learningModule.moduleQuiz.splice(index, 1);
        }
      }
@@ -265,6 +263,5 @@ export class LearningModuleContentPage implements OnInit {
     this.learningModule.modulePointsWorth = totalPoints;
     this.silentlyUpdateLearningModule();
   }
-
   
 }
