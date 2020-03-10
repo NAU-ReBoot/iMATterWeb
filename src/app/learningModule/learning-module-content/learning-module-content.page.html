@@ -15,6 +15,11 @@
     <ion-text>Module ID: {{learningModule.id}}</ion-text>
   </ion-item>
 
+  <ion-item>
+    <ion-label>Module is Active</ion-label>
+    <ion-toggle [(ngModel)]="learningModule.moduleActive"></ion-toggle>
+  </ion-item>
+
   <ion-item-divider color="medium">
     <ion-label>
       About Module
@@ -32,57 +37,18 @@
   </ion-item>
 
   <ion-item>
-    <ion-label>Display Module During Weeks</ion-label>
-    <ion-select [(ngModel)]="learningModule.moduleVisibilityTime" multiple="true" cancelText="Cancel" okText="Ok">
-      <ion-select-option>Always</ion-select-option>
-      <ion-select-option>1</ion-select-option>
-      <ion-select-option>2</ion-select-option>
-      <ion-select-option>3</ion-select-option>
-      <ion-select-option>4</ion-select-option>
-      <ion-select-option>5</ion-select-option>
-      <ion-select-option>6</ion-select-option>
-      <ion-select-option>7</ion-select-option>
-      <ion-select-option>8</ion-select-option>
-      <ion-select-option>9</ion-select-option>
-      <ion-select-option>10</ion-select-option>
-      <ion-select-option>11</ion-select-option>
-      <ion-select-option>12</ion-select-option>
-      <ion-select-option>13</ion-select-option>
-      <ion-select-option>14</ion-select-option>
-      <ion-select-option>15</ion-select-option>
-      <ion-select-option>16</ion-select-option>
-      <ion-select-option>17</ion-select-option>
-      <ion-select-option>18</ion-select-option>
-      <ion-select-option>19</ion-select-option>
-      <ion-select-option>20</ion-select-option>
-      <ion-select-option>21</ion-select-option>
-      <ion-select-option>22</ion-select-option>
-      <ion-select-option>23</ion-select-option>
-      <ion-select-option>24</ion-select-option>
-      <ion-select-option>25</ion-select-option>
-      <ion-select-option>26</ion-select-option>
-      <ion-select-option>27</ion-select-option>
-      <ion-select-option>28</ion-select-option>
-      <ion-select-option>29</ion-select-option>
-      <ion-select-option>30</ion-select-option>
-      <ion-select-option>31</ion-select-option>
-      <ion-select-option>32</ion-select-option>
-      <ion-select-option>33</ion-select-option>
-      <ion-select-option>34</ion-select-option>
-      <ion-select-option>35</ion-select-option>
-      <ion-select-option>36</ion-select-option>
-      <ion-select-option>37</ion-select-option>
-      <ion-select-option>38</ion-select-option>
-      <ion-select-option>39</ion-select-option>
-      <ion-select-option>40</ion-select-option>
-      <ion-select-option>41</ion-select-option>
-      <ion-select-option>42</ion-select-option>
-    </ion-select>
+    <ion-label position="stacked">Display Module During Weeks (enter 0 for always visible)</ion-label>
+    <ion-input [(ngModel)]="learningModule.moduleVisibilityTime"></ion-input>
   </ion-item>
 
   <ion-item>
-    <ion-label position="stacked">Number of Reward Points</ion-label>
-    <ion-input [(ngModel)]="learningModule.modulePointsWorth"></ion-input>
+    <ion-label position="stacked" type="number">Days Visible Before Expiration (enter 0 for never expires)</ion-label>
+    <ion-input [(ngModel)]="learningModule.moduleExpiration"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="stacked">Module Reward Points (Total Quiz Question Points)</ion-label>
+    <ion-text>{{learningModule.modulePointsWorth}}</ion-text>
   </ion-item>
 
   <ion-item>
@@ -137,11 +103,25 @@
     </ion-label>
   </ion-item-divider>
 
+  
   <ion-item>
     <ion-label position="stacked">Next Module (ID)</ion-label>
     <ion-input [(ngModel)]="learningModule.moduleNext"></ion-input>
   </ion-item>
 
+  <!---
+  <ion-item>
+    <ion-label>Next Module</ion-label>
+      <ion-select [(ngModel)]="learningModule.moduleNext" multiple="false" cancelText="Cancel" okText="Ok">
+        <ion-select-option value=''>
+          None
+        </ion-select-option>
+        <ion-select-option *ngFor="let learningMod of ( learningModules | async )" value=learningMod.id>
+          {{learningMod.moduleTitle}}
+        </ion-select-option>
+      </ion-select>
+  </ion-item>
+-->
 </ion-content>
  
 <ion-footer *ngIf="!learningModule.id">

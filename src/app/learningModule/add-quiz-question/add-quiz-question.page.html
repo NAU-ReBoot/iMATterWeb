@@ -36,6 +36,11 @@
     <ion-input [(ngModel)]="quizQuestion.correctAnswer"></ion-input>
   </ion-item>
 
+  <ion-item>
+    <ion-label position="stacked">Number of Points Question is Worth</ion-label>
+    <ion-input [(ngModel)]="quizQuestion.pointsWorth"></ion-input>
+  </ion-item>
+
   <ion-row>
     <ion-col text-center>
       <ion-button (click)="dismiss()">Cancel</ion-button>
