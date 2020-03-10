@@ -119,6 +119,8 @@ export class RecoveryCodePage implements OnInit {
             }
         });
     }
+
+    /*
 	async updatePassword(): Promise<void> {
     const alert = await this.alertCtrl.create({
       inputs: [
@@ -139,7 +141,7 @@ export class RecoveryCodePage implements OnInit {
       ],
     });
     await alert.present();
-  }
+  }*/
 	
 
 }
