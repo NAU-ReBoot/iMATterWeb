@@ -3,6 +3,7 @@ form {
   button {
     margin-top: 20px !important;
   }
+
 }
 
 p {
@@ -33,3 +34,16 @@ ion-input {
     border-bottom: 0 !important;
   }
 }
+
+.fill-button {
+  --background: var(--main-color);
+  --background-activated: var(--secondary-color);
+  --background-hover: var(--secondary-color);
+}
+
+.text-button {
+  --color: var(--main-color);
+}
+
+
+

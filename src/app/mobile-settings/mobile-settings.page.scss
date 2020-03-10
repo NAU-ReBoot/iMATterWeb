@@ -1,3 +1,19 @@
 .header {
-  background-color: #f5f6f9;
+  background-color: var(--secondary-color);
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.subheader {
+  --background: #f5f6f9;
+}
+
+.label {
+  font-size: 16px;
+  color: #505050;
+  font-weight: bold;
+}
+
+.noHighlight {
+  --background: var(--secondary-color);
 }

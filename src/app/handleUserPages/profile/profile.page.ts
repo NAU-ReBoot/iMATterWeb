@@ -20,12 +20,14 @@ export class ProfilePage implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.refreshUserProfile();
+    // this.refreshUserProfile();
   }
 
   logOut(): void {
       this.router.navigateByUrl('login');
   }
+
+  /*
   async updateEmail(): Promise<void> {
     const alert = await this.alertCtrl.create({
       inputs: [
@@ -81,7 +83,7 @@ export class ProfilePage implements OnInit {
         .then(userProfileSnapshot => {
           this.userProfile = userProfileSnapshot.data();
         });
-  }
+  }*/
 
 
 }

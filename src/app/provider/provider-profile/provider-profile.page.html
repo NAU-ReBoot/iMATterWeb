@@ -10,25 +10,41 @@
 </ion-header>
 
 <ion-content>
-  <ion-card>
-    <ion-card-title padding-horizontal>
-      {{ provider.username }}
-    </ion-card-title>
-    <ion-card-content>
-      {{ provider.bio }}
-    </ion-card-content>
-  </ion-card>
+  <div class="wrap">
+    <div>
+      <ion-avatar class="img">
+        <img src="{{ provider.profilePic }}" alt="">
+      </ion-avatar>
+    </div>
+    <div class="username">
+      <ion-text  padding-horizontal>
+        {{ provider.username }}
+      </ion-text>
+    </div>
+    <div class="providerType">
+      <ion-text>
+        {{ provider.providerType }}
+      </ion-text>
+    </div>
+    <div class="bio">
+      <ion-text >
+        Bio: {{ provider.bio }} <br>
+      </ion-text>
+      <ion-col class="text-right">
+        <ion-button fill="clear" class="text-button" (click)="updateBio()"> Update Bio </ion-button>
+      </ion-col>
+    </div>
+  </div>
 
   <ion-list>
     <ion-list-header> Personal Information </ion-list-header>
-
     <ion-item>
       <ion-label>
         <ion-grid>
           <ion-row>
-            <ion-col class="text-left" size="5"> Name </ion-col>
-            <ion-col class="text-center" size="7">
-              {{provider.nameFirst}} {{ provider.nameLast }}
+            <ion-col class="text-left" size="5"> <b>Name </b></ion-col>
+            <ion-col class="text-center" size="5">
+              {{provider.firstName}} {{ provider.lastName }}
             </ion-col>
           </ion-row>
         </ion-grid>
@@ -39,16 +55,12 @@
       <ion-label>
         <ion-grid>
           <ion-row>
-            <ion-col class="text-left" size="5"> Email </ion-col>
-            <ion-col class="text-center" size="7" *ngIf="provider.email">
+            <ion-col class="text-left" size="5"> <b>Email </b></ion-col>
+            <ion-col class="text-center" size="5">
               {{provider.email}}
             </ion-col>
-            <ion-col
-                    size="7"
-                    class="placeholder-profile text-center"
-                    *ngIf="!provider.email"
-            >
-              <span> Tap here to edit. </span>
+            <ion-col class="text-right">
+              <ion-button fill="clear" class="text-button" (click)="updateEmail()"> Update Email </ion-button>
             </ion-col>
           </ion-row>
         </ion-grid>
@@ -59,9 +71,12 @@
       <ion-label>
         <ion-grid>
           <ion-row>
-            <ion-col class="text-left" size="5"> Password </ion-col>
-            <ion-col class="text-center" size="7" class="placeholder-profile">
-              <span> Tap here to edit. </span>
+            <ion-col class="text-left" size="5"> <b> Password </b></ion-col>
+            <ion-col class="text-center" size="5" >
+              <span> Hidden </span>
+            </ion-col>
+            <ion-col class="text-right">
+              <ion-button fill="clear" class="text-button" (click)="updatePassword()"> Update Password </ion-button>
             </ion-col>
           </ion-row>
         </ion-grid>
