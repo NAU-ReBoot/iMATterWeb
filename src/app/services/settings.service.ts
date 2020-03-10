@@ -51,6 +51,10 @@ export class SettingsService {
     return firebase.firestore().collection('mobileSettings').doc('userSignUpSettings').get();
   }
 
+  getAdminSettings() {
+    return firebase.firestore().collection('mobileSettings').doc('adminSettings').get();
+  }
+
   getProviderTypes() {
     return this.providerTypes;
   }
@@ -94,6 +98,11 @@ export class SettingsService {
   updateAutoProfilePic(newPic) {
     return this.afs.firestore.collection('mobileSettings')
         .doc('userSignUpSettings').update({autoProfilePic: newPic});
+  }
+
+  updateAdminPic(newPic) {
+    return this.afs.firestore.collection('mobileSettings')
+        .doc('adminSettings').update({profilePic: newPic});
   }
 
   addNewProfilePic(newPic) {

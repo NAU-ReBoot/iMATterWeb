@@ -21,6 +21,7 @@ export class MobileSettingsPage implements OnInit {
 
   // from db
   private autoProfilePic: string;
+  private adminPic: string;
   private profilePics: Array<string>;
   private securityQs: Array<string>;
   private chatHoursToLive: number;
@@ -46,6 +47,9 @@ export class MobileSettingsPage implements OnInit {
   private displayProviderSettings: boolean;
   private displayProviderTypes: boolean;
   private displayAddProviderType: boolean;
+  private displayAdminSettings: boolean;
+  private displayAdminProfilePic: boolean;
+  private displayUpdateAdminPic: boolean;
 
   // for uploading image
   UploadedFileURL: Observable<string>;
@@ -81,12 +85,19 @@ export class MobileSettingsPage implements OnInit {
     this.getAutoProfilePic();
     this.getProfilePics();
     this.providerTypes = this.getProviderTypes();
+    this.getAdminPic();
 
   }
 
   getAutoProfilePic() {
     this.msService.getUserSignUpSettings().then((result) => {
       this.autoProfilePic = result.get('autoProfilePic');
+    });
+  }
+
+  getAdminPic() {
+    this.msService.getAdminSettings().then((result) => {
+      this.adminPic = result.get('profilePic');
     });
   }
 
@@ -336,6 +347,40 @@ export class MobileSettingsPage implements OnInit {
     }
   }
 
+  async updateAdminPic(event: FileList, pic): Promise<void> {
+
+    const filePath = this.getFileName(pic);
+    this.AFSStorage.ref('AdminProfileImage').child(filePath).delete();
+
+    const file = event.item(0);
+
+    // Validation for Images Only
+    if (file.type.split('/')[0] !== 'image') {
+      console.error('unsupported file type');
+      return;
+    }
+
+    this.fileName = file.name;
+
+    // The storage path
+    const path = `AdminProfileImage/${new Date().getTime()}_${file.name}`;
+
+    // File reference
+    const fileRef = this.AFSStorage.ref(path);
+
+    // The main task
+    this.task = this.AFSStorage.upload(path, file).then(() => {
+      // Get uploaded file storage path
+      this.UploadedFileURL = fileRef.getDownloadURL();
+
+      this.UploadedFileURL.subscribe(resp => {
+        this.adminPic = resp;
+        this.msService.updateAdminPic(resp);
+        this.getAdminPic();
+      });
+    });
+  }
+
   getFileName(downloadURL) {
     console.log(downloadURL);
     const fileSplit = downloadURL.split('%2F')[1];
@@ -359,6 +404,9 @@ export class MobileSettingsPage implements OnInit {
     this.displayProviderSettings = false;
     this.displayProviderTypes = false;
     this.displayAddProviderType = false;
+    this.displayAdminSettings = false;
+    this.displayAdminProfilePic = false;
+    this.displayUpdateAdminPic = false;
   }
 
   ionViewWillLeave() {
