@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-
+import { AngularFirestore } from '@angular/fire/firestore';
 import * as firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/firestore';
@@ -10,57 +10,38 @@ import 'firebase/firestore';
 
 export class ProfileService {
 
-  public userProfile: firebase.firestore.DocumentReference;
-  public currentUser: firebase.User;
 
-  constructor() {
-    firebase.auth().onAuthStateChanged(user => {
-      if (user) {
-        this.currentUser = user;
-        this.userProfile = firebase.firestore().doc(`/userProfile/${user.uid}`);
-      }
-    });
-    this.currentUser = firebase.auth().currentUser;
-    this.userProfile = firebase.firestore().doc(`/userProfile/${this.currentUser.uid}`);
-  }
+  constructor(public afs: AngularFirestore) {}
 
-  getUserProfile(): firebase.firestore.DocumentReference {
-    return this.userProfile;
-  }
 
-  updateEmail(newEmail: string, password: string): Promise<any> {
-    const credential: firebase.auth.AuthCredential = firebase.auth.EmailAuthProvider.credential(
-        this.currentUser.email,
-        password
-    );
-
-    return this.currentUser
-        .reauthenticateWithCredential(credential)
-        .then(() => {
-          this.currentUser.updateEmail(newEmail).then(() => {
-            this.userProfile.update({ email: newEmail });
+  updateEmail(newEmail: string, password: string, providerID: string) {
+      this.afs.firestore.collection('providers').where('code', '==', providerID)
+          .get().then(snapshot => {
+              snapshot.forEach(doc => {
+                  const userPassword = doc.get('password');
+                  if (userPassword === password) {
+                      return this.afs.firestore.collection('providers')
+                          .doc(providerID).update({email: newEmail});
+                  }
+              });
           });
-        })
-        .catch(error => {
-          console.error(error);
-        });
   }
 
-  updatePassword(newPassword: string, oldPassword: string): Promise<any> {
-    const credential: firebase.auth.AuthCredential = firebase.auth.EmailAuthProvider.credential(
-        this.currentUser.email,
-        oldPassword
-    );
-
-    return this.currentUser
-        .reauthenticateWithCredential(credential)
-        .then(() => {
-          this.currentUser.updatePassword(newPassword).then(() => {
-            console.log('Password Changed');
-          });
-        })
-        .catch(error => {
-          console.error(error);
+    updatePassword(newPassword: string, oldPassword: string, providerID: string) {
+        this.afs.firestore.collection('providers').where('code', '==', providerID)
+            .get().then(snapshot => {
+            snapshot.forEach(doc => {
+                const userPassword = doc.get('password');
+                if (userPassword === oldPassword) {
+                    return this.afs.firestore.collection('providers')
+                        .doc(providerID).update({password: newPassword});
+                }
+            });
         });
-  }
+    }
+
+    updateBio(newBio: string, providerID: string) {
+        return this.afs.firestore.collection('providers')
+            .doc(providerID).update({bio: newBio});
+    }
 }

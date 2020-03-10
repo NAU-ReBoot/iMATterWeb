@@ -28,8 +28,11 @@
     </div>
     <div class="bio">
       <ion-text >
-        Bio: {{ provider.bio }}
+        Bio: {{ provider.bio }} <br>
       </ion-text>
+      <ion-col class="text-right">
+        <ion-button fill="clear" class="text-button" (click)="updateBio()"> Update Bio </ion-button>
+      </ion-col>
     </div>
   </div>
 
@@ -53,11 +56,11 @@
         <ion-grid>
           <ion-row>
             <ion-col class="text-left" size="5"> <b>Email </b></ion-col>
-            <ion-col class="text-center" size="5" *ngIf="provider.email">
+            <ion-col class="text-center" size="5">
               {{provider.email}}
             </ion-col>
             <ion-col class="text-right">
-              <ion-button class="fill-button"> Update </ion-button>
+              <ion-button fill="clear" class="text-button" (click)="updateEmail()"> Update Email </ion-button>
             </ion-col>
           </ion-row>
         </ion-grid>
@@ -73,7 +76,7 @@
               <span> Hidden </span>
             </ion-col>
             <ion-col class="text-right">
-              <ion-button class="fill-button"> Update </ion-button>
+              <ion-button fill="clear" class="text-button" (click)="updatePassword()"> Update Password </ion-button>
             </ion-col>
           </ion-row>
         </ion-grid>
