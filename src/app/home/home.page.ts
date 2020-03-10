@@ -116,6 +116,8 @@ export class HomePage implements OnInit {
 };
 
   private userView = true;
+  private signedUserView = true;
+  private emptyUserView = false;
   private providerView = false;
   private adminView = false;
   private codeView = false;
@@ -125,6 +127,8 @@ export class HomePage implements OnInit {
   private displayAddProvider = false;
 
   private users: Observable<User[]>;
+  // allows admin to view those that have not signed up yet
+  private emptyUsers: Observable<User[]>;
   private providers: Observable<Provider[]>;
   private admins: Observable<Admin[]>;
   private providerTypes: Observable<any>;
@@ -149,6 +153,7 @@ export class HomePage implements OnInit {
     });
 
     this.users = this.createUserService.getUsers();
+    this.emptyUsers = this.createUserService.getEmptyUsers();
     this.admins = this.createUserService.getAdmins();
     this.providers = this.createUserService.getProviders();
     this.providerTypes = this.sService.getProviderTypes();
@@ -179,6 +184,7 @@ export class HomePage implements OnInit {
     this.user.code = HomePage.makeString();
     this.createUserService.addUser(this.user);
     this.codeView = true;
+    this.emptyUsers = this.createUserService.getEmptyUsers();
   }
 
   updateUser(userType, id) {
@@ -187,6 +193,10 @@ export class HomePage implements OnInit {
 
   deleteUser(id) {
     this.createUserService.deleteUser(id);
+  }
+
+  deleteEmptyUser(id) {
+    this.createUserService.deleteEmptyUser(id);
   }
 
   showAddProvider() {
