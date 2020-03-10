@@ -13,3 +13,7 @@
   color: #505050;
   font-weight: bold;
 }
+
+.noHighlight {
+  --background: var(--secondary-color);
+}
