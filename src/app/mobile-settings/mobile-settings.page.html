@@ -12,14 +12,14 @@
     <!-- Hide all content -->
   <ion-list>
     <div *ngIf="displayUserSignUp == false" padding-bottom>
-      <ion-list-header class="header" (click)="displayUserSignUp = true" > Mobile User Sign Up
+      <ion-list-header class="header" (click)="displayUserSignUp = true" > Mobile User Sign Up Settings
         <ion-icon size="large" name="arrow-dropright"></ion-icon>
       </ion-list-header>
     </div>
       <!-- Show all content -->
     <div *ngIf="displayUserSignUp == true" padding-bottom>
       <ion-list-header class="header" (click)="displayUserSignUp = false; displaySubCategories(false, 'userSignUp')">
-        Mobile User Sign Up
+        Mobile User Sign Up Settings
         <ion-icon size="large" name="arrow-dropdown"></ion-icon>
       </ion-list-header>
 
@@ -137,7 +137,7 @@
     <!-- User ChatRoom Settings -->
       <!-- Hide all User ChatRoom Settings -->
     <div *ngIf="displayChatRoom == false" padding-bottom>
-      <ion-list-header class="header" (click)="displayChatRoom = true"> Cohort Chat Room
+      <ion-list-header class="header" (click)="displayChatRoom = true"> Cohort Chat Room Settings
         <ion-icon size="large" name="arrow-dropright"></ion-icon>
       </ion-list-header>
     </div>
@@ -145,7 +145,7 @@
     <!-- Show all User ChatRoom Settings -->
     <div *ngIf="displayChatRoom == true" padding-bottom>
       <ion-list-header class="header" (click)="displayChatRoom = false" (click)="displaySubCategories(false, 'chatRoom')">
-        Cohort Chat Room
+        Cohort Chat Room Settings
         <ion-icon size="large" name="arrow-dropdown"></ion-icon>
       </ion-list-header>
 
@@ -166,7 +166,7 @@
           </ion-label>
         </ion-item>
 
-      <ion-item class="subheader">
+      <ion-item>
         <ion-label class="label" position="stacked"> Show Messages from past: </ion-label>
         <ion-text> {{ chatHoursToLive }} hours </ion-text>
         <ion-button class="fill-button" slot="end" (click)="updateChatHoursToLive()"> Update </ion-button>
@@ -176,13 +176,14 @@
 
     <!-- Gift Card Settings -->
     <div *ngIf="displayGCRedeem == false" padding-bottom>
-      <ion-list-header class="header" (click)="displayGCRedeem = true"> Gift Card Redemption
+      <ion-list-header class="header" (click)="displayGCRedeem = true"> Gift Card Redemption Settings
         <ion-icon size="large" name="arrow-dropright"></ion-icon>
       </ion-list-header>
     </div>
 
     <div *ngIf="displayGCRedeem == true" padding-bottom>
-      <ion-list-header class="header" (click)="displayGCRedeem = false" (click)="displaySubCategories(false, 'giftCard')"> Gift Card Redemption
+      <ion-list-header class="header" (click)="displayGCRedeem = false" (click)="displaySubCategories(false, 'giftCard')">
+        Gift Card Redemption Settings
         <ion-icon size="large" name="arrow-dropdown"></ion-icon>
       </ion-list-header>
 
@@ -260,7 +261,7 @@
 
 
     <!-- Provider Settings -->
-    <!-- Hide all User ChatRoom Settings -->
+    <!-- Hide all provider Settings -->
     <div *ngIf="displayProviderSettings == false" padding-bottom>
       <ion-list-header class="header" (click)="displayProviderSettings = true"> Provider Settings
         <ion-icon size="large" name="arrow-dropright"></ion-icon>
@@ -274,18 +275,18 @@
       </ion-list-header>
 
       <!-- Hide Provider Type Settings -->
-      <div *ngIf="displayProviderProfilePics == false">
+      <div *ngIf="displayProviderTypes == false">
         <ion-item class="subheader">
-          <ion-label class="label" (click)="displayProviderProfilePics = true"> Provider Types
+          <ion-label class="label" (click)="displayProviderTypes = true"> Provider Types
             <ion-icon size="large" name="arrow-dropright"></ion-icon>
           </ion-label>
         </ion-item>
       </div>
 
       <!-- Show Provider Type Settings -->
-      <div *ngIf="displayProviderProfilePics == true">
+      <div *ngIf="displayProviderTypes == true">
         <ion-item class="subheader">
-          <ion-label class="label" (click)="displayProviderProfilePics = false"> Provider Types
+          <ion-label class="label" (click)="displayProviderTypes = false"> Provider Types
             <ion-icon size="large" name="arrow-dropdown"></ion-icon>
           </ion-label>
         </ion-item>

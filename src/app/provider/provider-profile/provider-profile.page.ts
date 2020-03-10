@@ -57,8 +57,8 @@ export class ProviderProfilePage implements OnInit {
         ref.get().then((result) => {
           result.forEach(doc => {
             this.provider.username = doc.get('username');
-            this.provider.firstName = doc.get('nameFirst');
-            this.provider.lastName = doc.get('nameLast');
+            this.provider.firstName = doc.get('firstName');
+            this.provider.lastName = doc.get('lastName');
             this.provider.email = doc.get('email');
             this.provider.password = doc.get('password');
             this.provider.bio = doc.get('bio');

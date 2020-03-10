@@ -39,8 +39,8 @@
       <ion-label>
         <ion-grid>
           <ion-row>
-            <ion-col class="text-left" size="5"> Name </ion-col>
-            <ion-col class="text-center" size="7">
+            <ion-col class="text-left" size="5"> <b>Name </b></ion-col>
+            <ion-col class="text-center" size="5">
               {{provider.firstName}} {{ provider.lastName }}
             </ion-col>
           </ion-row>
@@ -52,16 +52,12 @@
       <ion-label>
         <ion-grid>
           <ion-row>
-            <ion-col class="text-left" size="5"> Email </ion-col>
-            <ion-col class="text-center" size="7" *ngIf="provider.email">
+            <ion-col class="text-left" size="5"> <b>Email </b></ion-col>
+            <ion-col class="text-center" size="5" *ngIf="provider.email">
               {{provider.email}}
             </ion-col>
-            <ion-col
-                    size="7"
-                    class="placeholder-profile text-center"
-                    *ngIf="!provider.email"
-            >
-              <span> Tap here to edit. </span>
+            <ion-col class="text-right">
+              <ion-button class="fill-button"> Update </ion-button>
             </ion-col>
           </ion-row>
         </ion-grid>
@@ -72,9 +68,12 @@
       <ion-label>
         <ion-grid>
           <ion-row>
-            <ion-col class="text-left" size="5"> Password </ion-col>
-            <ion-col class="text-center" size="7" class="placeholder-profile">
-              <span> Tap here to edit. </span>
+            <ion-col class="text-left" size="5"> <b> Password </b></ion-col>
+            <ion-col class="text-center" size="5" >
+              <span> Hidden </span>
+            </ion-col>
+            <ion-col class="text-right">
+              <ion-button class="fill-button"> Update </ion-button>
             </ion-col>
           </ion-row>
         </ion-grid>

@@ -42,6 +42,7 @@ export class ViewableProfilePage implements OnInit {
     dob: '',
     bio: '',
     type: '',
+    providerType: ''
   };
 
   private userProfileID: any;

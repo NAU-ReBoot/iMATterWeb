@@ -44,7 +44,7 @@ export class MobileSettingsPage implements OnInit {
   private displayUpdateAutoPic: boolean;
   private displayAddProfilePic: boolean;
   private displayProviderSettings: boolean;
-  private displayProviderProfilePics: boolean;
+  private displayProviderTypes: boolean;
   private displayAddProviderType: boolean;
 
   // for uploading image
@@ -332,7 +332,7 @@ export class MobileSettingsPage implements OnInit {
       this.displayTotalPoints = display;
       this.displayTypesOfGC = display;
     } else if (displayType === 'provider') {
-
+      this.displayProviderTypes = display;
     }
   }
 
@@ -357,7 +357,7 @@ export class MobileSettingsPage implements OnInit {
     this.displayTotalPoints = false;
     this.displayTypesOfGC = false;
     this.displayProviderSettings = false;
-    this.displayProviderProfilePics = false;
+    this.displayProviderTypes = false;
     this.displayAddProviderType = false;
   }
 
