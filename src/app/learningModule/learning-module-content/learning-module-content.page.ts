@@ -18,6 +18,9 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class LearningModuleContentPage implements OnInit {
 
+  public learningModules: Observable<LearningModule[]>;
+  public lmArray = [];
+
   learningModule: LearningModule = 
   {
     moduleTitle: '',
@@ -71,6 +74,13 @@ export class LearningModuleContentPage implements OnInit {
       }
     });
 
+    this.learningModules = this.learningModuleService.getAllLearningModules();
+    this.learningModules.forEach(element => {
+      element.forEach(value => {
+        console.log(value);
+        this.lmArray.push(value);
+      });
+    });
   }
 
   ionViewWillEnter()
@@ -102,6 +112,11 @@ export class LearningModuleContentPage implements OnInit {
       this.learningModule.id = id; //this line is important!! attaches the ID to the learning module so the content for that LM shows up
       //this.calculatePointsWorth();
     }
+  }
+
+  ionViewDidEnter()
+  {
+
   }
 
   addLearningModule()
@@ -263,5 +278,5 @@ export class LearningModuleContentPage implements OnInit {
     this.learningModule.modulePointsWorth = totalPoints;
     this.silentlyUpdateLearningModule();
   }
-  
+
 }
