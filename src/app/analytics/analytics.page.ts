@@ -78,8 +78,10 @@ export class AnalyticsPage {
     public indivUserView = false;
 
     public calendarArray: any = [];
+    public calendarAverageArray: any =[];
     public calendarAverage: number;
     public timeArray: any = [];
+    public timeStamp: any;
 
 
     public currentView : string;
@@ -203,7 +205,11 @@ export class AnalyticsPage {
         querySnapshot.docs.forEach(doc => {
           this.chatCounter = this.chatCounter + doc.get("numOfClickChat");
           this.calendarCounter = this.calendarCounter + doc.get("numOfClickCalendar");
-          this.calendarArray.push(this.calendarCounter);
+          this.calendarAverageArray.push(this.calendarCounter);
+          this.calendarArray.push(doc.get("numOfClickCalendar"));
+          this.timeStamp = doc.get("LoginTime");
+          this.timeStamp = new Date (this.timeStamp.toDate());
+          this.timeArray.push(this.timeStamp.toLocaleString());
           this.moduleCounter = this.moduleCounter + doc.get("numOfClickLModule");
           this.infoCounter = this.infoCounter + doc.get("numOfClickInfo");
           this.surveyCounter = this.surveyCounter + doc.get("numOfClickSurvey");
@@ -214,13 +220,15 @@ export class AnalyticsPage {
 
       this.chatClicksSaver( this.chatCounter);
       this.calendarClicksSaver(this.calendarCounter);
+      this.setTimeArray(this.timeArray);
       console.log(this.calendarArray);
       this.moduleClicksSaver(this.moduleCounter);
       this.infoClicksSaver(this.infoCounter);
       this.surveyClicksSaver(this.surveyCounter);
       this.profileClicksSaver(this.profileCounter);
       this.moreClicksSaver(this.moreCounter);
-      this.calendarAverageCalculation(this.calendarArray);
+      this.calendarAverageCalculation(this.calendarAverageArray);
+      this.setCalendarAverageArray(this.calendarAverageArray);
       this.setCalendarArray(this.calendarArray);
         });
     }
@@ -232,9 +240,9 @@ export class AnalyticsPage {
     this.myLineChart = new Chart(this.lineChart.nativeElement,{
       type:'line',
       data:{
-        labels:[ "test1" , "test2" , "test3" , "test4","test5" , "test6", "test7", "test8"],
+        labels:this.timeArray,
         datasets: [{
-          label: "Chart Tester",
+          label: "Number of Visits Per Session",
           data: this.calendarArray,
           fill: false,
           borderColor: 'rgb(38, 147, 194)',
@@ -254,6 +262,8 @@ export class AnalyticsPage {
     });
     this.myLineChart.update();
   }
+
+
 
 
 
@@ -283,21 +293,31 @@ export class AnalyticsPage {
   }
 
 
-  calendarAverageCalculation(calendarArray)
+  calendarAverageCalculation(calendarAverageArray)
   {
-    this.calendarArray = calendarArray;
-    for(let index = 0; index < this.calendarArray.length; index++)
+    this.calendarAverageArray = calendarAverageArray;
+    for ( let index = 0; index < this.calendarAverageArray.length; index++)
     {
     //  console.log(this.calendarArray[index]);
 
-      this.calendarAverage =+ this.calendarArray[index];
+      this.calendarAverage =+ this.calendarAverageArray[index];
   //  console.log(this.calendarAverage);
 
     }
 
-    this.calendarAverage =Math.ceil( this.calendarAverage/this.calendarArray.length );
+    this.calendarAverage =Math.ceil( this.calendarAverage/this.calendarAverageArray.length );
   //  console.log(this.calendarAverage);
 
+  }
+
+  setTimeArray(timeArray)
+  {
+    this.timeArray = timeArray;
+  }
+
+  setCalendarArray(calendarArray)
+  {
+    this.calendarArray = this.calendarArray;
   }
 
 
@@ -348,9 +368,9 @@ export class AnalyticsPage {
 
   }
 
-  setCalendarArray(calendarArray)
+  setCalendarAverageArray(calendarAverageArray)
   {
-    this.calendarArray = this.calendarArray;
+    this.calendarAverageArray = this.calendarAverageArray;
   }
 
 
