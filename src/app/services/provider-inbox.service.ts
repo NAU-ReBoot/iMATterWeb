@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import * as firebase from 'firebase/app';
 import {AngularFirestore, AngularFirestoreCollection} from '@angular/fire/firestore';
 import {Observable} from 'rxjs';
-import {map} from 'rxjs/operators';
+import {map, take} from 'rxjs/operators';
 
 export interface EmotionNotif {
   id?: string;
@@ -40,6 +40,16 @@ export class ProviderInboxService {
   getEmotionNotifs(): Observable<EmotionNotif[]> {
     this.getEmotionNotifsCollection();
     return this.emotionNotifs;
+  }
+
+  getEmotionNotif(id) {
+    return this.emotionNotifsCollection.doc<EmotionNotif>(id).valueChanges().pipe(
+          take(1),
+          map(question => {
+            question.id = id;
+            return question;
+          })
+      );
   }
 
 }
