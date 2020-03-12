@@ -30,6 +30,11 @@
 
   </div>
 
+  <ion-item>
+    <ion-label position="stacked">Provide a general Description of the survey</ion-label>
+    <ion-input type="string" [(ngModel)]="survey.surveyDescription"></ion-input>
+  </ion-item>
+
   <div *ngIf="isAfterJoining">
     
     <ion-item>
@@ -119,6 +124,10 @@
     <ion-label position="stacked">Specify the number of points this survey is worth</ion-label>
     <ion-input type="number" [(ngModel)]="survey.pointsWorth"></ion-input>
   </ion-item>
+
+  <div *ngIf="survey.id">
+    <ion-label>Survey Type: {{ survey.type }}</ion-label>
+  </div>
 
   <div *ngIf="!survey.id">
     <ion-button class="fill-button" (click)="addSurvey()">Save</ion-button>
