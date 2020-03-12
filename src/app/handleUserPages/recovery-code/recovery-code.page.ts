@@ -90,6 +90,10 @@ export class RecoveryCodePage implements OnInit {
                         this.theCode = doc.get('code');						
                         if ( this.theCode === this.recoveryCode) {
                             recoveryEmail = doc.get('email');
+							this.afs.firestore.collection('provider_recovery_email').doc(doc.id).update({
+								code: "",
+								email: ""
+							});
 							console.log(recoveryEmail);
 							console.log("5");                                                    
                         } else {                            
@@ -138,6 +142,10 @@ export class RecoveryCodePage implements OnInit {
                         this.theCode = doc.get('code');						
                         if ( this.theCode === this.recoveryCode) {
                             recoveryEmail = doc.get('email');
+							this.afs.firestore.collection('provider_recovery_email').doc(doc.id).update({
+								code: "",
+								email: ""
+							});
 							console.log(recoveryEmail);
 							console.log("5");                                                    
                         } else {                            
