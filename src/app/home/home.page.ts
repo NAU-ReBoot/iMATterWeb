@@ -84,7 +84,8 @@ export class HomePage implements OnInit {
     joined: '',
     currentEmotion: '',
     bio:  '',
-    points: 0
+    points: 0,
+    daysSinceLogin: 0
   };
 
   provider: Provider =  {
@@ -149,6 +150,13 @@ export class HomePage implements OnInit {
     this.storage.get('authenticated').then((val) => {
       if (val === 'false') {
         this.router.navigate(['/login/']);
+
+      } else {
+        this.storage.get('type').then((value) => {
+          if (value !== 'admin') {
+            this.router.navigate(['/login/']);
+          }
+        });
       }
     });
 
@@ -280,6 +288,10 @@ export class HomePage implements OnInit {
 
   clearAdminForm() {
     this.addAdminForm.reset();
+  }
+
+  checkUserActivity() {
+
   }
 
   ionViewDidLeave() {

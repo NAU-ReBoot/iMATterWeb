@@ -52,4 +52,9 @@ export class ProviderInboxService {
       );
   }
 
+  updateNotifAsSeen(id) {
+    return this.afs.firestore.collection('userEmotionNotifs')
+        .doc(id).update({viewed: true});
+  }
+
 }

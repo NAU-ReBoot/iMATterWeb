@@ -28,7 +28,8 @@ export class UpdateUserPage implements OnInit {
     joined: '',
     currentEmotion: '',
     bio:  '',
-    points: 0
+    points: 0,
+    daysSinceLogin: 0
   };
 
   provider: Provider =  {
@@ -68,6 +69,13 @@ export class UpdateUserPage implements OnInit {
     this.storage.get('authenticated').then((val) => {
       if (val === 'false') {
         this.router.navigate(['/login/']);
+
+      } else {
+        this.storage.get('type').then((value) => {
+          if (value !== 'admin') {
+            this.router.navigate(['/login/']);
+          }
+        });
       }
     });
 

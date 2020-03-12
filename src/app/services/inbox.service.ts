@@ -13,6 +13,17 @@ export interface Submission {
   type: any;
 }
 
+export interface LocationSuggestion {
+  id?: string;
+  name: string;
+  address: string;
+  reason: string;
+  username: string;
+  userID: string;
+  timestamp: any;
+  type: any;
+}
+
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +33,14 @@ export class InboxService {
   private submissionCollection: AngularFirestoreCollection<Submission>;
   private submission: Submission;
 
+  private locationSuggestions: Observable<LocationSuggestion[]>;
+  private locationSuggestionsCollection: AngularFirestoreCollection<LocationSuggestion>;
+
   constructor(private afs: AngularFirestore) {
+  }
+
+  getSubmissionCollection() {
+
     this.submissionCollection = this.afs.collection<Submission>('submissions', ref => ref.orderBy('timestamp', 'desc'));
 
     this.submissions = this.submissionCollection.snapshotChanges().pipe(
@@ -38,6 +56,7 @@ export class InboxService {
   }
 
   getSubmissions(): Observable<Submission[]> {
+    this.getSubmissionCollection();
     return this.submissions;
   }
 
@@ -54,5 +73,41 @@ export class InboxService {
   deleteSubmission(id: string): Promise<void> {
     return this.submissionCollection.doc(id).delete();
   }
+
+
+  getLocationSuggestionsCollection() {
+
+    this.locationSuggestionsCollection = this.afs.collection<LocationSuggestion>('locationSuggestions', ref => ref.orderBy('timestamp', 'desc'));
+
+    this.locationSuggestions = this.locationSuggestionsCollection.snapshotChanges().pipe(
+        map(actions => {
+          return actions.map(a => {
+            const data = a.payload.doc.data();
+            data.id = a.payload.doc.id;
+            return data;
+          });
+        })
+    );
+  }
+
+  getLocationSuggestions(): Observable<LocationSuggestion[]> {
+    this.getLocationSuggestionsCollection();
+    return this.locationSuggestions;
+  }
+
+  getLocationSuggestion(id: string): Observable<LocationSuggestion> {
+    return this.locationSuggestionsCollection.doc<LocationSuggestion>(id).valueChanges().pipe(
+        take(1),
+        map(submission => {
+          submission.id = id;
+          return submission;
+        })
+    );
+  }
+
+  deleteLocationSuggestion(id: string): Promise<void> {
+    return this.locationSuggestionsCollection.doc(id).delete();
+  }
+
 
 }

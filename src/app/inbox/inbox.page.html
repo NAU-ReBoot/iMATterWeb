@@ -15,5 +15,11 @@
       {{submission.type}} : {{ submission.title }}
       <ion-icon name="arrow-forward" slot="end"></ion-icon>
     </ion-item>
+
+    <ion-item button [routerLink]="['/inbox/locationSuggestion/', suggestion.id]" *ngFor="let suggestion of (locationSuggestions | async)">
+      {{suggestion.type}} : {{ suggestion.name }}
+      <ion-icon name="arrow-forward" slot="end"></ion-icon>
+    </ion-item>
+
   </ion-list>
 </ion-content>

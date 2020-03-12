@@ -32,4 +32,8 @@ export class ProviderInboxPage implements OnInit {
 
   }
 
+  updateToViewed(id) {
+    this.providerInboxService.updateNotifAsSeen(id);
+  }
+
 }
