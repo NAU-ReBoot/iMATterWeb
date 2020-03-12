@@ -79,7 +79,7 @@ export class AnalyticsPage {
 
     public calendarArray: any = [];
     public calendarAverage: number;
-    public timeCalendarArray: any = [];
+    public timeArray: any = [];
 
 
     public currentView : string;
