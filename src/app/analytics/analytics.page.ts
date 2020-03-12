@@ -76,6 +76,7 @@ export class AnalyticsPage {
 
     public calendarView = false;
     public indivUserView = false;
+    public inValidSelection = false;
 
     public calendarArray: any = [];
     public calendarAverageArray: any =[];

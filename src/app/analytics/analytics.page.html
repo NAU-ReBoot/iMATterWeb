@@ -9,13 +9,13 @@
 
 <ion-row>
   <ion-col>
-    <ion-button expand="block" size="large" (click)="totalCalendarInfo()"> Calendar Stats</ion-button>
+    <ion-button class="fill-button" expand="block" size="large" (click)="totalCalendarInfo()"> Calendar Stats</ion-button>
   </ion-col>
   <ion-col>
-    <ion-button expand="block" size="large" (click)="userInformation()"> Individual User Stats</ion-button>
+    <ion-button class="fill-button" expand="block" size="large" (click)="userInformation()"> Individual User Stats</ion-button>
   </ion-col>
   <ion-col>
-    <ion-button expand="block" size="large" (click)="showAdmins()"> ________ Stats </ion-button>
+    <ion-button class="fill-button" expand="block" size="large" (click)="showAdmins()"> ________ Stats </ion-button>
   </ion-col>
 </ion-row>
 
@@ -26,12 +26,25 @@
 
 
       <div *ngIf="calendarView">
+
         <ion-card>
           Total Calendar UserViews: {{calendarHolder}}
         </ion-card>
         <ion-card>
           Total Average Vists Per Session: {{calendarAverage}}
         </ion-card>
+        <ion-item>
+          <ion-label>
+            From Date
+          </ion-label>
+          <ion-datetime displayFormat= "MM/DD/YYYY" [(ngModel)]= "startDate"></ion-datetime>
+        </ion-item>
+        <ion-item>
+          <ion-label>
+            To Date
+          </ion-label>
+          <ion-datetime displayFormat= "MM/DD/YYYY" [(ngModel)]= "endDate"></ion-datetime>
+        </ion-item>
 
         <ion-card>
           <ion-card-header>
