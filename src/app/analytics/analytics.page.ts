@@ -79,6 +79,7 @@ export class AnalyticsPage {
 
     public calendarArray: any = [];
     public calendarAverage: number;
+    public timeCalendarArray: any = [];
 
 
     public currentView : string;
@@ -220,6 +221,7 @@ export class AnalyticsPage {
       this.profileClicksSaver(this.profileCounter);
       this.moreClicksSaver(this.moreCounter);
       this.calendarAverageCalculation(this.calendarArray);
+      this.setCalendarArray(this.calendarArray);
         });
     }
 
@@ -233,7 +235,7 @@ export class AnalyticsPage {
         labels:[ "test1" , "test2" , "test3" , "test4","test5" , "test6", "test7", "test8"],
         datasets: [{
           label: "Chart Tester",
-          data:[2.5, 5, 5, 10, 6.9, 7.5, 10, 0],
+          data: this.calendarArray,
           fill: false,
           borderColor: 'rgb(38, 147, 194)',
           borderWidth:1
@@ -344,6 +346,11 @@ export class AnalyticsPage {
     this.indivUserView = true;
     this.calendarView = false;
 
+  }
+
+  setCalendarArray(calendarArray)
+  {
+    this.calendarArray = this.calendarArray;
   }
 
 
