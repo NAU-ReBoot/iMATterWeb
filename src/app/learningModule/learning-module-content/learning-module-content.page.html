@@ -12,10 +12,6 @@
 <ion-content>
 
   <ion-item>
-    <ion-text>Module ID: {{learningModule.id}}</ion-text>
-  </ion-item>
-
-  <ion-item>
     <ion-label>Module is Active</ion-label>
     <ion-toggle [(ngModel)]="learningModule.moduleActive"></ion-toggle>
   </ion-item>
@@ -103,23 +99,17 @@
     </ion-label>
   </ion-item-divider>
 
-  
-    <!---
-  <ion-item>
-    <ion-label position="stacked">Next Module (ID)</ion-label>
-    <ion-input [(ngModel)]="learningModule.moduleNext"></ion-input>
-  </ion-item>
--->
-  
   <ion-item>
     <ion-label>Next Module</ion-label>
-      <ion-select [(ngModel)]="learningModule.moduleNext" multiple="false" cancelText="Cancel" okText="Ok">
+      <ion-select [(ngModel)]="learningModule.moduleNext" interface="action-sheet" multiple="false" cancelText="Cancel" okText="Ok">
         <ion-select-option value=''>
           None
         </ion-select-option>
-        <ion-select-option text-wrap *ngFor="let learningMod of lmArray" [value]="learningMod.id">
-          {{learningMod.moduleTitle}}
-        </ion-select-option>
+        <ng-container *ngFor="let LM of (learningModules | async)">
+          <ion-select-option text-wrap *ngIf="LM.id !== learningModule.id" [value]="LM.id">
+            {{LM.moduleTitle}}
+          </ion-select-option>
+      </ng-container>
       </ion-select>
   </ion-item>
 
