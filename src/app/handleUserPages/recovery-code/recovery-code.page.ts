@@ -26,6 +26,7 @@ export class RecoveryCodePage implements OnInit {
 	private theCode: string;
 	private wantedUserID: string;
 	private recoveryPassword: string;
+	private isProvider: boolean;
 	
 	
 
@@ -94,7 +95,56 @@ export class RecoveryCodePage implements OnInit {
                     });
                 });				
 				
-                const userRef = this.afs.firestore.collection('providers');
+                const providerRef = this.afs.firestore.collection('providers');
+				
+                userRef.get().then((result) => {
+                    result.forEach(doc => {
+                        this.userID = doc.id;
+                        this.userEmail = doc.get('email');
+						this.password = doc.get('password');
+						//console.log(this.userID);
+                        if ( this.userEmail === recoveryEmail) {                            							
+							this.wantedUserID = this.userID;
+							
+							console.log(this.userID);
+							this.afs.firestore.collection('providers').doc(this.wantedUserID).update({
+								password: newPassword
+							});
+							isProvider = true;
+							if(isProvider == true){
+								this.router.navigate(['/login/']);
+							}
+                        } else {                           
+                        }
+                    });
+                });				
+            } else {
+                console.log('Email does not exist');
+                this.userEmail = false;
+            }
+        });
+    
+	
+	 this.afs.firestore.collection('admin_recovery_email').where('code', '==', this.recoveryCode)
+            .get().then(snapshot => {
+            if (snapshot.docs.length > 0 && isProvider !=true) {
+                console.log(('exists'));
+				const adminRef = this.afs.firestore.collection('admin_recovery_email');
+				recoveryRef.get().then((result) => {
+                    result.forEach(doc => {
+                        this.userID = doc.id;
+                        this.theCode = doc.get('code');						
+                        if ( this.theCode === this.recoveryCode) {
+                            recoveryEmail = doc.get('email');
+							console.log(recoveryEmail);
+							console.log("5");                                                    
+                        } else {                            
+                        }
+                    });
+                });				
+				
+                const providerRef = this.afs.firestore.collection('providers');
+				
                 userRef.get().then((result) => {
                     result.forEach(doc => {
                         this.userID = doc.id;
@@ -118,7 +168,9 @@ export class RecoveryCodePage implements OnInit {
                 this.userEmail = false;
             }
         });
-    }
+  }
+		
+		
 	async updatePassword(): Promise<void> {
     const alert = await this.alertCtrl.create({
       inputs: [

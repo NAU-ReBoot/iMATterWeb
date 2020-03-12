@@ -36,8 +36,15 @@ export class recovery_emailService {
     );
   }
   
-  async addRecovery(recovery_email: Recovery_email) {
+  async addAdminRecovery(recovery_email: Recovery_email) {
     this.afs.collection('provider_recovery_email').add({
+      email: recovery_email.email,
+      code: recovery_email.code
+    });
+  }
+  
+  async addProviderRecovery(recovery_email: Recovery_email) {
+    this.afs.collection('admin_recovery_email').add({
       email: recovery_email.email,
       code: recovery_email.code
     });
