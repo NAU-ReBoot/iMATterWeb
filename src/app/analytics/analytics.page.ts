@@ -16,7 +16,7 @@ import { AnalyticsService, Analytics, Sessions, UniqueSessions} from '../service
 export class AnalyticsPage {
 //@ViewChild('barChart', {static: true}) barChart;
 
-@ViewChild('lineChart', {static: true}) lineChart;
+@ViewChild('lineChart', {static: false}) lineChart;
 //  @ViewChild('content', {static: true}) content: IonContent;
 
     analytic: Analytics =
@@ -269,10 +269,6 @@ export class AnalyticsPage {
       }
     });
   }
-
-
-
-
 
 
   getAllSessions ()
