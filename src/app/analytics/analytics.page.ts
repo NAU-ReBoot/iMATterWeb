@@ -1,10 +1,10 @@
 import { Component, ViewChild, OnInit } from '@angular/core';
+import  Chart  from "chart.js";
 import { Observable } from 'rxjs';
 import { AngularFirestore } from '@angular/fire/firestore';
 import * as firebase from 'firebase/app';
 import { map, take } from 'rxjs/operators';
-// import { Chart } from "chart.js";
-import {IonContent} from '@ionic/angular';
+import { IonContent } from '@ionic/angular';
 import { AnalyticsService, Analytics, Sessions, UniqueSessions} from '../services/analytics-service.service';
 
 @Component({
@@ -14,11 +14,10 @@ import { AnalyticsService, Analytics, Sessions, UniqueSessions} from '../service
 })
 
 export class AnalyticsPage {
-//  @ViewChild('barChart') barChart;
+//@ViewChild('barChart', {static: true}) barChart;
 
-//  @ViewChild('lineChart') lineChart;
-
-    @ViewChild('content', {static: true}) content: IonContent;
+@ViewChild('lineChart', {static: true}) lineChart;
+//  @ViewChild('content', {static: true}) content: IonContent;
 
     analytic: Analytics =
         {
@@ -60,7 +59,7 @@ export class AnalyticsPage {
     private db: any;
     public ref: any;
 
-    public chatCounter: number
+    public chatCounter: number;
     public chatHolder: number;
     public calendarCounter: number;
     public calendarHolder: number;
@@ -74,6 +73,9 @@ export class AnalyticsPage {
     public profileHolder: number;
     public moreCounter: number;
     public moreHolder: number;
+
+    public calendarView = false;
+    public indivUserView = false;
 
     public currentView : string;
     public currentTime: any;
@@ -91,7 +93,7 @@ export class AnalyticsPage {
 
 
     constructor(
-        //private storage: Storage,
+    //    private storage: Storage,
         public afs: AngularFirestore,
         private analyticsService: AnalyticsService
     ) {
@@ -101,35 +103,15 @@ export class AnalyticsPage {
 
     ionViewWillEnter()
     {
-
+      this.getAllTotalClicks();
     }
 
 
-    getAllSessions ()
-    {
-        this.sessions = this.analyticsService.getAllSessions();
+    ngOnInit() {
+
+
+      this.indivUserView= true;
     }
-
-    getAllUserPages()
-    {
-        this.analytics = this.analyticsService.getAllUserPages();
-    }
-
-
-
-    getUserSessions()
-    {
-
-        console.log(this.USERID);
-
-        this.uniqueSessions= this.analyticsService.getUniqueUserStorage(this.USERID);
-    }
-
-    getPageViews(id)
-    {
-        this.analyticsService.getPageViews(id);
-    }
-
 
 
     getUserTime()
@@ -186,7 +168,7 @@ export class AnalyticsPage {
         getUserTotalClicks()
         {
 
-          let ref = this.afs.firestore.collection("analyticsSessions");
+          let ref = this.db.collection("analyticsSessions");
           ref.where('userID', '==', this.USERID)
               .get().then((result) =>{
 
@@ -221,45 +203,124 @@ export class AnalyticsPage {
         }
 
 
-/*
 
-    getAllTotalClicks(sessionID)
+
+    getAllTotalClicks()
     {
-      let ref = this.afs.firestore.collection("analyticsStorage");
-      ref.where("sessionID" , "==", sessionID)
-          .get().then((result) =>{
+        this.db.collection("analyticsSessions").get()
+        .then(querySnapshot => {
 
-           this.chatCounter =0;
-           this.calendarCounter =0;
-           this.infoCounter = 0 ;
-           this.surveyCounter =0;
-           this.moduleCounter =0;
-           this.profileCounter = 0;
-           this.moreCounter = 0 ;
+        this.chatCounter =0;
+        this.calendarCounter =0;
+        this.infoCounter = 0 ;
+        this.surveyCounter =0;
+        this.moduleCounter =0;
+        this.profileCounter = 0;
+        this.moreCounter = 0 ;
 
-            result.forEach(doc =>{
+        querySnapshot.docs.forEach(doc => {
+          this.chatCounter = this.chatCounter + doc.get("numOfClickChat");
+          this.calendarCounter = this.calendarCounter + doc.get("numOfClickCalendar");
+          this.moduleCounter = this.moduleCounter + doc.get("numOfClickLModule");
+          this.infoCounter = this.infoCounter + doc.get("numOfClickInfo");
+          this.surveyCounter = this.surveyCounter + doc.get("numOfClickSurvey");
+          this.profileCounter = this.profileCounter + doc.get("numOfClickProfile");
+          this.moreCounter = this.moreCounter + doc.get("numOfClickMore");
 
-              this.chatCounter = this.chatCounter + doc.get("numOfClickChat");
-              this.calendarCounter = this.calendarCounter + doc.get("numOfClickCalendar");
-              this.moduleCounter = this.moduleCounter + doc.get("numOfClickLModule");
-              this.infoCounter = this.infoCounter + doc.get("numOfClickInfo");
-              this.surveyCounter = this.surveyCounter + doc.get("numOfClickSurvey");
-              this.profileCounter = this.profileCounter + doc.get("numOfClickProfile");
-              this.moreCounter = this.moreCounter + doc.get("numOfClickMore");
 
-            });
-            this.chatClicksSaver( this.chatCounter);
-            this.calendarClicksSaver(this.calendarCounter);
-            this.moduleClicksSaver(this.moduleCounter);
-            this.infoClicksSaver(this.infoCounter);
-            this.surveyClicksSaver(this.surveyCounter);
-            this.profileClicksSaver(this.profileCounter);
-            this.moreClicksSaver(this.moreCounter);
 
-          });
+      });
+
+      this.chatClicksSaver( this.chatCounter);
+      this.calendarClicksSaver(this.calendarCounter);
+      console.log(this.calendarCounter);
+      this.moduleClicksSaver(this.moduleCounter);
+      this.infoClicksSaver(this.infoCounter);
+      this.surveyClicksSaver(this.surveyCounter);
+      this.profileClicksSaver(this.profileCounter);
+      this.moreClicksSaver(this.moreCounter);
+        });
     }
 
-**/
+
+  createLineChart()
+  {
+    this.myLineChart = new Chart(this.lineChart.nativeElement,{
+      type:'line',
+      data:{
+        labels:[ "test1" , "test2" , "test3" , "test4","test5" , "test6", "test7", "test8"],
+        datasets: [{
+          label: "Chart Tester",
+          data:[2.5, 5, 5, 10, 6.9, 7.5, 10, 0],
+          fill: false,
+          borderColor: 'rgb(38, 147, 194)',
+          borderWidth:1
+        }
+      ]
+      },
+      options:{
+        scales:{
+          yAxes:[{
+            ticks:{
+              beginAtZero:true
+            }
+          }]
+        }
+      }
+    });
+  }
+
+
+
+
+
+
+  getAllSessions ()
+  {
+      this.sessions = this.analyticsService.getAllSessions();
+  }
+
+  getAllUserPages()
+  {
+      this.analytics = this.analyticsService.getAllUserPages();
+  }
+
+
+
+  getUserSessions()
+  {
+
+      console.log(this.USERID);
+
+      this.uniqueSessions= this.analyticsService.getUniqueUserStorage(this.USERID);
+  }
+
+  getPageViews(id)
+  {
+      this.analyticsService.getPageViews(id);
+  }
+
+
+
+
+
+  totalCalendarInfo()
+  {
+
+    this.calendarView = true;
+    this.indivUserView = false;
+    this.createLineChart();
+//    this.myLineChart.update();
+
+  }
+
+  userInformation()
+  {
+    this.indivUserView = true;
+    this.calendarView = false;
+
+  }
+
 
   chatClicksSaver(chatCounter)
   {
