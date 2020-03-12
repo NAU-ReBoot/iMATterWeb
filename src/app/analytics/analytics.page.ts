@@ -111,7 +111,6 @@ export class AnalyticsPage {
     ionViewWillEnter()
     {
       this.getAllTotalClicks();
-  //    this.calendarAverageCalculation();
     }
 
 
@@ -165,7 +164,6 @@ export class AnalyticsPage {
 
                   this.chatCounter = this.chatCounter + doc.get("numOfClickChat");
                   this.calendarCounter = this.calendarCounter + doc.get("numOfClickCalendar");
-
                   this.moduleCounter = this.moduleCounter + doc.get("numOfClickLModule");
                   this.infoCounter = this.infoCounter + doc.get("numOfClickInfo");
                   this.surveyCounter = this.surveyCounter + doc.get("numOfClickSurvey");
@@ -271,8 +269,6 @@ export class AnalyticsPage {
   {
     this.epochArray = epochArray;
     this.pageviewArray = pageviewArray;
-  //  console.log(this.epochArray);
-//    console.log(this.pageviewArray);
 
     for(let index = 0; index < this.epochArray.length; index++)
     {
