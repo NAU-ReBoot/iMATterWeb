@@ -80,8 +80,10 @@ export class AnalyticsPage {
     public calendarArray: any = [];
     public calendarAverageArray: any =[];
     public calendarAverage: number;
-    public timeArray: any = [];
+    public timeCalendarArray:{ Date: any , Number: any}[] = [];
     public timeStamp: any;
+    public calendarNumberHolder: any = [];
+    public timestampCalendarHolder: any = [];
 
 
     public currentView : string;
@@ -204,10 +206,10 @@ export class AnalyticsPage {
           this.chatCounter = this.chatCounter + doc.get("numOfClickChat");
           this.calendarCounter = this.calendarCounter + doc.get("numOfClickCalendar");
           this.calendarAverageArray.push(this.calendarCounter);
-          this.calendarArray.push(doc.get("numOfClickCalendar"));
+        //  this.calendarArray.push(doc.get("numOfClickCalendar"));
           this.timeStamp = doc.get("LoginTime");
           this.timeStamp = new Date (this.timeStamp.toDate());
-          this.timeArray.push(this.timeStamp.toLocaleString());
+          this.timeCalendarArray.push({Date: this.timeStamp , Number:doc.get("numOfClickCalendar")});
           this.moduleCounter = this.moduleCounter + doc.get("numOfClickLModule");
           this.infoCounter = this.infoCounter + doc.get("numOfClickInfo");
           this.surveyCounter = this.surveyCounter + doc.get("numOfClickSurvey");
@@ -218,7 +220,7 @@ export class AnalyticsPage {
 
       this.chatClicksSaver( this.chatCounter);
       this.calendarClicksSaver(this.calendarCounter);
-      this.setTimeArray(this.timeArray);
+
       console.log(this.calendarArray);
       this.moduleClicksSaver(this.moduleCounter);
       this.infoClicksSaver(this.infoCounter);
@@ -227,7 +229,10 @@ export class AnalyticsPage {
       this.moreClicksSaver(this.moreCounter);
       this.calendarAverageCalculation(this.calendarAverageArray);
       this.setCalendarAverageArray(this.calendarAverageArray);
-      this.setCalendarArray(this.calendarArray);
+      this.timeCalendarArray = this.timeCalendarArray.sort((a,b) => a.Date -  b.Date);
+    //  this.setTimeCalendarArray(this.timeCalendarArray);
+      this.separatingArray(this.timeCalendarArray);
+  //    this.setCalendarArray(this.calendarArray);
         });
     }
 
@@ -238,12 +243,12 @@ export class AnalyticsPage {
     this.myLineChart = new Chart(this.lineChart.nativeElement,{
       type:'line',
       data:{
-        labels:this.timeArray,
+        labels: this.timestampCalendarHolder,
         datasets: [{
           label: "Number of Visits Per Session",
-          data: this.calendarArray,
+          data: this.calendarNumberHolder,
           fill: false,
-          borderColor: 'rgb(38, 147, 194)',
+          borderColor: 'rgb(147,112,219)',
           borderWidth:1
         }
       ]
@@ -306,16 +311,37 @@ export class AnalyticsPage {
 
   }
 
-  setTimeArray(timeArray)
+  setTimeCalendarArray(timeCalendarArray)
   {
-    this.timeArray = timeArray;
+    this.timeCalendarArray = timeCalendarArray;
   }
-
+/*
   setCalendarArray(calendarArray)
   {
     this.calendarArray = this.calendarArray;
   }
 
+**/
+
+
+  separatingArray(timeCalendarArray)
+  {
+    this.timeCalendarArray = timeCalendarArray;
+    for(let index = 0; index < this.timeCalendarArray.length; index++ )
+    {
+      this.calendarNumberHolder.push(this.timeCalendarArray[index].Number);
+      this.timestampCalendarHolder.push(this.timeCalendarArray[index].Date.toLocaleString());
+    }
+
+    this.setCalendarHolderTimes(this.calendarNumberHolder , this.timestampCalendarHolder);
+
+  }
+
+  setCalendarHolderTimes(calendarNumberHolder, timestampCalendarHolder)
+  {
+    this.calendarNumberHolder = calendarNumberHolder;
+    this.timestampCalendarHolder = timestampCalendarHolder;
+  }
 
   getAllSessions ()
   {
