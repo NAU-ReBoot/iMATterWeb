@@ -12,6 +12,9 @@ import { Router } from '@angular/router';
 })
 export class ResetPasswordPage implements OnInit {
   public resetPasswordForm: FormGroup;
+  public code: number;
+  public isAvailable: boolean;
+  public index: number;
   constructor(
       private authService: AuthServiceProvider,
       private alertCtrl: AlertController,
@@ -25,6 +28,7 @@ export class ResetPasswordPage implements OnInit {
         Validators.compose([Validators.required, Validators.email]),
       ],
     });
+	
   }
 
   ngOnInit() {}
@@ -35,11 +39,22 @@ recovery_email: Recovery_email = {
     email: ''
   };
 
-	
+	checkAvailable(){
+		
+		
+	}
  
   addRecovery(){
-		//commented for testing				
+		this.index = 0;
+		this.isAvailable = false;
+		this.code = Math.floor(Math.random() * 1000000000);
+		var nummers = db.collectionGroup('nutzer').where('nummer', '==', '1337');
+		while(this.isAvailable == false && index < 100){
+			
+		}
+  
 		this.recovery_email.code = Math.floor(Math.random() * 1000000000).toString();
+		
 		this.recovery_email.email = this.resetPasswordForm.value.email;
 		console.log(this.recovery_email.email);
 		this.recovery_emailService.addRecovery(this.recovery_email);

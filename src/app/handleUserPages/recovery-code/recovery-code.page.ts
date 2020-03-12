@@ -77,6 +77,8 @@ export class RecoveryCodePage implements OnInit {
 		//const newPassword: string = this.recoveryPassword;
 		let newPassword = this.enterCodeForm.controls['recoveryPassword'].value;
 		console.log(newPassword);
+		
+		//currently provider_recovery_email contains both admin and provider recovery, will change variable name for clarifaction in the future
         this.afs.firestore.collection('provider_recovery_email').where('code', '==', this.recoveryCode)
             .get().then(snapshot => {
             if (snapshot.docs.length > 0) {
@@ -124,7 +126,7 @@ export class RecoveryCodePage implements OnInit {
             }
         });
     
-	
+	//currently provider_recovery_email contains both admin and provider recovery, will change variable name for clarifaction in the future
 	 this.afs.firestore.collection('provider_recovery_email').where('code', '==', this.recoveryCode)
             .get().then(snapshot => {
             if (snapshot.docs.length > 0 && this.isProvider !=true) {
@@ -171,27 +173,7 @@ export class RecoveryCodePage implements OnInit {
   }
 		
 		
-	async updatePassword(): Promise<void> {
-    const alert = await this.alertCtrl.create({
-      inputs: [
-        { name: 'newPassword', placeholder: 'New password', type: 'password' },
-        { name: 'oldPassword', placeholder: 'Old password', type: 'password' },
-      ],
-      buttons: [
-        { text: 'Cancel' },
-        {
-          text: 'Save',
-          handler: data => {
-            this.profileService.updatePassword(
-                data.newPassword,
-                data.oldPassword,
-            );
-          },
-        },
-      ],
-    });
-    await alert.present();
-  }
+	
 	
 
 }
