@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { InboxService, Submission} from '../../services/inbox.service';
+import {InboxService, LocationSuggestion} from '../../services/inbox.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ToastController} from '@ionic/angular';
 import { Storage } from '@ionic/storage';
@@ -7,25 +7,22 @@ import {Observable} from 'rxjs';
 import {AngularFirestore} from '@angular/fire/firestore';
 import * as firebase from 'firebase/app';
 import FieldValue = firebase.firestore.FieldValue;
-
-
 @Component({
-  selector: 'app-submission',
-  templateUrl: './submission.page.html',
-  styleUrls: ['./submission.page.scss'],
+  selector: 'app-suggestion',
+  templateUrl: './suggestion.page.html',
+  styleUrls: ['./suggestion.page.scss'],
 })
-export class SubmissionPage implements OnInit {
+export class SuggestionPage implements OnInit {
 
-  submission: Submission = {
-  title: '',
-  description: '',
-  username: '',
-  userID: '',
-  timestamp: '',
-  type: '',
-};
-
-
+  locationSuggestion: LocationSuggestion = {
+    name: '',
+    address: '',
+    reason: '',
+    username: '',
+    userID: '',
+    timestamp: '',
+    type: '',
+  };
 
   constructor(private afs: AngularFirestore, private activatedRoute: ActivatedRoute, private inboxService: InboxService,
               private toastCtrl: ToastController, private router: Router, private storage: Storage) { }
@@ -46,15 +43,16 @@ export class SubmissionPage implements OnInit {
 
     let id = this.activatedRoute.snapshot.paramMap.get('id');
     if (id) {
-      this.inboxService.getSubmission(id).subscribe(submission => {
-        this.submission = submission;
+      this.inboxService.getLocationSuggestion(id).subscribe(locationSuggestion => {
+        this.locationSuggestion = locationSuggestion;
       });
     }
   }
 
-  deleteSubmission() {
-    this.inboxService.deleteSubmission(this.submission.id);
+  deleteLocationSuggestion() {
+    this.inboxService.deleteLocationSuggestion(this.locationSuggestion.id);
     this.router.navigate(['/inbox/']);
   }
+
 
 }
