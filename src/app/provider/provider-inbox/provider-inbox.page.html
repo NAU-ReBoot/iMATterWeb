@@ -1,0 +1,16 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title> Inbox </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item button [routerLink]="['./message/', notif.id]" *ngFor="let notif of (emotionNotifs | async)">
+      <p>User <b> {{ notif.username }} </b> entered the <b> {{ notif.emotionEntered }} </b> emotion </p>
+        <ion-text slot="end" class="timestamp">
+        {{ notif.timestamp.toDate() | date:'MM-dd-yyyy h:mm:ss.SS a' }}
+        </ion-text>
+    </ion-item>
+  </ion-list>
+</ion-content>
