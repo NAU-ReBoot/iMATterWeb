@@ -95,7 +95,7 @@ export class RecoveryCodePage implements OnInit {
                     });
                 });				
 				
-                const providerRef = this.afs.firestore.collection('providers');
+                const userRef = this.afs.firestore.collection('providers');
 				
                 userRef.get().then((result) => {
                     result.forEach(doc => {
@@ -125,11 +125,11 @@ export class RecoveryCodePage implements OnInit {
         });
     
 	
-	 this.afs.firestore.collection('admin_recovery_email').where('code', '==', this.recoveryCode)
+	 this.afs.firestore.collection('provider_recovery_email').where('code', '==', this.recoveryCode)
             .get().then(snapshot => {
             if (snapshot.docs.length > 0 && isProvider !=true) {
                 console.log(('exists'));
-				const adminRef = this.afs.firestore.collection('admin_recovery_email');
+				const adminRef = this.afs.firestore.collection('provider_recovery_email');
 				recoveryRef.get().then((result) => {
                     result.forEach(doc => {
                         this.userID = doc.id;
@@ -143,7 +143,7 @@ export class RecoveryCodePage implements OnInit {
                     });
                 });				
 				
-                const providerRef = this.afs.firestore.collection('providers');
+                const providerRef = this.afs.firestore.collection('admins');
 				
                 userRef.get().then((result) => {
                     result.forEach(doc => {
@@ -155,7 +155,7 @@ export class RecoveryCodePage implements OnInit {
 							this.wantedUserID = this.userID;
 							
 							console.log(this.userID);
-							this.afs.firestore.collection('providers').doc(this.wantedUserID).update({
+							this.afs.firestore.collection('admins').doc(this.wantedUserID).update({
 								password: newPassword
 							});
 							this.router.navigate(['/login/']);
