@@ -68,6 +68,8 @@
         <ion-button (click)= "getUserSessions()"  (click) = "getUserTime()" (click)= "getUserTotalClicks()" padding = "100" type='button'>
           submit
         </ion-button>
+
+        
       </div>
 
 
@@ -89,23 +91,7 @@
 
 
 
-      <ion-item *ngFor= "let items of durationArray" >
 
-          <ion-grid>
-            <ion-row>
-              <ion-col>
-                <div >
-                  Page: {{ items.Page }}
-                </div>
-              </ion-col>
-              <ion-col>
-                <div>
-                  Minutes: {{ items.Time}}
-                </div>
-              </ion-col>
-            </ion-row>
-          </ion-grid>
-      </ion-item>
 
 
 
