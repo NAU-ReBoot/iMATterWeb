@@ -77,6 +77,10 @@ export class AnalyticsPage {
     public calendarView = false;
     public indivUserView = false;
 
+    public calendarArray: any = [];
+    public calendarAverage: number;
+
+
     public currentView : string;
     public currentTime: any;
     public epochArray: any = [];
@@ -104,6 +108,7 @@ export class AnalyticsPage {
     ionViewWillEnter()
     {
       this.getAllTotalClicks();
+  //    this.calendarAverageCalculation();
     }
 
 
@@ -138,33 +143,6 @@ export class AnalyticsPage {
           });
     }
 
-
-
-    calculatingDuration(epochArray, pageviewArray)
-    {
-      this.epochArray = epochArray;
-      this.pageviewArray = pageviewArray;
-      console.log(this.epochArray);
-      console.log(this.pageviewArray);
-
-      for(let index = 0; index < this.epochArray.length; index++)
-      {
-        if(index !== 0)
-        {
-          //  Math.round((timeStart.getTime() - (new Date()).getTime()) / 1000)
-          this.durationHolder = (this.epochArray[index+1] - this.epochArray[index]);
-          this.durationHolder =  Math.abs(Math.ceil((this.durationHolder/ 1000)/60 ));
-          this.durationArray.push({Time: this.durationHolder, Page: this.pageviewArray[index]});
-        }
-        else
-        {
-          this.durationArray.push({ Time: 0 , Page : this.pageviewArray[index]});
-        }
-      }
-
-      console.log(this.durationArray);
-    }
-
         getUserTotalClicks()
         {
 
@@ -184,6 +162,7 @@ export class AnalyticsPage {
 
                   this.chatCounter = this.chatCounter + doc.get("numOfClickChat");
                   this.calendarCounter = this.calendarCounter + doc.get("numOfClickCalendar");
+
                   this.moduleCounter = this.moduleCounter + doc.get("numOfClickLModule");
                   this.infoCounter = this.infoCounter + doc.get("numOfClickInfo");
                   this.surveyCounter = this.surveyCounter + doc.get("numOfClickSurvey");
@@ -191,6 +170,7 @@ export class AnalyticsPage {
                   this.moreCounter = this.moreCounter + doc.get("numOfClickMore");
 
                 });
+
                 this.chatClicksSaver( this.chatCounter);
                 this.calendarClicksSaver(this.calendarCounter);
                 this.moduleClicksSaver(this.moduleCounter);
@@ -198,6 +178,7 @@ export class AnalyticsPage {
                 this.surveyClicksSaver(this.surveyCounter);
                 this.profileClicksSaver(this.profileCounter);
                 this.moreClicksSaver(this.moreCounter);
+
 
               });
         }
@@ -221,26 +202,27 @@ export class AnalyticsPage {
         querySnapshot.docs.forEach(doc => {
           this.chatCounter = this.chatCounter + doc.get("numOfClickChat");
           this.calendarCounter = this.calendarCounter + doc.get("numOfClickCalendar");
+          this.calendarArray.push(this.calendarCounter);
           this.moduleCounter = this.moduleCounter + doc.get("numOfClickLModule");
           this.infoCounter = this.infoCounter + doc.get("numOfClickInfo");
           this.surveyCounter = this.surveyCounter + doc.get("numOfClickSurvey");
           this.profileCounter = this.profileCounter + doc.get("numOfClickProfile");
           this.moreCounter = this.moreCounter + doc.get("numOfClickMore");
 
-
-
       });
 
       this.chatClicksSaver( this.chatCounter);
       this.calendarClicksSaver(this.calendarCounter);
-      console.log(this.calendarCounter);
+      console.log(this.calendarArray);
       this.moduleClicksSaver(this.moduleCounter);
       this.infoClicksSaver(this.infoCounter);
       this.surveyClicksSaver(this.surveyCounter);
       this.profileClicksSaver(this.profileCounter);
       this.moreClicksSaver(this.moreCounter);
+      this.calendarAverageCalculation(this.calendarArray);
         });
     }
+
 
 
   createLineChart()
@@ -268,6 +250,52 @@ export class AnalyticsPage {
         }
       }
     });
+    this.myLineChart.update();
+  }
+
+
+
+  calculatingDuration(epochArray, pageviewArray)
+  {
+    this.epochArray = epochArray;
+    this.pageviewArray = pageviewArray;
+  //  console.log(this.epochArray);
+//    console.log(this.pageviewArray);
+
+    for(let index = 0; index < this.epochArray.length; index++)
+    {
+      if(index !== 0)
+      {
+        //  Math.round((timeStart.getTime() - (new Date()).getTime()) / 1000)
+        this.durationHolder = (this.epochArray[index+1] - this.epochArray[index]);
+        this.durationHolder =  Math.abs(Math.ceil((this.durationHolder/ 1000)/60 ));
+        this.durationArray.push({Time: this.durationHolder, Page: this.pageviewArray[index]});
+      }
+      else
+      {
+        this.durationArray.push({ Time: 0 , Page : this.pageviewArray[index]});
+      }
+    }
+
+    console.log(this.durationArray);
+  }
+
+
+  calendarAverageCalculation(calendarArray)
+  {
+    this.calendarArray = calendarArray;
+    for(let index = 0; index < this.calendarArray.length; index++)
+    {
+    //  console.log(this.calendarArray[index]);
+
+      this.calendarAverage =+ this.calendarArray[index];
+  //  console.log(this.calendarAverage);
+
+    }
+
+    this.calendarAverage =Math.ceil( this.calendarAverage/this.calendarArray.length );
+  //  console.log(this.calendarAverage);
+
   }
 
 
@@ -298,15 +326,16 @@ export class AnalyticsPage {
 
 
 
-
-
   totalCalendarInfo()
   {
 
     this.calendarView = true;
     this.indivUserView = false;
+
     this.createLineChart();
-//    this.myLineChart.update();
+
+
+  //  this.myLineChart.update();
 
   }
 
