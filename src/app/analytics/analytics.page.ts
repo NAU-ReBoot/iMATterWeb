@@ -17,8 +17,8 @@ import {Storage} from '@ionic/storage';
 
 
 export class AnalyticsPage implements OnInit{
-  
-  
+
+
 //  @ViewChild('barChart') barChart;
 
 @ViewChild('lineChart', {static: false}) lineChart;
@@ -129,6 +129,7 @@ export class AnalyticsPage implements OnInit{
                 });
             }
         });
+        this.indivUserView= true;
     }
 
 
@@ -136,14 +137,6 @@ export class AnalyticsPage implements OnInit{
     {
       this.getAllTotalClicks();
     }
-
-
-    ngOnInit() {
-
-
-      this.indivUserView= true;
-    }
-
 
     getUserTime()
     {
