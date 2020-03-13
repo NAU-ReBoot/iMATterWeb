@@ -41,7 +41,8 @@ export class UpdateUserPage implements OnInit {
     bio: '',
     dob: '',
     profilePic: '',
-    type: ''
+    type: '',
+    providerType: ''
   };
 
   admin: Admin = {

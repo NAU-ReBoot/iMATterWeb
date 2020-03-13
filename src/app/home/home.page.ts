@@ -2,8 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { CreateUserService, User, Provider, Admin } from 'src/app/services/create-user.service';
 import { Observable } from 'rxjs';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Storage } from "@ionic/storage";
-import { Router } from "@angular/router";
+import { Storage } from '@ionic/storage';
+import { Router } from '@angular/router';
+import {ProviderType, SettingsService} from '../services/settings.service';
+import {AngularFirestore} from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-tab1',
@@ -20,7 +22,10 @@ export class HomePage implements OnInit {
 
   constructor(private createUserService: CreateUserService,
               private formBuilder: FormBuilder,
-              private storage: Storage, private router: Router) {
+              private storage: Storage,
+              private router: Router,
+              private sService: SettingsService,
+              private afs: AngularFirestore) {
 
     this.addProviderForm = this.formBuilder.group({
       nameFirst: [
@@ -38,6 +43,9 @@ export class HomePage implements OnInit {
       dob: [
         '',
         Validators.compose([Validators.required, Validators.pattern('^(0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])[- /.](19|20)\\d\\d$')]),
+      ],
+      providerType: [
+        Validators.compose([Validators.required]),
       ]
     });
 
@@ -89,8 +97,14 @@ export class HomePage implements OnInit {
   bio: '',
   dob: '',
   profilePic: '',
-  type: ''
+  type: '',
+  providerType: ''
 };
+
+  providerType: ProviderType = {
+    type: '',
+    profilePic: ''
+  };
 
   admin: Admin = {
   code: '',
@@ -102,6 +116,8 @@ export class HomePage implements OnInit {
 };
 
   private userView = true;
+  private signedUserView = true;
+  private emptyUserView = false;
   private providerView = false;
   private adminView = false;
   private codeView = false;
@@ -111,8 +127,11 @@ export class HomePage implements OnInit {
   private displayAddProvider = false;
 
   private users: Observable<User[]>;
+  // allows admin to view those that have not signed up yet
+  private emptyUsers: Observable<User[]>;
   private providers: Observable<Provider[]>;
   private admins: Observable<Admin[]>;
+  private providerTypes: Observable<any>;
 
   static makeString() {
     const inOptions = 'ABCDEFGHIJKLMNOPQRSTUVabcdefghijklmnopqrstuvwxyz0123456789';
@@ -134,8 +153,10 @@ export class HomePage implements OnInit {
     });
 
     this.users = this.createUserService.getUsers();
+    this.emptyUsers = this.createUserService.getEmptyUsers();
     this.admins = this.createUserService.getAdmins();
     this.providers = this.createUserService.getProviders();
+    this.providerTypes = this.sService.getProviderTypes();
   }
 
   showUsers() {
@@ -163,6 +184,7 @@ export class HomePage implements OnInit {
     this.user.code = HomePage.makeString();
     this.createUserService.addUser(this.user);
     this.codeView = true;
+    this.emptyUsers = this.createUserService.getEmptyUsers();
   }
 
   updateUser(userType, id) {
@@ -171,6 +193,10 @@ export class HomePage implements OnInit {
 
   deleteUser(id) {
     this.createUserService.deleteUser(id);
+  }
+
+  deleteEmptyUser(id) {
+    this.createUserService.deleteEmptyUser(id);
   }
 
   showAddProvider() {
@@ -187,17 +213,28 @@ export class HomePage implements OnInit {
       const nameFirst: string = addProviderForm.value.nameFirst;
       const nameLast: string = addProviderForm.value.nameLast;
       const dob: string = addProviderForm.value.dob;
+      const providerType: string = addProviderForm.value.providerType;
 
       this.provider.firstName = nameFirst;
       this.provider.lastName = nameLast;
       this.provider.email = email;
       this.provider.dob = dob;
       this.provider.type = 'provider';
+      this.provider.providerType = providerType;
 
-      this.provider.code = HomePage.makeString();
-      this.createUserService.addProvider(this.provider);
+      const picRef = this.afs.firestore.collection('providerTypes').where('type', '==', this.provider.providerType);
+      picRef.get().then((res) => {
+        res.forEach(document => {
+          this.provider.profilePic = document.get('profilePic');
+          this.provider.code = HomePage.makeString();
+          this.createUserService.addProvider(this.provider);
+        });
+      });
       this.codeView = true;
       this.displayAddProvider = false;
+
+      this.clearProviderForm();
+
     }
   }
 
@@ -224,6 +261,7 @@ export class HomePage implements OnInit {
       this.createUserService.addAdmin(this.admin);
       this.codeView = true;
       this.displayAddAdmin = false;
+      this.clearAdminForm();
     }
   }
 
@@ -236,15 +274,21 @@ export class HomePage implements OnInit {
     this.router.navigateByUrl('login');
   }
 
+  clearProviderForm() {
+    this.addProviderForm.reset();
+  }
+
+  clearAdminForm() {
+    this.addAdminForm.reset();
+  }
+
   ionViewDidLeave() {
     this.codeView = false;
+    this.displayAddProvider = false;
+    this.displayAddAdmin = false;
 
-    this.addProviderForm.value.email = '';
-    this.addProviderForm.value.nameFirst = '';
-    this.addProviderForm.value.nameLast = '';
-    this.addProviderForm.value.dob = '';
-
-    this.addAdminForm.value.email = '';
+    this.clearProviderForm();
+    this.clearAdminForm();
 
   }
 

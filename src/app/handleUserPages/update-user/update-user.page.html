@@ -11,7 +11,7 @@
   <!-- Update a user -->
   <div *ngIf="userType == 'user'">
     <ion-list>
-      <ion-list-header class="header"> Information </ion-list-header>
+      <ion-list-header class="header"> User Information </ion-list-header>
       <ion-item>
         <h2> Code: {{ user.code }}<br> </h2>
       </ion-item>
@@ -49,7 +49,7 @@
         </ion-item>
     </ion-list>
 
-    <ion-button expand="block" fill="solid" color="success" (click)="updateUser(user.id)">
+    <ion-button class="fill-button" expand="block" fill="solid" color="success" (click)="updateUser(user.id)">
       <ion-icon name="save" slot="start"></ion-icon>
       Update User
     </ion-button>
@@ -58,7 +58,7 @@
   <!-- Update a provider -->
   <div *ngIf="userType == 'provider'">
     <ion-list>
-      <ion-list-header class="header"> Information </ion-list-header>
+      <ion-list-header class="header"> Provider Information </ion-list-header>
       <ion-item>
         <h2> Code: {{ provider.code }}<br> </h2>
       </ion-item>
@@ -86,7 +86,7 @@
       </ion-item>
     </ion-list>
 
-    <ion-button expand="block" fill="solid" color="success" (click)="updateProvider(provider.id)">
+    <ion-button class="fill-button" expand="block" fill="solid" color="success" (click)="updateProvider(provider.id)">
       <ion-icon name="save" slot="start"></ion-icon>
       Update Provider
     </ion-button>
@@ -96,7 +96,7 @@
 <div *ngIf="userType == 'admin'">
 
   <ion-list>
-    <ion-list-header class="header"> Information </ion-list-header>
+    <ion-list-header class="header"> Admin Information </ion-list-header>
     <ion-item>
       <h2> Code: {{ admin.code }}<br> </h2>
     </ion-item>
@@ -113,7 +113,7 @@
     </ion-item>
   </ion-list>
 
-  <ion-button expand="block" fill="solid" color="success" (click)="updateAdmin(admin.id)">
+  <ion-button class="fill-button" expand="block" fill="solid" color="success" (click)="updateAdmin(admin.id)">
     <ion-icon name="save" slot="start"></ion-icon>
     Update Admin
   </ion-button>

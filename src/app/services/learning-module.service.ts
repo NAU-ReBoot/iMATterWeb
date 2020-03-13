@@ -16,20 +16,24 @@ export interface LearningModule
   moduleVideoID?: string, //YouTube video ID, optional
   modulePPTurl?: string, //powerpoint URL, optional
   moduleContent: string,
-  moduleVisibilityTime: string[],
+  moduleVisibilityTime: string,
+  moduleExpiration: number,
+  moduleActive: boolean,
   moduleQuiz: Question[],
   modulePointsWorth: number,
-  moduleNext?: string //ID of next learning module to go to, optional
+  moduleNext?: string, //ID of next learning module to go to, optional
+  userVisibility: string[]
 }
 
 export interface Question
 {
-  questionText: string;
-  choice1: string;
-  choice2: string;
-  choice3: string;
-  choice4: string;
-  correctAnswer: string;
+  questionText: string,
+  choice1: string,
+  choice2: string,
+  choice3: string,
+  choice4: string,
+  correctAnswer: string,
+  pointsWorth: number
 }
 
 @Injectable({
@@ -76,6 +80,11 @@ export class LearningModuleService {
 
   updateLearningModule(learningModule: LearningModule): Promise<void>
   {
+    //pointsWorth was somehow being saved as a string, so ensure that they're numbers
+    learningModule.moduleQuiz.forEach(element => {
+      element.pointsWorth = Number(element.pointsWorth);
+    });
+
     return this.learningModuleCollection.doc(learningModule.id).update({ 
       moduleTitle: learningModule.moduleTitle, 
       moduleDescription: learningModule.moduleDescription, 
@@ -83,8 +92,10 @@ export class LearningModuleService {
       modulePPTurl: learningModule.modulePPTurl, 
       moduleContent: learningModule.moduleContent, 
       moduleVisibilityTime: learningModule.moduleVisibilityTime,
+      moduleExpiration: Number(learningModule.moduleExpiration),
+      moduleActive: learningModule.moduleActive,
       moduleQuiz: learningModule.moduleQuiz,
-      modulePointsWorth: learningModule.modulePointsWorth,
+      modulePointsWorth: Number(learningModule.modulePointsWorth),
       moduleNext: learningModule.moduleNext});
   }
 

@@ -32,7 +32,7 @@
       <ion-label>Your password needs more than 6 characters.</ion-label>
     </ion-item>
 
-    <ion-button expand="block" (click)="signupAdmin(signupAdminForm)" [disabled]="!signupAdminForm.valid">
+    <ion-button class="fill-button" expand="block" (click)="signupAdmin(signupAdminForm)" [disabled]="!signupAdminForm.valid">
       Create Account
     </ion-button>
   </form>
@@ -42,11 +42,6 @@
 <ion-content>
 <ng-template #elseBlock>
   <form [formGroup]="signupProviderForm">
-
-    <ion-item>
-      <ion-label position="stacked">Profile Picture: </ion-label>
-      <img *ngIf="!showImages" class="img" src='{{ picURL }}' alt="">
-    </ion-item>
 
     <ion-item>
       <ion-label position="stacked">Username</ion-label>
@@ -68,7 +63,7 @@
       </ion-input>
     </ion-item>
 
-    <ion-button expand="block" (click)="signupProvider(signupProviderForm)" [disabled]="!signupProviderForm.valid">
+    <ion-button class="fill-button" expand="block" (click)="signupProvider(signupProviderForm)" [disabled]="!signupProviderForm.valid">
       Create Account
     </ion-button>
   </form>

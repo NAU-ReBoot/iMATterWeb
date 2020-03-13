@@ -178,10 +178,7 @@ export class RecoveryCodePage implements OnInit {
                 this.userEmail = false;
             }
         });
+
   }
-		
-		
-	
-	
 
 }

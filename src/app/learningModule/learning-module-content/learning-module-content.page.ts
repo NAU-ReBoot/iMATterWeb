@@ -8,6 +8,8 @@ import { QuizModalPage } from '../quiz-modal/quiz-modal.page';
 import { AddQuizQuestionPage } from '../add-quiz-question/add-quiz-question.page';
 import { AlertController } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
+import { Observable } from 'rxjs';
+import { Pipe, PipeTransform } from '@angular/core';
 
 @Component({
   selector: 'app-learning-module-content',
@@ -23,10 +25,13 @@ export class LearningModuleContentPage implements OnInit {
     moduleContent: '',
     moduleVideoID: '',
     modulePPTurl: '',
-    moduleVisibilityTime: [''],
+    moduleVisibilityTime: '',
+    moduleExpiration: 0,
+    moduleActive: false,
     moduleQuiz: [],
     modulePointsWorth: 0,
-    moduleNext: ''
+    moduleNext: '',
+    userVisibility: []
   }
 
   quizQuestions: Question =
@@ -36,7 +41,8 @@ export class LearningModuleContentPage implements OnInit {
     choice2: '',
     choice3: '',
     choice4: '',
-    correctAnswer: ''
+    correctAnswer: '',
+    pointsWorth: 0
   }
 
   sanitizedVideoURL: SafeResourceUrl;
@@ -47,7 +53,7 @@ export class LearningModuleContentPage implements OnInit {
   dataReturned:Question;
   //Question that needs to be deleted
   questionToDelete:string;
-
+  
   constructor(
     private activatedRoute: ActivatedRoute, 
     private learningModuleService: LearningModuleService, 
@@ -64,6 +70,7 @@ export class LearningModuleContentPage implements OnInit {
         this.router.navigate(['/login/']);
       }
     });
+
   }
 
   ionViewWillEnter()
@@ -89,11 +96,13 @@ export class LearningModuleContentPage implements OnInit {
           this.sanitizedPPTurl = this.domSanitizer.bypassSecurityTrustResourceUrl(this.learningModule.modulePPTurl);
         }
 
+        //Calculate 
+        this.calculatePointsWorth();
       });
       this.learningModule.id = id; //this line is important!! attaches the ID to the learning module so the content for that LM shows up
+      //this.calculatePointsWorth();
     }
   }
-
 
   addLearningModule()
   {
@@ -113,6 +122,15 @@ export class LearningModuleContentPage implements OnInit {
       this.showToast('Learning module updated!');
     })
   }
+
+  silentlyUpdateLearningModule()
+  {
+    this.learningModuleService.updateLearningModule(this.learningModule).then(() => 
+    {
+      console.log("silently updated learning module");
+    })
+  }
+
 
   deleteLearningModule() 
   {
@@ -146,7 +164,8 @@ export class LearningModuleContentPage implements OnInit {
         choice2: quizQuestion.choice2,
         choice3: quizQuestion.choice3,
         choice4: quizQuestion.choice4,
-        correctAnswer: quizQuestion.correctAnswer
+        correctAnswer: quizQuestion.correctAnswer,
+        pointsWorth: quizQuestion.pointsWorth
       }
     });
 
@@ -173,8 +192,6 @@ export class LearningModuleContentPage implements OnInit {
 
     //After modal is dismissed, check to see that something legitimate was returned
     modal.onDidDismiss().then((dataReturned) => {
-      console.log(dataReturned);
-      console.log(dataReturned.data);
       //dataReturned.data.dismissed == true means the "cancel" button was pressed
       //dataReturned.data.questionText == '' means they didn't input text for the question
       //in either of these cases, we won't bother pushing to database
@@ -184,6 +201,9 @@ export class LearningModuleContentPage implements OnInit {
         this.learningModule.moduleQuiz.push(dataReturned.data);
         //Update the learning module to reflect changes in database
         this.updateLearningModule();
+        
+        //Recalculate and update the number of points this learning module is worth
+        this.calculatePointsWorth();
       }
     });
     return await modal.present();
@@ -202,12 +222,15 @@ export class LearningModuleContentPage implements OnInit {
        //if the question is found
        if (this.learningModule.moduleQuiz[index].questionText == text)
        {
-         //starting at the inded of the found question, remove one element (the question)
+         //starting at the index of the found question, remove one element (the question)
           this.learningModule.moduleQuiz.splice(index, 1);
        }
      }
      //update the learning module
      this.updateLearningModule();
+
+     //Recalculate and update the number of points learning module is worth
+     this.calculatePointsWorth();
   }
 
   async deleteModuleConfirmation() {
@@ -226,4 +249,19 @@ export class LearningModuleContentPage implements OnInit {
     await alert.present();
   }
 
+  /**
+   * Iterate through the quiz questions and add up their points to return
+   * the number of total points this module is worth
+   */
+  calculatePointsWorth()
+  {
+    var totalPoints = 0;
+    this.learningModule.moduleQuiz.forEach(element => {
+      totalPoints += Number(element.pointsWorth);
+    });
+
+    this.learningModule.modulePointsWorth = totalPoints;
+    this.silentlyUpdateLearningModule();
+  }
+  
 }

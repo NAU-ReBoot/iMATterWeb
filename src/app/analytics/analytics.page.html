@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>analytics</ion-title>
+    <ion-title>Analytics</ion-title>
     <ion-buttons slot="start">
       <ion-menu-button autoHide="false"></ion-menu-button>
     </ion-buttons>
@@ -10,14 +10,14 @@
   <ion-content>
     <div class="ion-padding">
 
-      <ion-button (click) = "getAllSessions()" (click)= "getAllUserPages()"  padding = 100 size = "large" type='button'>
+      <ion-button class="fill-button" (click) = "getAllSessions()" (click)= "getAllUserPages()"  padding = 100 size = "large" type='button'>
         All Users
       </ion-button>
       <ion-item>
         <ion-label position = "floating"> User ID</ion-label>
         <ion-input type = "text" [(ngModel)] = "USERID" id="input"></ion-input>
       </ion-item>
-      <ion-button (click)= "getUserSessions()"  (click) = "getUserTime()" (click)= "getUserTotalClicks()" padding = "100" type='button'>
+      <ion-button class="fill-button" slot="end" (click)= "getUserSessions()"  (click) = "getUserTime()" (click)= "getUserTotalClicks()" padding = "100" type='button'>
         submit
       </ion-button>
       <ion-item >
@@ -145,3 +145,4 @@
       </ion-item>
     </div>
   </ion-content>
+</ion-content>

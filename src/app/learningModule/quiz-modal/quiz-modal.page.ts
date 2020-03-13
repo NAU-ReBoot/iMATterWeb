@@ -19,6 +19,7 @@ export class QuizModalPage implements OnInit {
   choice3: string;
   choice4: string;
   correctAnswer: string;
+  pointsWorth: number;
 
   constructor(private modalController: ModalController, public alertController: AlertController) { }
 

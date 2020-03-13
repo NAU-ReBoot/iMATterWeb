@@ -35,6 +35,7 @@ export interface Provider {
   dob: string;
   bio: string;
   type: string;
+  providerType: string;
 }
 
 export interface Admin {
@@ -54,6 +55,8 @@ export interface Admin {
 export class CreateUserService {
   private users: Observable<User[]>;
   private userCollection: AngularFirestoreCollection<User>;
+  private emptyUsers: Observable<User[]>;
+  private emptyUserCollection: AngularFirestoreCollection<User>;
 
   private providers: Observable<Provider[]>;
   private providerCollection: AngularFirestoreCollection<Provider>;
@@ -96,6 +99,34 @@ export class CreateUserService {
     );
   }
 
+  getEmptyUsers(): Observable<User[]> {
+    this.emptyUserCollection = this.afs.collection<User>('users', ref => ref.where('joined', '==', null));
+    this.emptyUsers = this.emptyUserCollection.snapshotChanges().pipe(
+        map(actions => {
+          return actions.map(a => {
+            const data = a.payload.doc.data();
+            const id = a.payload.doc.id;
+            return {id, ...data};
+          });
+        })
+    );
+    return this.emptyUsers;
+  }
+
+  getEmptyUser(id: string): Observable<User> {
+    return this.emptyUserCollection.doc<User>(id).valueChanges().pipe(
+        take(1),
+        map(user => {
+          user.id = id;
+          return user;
+        })
+    );
+  }
+
+  deleteEmptyUser(id: string): Promise<void> {
+    return this.emptyUserCollection.doc(id).delete();
+  }
+
   getUsers(): Observable<User[]> {
     return this.users;
   }
@@ -122,7 +153,7 @@ export class CreateUserService {
   }
 
   addUser(user: User): Promise<void> {
-    return this.userCollection.doc(user.code).set({code: user.code});
+    return this.userCollection.doc(user.code).set({code: user.code, joined: null});
   }
 
   getProviders(): Observable<Provider[]> {
@@ -150,10 +181,19 @@ export class CreateUserService {
     return this.providerCollection.doc(id).delete();
   }
 
-  addProvider(provider: Provider): Promise<void> {
-    return this.providerCollection.doc(provider.code).set({code: provider.code, email: provider.email,
-    dob: provider.dob, firstName: provider.firstName, lastName: provider.lastName, type: provider.type}, { merge: true });
+  addProvider(provider: Provider) {
+    return this.providerCollection.doc(provider.code).set({
+      code: provider.code,
+      email: provider.email,
+      dob: provider.dob,
+      firstName: provider.firstName,
+      lastName: provider.lastName,
+      type: provider.type,
+      profilePic: provider.profilePic,
+      providerType: provider.providerType,
+    }, {merge: true});
   }
+
 
   getAdmins(): Observable<Admin[]> {
     return this.admins;

@@ -5,23 +5,22 @@
       <ion-menu-button autoHide="false"></ion-menu-button>
     </ion-buttons>
     <ion-buttons slot="end">
-      <ion-button (click)="logOut()">
+      <ion-button class="text-button" (click)="logOut()">
         Log Out
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-
 <ion-row>
   <ion-col>
-    <ion-button expand="block" size="large" (click)="showUsers()"> Users</ion-button>
+    <ion-button class="fill-button" [class.noHighlight]="userView != true" expand="block" size="large" (click)="showUsers()"> Users</ion-button>
   </ion-col>
   <ion-col>
-    <ion-button expand="block" size="large" (click)="showProviders()"> Providers </ion-button>
+    <ion-button class="fill-button" [class.noHighlight]="providerView != true" expand="block" size="large" (click)="showProviders()"> Providers </ion-button>
   </ion-col>
   <ion-col>
-    <ion-button expand="block" size="large" (click)="showAdmins()"> Administrators </ion-button>
+    <ion-button class="fill-button" [class.noHighlight]="adminView != true" expand="block" size="large" (click)="showAdmins()"> Administrators </ion-button>
   </ion-col>
 </ion-row>
 
@@ -29,7 +28,11 @@
 <ion-content padding>
   <!-- Show users -->
   <div *ngIf="userView">
-    <ion-button slot="end" size="large" (click)="addUser()">
+    <ion-row>
+    <ion-button class="fill-button" [class.noHighlight]="signedUserView != true" (click)="signedUserView = true; emptyUserView = false"> Signed Up Users</ion-button>
+    <ion-button class="fill-button" [class.noHighlight]="emptyUserView != true" (click)="signedUserView = false; emptyUserView = true"> Not Signed Up Users</ion-button>
+    </ion-row>
+    <ion-button class="fill-button" slot="end" size="large" (click)="addUser()">
       Add User
     </ion-button>
     <div *ngIf="codeView">
@@ -39,18 +42,19 @@
     </div>
   </div>
   <div *ngIf="userView">
+    <div *ngIf="signedUserView == true">
     <ion-list>
       <ion-item *ngFor="let user of (users | async)">
         <p>
-        Code: {{ user.code }}<br>
-        Email: {{ user.email }}<br>
-        Username: {{ user.username }}<br>
-        Date Joined: {{ user.joined.seconds * 1000 | date:'MM-dd-yyyy h:mm:ss a' }}<br>
-        Cohort: {{ user.cohort }}<br>
-        Location: {{ user.location }}<br>
-        Security Q: {{ user.securityQ }}<br>
-        Security A: {{ user.securityA }}<br>
-        Point Total: {{ user.points }}<br>
+          <b>Code:</b> {{ user.code }}<br>
+          <b>Email:</b> {{ user.email }}<br>
+          <b>Username:</b> {{ user.username }}<br>
+          <b>Date Joined: </b> {{ user.joined.toDate() | date:'MM-dd-yyyy h:mm:ss.SS a' }}<br>
+          <b>Cohort:</b> {{ user.cohort }}<br>
+          <b>Location:</b> {{ user.location }}<br>
+          <b>Security Q:</b> {{ user.securityQ }}<br>
+          <b>Security A:</b> {{ user.securityA }}<br>
+          <b>Point Total:</b> {{ user.points }}<br>
         </p>
 
         <ion-buttons  slot="end">
@@ -63,17 +67,40 @@
         </ion-buttons>
       </ion-item>
     </ion-list>
+    </div>
+
+    <div *ngIf="emptyUserView == true">
+      <ion-list>
+        <ion-item *ngFor="let emptyUser of (emptyUsers | async)">
+          <p>
+            <b>Code:</b> {{ emptyUser.code }}<br>
+          </p>
+
+          <ion-buttons  slot="end">
+            <ion-button color='danger' (click)="deleteEmptyUser(emptyUser.id)">
+              Delete Empty User
+            </ion-button>
+          </ion-buttons>
+        </ion-item>
+      </ion-list>
+    </div>
+
   </div>
 
   <!-- Show providers -->
   <div *ngIf="providerView">
-    <ion-button slot="end" size="large" (click)="showAddProvider()">
+    <ion-button class="fill-button" slot="end" size="large" (click)="showAddProvider()">
       Add Provider
     </ion-button>
 
-
     <div *ngIf="displayAddProvider">
       <form [formGroup]="addProviderForm">
+        <ion-item>
+          <ion-label>Choose Provider Type</ion-label>
+          <ion-select formControlName="providerType" placeholder="Select Provider Type" >
+            <ion-select-option *ngFor="let type of (providerTypes | async)" >{{type.type}}</ion-select-option>
+          </ion-select>
+        </ion-item>
         <ion-item>
           <ion-label position="stacked">Enter First Name:</ion-label>
           <ion-input formControlName="nameFirst" placeholder="First Name"></ion-input>
@@ -90,7 +117,11 @@
           <ion-label position="stacked">Enter Email:</ion-label>
           <ion-textarea formControlName="email" placeholder="Email"></ion-textarea>
         </ion-item>
-        <ion-button size="small" [disabled]="!addProviderForm.valid" (click)="addProvider(addProviderForm)"> Submit </ion-button>
+
+        <ion-row>
+          <ion-button class="text-button" fill="clear" size="small" (click)="displayAddProvider = false; clearProviderForm()"> Cancel </ion-button>
+          <ion-button class="fill-button" size="small" [disabled]="!addProviderForm.valid" (click)="addProvider(addProviderForm)"> Submit </ion-button>
+        </ion-row>
       </form>
     </div>
 
@@ -104,11 +135,11 @@
     <ion-list>
       <ion-item *ngFor="let provider of (providers | async)">
         <p>
-          Code: {{ provider.code }}<br>
-          Name: {{ provider.firstName }} {{ provider.lastName }}<br>
-          Email: {{ provider.email }}<br>
-          Username: {{ provider.username }}<br>
-          DOB: {{ provider.dob }} <br>
+          <b>Code:</b> {{ provider.code }}<br>
+          <b>Name:</b> {{ provider.firstName }} {{ provider.lastName }}<br>
+          <b>Email:</b> {{ provider.email }}<br>
+          <b>Username:</b> {{ provider.username }}<br>
+          <b>DOB:</b> {{ provider.dob }} <br>
         </p>
 
         <ion-buttons  slot="end">
@@ -125,7 +156,7 @@
 
   <!-- Show admin -->
   <div *ngIf="adminView">
-    <ion-button slot="end" size="large" (click)="showAddAdmin()">
+    <ion-button class="fill-button" slot="end" size="large" (click)="showAddAdmin()">
       Add Admin
     </ion-button>
 
@@ -136,9 +167,11 @@
           <ion-label position="stacked">Enter Email:</ion-label>
           <ion-textarea formControlName="email" placeholder="Enter Email"></ion-textarea>
         </ion-item>
-        <ion-button size="small" [disabled]="!addAdminForm.valid" (click)="addAdmin(addAdminForm)"> Submit </ion-button>
+        <ion-row>
+          <ion-button class="text-button" fill="clear" size="small" (click)="displayAddAdmin = false; clearAdminForm()"> Cancel </ion-button>
+          <ion-button class="fill-button" size="small" [disabled]="!addAdminForm.valid" (click)="addAdmin(addAdminForm)"> Submit </ion-button>
+        </ion-row>
       </form>
-
     </div>
 
     <div *ngIf="codeView">
@@ -151,11 +184,10 @@
     <ion-list>
       <ion-item *ngFor="let admin of (admins | async)">
         <p>
-          Code: {{ admin.code }}<br>
-          Email: {{ admin.email }}<br>
-          Username: {{ admin.username }}<br>
+          <b>Code:</b> {{ admin.code }}<br>
+          <b>Email:</b> {{ admin.email }}<br>
+          <b>Username:</b> {{ admin.username }}<br>
         </p>
-
 
         <ion-buttons  slot="end">
           <ion-button (click)="updateUser('admin', admin.id)">

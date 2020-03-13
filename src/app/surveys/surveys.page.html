@@ -33,7 +33,7 @@
   <div *ngIf="isAfterJoining">
     
     <ion-item>
-      <ion-label position="stacked">Choose one or more days the survey is released after a user joins</ion-label>
+      <ion-label position="stacked">Choose one or more days the survey is released after a user joins(separate by comma)</ion-label>
       <ion-input type="string" [(ngModel)]="survey.daysTillRelease"></ion-input>
     </ion-item>
 
@@ -42,7 +42,7 @@
   <div *ngIf="isDueDate">
     
     <ion-item>
-      <ion-label position="stacked">Choose one or more days the survey is released before a user's due date</ion-label>
+      <ion-label position="stacked">Choose one or more days the survey is released before a user's due date(separate by comma)</ion-label>
       <ion-input type="string" [(ngModel)]="survey.daysBeforeDueDate"></ion-input>
     </ion-item>
 
@@ -102,18 +102,26 @@
 
   </div>
 
-  <ion-item>
-    <ion-label position="stacked">Choose the number of days after release before the survey expires</ion-label>
-    <ion-input type="number" [(ngModel)]="survey.daysTillExpire"></ion-input>
-  </ion-item>
+  <div>
+    <ion-item *ngIf="!isEmotion && !isInactive">
+      <ion-label position="stacked">Choose the number of days after release before the survey expires</ion-label>
+      <ion-input type="number" [(ngModel)]="survey.daysTillExpire"></ion-input>
+    </ion-item>
+  </div>
+
 
   <ion-item>
-    <ion-label floating>URL</ion-label>
+    <ion-label position="stacked">URL</ion-label>
     <ion-input type="url" [(ngModel)]="survey.surveyLink"></ion-input>
   </ion-item>
 
+  <ion-item>
+    <ion-label position="stacked">Specify the number of points this survey is worth</ion-label>
+    <ion-input type="number" [(ngModel)]="survey.pointsWorth"></ion-input>
+  </ion-item>
+
   <div *ngIf="!survey.id">
-    <ion-button (click)="addSurvey()">Save</ion-button>
+    <ion-button class="fill-button" (click)="addSurvey()">Save</ion-button>
   </div>
 
 </ion-content>

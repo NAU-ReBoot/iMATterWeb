@@ -43,6 +43,7 @@ export class CodePage implements OnInit {
         this.codeValidated = true;
         this.storage.set('userType', 'admin');
         this.router.navigate(['/signup/', code ]);
+        this.codeForm.reset();
       } else {
         docRef = this.afs.firestore.collection('providers').doc(code);
         docRef.get().then((doc) => {
@@ -51,6 +52,7 @@ export class CodePage implements OnInit {
             this.codeValidated = true;
             this.storage.set('userType', 'provider');
             this.router.navigate(['/signup/', code]);
+            this.codeForm.reset();
           } else {
             console.log('No such document!');
             this.codeValidated = false;
