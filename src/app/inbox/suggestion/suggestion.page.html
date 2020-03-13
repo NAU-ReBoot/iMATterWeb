@@ -1,0 +1,19 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      <!--Type: {{ locationSuggestion.type }}-->
+    </ion-title>
+    <ion-button slot="end" color="danger" (click)="deleteLocationSuggestion()"> Delete Suggestion </ion-button>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content padding>
+    <p>
+      <b>Submitted by:</b> {{ locationSuggestion.username }}<br>
+      <b>User ID:</b> {{ locationSuggestion.userID }} <br>
+      <b>Name:</b> {{ locationSuggestion.name }}<br>
+      <b>Address:</b> {{ locationSuggestion.address }}<br>
+      <b>Reason:</b> {{ locationSuggestion.reason }}<br>
+    </p>
+</ion-content>

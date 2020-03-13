@@ -15,6 +15,8 @@ export interface Survey {
   daysInactive: number;
   emotionChosen: string;
   pointsWorth: number;
+  userVisibility: string[];
+  surveyDescription: string;
 }
 
 export interface Question{
@@ -75,7 +77,10 @@ export class FireService {
       daysBeforeDueDate: survey.daysBeforeDueDate,
       daysTillExpire: survey.daysTillExpire,
       daysInactive: survey.daysInactive,
-      emotionChosen: survey.emotionChosen });
+      emotionChosen: survey.emotionChosen,
+      pointsWorth: survey.pointsWorth,
+      userVisibility: survey.userVisibility,
+      surveyDescription: survey.surveyDescription});
   }
 
   deleteSurvey(id: string): Promise<void>{

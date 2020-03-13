@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {Observable} from 'rxjs';
-import { InboxService, Submission } from '../services/inbox.service';
+import {InboxService, LocationSuggestion, Submission} from '../services/inbox.service';
 import { Storage } from '@ionic/storage';
 import { Router } from '@angular/router';
 
@@ -13,6 +13,7 @@ import { Router } from '@angular/router';
 export class InboxPage implements OnInit {
 
   private submissions: Observable<Submission[]>;
+  private locationSuggestions: Observable<LocationSuggestion[]>;
 
   constructor(private inboxService: InboxService, private router: Router, private storage: Storage) {
   }
@@ -22,9 +23,17 @@ export class InboxPage implements OnInit {
     this.storage.get('authenticated').then((val) => {
       if (val === 'false') {
         this.router.navigate(['/login/']);
+
+      } else {
+        this.storage.get('type').then((value) => {
+          if (value !== 'admin') {
+            this.router.navigate(['/login/']);
+          }
+        });
       }
     });
     this.submissions = this.inboxService.getSubmissions();
+    this.locationSuggestions = this.inboxService.getLocationSuggestions();
 
   }
 

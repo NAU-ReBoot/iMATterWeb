@@ -6,6 +6,8 @@ import * as firebase from 'firebase/app';
 import { map, take } from 'rxjs/operators';
 import { IonContent } from '@ionic/angular';
 import { AnalyticsService, Analytics, Sessions, UniqueSessions} from '../services/analytics-service.service';
+import {Router} from '@angular/router';
+import {Storage} from '@ionic/storage';
 
 @Component({
     selector: 'app-analytics',
@@ -13,8 +15,11 @@ import { AnalyticsService, Analytics, Sessions, UniqueSessions} from '../service
     styleUrls: ['./analytics.page.scss'],
 })
 
-export class AnalyticsPage {
-//@ViewChild('barChart', {static: true}) barChart;
+
+export class AnalyticsPage implements OnInit{
+  
+  
+//  @ViewChild('barChart') barChart;
 
 @ViewChild('lineChart', {static: false}) lineChart;
 //  @ViewChild('content', {static: true}) content: IonContent;
@@ -105,9 +110,25 @@ export class AnalyticsPage {
     constructor(
     //    private storage: Storage,
         public afs: AngularFirestore,
-        private analyticsService: AnalyticsService
+        private analyticsService: AnalyticsService,
+        private router: Router, private storage: Storage
     ) {
         this.db = firebase.firestore();
+    }
+
+    ngOnInit() {
+        this.storage.get('authenticated').then((val) => {
+            if (val === 'false') {
+                this.router.navigate(['/login/']);
+
+            } else {
+                this.storage.get('type').then((value) => {
+                    if (value !== 'admin') {
+                        this.router.navigate(['/login/']);
+                    }
+                });
+            }
+        });
     }
 
 

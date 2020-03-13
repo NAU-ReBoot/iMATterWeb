@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
 import { FireService, Survey, Question } from '../services/fire/fire.service';
+import {Storage} from '@ionic/storage';
 
 
 @Component({
@@ -21,16 +22,33 @@ export class SurveysPage implements OnInit {
     daysTillExpire: 0,
     daysInactive: 0,
     emotionChosen: '',
-    pointsWorth: 0
+    pointsWorth: 0,
+    userVisibility: [],
+    surveyDescription: '',
   }
 
   constructor(private activatedRoute: ActivatedRoute,
               private fs: FireService,
               private toastCtrl: ToastController,
-              private router: Router
+              private router: Router,
+              private storage: Storage
   ) { }
 
   ngOnInit() {
+
+    this.storage.get('authenticated').then((val) => {
+      if (val === 'false') {
+        this.router.navigate(['/login/']);
+
+      } else {
+        this.storage.get('type').then((value) => {
+          if (value !== 'admin') {
+            this.router.navigate(['/login/']);
+          }
+        });
+      }
+    });
+
     let id = this.activatedRoute.snapshot.paramMap.get('id');
 
     if(id){
