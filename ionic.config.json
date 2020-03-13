@@ -1,7 +1,0 @@
-{
-  "name": "tabsProject",
-  "integrations": {
-    "cordova": {}
-  },
-  "type": "angular"
-}
