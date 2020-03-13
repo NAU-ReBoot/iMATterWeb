@@ -30,6 +30,11 @@ export class LocationsPage implements OnInit {
     type: ''
   };
 
+  public clicked = false;
+  public opened = false;
+
+  public locations: Observable<any>;
+
   constructor(private afs: AngularFirestore, private activatedRoute: ActivatedRoute, private locationService: LocationService,
               private toastCtrl: ToastController, private router: Router, private storage: Storage) { }
 
@@ -40,7 +45,12 @@ export class LocationsPage implements OnInit {
       this.router.navigate(['/login/']);
     }
   });
-  }
+}
+
+ionViewWillEnter()
+{
+  this.opened = true;
+}
 
 
 
@@ -69,6 +79,18 @@ showToast(msg) {
     message: msg,
     duration: 2000
   }).then(toast => toast.present());
+}
+
+
+click(){
+  this.clicked = true;
+  this.opened = false;
+}
+
+
+getLocation()
+{
+
 }
 
 

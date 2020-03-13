@@ -1,10 +1,21 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Locations</ion-title>
+    <ion-title> Location </ion-title>
+    <div *ngIf="opened">
+    <ion-buttons slot="end">
+      <ion-button (click) = "click()">
+      Add a Location
+      </ion-button>
+    </ion-buttons>
+    </div>
   </ion-toolbar>
 </ion-header>
 
+
 <ion-content padding >
+
+  
+  <div *ngIf="clicked">
   <ion-item>
     <ion-label position= "stacked"> Location Title </ion-label>
     <ion-input [(ngModel)] = "location.title"></ion-input>
@@ -75,8 +86,6 @@
     </ion-item>
   </ion-radio-group>
 </ion-list>
-</ion-content>
-
 
 <ion-footer >
   <ion-toolbar>
@@ -88,3 +97,6 @@
     </ion-button>
   </ion-toolbar>
 </ion-footer>
+
+</div>
+</ion-content>
