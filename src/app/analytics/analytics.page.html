@@ -6,46 +6,72 @@
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
+
+<ion-row>
+  <ion-col>
+    <ion-button class="fill-button" expand="block" size="large" (click)="totalCalendarInfo()"> Calendar Stats</ion-button>
+  </ion-col>
+  <ion-col>
+    <ion-button class="fill-button" expand="block" size="large" (click)="userInformation()"> Individual User Stats</ion-button>
+  </ion-col>
+  <ion-col>
+    <ion-button class="fill-button" expand="block" size="large" (click)="showAdmins()"> ________ Stats </ion-button>
+  </ion-col>
+</ion-row>
+
+
 <ion-content>
   <ion-content>
     <div class="ion-padding">
 
-      <ion-button class="fill-button" (click) = "getAllSessions()" (click)= "getAllUserPages()"  padding = 100 size = "large" type='button'>
-        All Users
-      </ion-button>
-      <ion-item>
-        <ion-label position = "floating"> User ID</ion-label>
-        <ion-input type = "text" [(ngModel)] = "USERID" id="input"></ion-input>
-      </ion-item>
-      <ion-button class="fill-button" slot="end" (click)= "getUserSessions()"  (click) = "getUserTime()" (click)= "getUserTotalClicks()" padding = "100" type='button'>
-        submit
-      </ion-button>
-      <ion-item >
-        <ion-card>
 
-          <div class = "cal vistis">
-            Calendar Visits: {{ calendarHolder }}
-          </div>
-          <div class = "chat vistis">
-            Chat Visits: {{ chatHolder }}
-          </div>
-          <div class = "info vistis">
-            Info Desk Visits: {{ infoHolder }}
-          </div>
-          <div class = "module vistis">
-            Learning Module Visits: {{ moduleHolder }}
-          </div>
-          <div class = "profile vistis">
-            Profile Visits: {{ profileHolder }}
-          </div>
-          <div class = "more vistis">
-            More Page Visits: {{ moreHolder }}
-          </div>
-          <div class = "survey vistis">
-            Survey Visits: {{ moduleHolder }}
-          </div>
+      <div *ngIf="calendarView">
+
+        <ion-card>
+          Total Calendar UserViews: {{calendarHolder}}
         </ion-card>
-      </ion-item>
+        <ion-card>
+          Total Average Vists Per Session: {{calendarAverage}}
+        </ion-card>
+        <ion-item>
+          <ion-label>
+            From Date
+          </ion-label>
+          <ion-datetime displayFormat= "MM/DD/YYYY" [(ngModel)]= "startDate"></ion-datetime>
+        </ion-item>
+        <ion-item>
+          <ion-label>
+            To Date
+          </ion-label>
+          <ion-datetime displayFormat= "MM/DD/YYYY" [(ngModel)]= "endDate"></ion-datetime>
+        </ion-item>
+
+        <ion-card>
+          <ion-card-header>
+            Calendar Visits
+          </ion-card-header>
+          <ion-card-content>
+            <canvas #lineChart></canvas>
+          </ion-card-content>
+        </ion-card>
+
+      </div>
+
+
+
+
+      <div *ngIf="indivUserView">
+        <ion-item>
+          <ion-label position = "floating" > User ID</ion-label>
+          <ion-input type = "text" [(ngModel)] = "USERID" id="input"></ion-input>
+        </ion-item>
+        <ion-button (click)= "getUserSessions()"  (click) = "getUserTime()" (click)= "getUserTotalClicks()" padding = "100" type='button'>
+          submit
+        </ion-button>
+
+        
+      </div>
+
 
 
       <ion-item *ngFor= "let session of (sessions| async)" >
@@ -65,23 +91,7 @@
 
 
 
-      <ion-item *ngFor= "let items of durationArray" >
 
-          <ion-grid>
-            <ion-row>
-              <ion-col>
-                <div >
-                  Page: {{ items.Page }}
-                </div>
-              </ion-col>
-              <ion-col>
-                <div>
-                  Minutes: {{ items.Time}}
-                </div>
-              </ion-col>
-            </ion-row>
-          </ion-grid>
-      </ion-item>
 
 
 
@@ -145,4 +155,3 @@
       </ion-item>
     </div>
   </ion-content>
-</ion-content>
