@@ -125,7 +125,11 @@ const routes: Routes = [
   {
     path: 'provider-inbox',
     loadChildren: () => import('./provider/provider-inbox/provider-inbox.module').then( m => m.ProviderInboxPageModule)
+  },  {
+    path: 'locations',
+    loadChildren: () => import('./locations/locations.module').then( m => m.LocationsPageModule)
   }
+
 ];
 @NgModule({
   imports: [
