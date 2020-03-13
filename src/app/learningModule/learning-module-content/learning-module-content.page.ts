@@ -9,7 +9,6 @@ import { AddQuizQuestionPage } from '../add-quiz-question/add-quiz-question.page
 import { AlertController } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
 import { Observable } from 'rxjs';
-import { Pipe, PipeTransform } from '@angular/core';
 
 @Component({
   selector: 'app-learning-module-content',
@@ -17,6 +16,8 @@ import { Pipe, PipeTransform } from '@angular/core';
   styleUrls: ['./learning-module-content.page.scss'],
 })
 export class LearningModuleContentPage implements OnInit {
+
+  public learningModules: Observable<LearningModule[]>;
 
   learningModule: LearningModule = 
   {
@@ -78,6 +79,8 @@ export class LearningModuleContentPage implements OnInit {
       }
     });
 
+    this.learningModules = this.learningModuleService.getAllLearningModules();
+
   }
 
   ionViewWillEnter()
@@ -117,7 +120,7 @@ export class LearningModuleContentPage implements OnInit {
       this.router.navigateByUrl('/learningmodules');
       this.showToast('Learning module added');
     }, err => {
-      this.showToast('There was a problem adding your learning module :(');
+      this.showToast('There was a problem adding your learning module.');
     });
 
   }
@@ -145,7 +148,7 @@ export class LearningModuleContentPage implements OnInit {
       this.router.navigateByUrl('/learningmodules');
       this.showToast('Learning module deleted!');
     }, err => {
-      this.showToast('There was a problem deleting your learning module :(');
+      this.showToast('There was a problem deleting your learning module.');
     });
   }
 
@@ -270,5 +273,9 @@ export class LearningModuleContentPage implements OnInit {
     this.learningModule.modulePointsWorth = totalPoints;
     this.silentlyUpdateLearningModule();
   }
-  
+
+  customActionSheetOptions: any = {
+    cssClass: "nextModule"
+  };
+
 }
