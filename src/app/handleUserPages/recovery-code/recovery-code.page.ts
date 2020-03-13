@@ -26,6 +26,7 @@ export class RecoveryCodePage implements OnInit {
 	private theCode: string;
 	private wantedUserID: string;
 	private recoveryPassword: string;
+	private isProvider: boolean;
 	
 	
 
@@ -76,6 +77,8 @@ export class RecoveryCodePage implements OnInit {
 		//const newPassword: string = this.recoveryPassword;
 		let newPassword = this.enterCodeForm.controls['recoveryPassword'].value;
 		console.log(newPassword);
+		
+		//currently provider_recovery_email contains both admin and provider recovery, will change variable name for clarifaction in the future
         this.afs.firestore.collection('provider_recovery_email').where('code', '==', this.recoveryCode)
             .get().then(snapshot => {
             if (snapshot.docs.length > 0) {
@@ -87,6 +90,10 @@ export class RecoveryCodePage implements OnInit {
                         this.theCode = doc.get('code');						
                         if ( this.theCode === this.recoveryCode) {
                             recoveryEmail = doc.get('email');
+							this.afs.firestore.collection('provider_recovery_email').doc(doc.id).update({
+								code: "",
+								email: ""
+							});
 							console.log(recoveryEmail);
 							console.log("5");                                                    
                         } else {                            
@@ -95,6 +102,7 @@ export class RecoveryCodePage implements OnInit {
                 });				
 				
                 const userRef = this.afs.firestore.collection('providers');
+				
                 userRef.get().then((result) => {
                     result.forEach(doc => {
                         this.userID = doc.id;
@@ -108,6 +116,58 @@ export class RecoveryCodePage implements OnInit {
 							this.afs.firestore.collection('providers').doc(this.wantedUserID).update({
 								password: newPassword
 							});
+							this.isProvider = true;
+							if(this.isProvider == true){
+								this.router.navigate(['/login/']);
+							}
+                        } else {                           
+                        }
+                    });
+                });				
+            } else {
+                console.log('Email does not exist');
+                this.userEmail = false;
+            }
+        });
+    
+	//currently provider_recovery_email contains both admin and provider recovery, will change variable name for clarifaction in the future
+	 this.afs.firestore.collection('provider_recovery_email').where('code', '==', this.recoveryCode)
+            .get().then(snapshot => {
+            if (snapshot.docs.length > 0 && this.isProvider !=true) {
+                console.log(('exists'));
+				const recoveryRef = this.afs.firestore.collection('provider_recovery_email');
+				recoveryRef.get().then((result) => {
+                    result.forEach(doc => {
+                        this.userID = doc.id;
+                        this.theCode = doc.get('code');						
+                        if ( this.theCode === this.recoveryCode) {
+                            recoveryEmail = doc.get('email');
+							this.afs.firestore.collection('provider_recovery_email').doc(doc.id).update({
+								code: "",
+								email: ""
+							});
+							console.log(recoveryEmail);
+							console.log("5");                                                    
+                        } else {                            
+                        }
+                    });
+                });				
+				
+                const userRef = this.afs.firestore.collection('admins');
+				
+                userRef.get().then((result) => {
+                    result.forEach(doc => {
+                        this.userID = doc.id;
+                        this.userEmail = doc.get('email');
+						this.password = doc.get('password');
+						//console.log(this.userID);
+                        if ( this.userEmail === recoveryEmail) {                            							
+							this.wantedUserID = this.userID;
+							
+							console.log(this.userID);
+							this.afs.firestore.collection('admins').doc(this.wantedUserID).update({
+								password: newPassword
+							});
 							this.router.navigate(['/login/']);
                         } else {                           
                         }
@@ -118,30 +178,7 @@ export class RecoveryCodePage implements OnInit {
                 this.userEmail = false;
             }
         });
-    }
 
-    /*
-	async updatePassword(): Promise<void> {
-    const alert = await this.alertCtrl.create({
-      inputs: [
-        { name: 'newPassword', placeholder: 'New password', type: 'password' },
-        { name: 'oldPassword', placeholder: 'Old password', type: 'password' },
-      ],
-      buttons: [
-        { text: 'Cancel' },
-        {
-          text: 'Save',
-          handler: data => {
-            this.profileService.updatePassword(
-                data.newPassword,
-                data.oldPassword,
-            );
-          },
-        },
-      ],
-    });
-    await alert.present();
-  }*/
-	
+  }
 
 }
