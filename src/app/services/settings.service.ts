@@ -26,17 +26,6 @@ export class SettingsService {
   private providerTypeCollection: AngularFirestoreCollection<ProviderType>;
 
   constructor(public afs: AngularFirestore) {
-    this.providerTypeCollection = this.afs.collection<ProviderType>('providerTypes');
-
-    this.providerTypes = this.providerTypeCollection.snapshotChanges().pipe(
-        map(actions => {
-          return actions.map(a => {
-            const data = a.payload.doc.data();
-            data.id = a.payload.doc.id;
-            return data;
-          });
-        })
-    );
   }
 
   getChatRoomHourSetting() {
@@ -55,7 +44,22 @@ export class SettingsService {
     return firebase.firestore().collection('mobileSettings').doc('adminSettings').get();
   }
 
+  getProviderTypesCollection() {
+    this.providerTypeCollection = this.afs.collection<ProviderType>('providerTypes');
+
+    this.providerTypes = this.providerTypeCollection.snapshotChanges().pipe(
+        map(actions => {
+          return actions.map(a => {
+            const data = a.payload.doc.data();
+            data.id = a.payload.doc.id;
+            return data;
+          });
+        })
+    );
+  }
+
   getProviderTypes() {
+    this.getProviderTypesCollection();
     return this.providerTypes;
   }
 

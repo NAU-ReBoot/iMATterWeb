@@ -21,6 +21,7 @@ export interface User {
   currentEmotion: string;
   bio: string;
   points: number;
+  daysSinceLogin: number;
 }
 
 export interface Provider {

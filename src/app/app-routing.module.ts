@@ -117,11 +117,15 @@ const routes: Routes = [
   {
     path: 'update-user/:userType/:id',
     loadChildren: () => import('./handleUserPages/update-user/update-user.module').then( m => m.UpdateUserPageModule)
-  },  {
+  },
+  {
     path: 'recovery-code',
     loadChildren: () => import('./handleUserPages/recovery-code/recovery-code.module').then( m => m.RecoveryCodePageModule)
+  },
+  {
+    path: 'provider-inbox',
+    loadChildren: () => import('./provider/provider-inbox/provider-inbox.module').then( m => m.ProviderInboxPageModule)
   }
-
 ];
 @NgModule({
   imports: [
