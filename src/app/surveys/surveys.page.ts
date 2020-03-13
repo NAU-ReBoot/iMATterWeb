@@ -21,7 +21,9 @@ export class SurveysPage implements OnInit {
     daysTillExpire: 0,
     daysInactive: 0,
     emotionChosen: '',
-    pointsWorth: 0
+    pointsWorth: 0,
+    userVisibility: [],
+    surveyDescription: '',
   }
 
   constructor(private activatedRoute: ActivatedRoute,
