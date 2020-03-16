@@ -10,30 +10,43 @@
     <ion-label position="stacked">Question Text</ion-label>
     <ion-input [(ngModel)]="quizQuestion.questionText"></ion-input>
   </ion-item>
-  
+
   <ion-item>
-    <ion-label position="stacked">Choice 1</ion-label>
+    <ion-label position="stacked">Choice A</ion-label>
     <ion-input [(ngModel)]="quizQuestion.choice1"></ion-input>
   </ion-item>
   
   <ion-item>
-    <ion-label position="stacked">Choice 2</ion-label>
+    <ion-label position="stacked">Choice B</ion-label>
     <ion-input [(ngModel)]="quizQuestion.choice2"></ion-input>
   </ion-item>
   
   <ion-item>
-    <ion-label position="stacked">Choice 3</ion-label>
+    <ion-label position="stacked">Choice C</ion-label>
     <ion-input [(ngModel)]="quizQuestion.choice3"></ion-input>
   </ion-item>
   
   <ion-item>
-    <ion-label position="stacked">Choice 4</ion-label>
+    <ion-label position="stacked">Choice D</ion-label>
     <ion-input [(ngModel)]="quizQuestion.choice4"></ion-input>
   </ion-item>
 
   <ion-item>
-    <ion-label position="stacked">Correct Answer (retype the choice text)</ion-label>
-    <ion-input [(ngModel)]="quizQuestion.correctAnswer"></ion-input>
+    <ion-label position="stacked">Correct Answer</ion-label>
+    <ion-select [(ngModel)]="quizQuestion.correctAnswer" multiple="false" cancelText="Cancel" okText="Ok">
+      <ion-select-option value="choice1">
+        A
+      </ion-select-option>
+      <ion-select-option value="choice2">
+        B
+      </ion-select-option>
+      <ion-select-option value="choice3">
+        C
+      </ion-select-option>
+      <ion-select-option value="choice4">
+        D
+      </ion-select-option>
+    </ion-select>
   </ion-item>
 
   <ion-item>
