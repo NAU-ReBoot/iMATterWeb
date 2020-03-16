@@ -169,13 +169,6 @@ export class LearningModuleContentPage implements OnInit {
       component: QuizModalPage,
       componentProps:
       {
-        /*text: quizQuestion.questionText,
-        choice1: quizQuestion.choice1,
-        choice2: quizQuestion.choice2,
-        choice3: quizQuestion.choice3,
-        choice4: quizQuestion.choice4,
-        correctAnswer: quizQuestion.correctAnswer,
-        pointsWorth: quizQuestion.pointsWorth*/
         currentLearningModule: this.learningModule,
         currentQuizQuestion: quizQuestion
       }
@@ -275,9 +268,5 @@ export class LearningModuleContentPage implements OnInit {
     this.learningModule.modulePointsWorth = totalPoints;
     this.silentlyUpdateLearningModule();
   }
-
-  customActionSheetOptions: any = {
-    cssClass: "nextModule"
-  };
 
 }
