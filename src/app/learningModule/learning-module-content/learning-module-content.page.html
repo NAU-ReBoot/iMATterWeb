@@ -106,7 +106,7 @@
           None
         </ion-select-option>
         <ng-container *ngFor="let LM of (learningModules | async)">
-          <ion-select-option text-wrap *ngIf="LM.id !== learningModule.id" [value]="LM.id">
+          <ion-select-option text-wrap *ngIf="LM.id !== learningModule.id && LM.moduleActive" [value]="LM.id">
             {{LM.moduleTitle}}
           </ion-select-option>
       </ng-container>
