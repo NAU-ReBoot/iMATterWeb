@@ -16,12 +16,28 @@
   <ion-list>
     <ion-card button [routerLink]="['/learning-module-content', learningMod.id]" *ngFor="let learningMod of ( learningModules | async )">
       <ion-card-header>
-        <ion-card-title>
-          {{ learningMod.moduleTitle }}
-        </ion-card-title>
-        <ion-card-subtitle>
-          Description: {{ learningMod.moduleDescription }}
-        </ion-card-subtitle>
+        <ion-grid>
+          <ion-row>
+            <ion-col>
+              <ion-card-title class="ion-text-wrap">
+                {{ learningMod.moduleTitle }}
+              </ion-card-title>
+              <ion-card-subtitle class="ion-text-wrap">
+                Description: {{ learningMod.moduleDescription }}
+              </ion-card-subtitle>
+            </ion-col>
+
+            <ion-col>
+              <ion-card-subtitle class="ion-text-right" color="success" *ngIf="learningMod.moduleActive">
+                ACTIVE
+              </ion-card-subtitle>
+              <ion-card-subtitle class="ion-text-right" color="danger" *ngIf="!learningMod.moduleActive">
+                NOT ACTIVE
+              </ion-card-subtitle>
+            </ion-col>
+
+          </ion-row>
+        </ion-grid>
       </ion-card-header>
     </ion-card>
   </ion-list>
