@@ -6,28 +6,45 @@
 
 <ion-content>
 
+  <ion-item-divider color="medium">
+    <ion-label>
+      Question Information
+    </ion-label>
+  </ion-item-divider>
+
   <ion-item>
     <ion-label position="stacked">Quiz Question</ion-label>
     <ion-input [(ngModel)]="modalQuizQuestion.questionText"></ion-input>
   </ion-item>
 
   <ion-item>
-    <ion-label position="stacked">Choice A</ion-label>
+    <ion-label position="stacked">Points Worth</ion-label>
+    <ion-input [(ngModel)]="modalQuizQuestion.pointsWorth"></ion-input>
+  </ion-item>
+
+  <ion-item-divider color="medium">
+    <ion-label>
+      Answer Choices
+    </ion-label>
+  </ion-item-divider>
+
+  <ion-item>
+    <ion-label position="stacked">A</ion-label>
     <ion-input [(ngModel)]="modalQuizQuestion.choice1"></ion-input>
   </ion-item>
   
   <ion-item>
-    <ion-label position="stacked">Choice B</ion-label>
+    <ion-label position="stacked">B</ion-label>
     <ion-input [(ngModel)]="modalQuizQuestion.choice2"></ion-input>
   </ion-item>
   
   <ion-item>
-    <ion-label position="stacked">Choice C</ion-label>
+    <ion-label position="stacked">C</ion-label>
     <ion-input [(ngModel)]="modalQuizQuestion.choice3"></ion-input>
   </ion-item>
   
   <ion-item>
-    <ion-label position="stacked">Choice D</ion-label>
+    <ion-label position="stacked">D</ion-label>
     <ion-input [(ngModel)]="modalQuizQuestion.choice4"></ion-input>
   </ion-item>
   
@@ -48,16 +65,11 @@
       </ion-select-option>
     </ion-select>
   </ion-item>
-
-  <ion-item>
-    <ion-label position="stacked">Points Worth</ion-label>
-    <ion-input [(ngModel)]="modalQuizQuestion.pointsWorth"></ion-input>
-  </ion-item>
   
   <ion-row>
     <ion-col text-center>
       <ion-button fill="outline" color="danger" (click)="deleteQuestionConfirmation()">Delete</ion-button>
-      <ion-button (click)="dismiss()">Save</ion-button>
+      <ion-button class="fill-button" (click)="dismiss()">Save</ion-button>
     </ion-col>
   </ion-row>
 
