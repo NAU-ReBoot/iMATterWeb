@@ -83,12 +83,17 @@
   </ion-item-divider>
 
   <ion-item>
-    <ion-text>Module Quiz</ion-text>
-    <ion-card button (click)="openQuestion(quizQuestion)" *ngFor="let quizQuestion of ( learningModule.moduleQuiz )">
-      <ion-card-title>
-        {{ quizQuestion.questionText }}
-      </ion-card-title>
-    </ion-card>
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <ion-card button (click)="openQuestion(quizQuestion)" *ngFor="let quizQuestion of ( learningModule.moduleQuiz )">
+            <ion-card-title class="ion-padding-horizontal">
+              {{ quizQuestion.questionText }}
+            </ion-card-title>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
   </ion-item>
 
   <ion-button class="fill-button" (click)="addQuestion()">Add Quiz Question</ion-button>
