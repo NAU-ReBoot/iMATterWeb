@@ -29,7 +29,7 @@
 
   <ion-item>
     <ion-label position="stacked">Module Description</ion-label>
-    <ion-input [(ngModel)]="learningModule.moduleDescription"></ion-input>
+    <ion-textarea [(ngModel)]="learningModule.moduleDescription"></ion-textarea>
   </ion-item>
 
   <ion-item>
@@ -69,7 +69,7 @@
 
   <ion-item>
     <ion-label position="stacked">Module PowerPoint URL (src)</ion-label>
-    <ion-input [(ngModel)]="learningModule.modulePPTurl"></ion-input>
+    <ion-textarea [(ngModel)]="learningModule.modulePPTurl"></ion-textarea>
   </ion-item>
 
   <ion-item *ngIf="learningModule.id && sanitizedPPTurl" lines="none">
