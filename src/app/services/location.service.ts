@@ -11,6 +11,7 @@ export interface Location {
   content: string;
   latitude: number;
   longitude: number;
+  street: string;
   phone: string;
   operationMF: string;
   operationSaturday: string;

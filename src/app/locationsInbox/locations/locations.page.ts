@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import { LocationService , Location } from '../services/location.service';
+import { LocationService , Location } from 'src/app/services/location.service';
 import {ToastController} from '@ionic/angular';
 import { Storage } from '@ionic/storage';
 import {Observable} from 'rxjs';
@@ -15,6 +15,7 @@ import FieldValue = firebase.firestore.FieldValue;
 })
 export class LocationsPage implements OnInit {
 
+  private locations: Observable<Location[]>;
 
 
   location: Location = {
@@ -22,6 +23,7 @@ export class LocationsPage implements OnInit {
     content: '',
     latitude: 0,
     longitude: 0,
+    street: '',
     phone: '',
     operationMF: '',
     operationSaturday: '',
@@ -33,23 +35,34 @@ export class LocationsPage implements OnInit {
   public clicked = false;
   public opened = false;
 
-  public locations: Observable<any>;
+//  public locations: Observable<any>;
 
-  constructor(private afs: AngularFirestore, private activatedRoute: ActivatedRoute, private locationService: LocationService,
-              private toastCtrl: ToastController, private router: Router, private storage: Storage) { }
+constructor(private afs: AngularFirestore, private activatedRoute: ActivatedRoute, private locationService: LocationService,
+            private toastCtrl: ToastController, private router: Router, private storage: Storage) { }
 
   ngOnInit()
   {
     this.storage.get('authenticated').then((val) => {
-    if (val === 'false') {
-      this.router.navigate(['/login/']);
-    }
-  });
+      if (val === 'false') {
+        this.router.navigate(['/login/']);
+
+      } else {
+        this.storage.get('type').then((value) => {
+          if (value !== 'admin') {
+            this.router.navigate(['/login/']);
+          }
+        });
+      }
+    });
+
+  this.locations = this.locationService.getLocations();
+  this.opened = true;
 }
 
 ionViewWillEnter()
 {
   this.opened = true;
+
 }
 
 
@@ -86,14 +99,6 @@ click(){
   this.clicked = true;
   this.opened = false;
 }
-
-
-getLocation()
-{
-
-}
-
-
 
 
 }
