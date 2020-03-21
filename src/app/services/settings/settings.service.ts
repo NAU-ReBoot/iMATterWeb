@@ -62,14 +62,14 @@ export class SettingsService {
     return this.providerTypes;
   }
 
-  updateChatHourstoLive(newHours) {
+  updateChatHourstoLive(newHours: number) {
     return this.afs.firestore.collection('mobileSettings')
-        .doc('chatroomSettings').update({hours: newHours});
+        .doc('chatroomSettings').update({hours: Number(newHours)});
   }
 
-  updateNumberOfChatsLive(newNumber) {
+  updateNumberOfChatsLive(newNumber: number) {
     return this.afs.firestore.collection('mobileSettings')
-        .doc('chatroomSettings').update({numberOfChats: newNumber});
+        .doc('chatroomSettings').update({numberOfChats: Number(newNumber)});
   }
 
   updateChatLifeType(newLifeType) {
