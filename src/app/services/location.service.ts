@@ -38,7 +38,7 @@ export class LocationService {
 
   getLocationCollection()
   {
-    this.locationCollection = this.afs.collection<Location>('resourceLocations', ref => ref.orderBy('timestamp', 'desc'));
+    this.locationCollection = this.afs.collection<Location>('resourceLocations');
 
     this.locations= this.locationCollection.snapshotChanges().pipe(
         map(actions => {

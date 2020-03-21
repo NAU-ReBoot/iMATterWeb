@@ -56,6 +56,7 @@ constructor(private afs: AngularFirestore, private activatedRoute: ActivatedRout
     });
 
   this.locations = this.locationService.getLocations();
+  
   this.opened = true;
 }
 
@@ -68,6 +69,7 @@ ionViewWillEnter()
 
 
   submitLocation() {
+
 
       this.locationService.addLocation(this.location).then(() => {
       //  this.router.navigateByUrl('/more');
@@ -85,6 +87,8 @@ ionViewWillEnter()
       }, err => {
         this.showToast('There was a problem adding your location');
       });
+
+      this.opened = true;
     }
 
 showToast(msg) {
