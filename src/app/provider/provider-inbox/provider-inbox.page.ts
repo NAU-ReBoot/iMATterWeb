@@ -4,7 +4,7 @@ import {Router} from '@angular/router';
 import {AlertController} from '@ionic/angular';
 import {AngularFireStorage} from '@angular/fire/storage';
 import {Observable} from 'rxjs';
-import {EmotionNotif, ProviderInboxService} from '../../services/provider-inbox.service';
+import {EmotionNotif, ProviderInboxService} from '../../services/providerInbox/provider-inbox.service';
 
 @Component({
   selector: 'app-provider-inbox',

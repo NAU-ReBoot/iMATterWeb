@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {Observable} from 'rxjs';
-import {InboxService, LocationSuggestion, Submission} from '../services/inbox.service';
+import {InboxService, LocationSuggestion, Submission} from '../services/inbox/inbox.service';
 import { Storage } from '@ionic/storage';
 import { Router } from '@angular/router';
 

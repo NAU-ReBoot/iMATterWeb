@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { PregnancyUpdatesService, PregnancyUpdateCard } from '../../services/pregnancy-updates.service';
+import { PregnancyUpdatesService, PregnancyUpdateCard } from '../../services/pregnancyUpdates/pregnancy-updates.service';
 import { Observable } from 'rxjs';
 import {ActivatedRoute, Router} from '@angular/router';
 import { ToastController} from '@ionic/angular';

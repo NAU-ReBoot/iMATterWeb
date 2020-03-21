@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { InboxService, Submission} from '../../services/inbox.service';
+import { InboxService, Submission} from '../../services/inbox/inbox.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {ToastController} from '@ionic/angular';
 import { Storage } from '@ionic/storage';

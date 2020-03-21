@@ -4,7 +4,7 @@ import { LoadingController, AlertController } from '@ionic/angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Storage } from '@ionic/storage';
-import {Admin, Provider } from '../../services/create-user.service';
+import {Admin, Provider } from '../../services/createUsers/create-user.service';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument, DocumentReference } from '@angular/fire/firestore';
 import 'firebase/storage';
 import * as firebase from 'firebase/app';

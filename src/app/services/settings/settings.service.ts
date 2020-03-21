@@ -3,7 +3,6 @@ import * as firebase from 'firebase/app';
 import {AngularFirestore, AngularFirestoreCollection} from '@angular/fire/firestore';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {Question} from './infoDesk/question.service';
 
 export interface GiftCardType {
   id?: string;
@@ -28,19 +27,19 @@ export class SettingsService {
   constructor(public afs: AngularFirestore) {
   }
 
-  getChatRoomHourSetting() {
-    return firebase.firestore().collection('mobileSettings').doc('chatHours').get();
+  static getChatRoomSettings() {
+    return firebase.firestore().collection('mobileSettings').doc('chatroomSettings').get();
   }
 
-  getGCSettings() {
+  static getGCSettings() {
     return firebase.firestore().collection('mobileSettings').doc('giftCardSettings').get();
   }
 
-  getUserSignUpSettings() {
+  static getUserSignUpSettings() {
     return firebase.firestore().collection('mobileSettings').doc('userSignUpSettings').get();
   }
 
-  getAdminSettings() {
+  static getAdminSettings() {
     return firebase.firestore().collection('mobileSettings').doc('adminSettings').get();
   }
 
@@ -65,7 +64,17 @@ export class SettingsService {
 
   updateChatHourstoLive(newHours) {
     return this.afs.firestore.collection('mobileSettings')
-        .doc('chatHours').update({hours: newHours});
+        .doc('chatroomSettings').update({hours: newHours});
+  }
+
+  updateNumberOfChatsLive(newNumber) {
+    return this.afs.firestore.collection('mobileSettings')
+        .doc('chatroomSettings').update({numberOfChats: newNumber});
+  }
+
+  updateChatLifeType(newLifeType) {
+    return this.afs.firestore.collection('mobileSettings')
+        .doc('chatroomSettings').update({lifeType: newLifeType});
   }
 
   updateGCEmail(newEmail) {

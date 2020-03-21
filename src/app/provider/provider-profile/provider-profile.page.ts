@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertController } from '@ionic/angular';
-import { Provider } from '../../services/create-user.service';
+import { Provider } from '../../services/createUsers/create-user.service';
 // import { ProfileService } from '../../services/user/profile.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Storage } from '@ionic/storage';

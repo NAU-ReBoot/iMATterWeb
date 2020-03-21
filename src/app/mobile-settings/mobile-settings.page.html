@@ -8,7 +8,7 @@
 </ion-header>
 
 <ion-content>
-  <!-- User Sign Up Settings -->
+<!-- User Sign Up Settings -->
     <!-- Hide all content -->
   <ion-list>
     <div *ngIf="displayUserSignUp == false" class="ion-padding-bottom">
@@ -134,7 +134,7 @@
       </div>
     </div>
 
-    <!-- User ChatRoom Settings -->
+<!-- User ChatRoom Settings -->
       <!-- Hide all User ChatRoom Settings -->
     <div *ngIf="displayChatRoom == false" class="ion-padding-bottom">
       <ion-list-header class="header" (click)="displayChatRoom = true"> Cohort Chat Room Settings
@@ -144,10 +144,20 @@
 
     <!-- Show all User ChatRoom Settings -->
     <div *ngIf="displayChatRoom == true" class="ion-padding-bottom">
-      <ion-list-header class="header" (click)="displayChatRoom = false" (click)="displaySubCategories(false, 'chatRoom')">
+      <ion-list-header class="header" (click)="displayChatRoom = false; displaySubCategories(false, 'chatRoom')">
         Cohort Chat Room Settings
         <ion-icon size="large" name="arrow-dropdown"></ion-icon>
       </ion-list-header>
+
+      <ion-list>
+        <ion-item>
+          <ion-label class="text-button">Choose What Chat Visibility is Based On</ion-label>
+          <ion-select [(ngModel)]="chatLifeSetting" (ionChange)="updateChatLifeSetting(chatLifeSetting)" placeholder="Select Chats Visible Setting">
+            <ion-select-option  value="hours">Hours</ion-select-option>
+            <ion-select-option  value="number">Number</ion-select-option>
+          </ion-select>
+        </ion-item>
+      </ion-list>
 
       <!-- Hide Chat hours Settings -->
       <div *ngIf="displayHoursForChats == false" >
@@ -172,6 +182,33 @@
         <ion-button class="fill-button" slot="end" (click)="updateChatHoursToLive()"> Update </ion-button>
       </ion-item>
       </div>
+
+      <!-- Hide Chat Number Settings -->
+      <div *ngIf="displayNumberForChats == false" >
+        <ion-item class="subheader">
+          <ion-label class="label" (click)="displayNumberForChats = true"> Number of Chats Shown
+            <ion-icon size="large" name="arrow-dropright"></ion-icon>
+          </ion-label>
+        </ion-item>
+      </div>
+
+      <!-- Show Chat Number Settings -->
+      <div *ngIf="displayNumberForChats == true">
+        <ion-item class="subheader">
+          <ion-label class="label" (click)="displayNumberForChats = false"> Number of Chats Shown
+            <ion-icon size="large" name="arrow-dropdown"></ion-icon>
+          </ion-label>
+        </ion-item>
+
+        <ion-item>
+          <ion-label class="label" position="stacked"> Number of Chats: </ion-label>
+          <ion-text> {{ chatNumberToLive }} chats </ion-text>
+          <ion-button class="fill-button" slot="end" (click)="updateNumberOfChatsToLive()"> Update </ion-button>
+        </ion-item>
+      </div>
+
+
+
     </div>
 
     <!-- Gift Card Settings -->

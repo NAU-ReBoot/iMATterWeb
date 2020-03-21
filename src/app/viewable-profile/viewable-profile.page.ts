@@ -3,8 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Storage } from '@ionic/storage';
 import {AngularFirestore} from '@angular/fire/firestore';
 import { QuestionService } from '../services/infoDesk/question.service';
-import { User } from '../services/create-user.service';
-import { Provider } from '../services/create-user.service';
+import { User, Provider } from '../services/createUsers/create-user.service';
 
 @Component({
   selector: 'app-viewable-profile',

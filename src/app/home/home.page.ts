@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { CreateUserService, User, Provider, Admin } from 'src/app/services/create-user.service';
+import { CreateUserService, User, Provider, Admin } from 'src/app/services/createUsers/create-user.service';
 import { Observable } from 'rxjs';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Storage } from '@ionic/storage';
 import { Router } from '@angular/router';
-import {ProviderType, SettingsService} from '../services/settings.service';
+import {ProviderType, SettingsService} from '../services/settings/settings.service';
 import {AngularFirestore} from '@angular/fire/firestore';
 
 @Component({
