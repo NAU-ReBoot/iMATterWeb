@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Storage } from '@ionic/storage';
-import { ChatService, Cohort, Chat } from '../services/chat-service.service';
+import { ChatService, Cohort, Chat } from '../services/chatroom/chat-service.service';
 import {Observable} from 'rxjs';
 import * as firebase from 'firebase/app';
 import {AngularFirestore} from '@angular/fire/firestore';
@@ -23,7 +23,8 @@ export class ChatlogPage implements OnInit {
     userID: '',
     timestamp: '',
     message: '',
-    type: ''
+    type: '',
+    visibility: true
   };
 
   private cohortChat: string;

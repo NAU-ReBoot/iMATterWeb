@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ChatService } from '../services/chat-service.service';
+import { ChatService } from '../services/chatroom/chat-service.service';
 import { Storage } from '@ionic/storage';
 import { Router } from '@angular/router';
 

@@ -112,6 +112,7 @@ export class LoginPage implements OnInit {
                         });
                     } else {
                         this.userEmail = false;
+                        this.showToast('Email and/or password is incorrect');
                     }
                 });
             }

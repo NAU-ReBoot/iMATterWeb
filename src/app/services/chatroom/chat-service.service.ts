@@ -17,6 +17,7 @@ export interface Chat {
   timestamp: any;
   message: string;
   type: '';
+  visibility: boolean;
 }
 
 @Injectable({

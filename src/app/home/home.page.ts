@@ -256,13 +256,10 @@ export class HomePage implements OnInit {
 
   addAdmin(addAdminForm: FormGroup) {
     if (!addAdminForm.valid) {
-      console.log(
-          'Need to complete the form, current value: ', addAdminForm.value
-      );
+      console.log('Need to complete the form', addAdminForm.value);
     } else {
-      const email: string = addAdminForm.value.email;
 
-      this.admin.email = email;
+      this.admin.email = addAdminForm.value.email;
       this.admin.type = 'admin';
 
       this.admin.code = HomePage.makeString();

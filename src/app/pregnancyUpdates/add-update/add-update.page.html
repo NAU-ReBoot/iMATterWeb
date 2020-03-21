@@ -8,31 +8,33 @@
 </ion-header>
 
 <ion-content>
-  <ion-item>
-    <ion-label position="stacked">Update Day</ion-label>
-    <ion-input [(ngModel)]="pregnancyUpdateCard.day"></ion-input>
-  </ion-item>
+  <form [formGroup]="pregnancyUpdateForm">
+    <ion-item>
+      <ion-label position="stacked">Update Day</ion-label>
+      <ion-input formControlName="day"></ion-input>
+    </ion-item>
 
-  <ion-item>
-    <ion-label position="stacked">Pregnancy Update Information/Description</ion-label>
-    <ion-input [(ngModel)]="pregnancyUpdateCard.description"></ion-input>
-  </ion-item>
+    <ion-item>
+      <ion-label position="stacked">Pregnancy Update Information/Description</ion-label>
+      <ion-textarea autoGrow="true" spellcheck="true" autocapitalize="true" formControlName="description"> </ion-textarea>
+    </ion-item>
 
-  <ion-item>
-    <ion-label position="stacked">Image to Be Displayed with Information</ion-label>
-    <ion-card text-center>
-      <ion-card-content>
-        <div class="fileUpload btn btn-primary">
-          <input id="uploadBtn" type="file" class="upload" (change)="uploadedImage = $event.target.files"/>
-        </div>
-      </ion-card-content>
-    </ion-card>
-  </ion-item>
+    <ion-item>
+      <ion-label position="stacked">Image to Be Displayed with Information</ion-label>
+      <ion-card text-center>
+        <ion-card-content>
+          <div class="fileUpload btn btn-primary">
+            <input id="uploadBtn" type="file" class="upload" (change)="uploadedImage = $event.target.files"/>
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </ion-item>
+  </form>
 </ion-content>
 
 <ion-footer>
   <ion-toolbar color="success">
-    <ion-button expand="full" fill="clear" color="light" (click)="uploadImage(uploadedImage)">
+    <ion-button expand="full" fill="clear" color="light" (click)="uploadImage(uploadedImage, pregnancyUpdateForm)">
       <ion-icon name="checkmark" slot="start"></ion-icon>
       Add Pregnancy Update
     </ion-button>
