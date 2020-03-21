@@ -12,15 +12,12 @@
 
       <!-- Automatic message -->
       <div *ngIf="chat.type == 'auto' || chat.type == 'emotion'; else elseBlock">
-          <!--
+<!--
         <div align-self-center class="timestamp">
           {{ chat.timestamp.seconds * 1000 | date:'MM-dd-yyyy h:mm a' }}
         </div>
 
         <div class="message">
-          <ion-button class="user-img" fill="clear">
-            <img class="user-img" src="{{ chat.profilePic }}" alt="" >
-          </ion-button>
           <div class="auto-msg-detail">
             <div class="msg-info">
               <p>
