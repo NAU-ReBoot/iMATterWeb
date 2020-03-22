@@ -56,13 +56,14 @@ constructor(private afs: AngularFirestore, private activatedRoute: ActivatedRout
     });
 
   this.locations = this.locationService.getLocations();
+  this.opened = true;
+  this.clicked = false;
 
 }
 
 ionViewWillEnter()
 {
-  this.opened = true;
-  this.clicked = false;
+
 
 }
 
@@ -89,6 +90,7 @@ ionViewWillEnter()
       });
 
       this.opened = true;
+      this.clicked = false;
     }
 
 showToast(msg) {
