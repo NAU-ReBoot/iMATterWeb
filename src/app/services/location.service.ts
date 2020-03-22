@@ -78,7 +78,7 @@ export class LocationService {
     return this.locationCollection.doc(id).delete();
   }
 
-  updateLocation(location: Locaion): Promise<void>
+  updateLocation(location: Location): Promise<void>
   {
      return this.locationCollection.doc(location.id).update({
        title: location.title,

@@ -50,19 +50,21 @@ export class ResourcePage implements OnInit {
                     });
                   }
                 });
+              //  this.locations = this.locationService.getLocations();
+                let id = this.activatedRoute.snapshot.paramMap.get('id');
+                if (id) {
+                  this.locationService.getLocation(id).subscribe(location=> {
+                    this.location = location;
+                  });
+                }
 
-                this.locations = this.locationService.getLocations();
+
 
             }
 
             ionViewWillEnter()
             {
-              let id = this.activatedRoute.snapshot.paramMap.get('id');
-              if (id) {
-                this.locationService.getLocation(id).subscribe(location=> {
-                  this.location = location;
-                });
-              }
+
             }
 
 
@@ -83,6 +85,12 @@ export class ResourcePage implements OnInit {
                 console.log("sliently updated location");
 
               })
+            }
+
+            deleteLocation()
+            {
+              this.locationService.deleteLocation(this.location.id);
+              this.router.navigate(['/locationsInbox']);
             }
 
 }

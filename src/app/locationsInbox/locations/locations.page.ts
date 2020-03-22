@@ -15,7 +15,7 @@ import FieldValue = firebase.firestore.FieldValue;
 })
 export class LocationsPage implements OnInit {
 
-  private locations: Observable<Location[]>;
+  public locations: Observable<Location[]>;
 
 
   location: Location = {
@@ -57,14 +57,12 @@ constructor(private afs: AngularFirestore, private activatedRoute: ActivatedRout
 
   this.locations = this.locationService.getLocations();
 
-  this.opened = true;
-  this.clicked = false;
 }
 
 ionViewWillEnter()
 {
   this.opened = true;
-  this.clicked = false; 
+  this.clicked = false;
 
 }
 
