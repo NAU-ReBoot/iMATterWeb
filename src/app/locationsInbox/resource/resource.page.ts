@@ -51,12 +51,38 @@ export class ResourcePage implements OnInit {
                   }
                 });
 
+                this.locations = this.locationService.getLocations();
+
+            }
+
+            ionViewWillEnter()
+            {
               let id = this.activatedRoute.snapshot.paramMap.get('id');
               if (id) {
                 this.locationService.getLocation(id).subscribe(location=> {
                   this.location = location;
                 });
               }
+            }
+
+
+
+
+            updateLocation()
+            {
+              this.locationService.updateLocation(this.location).then(() =>
+              {
+                this.showToast('Location Updated!');
+              })
+            }
+
+            slientlyUpdateLocation()
+            {
+              this.locationService.updateLocation(this.location).then(()=>
+              {
+                console.log("sliently updated location");
+
+              })
             }
 
 }

@@ -64,7 +64,7 @@ export class LocationService {
         take(1),
         map(location => {
           location.id = id;
-          return location;
+          return location
         })
     );
   }
@@ -76,6 +76,23 @@ export class LocationService {
 
   deleteLocation(id: string): Promise<void> {
     return this.locationCollection.doc(id).delete();
+  }
+
+  updateLocation(location: Locaion): Promise<void>
+  {
+     return this.locationCollection.doc(location.id).update({
+       title: location.title,
+       content: location.content,
+       latitude: Number(location.latitude),
+       longitude: Number(location.longitude),
+       street: location.street,
+       phone: location.phone,
+       operationMF: location.operationMF,
+       operationSaturday: location.operationSaturday,
+       operationSunday: location.operationSunday,
+       special: location.special,
+       type: location.type
+     });
   }
 
 
