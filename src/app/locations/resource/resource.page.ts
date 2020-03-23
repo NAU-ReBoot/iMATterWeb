@@ -5,6 +5,7 @@ import {ToastController} from '@ionic/angular';
 import { Storage } from '@ionic/storage';
 import {Observable} from 'rxjs';
 import {AngularFirestore} from '@angular/fire/firestore';
+import { AlertController } from '@ionic/angular';
 import * as firebase from 'firebase/app';
 import FieldValue = firebase.firestore.FieldValue;
 
@@ -34,7 +35,8 @@ export class ResourcePage implements OnInit {
   };
 
   constructor(private afs: AngularFirestore, private activatedRoute: ActivatedRoute, private locationService: LocationService,
-              private toastCtrl: ToastController, private router: Router, private storage: Storage) { }
+              private toastCtrl: ToastController, private router: Router, private storage: Storage,
+              public alertController: AlertController) { }
 
               ngOnInit()
               {
@@ -56,6 +58,8 @@ export class ResourcePage implements OnInit {
                   this.locationService.getLocation(id).subscribe(location=> {
                     this.location = location;
                   });
+
+                  this.location.id = id;
                 }
 
 
@@ -90,7 +94,12 @@ export class ResourcePage implements OnInit {
             deleteLocation()
             {
               this.locationService.deleteLocation(this.location.id);
-              this.router.navigate(['/locationsInbox']);
+              this.locationService.deleteLocation(this.location.id).then(() => {
+                this.router.navigateByUrl('/locations/resource/');
+                this.showToast('Location deleted!');
+              }, err => {
+                this.showToast('There was a problem deleting your location.');
+              });
             }
 
             showToast(msg:string)
@@ -99,6 +108,25 @@ export class ResourcePage implements OnInit {
                 message: msg,
                 duration: 2000
               }).then(toast => toast.present());
+            }
+
+
+
+
+            async deleteLocationConfirmation() {
+              const alert = await this.alertController.create({
+                header: 'Delete Location?',
+                message: 'Are you sure you want to delete this location?',
+                buttons: [
+                  {text: 'Cancel'},
+                  {text: 'Delete',
+                  handler: () => {
+                    this.deleteLocation();
+                  }}
+                ]
+              });
+
+              await alert.present();
             }
 
 }

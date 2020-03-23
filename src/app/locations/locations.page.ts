@@ -56,15 +56,13 @@ constructor(private afs: AngularFirestore, private activatedRoute: ActivatedRout
     });
 
   this.locations = this.locationService.getLocations();
-  this.opened = true;
-  this.clicked = false;
 
 }
 
 ionViewWillEnter()
 {
-
-
+  this.opened = true;
+  this.clicked = false;
 }
 
 
@@ -89,8 +87,10 @@ ionViewWillEnter()
         this.showToast('There was a problem adding your location');
       });
 
-      this.opened = true;
-      this.clicked = false;
+
+
+
+
     }
 
 showToast(msg) {
@@ -98,6 +98,9 @@ showToast(msg) {
     message: msg,
     duration: 2000
   }).then(toast => toast.present());
+
+  this.opened = true;
+  this.clicked = false;
 }
 
 

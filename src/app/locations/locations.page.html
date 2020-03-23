@@ -15,7 +15,7 @@
 <ion-content >
   <div *ngIf = "opened">
       <ion-list>
-        <ion-item button [routerLink]="['/locationsInbox/resource/', location.id]" *ngFor="let location of (locations | async)">
+        <ion-item button [routerLink]="['/locations/resource/', location.id]" *ngFor="let location of (locations | async)">
           {{ location.title }}
           <ion-icon name="arrow-forward" slot="end"></ion-icon>
         </ion-item>

@@ -127,7 +127,7 @@ const routes: Routes = [
     loadChildren: () => import('./provider/provider-inbox/provider-inbox.module').then( m => m.ProviderInboxPageModule)
   },  {
     path: 'locations',
-    loadChildren: () => import('./locationsInbox/locations/locations.module').then( m => m.LocationsPageModule)
+    loadChildren: () => import('./locations/locations.module').then( m => m.LocationsPageModule)
   }
 
 ];
