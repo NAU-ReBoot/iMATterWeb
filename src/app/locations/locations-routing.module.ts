@@ -9,7 +9,7 @@ const routes: Routes = [
     component: LocationsPage
   },
   {
-    path: 'location/:id',
+    path: 'resource/:id',
     loadChildren: () => import('./resource/resource.module').then( m => m.ResourcePageModule)
   }
 ];
