@@ -100,7 +100,7 @@
       </ion-button>
     </ion-col>
     <ion-col size="6">
-      <ion-button expand="block" fill="solid" color="success" (click)="updateLocation()">
+      <ion-button button [routerLink]="['/locations/']" expand="block" fill="solid" color="success" (click)="updateLocation()">
         <ion-icon name="save" slot="start"></ion-icon>
         Update
       </ion-button>

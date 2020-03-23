@@ -79,6 +79,8 @@ export class ResourcePage implements OnInit {
               this.locationService.updateLocation(this.location).then(() =>
               {
                 this.showToast('Location Updated!');
+              }, err => {
+                this.showToast('Please make sure to have Fields filled');
               })
             }
 
@@ -97,6 +99,7 @@ export class ResourcePage implements OnInit {
               this.locationService.deleteLocation(this.location.id).then(() => {
                 this.router.navigateByUrl('/locations/resource/');
                 this.showToast('Location deleted!');
+                this.router.navigate(['/locations']);
               }, err => {
                 this.showToast('There was a problem deleting your location.');
               });
@@ -122,11 +125,16 @@ export class ResourcePage implements OnInit {
                   {text: 'Delete',
                   handler: () => {
                     this.deleteLocation();
+
+
                   }}
                 ]
               });
 
-              await alert.present();
+
+            await alert.present();
+
+
             }
 
 }

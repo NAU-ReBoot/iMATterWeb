@@ -25,59 +25,59 @@
       <div *ngIf="clicked">
       <ion-item>
         <ion-label position= "stacked"> Location Title </ion-label>
-        <ion-input [(ngModel)] = "location.title"></ion-input>
+        <ion-input required [(ngModel)] = "location.title"></ion-input>
       </ion-item>
 
       <ion-item>
         <ion-label position= "stacked"> Location Description </ion-label>
-        <ion-input [(ngModel)] = "location.content"></ion-input>
+        <ion-input required [(ngModel)] = "location.content"></ion-input>
       </ion-item>
 
       <ion-item>
         <ion-label position= "stacked"> Street Address </ion-label>
-        <ion-input [(ngModel)] = "location.street"></ion-input>
+        <ion-input required [(ngModel)] = "location.street"></ion-input>
       </ion-item>
 
       <ion-item>
         <ion-label position= "stacked"> Phone Number </ion-label>
-        <ion-input [(ngModel)] = "location.phone"></ion-input>
+        <ion-input required [(ngModel)] = "location.phone"></ion-input>
       </ion-item>
 
       <ion-item>
-        <ion-label position= "stacked"> Latitude </ion-label>
-        <ion-input [(ngModel)] = "location.latitude"></ion-input>
+        <ion-label position= "stacked" required ="true" "> Latitude </ion-label>
+        <ion-input required [(ngModel)] = "location.latitude"></ion-input>
       </ion-item>
 
       <ion-item>
-        <ion-label position= "stacked"> Longitude </ion-label>
-        <ion-input [(ngModel)] = "location.longitude"></ion-input>
+        <ion-label position= "stacked" required ="true" > Longitude </ion-label>
+        <ion-input required [(ngModel)] = "location.longitude"></ion-input>
       </ion-item>
 
       <ion-item>
         <ion-label position= "stacked"> Hours of Operation Monday - Friday </ion-label>
-        <ion-input [(ngModel)] = "location.operationMF"></ion-input>
+        <ion-input required [(ngModel)] = "location.operationMF"></ion-input>
       </ion-item>
 
       <ion-item>
         <ion-label position= "stacked"> Hours of Operation Saturday </ion-label>
-        <ion-input [(ngModel)] = "location.operationSaturday"></ion-input>
+        <ion-input required [(ngModel)] = "location.operationSaturday"></ion-input>
       </ion-item>
 
       <ion-item>
         <ion-label position= "stacked"> Hours of Operation Sunday </ion-label>
-        <ion-input [(ngModel)] = "location.operationSunday"></ion-input>
+        <ion-input required [(ngModel)] = "location.operationSunday"></ion-input>
       </ion-item>
 
 
       <ion-item>
-        <ion-label position= "stacked"> Special Note </ion-label>
+        <ion-label position= "stacked"> Special Note (optional) </ion-label>
         <ion-input [(ngModel)] = "location.special"></ion-input>
       </ion-item>
 
 
 
       <ion-list>
-      <ion-radio-group [(ngModel)] = "location.type">
+      <ion-radio-group required [(ngModel)] = "location.type">
         <ion-list-header>
           <ion-label> Type of Location </ion-label>
         </ion-list-header>
@@ -101,10 +101,9 @@
 
     <ion-footer >
       <ion-toolbar>
-        <ion-button *ngIf="location.title == '' || location.longitude == '' || location.latitude== ''" class="fill-button" disabled="true" expand="full" (click)="submitLocation()">
-          Submit
-        </ion-button>
-        <ion-button *ngIf="location.title != '' && location.longitude != '' && location.latitude !=''" class="fill-button" expand="full" (click)="submitLocation()">
+        <ion-button *ngIf="location.title != '' && location.longitude != '' && location.latitude !='' && location.content !=''
+        && location.type !='' && location.street !=''&& location.phone !='' && location.operationMF !=''&& location.operationSunday !=''
+        && location.operationSaturday !=''" class="fill-button" expand="full" (click)="submitLocation()">
           Submit
         </ion-button>
       </ion-toolbar>
