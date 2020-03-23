@@ -93,4 +93,12 @@ export class ResourcePage implements OnInit {
               this.router.navigate(['/locationsInbox']);
             }
 
+            showToast(msg:string)
+            {
+              this.toastCtrl.create({
+                message: msg,
+                duration: 2000
+              }).then(toast => toast.present());
+            }
+
 }

@@ -101,10 +101,10 @@
 
     <ion-footer >
       <ion-toolbar>
-        <ion-button *ngIf="location.title == '' || location.content == ''" class="fill-button" disabled="true" expand="full" (click)="submitLocation()">
+        <ion-button *ngIf="location.title == '' || location.longitude == '' || location.latitude== ''" class="fill-button" disabled="true" expand="full" (click)="submitLocation()">
           Submit
         </ion-button>
-        <ion-button *ngIf="location.title != '' && location.content != ''" class="fill-button" expand="full" (click)="submitLocation()">
+        <ion-button *ngIf="location.title != '' && location.longitude != '' && location.latitude !=''" class="fill-button" expand="full" (click)="submitLocation()">
           Submit
         </ion-button>
       </ion-toolbar>
