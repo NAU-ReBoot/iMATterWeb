@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthServiceProvider } from '../../services/user/auth.service';
-import { LoadingController, AlertController } from '@ionic/angular';
+import {LoadingController, AlertController, ToastController} from '@ionic/angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Storage } from '@ionic/storage';
@@ -33,7 +33,8 @@ export class SignupPage implements OnInit {
       private formBuilder: FormBuilder,
       private activatedRoute: ActivatedRoute,
       private router: Router,
-      private afs: AngularFirestore
+      private afs: AngularFirestore,
+      private toastCtrl: ToastController
   ) {
 
     this.picURL = 'https://firebasestorage.googleapis.com/v0/b/techdemofirebase.appspot.com/o/ProviderProfileImages%2F1453544.png?alt=media&token=fd46b228-4473-4d30-907d-f3209dc1b790';
@@ -120,36 +121,45 @@ export class SignupPage implements OnInit {
       this.provider.password = password;
       this.provider.bio = bio;
 
-      const ref = this.afs.firestore.collection('providers').where('code', '==', this.id);
-      ref.get().then((result) => {
-            result.forEach(doc => {
-              this.provider.email = doc.get('email');
-              this.provider.lastName = doc.get('nameLast');
-              this.provider.firstName = doc.get('nameFirst');
-              this.provider.type = doc.get('type');
+      this.afs.firestore.collection('providers').where('username', '==', this.provider.username)
+          .get().then(snap => {
+        if (snap.docs.length > 0) {
+          console.log(('taken'));
+          this.showToast('Username taken');
+        } else {
+          const ref = this.afs.firestore.collection('providers').where('code', '==', this.id);
+          ref.get().then((result) => {
+                result.forEach(doc => {
+                  this.provider.email = doc.get('email');
+                  this.provider.lastName = doc.get('nameLast');
+                  this.provider.firstName = doc.get('nameFirst');
+                  this.provider.type = doc.get('type');
 
-              this.authService.signupProvider(this.provider, password, username, this.provider.email, bio).then(() => {
-                this.loading.dismiss().then(() => {
-                  this.storage.set('code', this.provider.code);
-                  this.storage.set('type', this.provider.type);
+                  this.authService.signupProvider(this.provider, password, username, this.provider.email, bio).then(() => {
+                    this.loading.dismiss().then(() => {
+                      this.storage.set('code', this.provider.code);
+                      this.storage.set('type', this.provider.type);
 
-                  this.router.navigate(['/provider-home']);
+                      this.router.navigate(['/provider-home']);
+                    });
+                  });
                 });
-              });
-            });
-          },
-          error => {
-            this.loading.dismiss().then(async () => {
-              const alert = await this.alertCtrl.create({
-                message: error.message,
-                buttons: [{text: 'Ok', role: 'cancel'}],
-              });
-              await alert.present();
-            });
-          }
-      );
-      this.loading = await this.loadingCtrl.create();
-      await this.loading.present();
+              },
+              error => {
+            /*
+                this.loading.dismiss().then(async () => {
+                  const alert = await this.alertCtrl.create({
+                    message: error.message,
+                    buttons: [{text: 'Ok', role: 'cancel'}],
+                  });
+                  await alert.present();
+                });*/
+              }
+          );
+          // this.loading = await this.loadingCtrl.create();
+          // await this.loading.present();
+        }
+      });
     }
   }
 
@@ -167,36 +177,45 @@ export class SignupPage implements OnInit {
       this.admin.password = password;
       this.admin.profilePic = 'https://firebasestorage.googleapis.com/v0/b/techdemofirebase.appspot.com/o/ProviderProfileImages%2F1453544.png?alt=media&token=fd46b228-4473-4d30-907d-f3209dc1b790';
 
+      this.afs.firestore.collection('admins').where('username', '==', this.admin.username)
+          .get().then(snap => {
+        if (snap.docs.length > 0) {
+          console.log(('taken'));
+          this.showToast('Username taken');
+        } else {
 
-      // retrieve already entered email by admin
-      const ref = this.afs.firestore.collection('admins').where('code', '==', this.id);
-      ref.get().then((result) => {
-        result.forEach(doc => {
-          this.admin.email = doc.get('email');
-          this.admin.type = doc.get('type');
+          // retrieve already entered email by admin
+          const ref = this.afs.firestore.collection('admins').where('code', '==', this.id);
+          ref.get().then((result) => {
+                result.forEach(doc => {
+                  this.admin.email = doc.get('email');
+                  this.admin.type = doc.get('type');
 
-          this.authService.signupAdmin(this.admin, password, username, this.admin.email).then(() => {
-            this.loading.dismiss().then(() => {
-              this.storage.set('code', this.admin.code);
-              this.storage.set('type', this.admin.type);
+                  this.authService.signupAdmin(this.admin, password, username, this.admin.email).then(() => {
+                    this.loading.dismiss().then(() => {
+                      this.storage.set('code', this.admin.code);
+                      this.storage.set('type', this.admin.type);
 
-              this.router.navigate(['/tabs/home']);
-            });
-          });
-        });
-        },
+                      this.router.navigate(['/tabs/home']);
+                    });
+                  });
+                });
+              },
               error => {
-        this.loading.dismiss().then(async () => {
-          const alert = await this.alertCtrl.create({
-            message: error.message,
-            buttons: [{text: 'Ok', role: 'cancel'}],
-          });
-          await alert.present();
-        });
-      }
-      );
-      this.loading = await this.loadingCtrl.create();
-      await this.loading.present();
+            /*
+                this.loading.dismiss().then(async () => {
+                  const alert = await this.alertCtrl.create({
+                    message: error.message,
+                    buttons: [{text: 'Ok', role: 'cancel'}],
+                  });
+                  await alert.present();
+                });*/
+              }
+          );
+          // this.loading = await this.loadingCtrl.create();
+          // await this.loading.present();
+        }
+      });
     }
   }
 
@@ -207,6 +226,13 @@ export class SignupPage implements OnInit {
   changePic(url: string) {
     this.showImages = false;
     this.picURL = url;
+  }
+
+  showToast(msg) {
+    this.toastCtrl.create({
+      message: msg,
+      duration: 2000
+    }).then(toast => toast.present());
   }
 
 }

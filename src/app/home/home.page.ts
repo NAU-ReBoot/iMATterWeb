@@ -232,8 +232,8 @@ export class HomePage implements OnInit {
       this.provider.type = 'provider';
       this.provider.providerType = providerType;
 
-      const picRef = this.afs.firestore.collection('providerTypes').where('type', '==', this.provider.providerType);
-      picRef.get().then((res) => {
+      const providerTypeRef = this.afs.firestore.collection('providerTypes').where('type', '==', this.provider.providerType);
+      providerTypeRef.get().then((res) => {
         res.forEach(document => {
           this.provider.profilePic = document.get('profilePic');
           this.provider.code = HomePage.makeString();
