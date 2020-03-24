@@ -6,6 +6,7 @@ import { Storage } from '@ionic/storage';
 import { Router } from '@angular/router';
 import {ProviderType, SettingsService} from '../services/settings/settings.service';
 import {AngularFirestore} from '@angular/fire/firestore';
+import {ToastController} from '@ionic/angular';
 
 @Component({
   selector: 'app-tab1',
@@ -25,7 +26,8 @@ export class HomePage implements OnInit {
               private storage: Storage,
               private router: Router,
               private sService: SettingsService,
-              private afs: AngularFirestore) {
+              private afs: AngularFirestore,
+              private toastCtrl: ToastController) {
 
     this.addProviderForm = this.formBuilder.group({
       nameFirst: [
@@ -235,14 +237,21 @@ export class HomePage implements OnInit {
         res.forEach(document => {
           this.provider.profilePic = document.get('profilePic');
           this.provider.code = HomePage.makeString();
-          this.createUserService.addProvider(this.provider);
+
+          this.afs.firestore.collection('providers').where('email', '==', this.provider.email)
+              .get().then(snap => {
+            if (snap.docs.length > 0) {
+              console.log(('taken'));
+              this.showToast('Email already assigned to another provider');
+            } else {
+              this.createUserService.addProvider(this.provider);
+              this.codeView = true;
+              this.displayAddProvider = false;
+              this.clearProviderForm();
+            }
+          });
         });
       });
-      this.codeView = true;
-      this.displayAddProvider = false;
-
-      this.clearProviderForm();
-
     }
   }
 
@@ -289,6 +298,13 @@ export class HomePage implements OnInit {
 
   checkUserActivity() {
 
+  }
+
+  showToast(msg) {
+    this.toastCtrl.create({
+      message: msg,
+      duration: 2000
+    }).then(toast => toast.present());
   }
 
   ionViewDidLeave() {

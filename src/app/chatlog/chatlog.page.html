@@ -12,7 +12,7 @@
 
       <!-- Automatic message -->
       <div *ngIf="chat.type == 'auto' || chat.type == 'emotion'; else elseBlock">
-<!--
+        <!--
         <div align-self-center class="timestamp">
           {{ chat.timestamp.seconds * 1000 | date:'MM-dd-yyyy h:mm a' }}
         </div>
@@ -34,7 +34,7 @@
               <ion-item>
                   <ion-button slot="end" color="danger" (click)="deleteChat(chat.id)"> Delete Chat </ion-button>
               </ion-item>
-          </div>
+      </div>
         </div>-->
       </div>
 
