@@ -272,10 +272,19 @@ export class HomePage implements OnInit {
       this.admin.type = 'admin';
 
       this.admin.code = HomePage.makeString();
-      this.createUserService.addAdmin(this.admin);
-      this.codeView = true;
-      this.displayAddAdmin = false;
-      this.clearAdminForm();
+
+      this.afs.firestore.collection('admins').where('email', '==', this.admin.email)
+          .get().then(snap => {
+        if (snap.docs.length > 0) {
+          console.log(('taken'));
+          this.showToast('Email already assigned to another admin');
+        } else {
+          this.createUserService.addAdmin(this.admin);
+          this.codeView = true;
+          this.displayAddAdmin = false;
+          this.clearAdminForm();
+        }
+      });
     }
   }
 
