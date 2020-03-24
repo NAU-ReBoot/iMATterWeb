@@ -9,7 +9,7 @@ import {ToastController} from '@ionic/angular';
 export interface PregnancyUpdateCard {
   id?: string;
   fileName: string;
-  day: string;
+  day: number;
   description: string;
   picture: string;
 }
@@ -53,7 +53,7 @@ export class PregnancyUpdatesService {
   }
 
   addPregnancyUpdate(pregnancyCard: PregnancyUpdateCard): Promise<void> {
-    return this.pregnancyUpdatesCollection.doc(pregnancyCard.day).set({
+    return this.pregnancyUpdatesCollection.doc(pregnancyCard.day.toString()).set({
       day: pregnancyCard.day,
       fileName: pregnancyCard.fileName,
       description: pregnancyCard.description,

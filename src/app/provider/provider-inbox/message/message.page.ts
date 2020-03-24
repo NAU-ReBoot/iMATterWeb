@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ProviderInboxService, EmotionNotif } from '../../../services/provider-inbox.service';
+import { ProviderInboxService, EmotionNotif } from '../../../services/providerInbox/provider-inbox.service';
 import { Storage } from '@ionic/storage';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';

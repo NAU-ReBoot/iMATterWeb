@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Storage } from '@ionic/storage';
-import { ChatService, Cohort, Chat } from '../services/chat-service.service';
+import { ChatService, Cohort, Chat } from '../services/chatroom/chat-service.service';
 import {Observable} from 'rxjs';
 import * as firebase from 'firebase/app';
 import {AngularFirestore} from '@angular/fire/firestore';
@@ -23,13 +23,16 @@ export class ChatlogPage implements OnInit {
     userID: '',
     timestamp: '',
     message: '',
-    type: ''
+    type: '',
+    visibility: true
   };
 
   private cohortChat: string;
   public chats: Observable<any>;
   private showLog: boolean;
   private id: any;
+  public chatsList: any[];
+  public loadedChats: any[];
 
   constructor(private activatedRoute: ActivatedRoute,
               private router: Router,
@@ -55,7 +58,33 @@ export class ChatlogPage implements OnInit {
     });
 
     this.id = this.activatedRoute.snapshot.paramMap.get('id');
+
+    this.afs.collection('chats',
+        ref => ref.where('cohort', '==', this.id).orderBy('timestamp'))
+        .valueChanges({ idField: 'id' }).subscribe(chatsList => {
+      this.chatsList = chatsList;
+      console.log(this.chatsList);
+      this.loadedChats = chatsList;
+    });
     this.chats = this.chatService.getChats(this.id);
+  }
+
+  initializeItems(): void {
+    this.chatsList = this.loadedChats;
+  }
+
+  filterChats(event) {
+    console.log('called');
+    this.initializeItems();
+
+    const searchInput = event.target.value;
+
+
+    if (searchInput) {
+      this.chatsList = this.chatsList.filter(currentChat => {
+        return(currentChat.message.toLowerCase().indexOf(searchInput.toLowerCase()) > -1);
+      });
+    }
   }
 
   deleteChat(chatID) {

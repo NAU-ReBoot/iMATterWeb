@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { PregnancyUpdatesService, PregnancyUpdateCard } from '../../services/pregnancy-updates.service';
+import { PregnancyUpdatesService, PregnancyUpdateCard } from '../../services/pregnancyUpdates/pregnancy-updates.service';
 import { Observable } from 'rxjs';
 import {ActivatedRoute, Router} from '@angular/router';
 import { ToastController} from '@ionic/angular';
@@ -7,6 +7,7 @@ import {Storage} from '@ionic/storage';
 import { AngularFireStorage, AngularFireUploadTask } from '@angular/fire/storage';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
 import { finalize, tap } from 'rxjs/operators';
+import {Form, FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-add-update',
@@ -17,16 +18,17 @@ export class AddUpdatePage implements OnInit {
 
   pregnancyUpdateCard: PregnancyUpdateCard =
       {
-        day: '',
+        day: 0,
         fileName: '',
         description: '',
         picture: ''
       };
 
-  UploadedFileURL: Observable<string>;
-  fileName: string;
-  task: Promise<any>;
-  uploadedImage: FileList;
+  private UploadedFileURL: Observable<string>;
+  private fileName: string;
+  private task: Promise<any>;
+  private uploadedImage: FileList;
+  private pregnancyUpdateForm: FormGroup;
 
   constructor(
       private activatedRoute: ActivatedRoute,
@@ -35,7 +37,17 @@ export class AddUpdatePage implements OnInit {
       private toastCtrl: ToastController,
       private storage: Storage,
       private AFSStorage: AngularFireStorage,
-      private database: AngularFirestore) { }
+      private database: AngularFirestore,
+      private formBuilder: FormBuilder) {
+
+    this.pregnancyUpdateForm = this.formBuilder.group({
+      day: ['',
+        Validators.compose([Validators.required, Validators.minLength(1),
+          Validators.pattern('^([01]?[0-9]?[0-9]|2[0-7][0-9]|28[0])$')])],
+      description: ['',
+        Validators.compose([Validators.required, Validators.minLength(1)])],
+    });
+  }
 
   ngOnInit() {
     this.storage.get('authenticated').then((val) => {
@@ -56,13 +68,21 @@ export class AddUpdatePage implements OnInit {
 
   }
 
-  async addPregnancyUpdate() {
-    this.pregnancyUpdatesService.addPregnancyUpdate(this.pregnancyUpdateCard).then(() => {
-      this.router.navigateByUrl('/pregnancy-updates');
-      this.showToast('Pregnancy apdate added');
-    }, err => {
-      this.showToast('There was a problem adding your pregnancy update');
-    });
+  async addPregnancyUpdate(pregnancyUpdateForm: FormGroup) {
+    if (!pregnancyUpdateForm.valid) {
+      this.showToast('Incomplete Pregnancy Update');
+    } else {
+      this.pregnancyUpdateCard.day = Number(pregnancyUpdateForm.value.day);
+      this.pregnancyUpdateCard.description = pregnancyUpdateForm.value.description;
+
+      this.pregnancyUpdatesService.addPregnancyUpdate(this.pregnancyUpdateCard).then(() => {
+        this.router.navigateByUrl('/pregnancy-updates');
+        this.showToast('Pregnancy update added');
+        this.pregnancyUpdateForm.reset();
+      }, err => {
+        this.showToast('There was a problem adding your pregnancy update');
+      });
+    }
   }
 
   showToast(msg: string) {
@@ -72,7 +92,7 @@ export class AddUpdatePage implements OnInit {
     }).then(toast => toast.present());
   }
 
-  async uploadImage(event: FileList) {
+  async uploadImage(event: FileList, pregnancyUpdateForm) {
 
     // The File object
     const file = event.item(0);
@@ -99,7 +119,7 @@ export class AddUpdatePage implements OnInit {
 
       this.UploadedFileURL.subscribe(resp => {
         this.pregnancyUpdateCard.picture = resp;
-        this.addPregnancyUpdate();
+        this.addPregnancyUpdate(pregnancyUpdateForm);
       });
     });
   }

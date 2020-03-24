@@ -7,7 +7,6 @@ import { Router } from '@angular/router';
 import { AngularFirestore } from '@angular/fire/firestore';
 import {ToastController} from '@ionic/angular';
 import { Storage } from '@ionic/storage';
-import {Admin, Provider } from '../../services/create-user.service';
 
 @Component({
     selector: 'app-login',
@@ -112,6 +111,7 @@ export class LoginPage implements OnInit {
                         });
                     } else {
                         this.userEmail = false;
+                        this.showToast('Email and/or password is incorrect');
                     }
                 });
             }

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {Observable} from 'rxjs';
-import {PregnancyUpdateCard, PregnancyUpdatesService} from '../../services/pregnancy-updates.service';
+import {PregnancyUpdateCard, PregnancyUpdatesService} from '../../services/pregnancyUpdates/pregnancy-updates.service';
 import {Router} from '@angular/router';
 import {Storage} from '@ionic/storage';
 

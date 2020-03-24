@@ -3,7 +3,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {ToastController} from '@ionic/angular';
 import {Storage} from '@ionic/storage';
-import {Admin, CreateUserService, Provider, User} from '../../services/create-user.service';
+import {Admin, CreateUserService, Provider, User} from '../../services/createUsers/create-user.service';
 
 
 @Component({

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {PregnancyUpdateCard, PregnancyUpdatesService} from '../../services/pregnancy-updates.service';
+import {PregnancyUpdateCard, PregnancyUpdatesService} from '../../services/pregnancyUpdates/pregnancy-updates.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import { ToastController} from '@ionic/angular';
 import {Storage} from '@ionic/storage';
@@ -7,6 +7,7 @@ import {finalize} from 'rxjs/operators';
 import {Observable} from 'rxjs';
 import { AngularFireStorage, AngularFireUploadTask } from '@angular/fire/storage';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-updates-content',
@@ -17,16 +18,17 @@ export class UpdatesContentPage implements OnInit {
 
   pregnancyUpdateCard: PregnancyUpdateCard =
       {
-        day: '',
+        day: 0,
         fileName: '',
         description: '',
         picture: ''
       };
 
-  UploadedFileURL: Observable<string>;
-  fileName: string;
-  task: Promise<any>;
-  uploadedImage: FileList;
+  private UploadedFileURL: Observable<string>;
+  private fileName: string;
+  private task: Promise<any>;
+  private uploadedImage: FileList;
+  private pregnancyUpdateForm: FormGroup;
   newImage: boolean;
 
   constructor(
@@ -36,7 +38,18 @@ export class UpdatesContentPage implements OnInit {
       private toastCtrl: ToastController,
       private storage: Storage,
       private AFSStorage: AngularFireStorage,
-      private database: AngularFirestore) { }
+      private database: AngularFirestore,
+      private formBuilder: FormBuilder) {
+
+    this.pregnancyUpdateForm = this.formBuilder.group({
+      day: [0,
+        Validators.compose([Validators.required, Validators.minLength(1),
+          Validators.pattern('^([01]?[0-9]?[0-9]|2[0-7][0-9]|28[0])$')])],
+      description: ['',
+        Validators.compose([Validators.required, Validators.minLength(1)])],
+    });
+  }
+
 
   ngOnInit() {
     this.storage.get('authenticated').then((val) => {

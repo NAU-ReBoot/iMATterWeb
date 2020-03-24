@@ -88,6 +88,10 @@ export class QuestionService {
     );
   }
 
+  getSpecificQuestions(includedPhrase) {
+
+  }
+
   addQuestion(question: Question): Promise<DocumentReference> {
     return this.questionCollection.add(question);
   }

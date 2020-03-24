@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { SettingsService, GiftCardType } from '../services/settings.service';
+import { SettingsService, GiftCardType, ProviderType } from '../services/settings/settings.service';
 import { Storage } from '@ionic/storage';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { Observable } from 'rxjs';
 import { AngularFireStorage, AngularFireUploadTask } from '@angular/fire/storage';
-import { ProviderType } from '../services/settings.service';
 
 @Component({
   selector: 'app-mobile-settings',
@@ -13,6 +12,13 @@ import { ProviderType } from '../services/settings.service';
   styleUrls: ['./mobile-settings.page.scss'],
 })
 export class MobileSettingsPage implements OnInit {
+
+  constructor(private msService: SettingsService,
+              private storage: Storage,
+              private router: Router,
+              public alertController: AlertController,
+              private AFSStorage: AngularFireStorage,
+              ) { }
 
   providerType: ProviderType = {
     type: '',
@@ -24,7 +30,9 @@ export class MobileSettingsPage implements OnInit {
   private adminPic: string;
   private profilePics: Array<string>;
   private securityQs: Array<string>;
+  private chatLifeSetting: string;
   private chatHoursToLive: number;
+  private chatNumberToLive: number;
   private GCEmail: string;
   private typesOfGC: Array<GiftCardType>;
   private pointsToRedeemGC: number;
@@ -39,6 +47,7 @@ export class MobileSettingsPage implements OnInit {
   private displayProfilePics: boolean;
   private displaySecurityQs: boolean;
   private displayHoursForChats: boolean;
+  private displayNumberForChats: boolean;
   private displayEmailAdmin: boolean;
   private displayTotalPoints: boolean;
   private displayTypesOfGC: boolean;
@@ -61,12 +70,14 @@ export class MobileSettingsPage implements OnInit {
   private newProviderTypeName: string;
   private newProviderTypeEntered: boolean;
 
-  constructor(private msService: SettingsService,
-              private storage: Storage,
-              private router: Router,
-              public alertController: AlertController,
-              private AFSStorage: AngularFireStorage,
-              ) { }
+  static getFileName(downloadURL) {
+    console.log(downloadURL);
+    const fileSplit = downloadURL.split('%2F')[1];
+    console.log(fileSplit);
+    const filePath = fileSplit.split('?')[0];
+    console.log(filePath);
+    return filePath;
+  }
 
   ngOnInit() {
 
@@ -93,53 +104,68 @@ export class MobileSettingsPage implements OnInit {
     this.getProfilePics();
     this.providerTypes = this.getProviderTypes();
     this.getAdminPic();
+    this.getChatRoomLifeSetting();
+    this.getChatRoomNumberSetting();
 
   }
 
   getAutoProfilePic() {
-    this.msService.getUserSignUpSettings().then((result) => {
+    SettingsService.getUserSignUpSettings().then((result) => {
       this.autoProfilePic = result.get('autoProfilePic');
     });
   }
 
   getAdminPic() {
-    this.msService.getAdminSettings().then((result) => {
+    SettingsService.getAdminSettings().then((result) => {
       this.adminPic = result.get('profilePic');
     });
   }
 
   getProfilePics() {
-    this.msService.getUserSignUpSettings().then((result) => {
+    SettingsService.getUserSignUpSettings().then((result) => {
       this.profilePics = result.get('profilePictures');
     });
   }
 
   getSecurityQs() {
-    this.msService.getUserSignUpSettings().then((result) => {
+    SettingsService.getUserSignUpSettings().then((result) => {
       this.securityQs = result.get('securityQs');
     });
   }
 
   getChatRoomHourSetting() {
-    this.msService.getChatRoomHourSetting().then((result) => {
+    SettingsService.getChatRoomSettings().then((result) => {
       this.chatHoursToLive = result.get('hours');
     });
   }
 
+  getChatRoomNumberSetting() {
+    SettingsService.getChatRoomSettings().then((result) => {
+      this.chatNumberToLive = result.get('numberOfChats');
+    });
+  }
+
+  getChatRoomLifeSetting() {
+    SettingsService.getChatRoomSettings().then((result) => {
+      this.chatLifeSetting = result.get('lifeType');
+      console.log(this.chatLifeSetting);
+    });
+  }
+
   getCurrentGCEmail() {
-    this.msService.getGCSettings().then((result) => {
+    SettingsService.getGCSettings().then((result) => {
       this.GCEmail = result.get('email');
     });
   }
 
   getPointsToRedeemGC() {
-    this.msService.getGCSettings().then((result) => {
+    SettingsService.getGCSettings().then((result) => {
       this.pointsToRedeemGC = result.get('points');
     });
   }
 
   getGCTypes() {
-    this.msService.getGCSettings().then((result) => {
+    SettingsService.getGCSettings().then((result) => {
       this.typesOfGC = result.get('types');
     });
   }
@@ -148,10 +174,34 @@ export class MobileSettingsPage implements OnInit {
     return this.msService.getProviderTypes();
   }
 
+  updateChatLifeSetting(chatLifeSetting) {
+    this.msService.updateChatLifeType(chatLifeSetting);
+  }
+
+  async updateNumberOfChatsToLive(): Promise<void> {
+    const alert = await this.alertController.create({
+      inputs: [
+        { name: 'newNumber', placeholder: 'New Number of Chats Visible', type: 'number'},
+      ],
+      buttons: [
+        { text: 'Cancel' },
+        { text: 'Update',
+          handler: data => {
+            this.msService.updateNumberOfChatsLive(
+                data.newNumber
+            );
+            this.getChatRoomNumberSetting();
+          },
+        },
+      ],
+    });
+    await alert.present();
+  }
+
   async updateChatHoursToLive(): Promise<void> {
     const alert = await this.alertController.create({
       inputs: [
-        { name: 'newHours', placeholder: 'New Hours to Last'},
+        { name: 'newHours', placeholder: 'New Hours to Last', type: 'number'},
       ],
       buttons: [
         { text: 'Cancel' },
@@ -292,7 +342,7 @@ export class MobileSettingsPage implements OnInit {
   }
 
   async deleteProfilePic(pic): Promise<void> {
-    const filePath = this.getFileName(pic);
+    const filePath = MobileSettingsPage.getFileName(pic);
     this.AFSStorage.ref('ProfileImages').child(filePath).delete();
     this.msService.removeProfilePic(pic);
     this.getProfilePics();
@@ -330,33 +380,15 @@ export class MobileSettingsPage implements OnInit {
   }
 
   async deleteProviderType(id, pic) {
-    const filePath = this.getFileName(pic);
+    const filePath = MobileSettingsPage.getFileName(pic);
     this.AFSStorage.ref('ProviderProfileImages').child(filePath).delete();
     this.msService.removeProviderType(id);
     this.providerTypes = this.getProviderTypes();
   }
 
-  displaySubCategories(display, displayType) {
-    if (displayType === 'userSignUp') {
-      this.displayAutoPic = display;
-      this.displayProfilePics = display;
-      this.displaySecurityQs = display;
-
-    } else if (displayType === 'chatRoom') {
-      this.displayHoursForChats = display;
-
-    } else if (displayType === 'giftCard') {
-      this.displayEmailAdmin = display;
-      this.displayTotalPoints = display;
-      this.displayTypesOfGC = display;
-    } else if (displayType === 'provider') {
-      this.displayProviderTypes = display;
-    }
-  }
-
   async updateAdminPic(event: FileList, pic): Promise<void> {
 
-    const filePath = this.getFileName(pic);
+    const filePath = MobileSettingsPage.getFileName(pic);
     this.AFSStorage.ref('AdminProfileImage').child(filePath).delete();
 
     const file = event.item(0);
@@ -388,14 +420,7 @@ export class MobileSettingsPage implements OnInit {
     });
   }
 
-  getFileName(downloadURL) {
-    console.log(downloadURL);
-    const fileSplit = downloadURL.split('%2F')[1];
-    console.log(fileSplit);
-    const filePath = fileSplit.split('?')[0];
-    console.log(filePath);
-    return filePath;
-  }
+
 
   initDisplaysToFalse() {
     this.displayUserSignUp = false;
@@ -405,6 +430,7 @@ export class MobileSettingsPage implements OnInit {
     this.displayProfilePics = false;
     this.displaySecurityQs = false;
     this.displayHoursForChats = false;
+    this.displayNumberForChats = false;
     this.displayEmailAdmin = false;
     this.displayTotalPoints = false;
     this.displayTypesOfGC = false;
@@ -414,6 +440,25 @@ export class MobileSettingsPage implements OnInit {
     this.displayAdminSettings = false;
     this.displayAdminProfilePic = false;
     this.displayUpdateAdminPic = false;
+  }
+
+  displaySubCategories(display, displayType) {
+    if (displayType === 'userSignUp') {
+      this.displayAutoPic = display;
+      this.displayProfilePics = display;
+      this.displaySecurityQs = display;
+
+    } else if (displayType === 'chatRoom') {
+      this.displayHoursForChats = display;
+      this.displayNumberForChats = display;
+
+    } else if (displayType === 'giftCard') {
+      this.displayEmailAdmin = display;
+      this.displayTotalPoints = display;
+      this.displayTypesOfGC = display;
+    } else if (displayType === 'provider') {
+      this.displayProviderTypes = display;
+    }
   }
 
   ionViewWillLeave() {

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument, DocumentReference } from '@angular/fire/firestore';
 import { map, take } from 'rxjs/operators';
 import { Observable } from 'rxjs';
-import {Provider, Admin } from '../create-user.service';
+import {Provider, Admin } from '../createUsers/create-user.service';
 import 'firebase/auth';
 import 'firebase/firestore';
 

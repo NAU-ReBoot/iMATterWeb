@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { CreateUserService, User, Provider, Admin } from 'src/app/services/create-user.service';
+import { CreateUserService, User, Provider, Admin } from 'src/app/services/createUsers/create-user.service';
 import { Observable } from 'rxjs';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Storage } from '@ionic/storage';
 import { Router } from '@angular/router';
-import {ProviderType, SettingsService} from '../services/settings.service';
+import {ProviderType, SettingsService} from '../services/settings/settings.service';
 import {AngularFirestore} from '@angular/fire/firestore';
+import {ToastController} from '@ionic/angular';
 
 @Component({
   selector: 'app-tab1',
@@ -25,7 +26,8 @@ export class HomePage implements OnInit {
               private storage: Storage,
               private router: Router,
               private sService: SettingsService,
-              private afs: AngularFirestore) {
+              private afs: AngularFirestore,
+              private toastCtrl: ToastController) {
 
     this.addProviderForm = this.formBuilder.group({
       nameFirst: [
@@ -230,19 +232,26 @@ export class HomePage implements OnInit {
       this.provider.type = 'provider';
       this.provider.providerType = providerType;
 
-      const picRef = this.afs.firestore.collection('providerTypes').where('type', '==', this.provider.providerType);
-      picRef.get().then((res) => {
+      const providerTypeRef = this.afs.firestore.collection('providerTypes').where('type', '==', this.provider.providerType);
+      providerTypeRef.get().then((res) => {
         res.forEach(document => {
           this.provider.profilePic = document.get('profilePic');
           this.provider.code = HomePage.makeString();
-          this.createUserService.addProvider(this.provider);
+
+          this.afs.firestore.collection('providers').where('email', '==', this.provider.email)
+              .get().then(snap => {
+            if (snap.docs.length > 0) {
+              console.log(('taken'));
+              this.showToast('Email already assigned to another provider');
+            } else {
+              this.createUserService.addProvider(this.provider);
+              this.codeView = true;
+              this.displayAddProvider = false;
+              this.clearProviderForm();
+            }
+          });
         });
       });
-      this.codeView = true;
-      this.displayAddProvider = false;
-
-      this.clearProviderForm();
-
     }
   }
 
@@ -256,20 +265,26 @@ export class HomePage implements OnInit {
 
   addAdmin(addAdminForm: FormGroup) {
     if (!addAdminForm.valid) {
-      console.log(
-          'Need to complete the form, current value: ', addAdminForm.value
-      );
+      console.log('Need to complete the form', addAdminForm.value);
     } else {
-      const email: string = addAdminForm.value.email;
 
-      this.admin.email = email;
+      this.admin.email = addAdminForm.value.email;
       this.admin.type = 'admin';
 
       this.admin.code = HomePage.makeString();
-      this.createUserService.addAdmin(this.admin);
-      this.codeView = true;
-      this.displayAddAdmin = false;
-      this.clearAdminForm();
+
+      this.afs.firestore.collection('admins').where('email', '==', this.admin.email)
+          .get().then(snap => {
+        if (snap.docs.length > 0) {
+          console.log(('taken'));
+          this.showToast('Email already assigned to another admin');
+        } else {
+          this.createUserService.addAdmin(this.admin);
+          this.codeView = true;
+          this.displayAddAdmin = false;
+          this.clearAdminForm();
+        }
+      });
     }
   }
 
@@ -292,6 +307,13 @@ export class HomePage implements OnInit {
 
   checkUserActivity() {
 
+  }
+
+  showToast(msg) {
+    this.toastCtrl.create({
+      message: msg,
+      duration: 2000
+    }).then(toast => toast.present());
   }
 
   ionViewDidLeave() {
