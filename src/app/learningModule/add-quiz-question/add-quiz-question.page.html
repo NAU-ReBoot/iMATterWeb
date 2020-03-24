@@ -5,35 +5,15 @@
 </ion-header>
 
 <ion-content>
+  <ion-item-divider color="medium">
+    <ion-label>
+      Question Information
+    </ion-label>
+  </ion-item-divider>
 
   <ion-item>
     <ion-label position="stacked">Question Text</ion-label>
-    <ion-input [(ngModel)]="quizQuestion.questionText"></ion-input>
-  </ion-item>
-  
-  <ion-item>
-    <ion-label position="stacked">Choice 1</ion-label>
-    <ion-input [(ngModel)]="quizQuestion.choice1"></ion-input>
-  </ion-item>
-  
-  <ion-item>
-    <ion-label position="stacked">Choice 2</ion-label>
-    <ion-input [(ngModel)]="quizQuestion.choice2"></ion-input>
-  </ion-item>
-  
-  <ion-item>
-    <ion-label position="stacked">Choice 3</ion-label>
-    <ion-input [(ngModel)]="quizQuestion.choice3"></ion-input>
-  </ion-item>
-  
-  <ion-item>
-    <ion-label position="stacked">Choice 4</ion-label>
-    <ion-input [(ngModel)]="quizQuestion.choice4"></ion-input>
-  </ion-item>
-
-  <ion-item>
-    <ion-label position="stacked">Correct Answer (retype the choice text)</ion-label>
-    <ion-input [(ngModel)]="quizQuestion.correctAnswer"></ion-input>
+    <ion-textarea [(ngModel)]="quizQuestion.questionText" rows="2"></ion-textarea>
   </ion-item>
 
   <ion-item>
@@ -41,10 +21,54 @@
     <ion-input [(ngModel)]="quizQuestion.pointsWorth"></ion-input>
   </ion-item>
 
+  <ion-item-divider color="medium">
+    <ion-label>
+      Answer Choices
+    </ion-label>
+  </ion-item-divider>
+
+  <ion-item>
+    <ion-label position="stacked">A</ion-label>
+    <ion-textarea [(ngModel)]="quizQuestion.choice1"></ion-textarea>
+  </ion-item>
+  
+  <ion-item>
+    <ion-label position="stacked">B</ion-label>
+    <ion-textarea [(ngModel)]="quizQuestion.choice2"></ion-textarea>
+  </ion-item>
+  
+  <ion-item>
+    <ion-label position="stacked">C</ion-label>
+    <ion-textarea [(ngModel)]="quizQuestion.choice3"></ion-textarea>
+  </ion-item>
+  
+  <ion-item>
+    <ion-label position="stacked">D</ion-label>
+    <ion-textarea [(ngModel)]="quizQuestion.choice4"></ion-textarea>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="stacked">Correct Answer</ion-label>
+    <ion-select [(ngModel)]="quizQuestion.correctAnswer" multiple="false" cancelText="Cancel" okText="Ok">
+      <ion-select-option value="choice1">
+        A
+      </ion-select-option>
+      <ion-select-option value="choice2">
+        B
+      </ion-select-option>
+      <ion-select-option value="choice3">
+        C
+      </ion-select-option>
+      <ion-select-option value="choice4">
+        D
+      </ion-select-option>
+    </ion-select>
+  </ion-item>
+
   <ion-row>
     <ion-col text-center>
-      <ion-button (click)="dismiss()">Cancel</ion-button>
-      <ion-button (click)="closeModal()">Save Question</ion-button>
+      <ion-button class="text-button" fill="clear" (click)="dismiss()">Cancel</ion-button>
+      <ion-button class="fill-button" (click)="closeModal()">Save Question</ion-button>
     </ion-col>
   </ion-row>
 

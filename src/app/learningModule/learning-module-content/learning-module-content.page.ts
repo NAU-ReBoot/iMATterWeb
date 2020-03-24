@@ -9,6 +9,7 @@ import { AddQuizQuestionPage } from '../add-quiz-question/add-quiz-question.page
 import { AlertController } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
 import { Observable } from 'rxjs';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-learning-module-content',
@@ -18,6 +19,7 @@ import { Observable } from 'rxjs';
 export class LearningModuleContentPage implements OnInit {
 
   public learningModules: Observable<LearningModule[]>;
+  public learningModuleForm: FormGroup;
 
   learningModule: LearningModule = 
   {
@@ -63,7 +65,16 @@ export class LearningModuleContentPage implements OnInit {
     public domSanitizer: DomSanitizer,
     public modalController: ModalController,
     public alertController: AlertController,
-    private storage: Storage) { }
+    private storage: Storage,
+    private formBuilder: FormBuilder) 
+    {
+      this.learningModuleForm = this.formBuilder.group({
+        title: ['', Validators.compose([Validators.required])],
+        description: ['', Validators.compose([Validators.required])],
+        contents: ['', Validators.compose([Validators.required])],
+        weeklyVisibility: ['', Validators.compose([Validators.required])],
+      });
+    }
 
   ngOnInit() {
     this.storage.get('authenticated').then((val) => {
@@ -169,13 +180,8 @@ export class LearningModuleContentPage implements OnInit {
       component: QuizModalPage,
       componentProps:
       {
-        text: quizQuestion.questionText,
-        choice1: quizQuestion.choice1,
-        choice2: quizQuestion.choice2,
-        choice3: quizQuestion.choice3,
-        choice4: quizQuestion.choice4,
-        correctAnswer: quizQuestion.correctAnswer,
-        pointsWorth: quizQuestion.pointsWorth
+        currentLearningModule: this.learningModule,
+        currentQuizQuestion: quizQuestion
       }
     });
 
@@ -273,9 +279,5 @@ export class LearningModuleContentPage implements OnInit {
     this.learningModule.modulePointsWorth = totalPoints;
     this.silentlyUpdateLearningModule();
   }
-
-  customActionSheetOptions: any = {
-    cssClass: "nextModule"
-  };
 
 }

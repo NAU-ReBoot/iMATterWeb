@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Question } from '../../services/learning-module.service';
+import { LearningModuleService, LearningModule, Question } from '../../services/learning-module.service';
 import { ModalController, NavParams } from '@ionic/angular';
 import { AlertController } from '@ionic/angular';
-
+import { ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-quiz-modal',
@@ -13,21 +13,32 @@ export class QuizModalPage implements OnInit {
 
   //These come from the componentProps that was passed into this modal from learning-module.content.page
   //They needed to be declared before use
-  text:string;
-  choice1: string;
-  choice2: string;
-  choice3: string;
-  choice4: string;
-  correctAnswer: string;
-  pointsWorth: number;
+  currentLearningModule: LearningModule;
+  currentQuizQuestion: Question;
 
-  constructor(private modalController: ModalController, public alertController: AlertController) { }
+  //The reference to the quiz question within the currentLearningModule that will be used to update it
+  modalQuizQuestion: Question;
 
-  ngOnInit() {
+  constructor(
+    private modalController: ModalController, 
+    public alertController: AlertController,
+    private learningModuleService: LearningModuleService,
+    private toastCtrl: ToastController) { }
 
-  }
+  ngOnInit() { 
+    //find the current quiz question that we're viewing and create the reference to it
+    this.currentLearningModule.moduleQuiz.forEach(question => {
+      if (question === this.currentQuizQuestion)
+      {
+        this.modalQuizQuestion = question;
+      }
+    });
+   }
 
   dismiss() {
+    //update this learning module
+    this.updateLearningModule();
+
     this.modalController.dismiss({
       'dismissed': true
     });
@@ -48,11 +59,27 @@ export class QuizModalPage implements OnInit {
         {text: 'Cancel'}, 
         {text: 'Delete',
         handler: () => {
-          this.deleteQuestion(this.text);
+          this.deleteQuestion(this.currentQuizQuestion.questionText);
         }}
       ]
     });
 
     await alert.present();
+  }
+
+  updateLearningModule()
+  {
+    this.learningModuleService.updateLearningModule(this.currentLearningModule).then(() => 
+    {
+      this.showToast('Quiz question updated!');
+    });
+  }
+
+  showToast(msg:string)
+  {
+    this.toastCtrl.create({
+      message: msg,
+      duration: 2000
+    }).then(toast => toast.present());
   }
 }
