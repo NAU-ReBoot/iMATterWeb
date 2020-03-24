@@ -1,7 +1,6 @@
 <ion-header>
   <ion-toolbar>
-    <ion-buttons slot=
-    start>
+    <ion-buttons slot=start>
     <ion-back-button defaultHref="/learningmodules"></ion-back-button>
   </ion-buttons>
     <ion-title *ngIf="learningModule.id">{{learningModule.moduleTitle}} Module Details</ion-title>
@@ -22,35 +21,36 @@
     </ion-label>
   </ion-item-divider>
 
-  <ion-item>
-    <ion-label position="stacked">Module Title</ion-label>
-    <ion-input [(ngModel)]="learningModule.moduleTitle"></ion-input>
-  </ion-item>
+    <ion-item>
+      <ion-label position="stacked">Module Title</ion-label>
+      <ion-input [(ngModel)]="learningModule.moduleTitle"></ion-input>
+    </ion-item>
 
-  <ion-item>
-    <ion-label position="stacked">Module Description</ion-label>
-    <ion-textarea [(ngModel)]="learningModule.moduleDescription"></ion-textarea>
-  </ion-item>
+    <ion-item>
+      <ion-label position="stacked">Module Description</ion-label>
+      <ion-textarea [(ngModel)]="learningModule.moduleDescription"></ion-textarea>
+    </ion-item>
 
-  <ion-item>
-    <ion-label position="stacked">Display Module During Weeks (enter 0 for always visible)</ion-label>
-    <ion-input [(ngModel)]="learningModule.moduleVisibilityTime"></ion-input>
-  </ion-item>
+    <ion-item>
+      <ion-label position="stacked">Display Module During Weeks (enter 0 for always visible)</ion-label>
+      <ion-input [(ngModel)]="learningModule.moduleVisibilityTime"></ion-input>
+    </ion-item>
 
-  <ion-item>
-    <ion-label position="stacked" type="number">Days Visible Before Expiration (enter 0 for never expires)</ion-label>
-    <ion-input [(ngModel)]="learningModule.moduleExpiration"></ion-input>
-  </ion-item>
+    <ion-item>
+      <ion-label position="stacked" type="number">Days Visible Before Expiration (enter 0 for never expires)</ion-label>
+      <ion-input [(ngModel)]="learningModule.moduleExpiration"></ion-input>
+    </ion-item>
 
-  <ion-item>
-    <ion-label position="stacked">Module Reward Points (Total Quiz Question Points)</ion-label>
-    <ion-text>{{learningModule.modulePointsWorth}}</ion-text>
-  </ion-item>
+    <ion-item>
+      <ion-label position="stacked">Module Reward Points (Total Quiz Question Points)</ion-label>
+      <ion-text>{{learningModule.modulePointsWorth}}</ion-text>
+    </ion-item>
 
-  <ion-item>
-    <ion-label position="stacked">Module Contents</ion-label>
-    <ion-textarea [(ngModel)]="learningModule.moduleContent" rows="3"></ion-textarea>
-  </ion-item>
+    <ion-item>
+      <ion-label position="stacked">Module Contents</ion-label>
+      <ion-textarea [(ngModel)]="learningModule.moduleContent" rows="3"></ion-textarea>
+    </ion-item>
+
 
   <ion-item-divider color="medium">
     <ion-label>

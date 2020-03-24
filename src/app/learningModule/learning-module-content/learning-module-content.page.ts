@@ -9,6 +9,7 @@ import { AddQuizQuestionPage } from '../add-quiz-question/add-quiz-question.page
 import { AlertController } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
 import { Observable } from 'rxjs';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-learning-module-content',
@@ -18,6 +19,7 @@ import { Observable } from 'rxjs';
 export class LearningModuleContentPage implements OnInit {
 
   public learningModules: Observable<LearningModule[]>;
+  public learningModuleForm: FormGroup;
 
   learningModule: LearningModule = 
   {
@@ -63,7 +65,16 @@ export class LearningModuleContentPage implements OnInit {
     public domSanitizer: DomSanitizer,
     public modalController: ModalController,
     public alertController: AlertController,
-    private storage: Storage) { }
+    private storage: Storage,
+    private formBuilder: FormBuilder) 
+    {
+      this.learningModuleForm = this.formBuilder.group({
+        title: ['', Validators.compose([Validators.required])],
+        description: ['', Validators.compose([Validators.required])],
+        contents: ['', Validators.compose([Validators.required])],
+        weeklyVisibility: ['', Validators.compose([Validators.required])],
+      });
+    }
 
   ngOnInit() {
     this.storage.get('authenticated').then((val) => {
