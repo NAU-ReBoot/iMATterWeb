@@ -22,7 +22,8 @@ export class ForumThreadPage implements OnInit {
     userID: '',
     timestamp: FieldValue,
     profilePic: '',
-    anon: false
+    anon: false,
+    numOfComments: 0
   };
 
   comment: Comment = {

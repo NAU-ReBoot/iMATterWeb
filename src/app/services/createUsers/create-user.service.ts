@@ -37,6 +37,7 @@ export interface Provider {
   bio: string;
   type: string;
   providerType: string;
+ // questionsAnswered: any;
 }
 
 export interface Admin {
@@ -192,6 +193,7 @@ export class CreateUserService {
       type: provider.type,
       profilePic: provider.profilePic,
       providerType: provider.providerType,
+     // questionsAnswered: provider.questionsAnswered
     }, {merge: true});
   }
 
