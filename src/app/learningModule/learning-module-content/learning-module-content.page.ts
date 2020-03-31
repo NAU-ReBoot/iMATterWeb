@@ -74,6 +74,13 @@ export class LearningModuleContentPage implements OnInit {
         moduleVisibilityTime: ['', Validators.compose([Validators.required, Validators.minLength(1)])],
         moduleExpiration: ['', Validators.compose([Validators.required, Validators.minLength(1)])],
         moduleContent: ['', Validators.compose([Validators.required, Validators.minLength(1)])],
+        moduleVideoID: [''],
+        modulePPTurl: [''],
+        moduleNext: [''],
+        moduleQuiz: [],
+        modulePointsWorth: [''],
+        moduleActive: [''],
+        id: []
       });
     }
 
@@ -104,7 +111,7 @@ export class LearningModuleContentPage implements OnInit {
         this.learningModule = learningModule;
         
         this.learningModuleForm.patchValue(this.learningModule);
-        
+
         //If there is a youtube video id
         if (learningModule.moduleVideoID != '')
         {
@@ -141,10 +148,17 @@ export class LearningModuleContentPage implements OnInit {
 
   updateLearningModule()
   {
-    this.learningModuleService.updateLearningModule(this.learningModule).then(() => 
+    if (this.learningModuleForm.status == 'VALID')
     {
-      this.showToast('Learning module updated!');
-    })
+      console.log("IS VALID");
+      
+      var newData = this.learningModuleForm.value;
+
+      this.learningModuleService.updateLearningModule(newData).then(() => 
+      {
+        this.showToast('Learning module updated!');
+      });
+    }
   }
 
   silentlyUpdateLearningModule()
