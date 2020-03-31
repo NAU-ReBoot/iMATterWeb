@@ -69,10 +69,11 @@ export class LearningModuleContentPage implements OnInit {
     private formBuilder: FormBuilder) 
     {
       this.learningModuleForm = this.formBuilder.group({
-        title: ['', Validators.compose([Validators.required])],
-        description: ['', Validators.compose([Validators.required])],
-        contents: ['', Validators.compose([Validators.required])],
-        weeklyVisibility: ['', Validators.compose([Validators.required])],
+        moduleTitle: ['', Validators.compose([Validators.required, Validators.minLength(1)])],
+        moduleDescription: ['', Validators.compose([Validators.required, Validators.minLength(1)])],
+        moduleVisibilityTime: ['', Validators.compose([Validators.required, Validators.minLength(1)])],
+        moduleExpiration: ['', Validators.compose([Validators.required, Validators.minLength(1)])],
+        moduleContent: ['', Validators.compose([Validators.required, Validators.minLength(1)])],
       });
     }
 
@@ -101,6 +102,8 @@ export class LearningModuleContentPage implements OnInit {
     {
       this.learningModuleService.getLearningModule(id).subscribe(learningModule => {
         this.learningModule = learningModule;
+        
+        this.learningModuleForm.patchValue(this.learningModule);
         
         //If there is a youtube video id
         if (learningModule.moduleVideoID != '')
