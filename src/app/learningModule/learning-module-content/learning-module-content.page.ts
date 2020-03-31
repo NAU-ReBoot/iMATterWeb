@@ -69,10 +69,18 @@ export class LearningModuleContentPage implements OnInit {
     private formBuilder: FormBuilder) 
     {
       this.learningModuleForm = this.formBuilder.group({
-        title: ['', Validators.compose([Validators.required])],
-        description: ['', Validators.compose([Validators.required])],
-        contents: ['', Validators.compose([Validators.required])],
-        weeklyVisibility: ['', Validators.compose([Validators.required])],
+        moduleTitle: ['', Validators.compose([Validators.required, Validators.minLength(1)])],
+        moduleDescription: ['', Validators.compose([Validators.required, Validators.minLength(1)])],
+        moduleVisibilityTime: ['', Validators.compose([Validators.required, Validators.minLength(1), Validators.pattern('[0-9]+(, [0-9]+)*')])],
+        moduleExpiration: ['', Validators.compose([Validators.required, Validators.minLength(1), Validators.pattern('[0-9]+([0-9]+)*')])],
+        moduleContent: ['', Validators.compose([Validators.required, Validators.minLength(1)])],
+        moduleVideoID: [''],
+        modulePPTurl: [''],
+        moduleNext: [''],
+        moduleQuiz: [],
+        modulePointsWorth: [''],
+        moduleActive: [''],
+        id: []
       });
     }
 
@@ -102,6 +110,8 @@ export class LearningModuleContentPage implements OnInit {
       this.learningModuleService.getLearningModule(id).subscribe(learningModule => {
         this.learningModule = learningModule;
         
+        this.learningModuleForm.patchValue(this.learningModule);
+
         //If there is a youtube video id
         if (learningModule.moduleVideoID != '')
         {
@@ -138,10 +148,15 @@ export class LearningModuleContentPage implements OnInit {
 
   updateLearningModule()
   {
-    this.learningModuleService.updateLearningModule(this.learningModule).then(() => 
-    {
-      this.showToast('Learning module updated!');
-    })
+    if (this.learningModuleForm.status == 'VALID')
+    {      
+      var newData = this.learningModuleForm.value;
+
+      this.learningModuleService.updateLearningModule(newData).then(() => 
+      {
+        this.showToast('Learning module updated!');
+      });
+    }
   }
 
   silentlyUpdateLearningModule()
