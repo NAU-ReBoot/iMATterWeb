@@ -149,9 +149,7 @@ export class LearningModuleContentPage implements OnInit {
   updateLearningModule()
   {
     if (this.learningModuleForm.status == 'VALID')
-    {
-      console.log("IS VALID");
-      
+    {      
       var newData = this.learningModuleForm.value;
 
       this.learningModuleService.updateLearningModule(newData).then(() => 

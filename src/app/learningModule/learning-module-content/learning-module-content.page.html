@@ -11,112 +11,112 @@
 <ion-content>
   <form [formGroup]="learningModuleForm">
 
-  <ion-item>
-    <ion-label>Module is Active</ion-label>
-    <ion-toggle formControlName="moduleActive"></ion-toggle>
-  </ion-item>
+    <ion-item>
+      <ion-label>Module is Active</ion-label>
+      <ion-toggle formControlName="moduleActive"></ion-toggle>
+    </ion-item>
 
-  <ion-item-divider color="medium">
-    <ion-label>
-      About Module
-    </ion-label>
-  </ion-item-divider>
+    <ion-item-divider color="medium">
+      <ion-label>
+        About Module
+      </ion-label>
+    </ion-item-divider>
+
+      <ion-item>
+        <ion-label position="stacked">Module Title</ion-label>
+        <ion-input formControlName="moduleTitle"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Module Description</ion-label>
+        <ion-textarea formControlName="moduleDescription"></ion-textarea>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Display Module During Weeks (enter 0 for always visible)</ion-label>
+        <ion-input formControlName="moduleVisibilityTime"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked" type="number">Days Visible Before Expiration (enter 0 for never expires)</ion-label>
+        <ion-input formControlName="moduleExpiration"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Module Reward Points (Total Quiz Question Points)</ion-label>
+        <ion-text>{{learningModule.modulePointsWorth}}</ion-text>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Module Contents</ion-label>
+        <ion-textarea formControlName="moduleContent" rows="3" autoGrow="true"></ion-textarea>
+      </ion-item>
+
+    <ion-item-divider color="medium">
+      <ion-label>
+        Module Media
+      </ion-label>
+    </ion-item-divider>
 
     <ion-item>
-      <ion-label position="stacked">Module Title</ion-label>
-      <ion-input formControlName="moduleTitle"></ion-input>
+      <ion-label position="stacked">Module Video ID (YouTube Video ID)</ion-label>
+      <ion-input formControlName="moduleVideoID"></ion-input>
+    </ion-item>
+
+    <ion-item *ngIf="learningModule.id && sanitizedVideoURL" lines="none">
+      <iframe [src]="sanitizedVideoURL" allowfullscreen></iframe> 
     </ion-item>
 
     <ion-item>
-      <ion-label position="stacked">Module Description</ion-label>
-      <ion-textarea formControlName="moduleDescription"></ion-textarea>
+      <ion-label position="stacked">Module PowerPoint URL (src)</ion-label>
+      <ion-textarea formControlName="modulePPTurl"></ion-textarea>
     </ion-item>
+
+    <ion-item *ngIf="learningModule.id && sanitizedPPTurl" lines="none">
+      <iframe [src]="sanitizedPPTurl" allowfullscreen></iframe> 
+    </ion-item>
+    
+    <ion-item-divider color="medium">
+      <ion-label>
+        Module Quiz
+      </ion-label>
+    </ion-item-divider>
 
     <ion-item>
-      <ion-label position="stacked">Display Module During Weeks (enter 0 for always visible)</ion-label>
-      <ion-input formControlName="moduleVisibilityTime"></ion-input>
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <ion-card button (click)="openQuestion(quizQuestion)" *ngFor="let quizQuestion of ( learningModule.moduleQuiz )">
+              <ion-card-title class="ion-padding-horizontal">
+                {{ quizQuestion.questionText }}
+              </ion-card-title>
+            </ion-card>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
     </ion-item>
+
+    <ion-button class="fill-button" (click)="addQuestion()">Add Quiz Question</ion-button>
+
+    <ion-item-divider color="medium">
+      <ion-label>
+        Link to Another Learning Module
+      </ion-label>
+    </ion-item-divider>
 
     <ion-item>
-      <ion-label position="stacked" type="number">Days Visible Before Expiration (enter 0 for never expires)</ion-label>
-      <ion-input formControlName="moduleExpiration"></ion-input>
-    </ion-item>
-
-    <ion-item>
-      <ion-label position="stacked">Module Reward Points (Total Quiz Question Points)</ion-label>
-      <ion-text>{{learningModule.modulePointsWorth}}</ion-text>
-    </ion-item>
-
-    <ion-item>
-      <ion-label position="stacked">Module Contents</ion-label>
-      <ion-textarea formControlName="moduleContent" rows="3" autoGrow="true"></ion-textarea>
-    </ion-item>
-
-  <ion-item-divider color="medium">
-    <ion-label>
-      Module Media
-    </ion-label>
-  </ion-item-divider>
-
-  <ion-item>
-    <ion-label position="stacked">Module Video ID (YouTube Video ID)</ion-label>
-    <ion-input formControlName="moduleVideoID"></ion-input>
-  </ion-item>
-
-  <ion-item *ngIf="learningModule.id && sanitizedVideoURL" lines="none">
-    <iframe [src]="sanitizedVideoURL" allowfullscreen></iframe> 
-  </ion-item>
-
-  <ion-item>
-    <ion-label position="stacked">Module PowerPoint URL (src)</ion-label>
-    <ion-textarea formControlName="modulePPTurl"></ion-textarea>
-  </ion-item>
-
-  <ion-item *ngIf="learningModule.id && sanitizedPPTurl" lines="none">
-    <iframe [src]="sanitizedPPTurl" allowfullscreen></iframe> 
-  </ion-item>
-  
-  <ion-item-divider color="medium">
-    <ion-label>
-      Module Quiz
-    </ion-label>
-  </ion-item-divider>
-
-  <ion-item>
-    <ion-grid>
-      <ion-row>
-        <ion-col>
-          <ion-card button (click)="openQuestion(quizQuestion)" *ngFor="let quizQuestion of ( learningModule.moduleQuiz )">
-            <ion-card-title class="ion-padding-horizontal">
-              {{ quizQuestion.questionText }}
-            </ion-card-title>
-          </ion-card>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-  </ion-item>
-
-  <ion-button class="fill-button" (click)="addQuestion()">Add Quiz Question</ion-button>
-
-  <ion-item-divider color="medium">
-    <ion-label>
-      Link to Another Learning Module
-    </ion-label>
-  </ion-item-divider>
-
-  <ion-item>
-    <ion-label>Next Module</ion-label>
-      <ion-select formControlName="moduleNext" interface="action-sheet" multiple="false" cancelText="Cancel" okText="Ok">
-        <ion-select-option value=''>
-          None
-        </ion-select-option>
-        <ng-container *ngFor="let LM of (learningModules | async)">
-          <ion-select-option text-wrap *ngIf="LM.id !== learningModule.id && LM.moduleActive" [value]="LM.id">
-            {{LM.moduleTitle}}
+      <ion-label>Next Module</ion-label>
+        <ion-select formControlName="moduleNext" interface="action-sheet" multiple="false" cancelText="Cancel" okText="Ok">
+          <ion-select-option value=''>
+            None
           </ion-select-option>
-      </ng-container>
-      </ion-select>
-  </ion-item>
+          <ng-container *ngFor="let LM of (learningModules | async)">
+            <ion-select-option text-wrap *ngIf="LM.id !== learningModule.id && LM.moduleActive" [value]="LM.id">
+              {{LM.moduleTitle}}
+            </ion-select-option>
+        </ng-container>
+        </ion-select>
+    </ion-item>
 
 </form>
 
