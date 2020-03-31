@@ -62,7 +62,7 @@ export class AddQuizQuestionPage implements OnInit {
   }
 
   async closeModal() {
-    //Pass the updated quizQuestion object back after we're done here
+    //Pass the updated quizForm object back after we're done here
     await this.modalController.dismiss(this.quizForm.value);
   }
 
