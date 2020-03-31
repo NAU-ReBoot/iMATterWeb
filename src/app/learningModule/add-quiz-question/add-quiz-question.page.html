@@ -11,14 +11,16 @@
     </ion-label>
   </ion-item-divider>
 
+  <form [formGroup]="quizForm">
+
   <ion-item>
     <ion-label position="stacked">Question Text</ion-label>
-    <ion-textarea [(ngModel)]="quizQuestion.questionText" rows="2"></ion-textarea>
+    <ion-textarea formControlName="questionText" rows="2"></ion-textarea>
   </ion-item>
 
   <ion-item>
     <ion-label position="stacked">Number of Points Question is Worth</ion-label>
-    <ion-input [(ngModel)]="quizQuestion.pointsWorth"></ion-input>
+    <ion-input formControlName="pointsWorth"></ion-input>
   </ion-item>
 
   <ion-item-divider color="medium">
@@ -29,27 +31,27 @@
 
   <ion-item>
     <ion-label position="stacked">A</ion-label>
-    <ion-textarea [(ngModel)]="quizQuestion.choice1"></ion-textarea>
+    <ion-textarea formControlName="choice1"></ion-textarea>
   </ion-item>
   
   <ion-item>
     <ion-label position="stacked">B</ion-label>
-    <ion-textarea [(ngModel)]="quizQuestion.choice2"></ion-textarea>
+    <ion-textarea formControlName="choice2"></ion-textarea>
   </ion-item>
   
   <ion-item>
     <ion-label position="stacked">C</ion-label>
-    <ion-textarea [(ngModel)]="quizQuestion.choice3"></ion-textarea>
+    <ion-textarea formControlName="choice3"></ion-textarea>
   </ion-item>
   
   <ion-item>
     <ion-label position="stacked">D</ion-label>
-    <ion-textarea [(ngModel)]="quizQuestion.choice4"></ion-textarea>
+    <ion-textarea formControlName="choice4"></ion-textarea>
   </ion-item>
 
   <ion-item>
     <ion-label position="stacked">Correct Answer</ion-label>
-    <ion-select [(ngModel)]="quizQuestion.correctAnswer" multiple="false" cancelText="Cancel" okText="Ok">
+    <ion-select formControlName="correctAnswer" multiple="false" cancelText="Cancel" okText="Ok">
       <ion-select-option value="choice1">
         A
       </ion-select-option>
@@ -65,10 +67,12 @@
     </ion-select>
   </ion-item>
 
+</form>
+
   <ion-row>
     <ion-col text-center>
       <ion-button class="text-button" fill="clear" (click)="dismiss()">Cancel</ion-button>
-      <ion-button class="fill-button" (click)="closeModal()">Save Question</ion-button>
+      <ion-button class="fill-button" (click)="closeModal()" [disabled]="!quizForm.valid">Save Question</ion-button>
     </ion-col>
   </ion-row>
 
