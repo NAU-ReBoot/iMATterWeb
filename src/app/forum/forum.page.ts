@@ -19,8 +19,14 @@ export class ForumPage implements OnInit {
   public searchControl: FormControl;
   public items: any;
 
+  private allPosts: boolean;
+  private usersPosts: boolean;
+
   public questionList: any[];
   public loadedQuestionList: any[];
+
+  public thisUserQuestionList: any[];
+  public thisUserLoadedQuestionList: any[];
 
   constructor(private questionService: QuestionService,
               private router: Router,
@@ -34,20 +40,43 @@ export class ForumPage implements OnInit {
       if (val === 'false') {
         this.router.navigate(['/login/']);
       }
-
-      this.afs.collection('questions', ref => ref.orderBy('timestamp', 'desc'))
-          .valueChanges({ idField: 'id' }).subscribe(questionList => {
-            this.questionList = questionList;
-            console.log(this.questionList);
-            this.loadedQuestionList = questionList;
-          });
     });
 
+    this.allPosts = true;
+    this.usersPosts = false;
+
     this.questions = this.questionService.getQuestions();
+    this.getUserQuestions();
+    this.getAllQuestions();
+  }
+
+  getUserQuestions() {
+    this.storage.get('userCode').then((val) => {
+      if (val) {
+        this.afs.collection('questions', ref => ref.where('commenters', 'array-contains', val).orderBy('timestamp', 'desc'))
+            .valueChanges({ idField: 'id' }).subscribe(questionList => {
+          this.thisUserQuestionList = questionList;
+          this.thisUserLoadedQuestionList = questionList;
+        });
+      }
+    });
+  }
+
+  getAllQuestions() {
+    this.afs.collection('questions', ref => ref.orderBy('timestamp', 'desc'))
+        .valueChanges({ idField: 'id' }).subscribe(questionList => {
+      this.questionList = questionList;
+
+      this.loadedQuestionList = questionList;
+    });
   }
 
   initializeItems(): void {
     this.questionList = this.loadedQuestionList;
+  }
+
+  initializeUserQuestions(): void {
+    this.thisUserQuestionList = this.thisUserLoadedQuestionList;
   }
 
   filterQuestions(event) {
@@ -58,6 +87,19 @@ export class ForumPage implements OnInit {
 
     if (searchInput) {
       this.questionList = this.questionList.filter(currentQuestion => {
+        return(currentQuestion.title.toLowerCase().indexOf(searchInput.toLowerCase()) > -1);
+      });
+    }
+  }
+
+  filterUserQuestions(event) {
+    console.log('called');
+    this.initializeUserQuestions();
+
+    const searchInput = event.target.value;
+
+    if (searchInput) {
+      this.thisUserQuestionList = this.thisUserQuestionList.filter(currentQuestion => {
         return(currentQuestion.title.toLowerCase().indexOf(searchInput.toLowerCase()) > -1);
       });
     }

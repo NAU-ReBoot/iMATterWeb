@@ -53,7 +53,8 @@ export class AuthServiceProvider {
     bio: '',
     dob: '',
     type: '',
-    providerType: ''
+    providerType: '',
+    // questionsAnswered: []
   };
 
   admin: Admin = {

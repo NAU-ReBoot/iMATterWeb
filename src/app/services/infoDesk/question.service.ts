@@ -3,6 +3,7 @@ import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument,
 import { map, take } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { Storage } from '@ionic/storage';
+import * as firebase from 'firebase/app';
 
 export interface Question {
   id?: string;
@@ -13,6 +14,7 @@ export interface Question {
   timestamp: any;
   profilePic: any;
   anon: boolean;
+  numOfComments: number;
 }
 
 export interface Comment {
@@ -122,6 +124,11 @@ export class QuestionService {
   }
 
   async addComment(comment: Comment) {
+
+    this.afs.firestore.collection('questions')
+        .doc(comment.postID).update({numOfComments: firebase.firestore.FieldValue.increment(1),
+      commenters: firebase.firestore.FieldValue.arrayUnion(comment.userID)});
+
     this.afs.collection('comments').add({
       username: comment.username,
       input: comment.input,
