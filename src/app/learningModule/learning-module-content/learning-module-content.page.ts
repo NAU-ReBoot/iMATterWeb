@@ -69,17 +69,10 @@ export class LearningModuleContentPage implements OnInit {
     private formBuilder: FormBuilder) 
     {
       this.learningModuleForm = this.formBuilder.group({
-        moduleTitle: ['',
-          Validators.compose([Validators.required, Validators.minLength(1)])],
-        moduleDescription: ['',
-          Validators.compose([Validators.required, Validators.minLength(1)])],
-        moduleVisibilityTime: ['',
-          Validators.compose([Validators.required, Validators.minLength(1)])],
-        moduleExpiration: ['',
-          Validators.compose([Validators.required, Validators.minLength(1)])],
-        moduleContent: ['',
-          Validators.compose([Validators.required, Validators.minLength(1)])],
-          
+        title: ['', Validators.compose([Validators.required])],
+        description: ['', Validators.compose([Validators.required])],
+        contents: ['', Validators.compose([Validators.required])],
+        weeklyVisibility: ['', Validators.compose([Validators.required])],
       });
     }
 
@@ -108,8 +101,6 @@ export class LearningModuleContentPage implements OnInit {
     {
       this.learningModuleService.getLearningModule(id).subscribe(learningModule => {
         this.learningModule = learningModule;
-
-        this.learningModuleForm.patchValue(learningModule);
         
         //If there is a youtube video id
         if (learningModule.moduleVideoID != '')
@@ -128,13 +119,6 @@ export class LearningModuleContentPage implements OnInit {
 
         //Calculate 
         this.calculatePointsWorth();
-
-        /*this.learningModuleForm.get('moduleTitle').setValue(learningModule.moduleTitle);
-        this.learningModuleForm.get('moduleDescription').setValue(learningModule.moduleDescription);
-        this.learningModuleForm.get('moduleVisibilityTime').setValue(learningModule.moduleVisibilityTime);
-        this.learningModuleForm.get('moduleExpiration').setValue(learningModule.moduleExpiration);
-        this.learningModuleForm.get('moduleContent').setValue(learningModule.moduleContent);*/
-
       });
       this.learningModule.id = id; //this line is important!! attaches the ID to the learning module so the content for that LM shows up
       //this.calculatePointsWorth();
@@ -154,11 +138,6 @@ export class LearningModuleContentPage implements OnInit {
 
   updateLearningModule()
   {
-    if (this.learningModuleForm.status == 'VALID')
-    {
-      console.log("VALID!");
-      var newData;
-    }
     this.learningModuleService.updateLearningModule(this.learningModule).then(() => 
     {
       this.showToast('Learning module updated!');
@@ -173,10 +152,6 @@ export class LearningModuleContentPage implements OnInit {
     })
   }
 
-  onSubmit()
-  {
-    console.log(this.learningModuleForm.value);
-  }
 
   deleteLearningModule() 
   {
