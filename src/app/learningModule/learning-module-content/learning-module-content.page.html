@@ -21,24 +21,25 @@
     </ion-label>
   </ion-item-divider>
 
+  <form [formGroup]="learningModuleForm" (ngSubmit)="updateLearningModule()">
     <ion-item>
       <ion-label position="stacked">Module Title</ion-label>
-      <ion-input [(ngModel)]="learningModule.moduleTitle"></ion-input>
+      <ion-input formControlName="moduleTitle"></ion-input>
     </ion-item>
 
     <ion-item>
       <ion-label position="stacked">Module Description</ion-label>
-      <ion-textarea [(ngModel)]="learningModule.moduleDescription"></ion-textarea>
+      <ion-textarea formControlName="moduleDescription" autoGrow="true"></ion-textarea>
     </ion-item>
 
     <ion-item>
       <ion-label position="stacked">Display Module During Weeks (enter 0 for always visible)</ion-label>
-      <ion-input [(ngModel)]="learningModule.moduleVisibilityTime"></ion-input>
+      <ion-input formControlName="moduleVisibilityTime"></ion-input>
     </ion-item>
 
     <ion-item>
       <ion-label position="stacked" type="number">Days Visible Before Expiration (enter 0 for never expires)</ion-label>
-      <ion-input [(ngModel)]="learningModule.moduleExpiration"></ion-input>
+      <ion-input formControlName="moduleExpiration"></ion-input>
     </ion-item>
 
     <ion-item>
@@ -48,9 +49,10 @@
 
     <ion-item>
       <ion-label position="stacked">Module Contents</ion-label>
-      <ion-textarea [(ngModel)]="learningModule.moduleContent" rows="3"></ion-textarea>
+      <ion-textarea formControlName="moduleContent" rows="3" autoGrow="true"></ion-textarea>
     </ion-item>
 
+  </form>
 
   <ion-item-divider color="medium">
     <ion-label>
@@ -122,7 +124,7 @@
  
 <ion-footer *ngIf="!learningModule.id">
   <ion-toolbar color="success">
-    <ion-button expand="full" fill="clear" color="light" (click)="addLearningModule()">
+    <ion-button expand="full" fill="clear" color="light" (click)="addLearningModule()" [disabled]="!learningModuleForm.valid">
       <ion-icon name="checkmark" slot="start"></ion-icon>
       Add Learning Module
     </ion-button>
@@ -138,7 +140,7 @@
       </ion-button>
     </ion-col>
     <ion-col size="6">
-      <ion-button expand="block" fill="solid" color="success" (click)="updateLearningModule()">
+      <ion-button expand="block" fill="solid" color="success" (click)="updateLearningModule()" [disabled]="!learningModuleForm.valid">
         <ion-icon name="save" slot="start"></ion-icon>
         Update
       </ion-button>
