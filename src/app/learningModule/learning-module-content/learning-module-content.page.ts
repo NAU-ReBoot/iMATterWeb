@@ -295,4 +295,27 @@ export class LearningModuleContentPage implements OnInit {
     this.silentlyUpdateLearningModule();
   }
 
+  async presentAlert(header: string, message: string) {
+    const alert = await this.alertController.create({
+          header,
+          message,
+          buttons: ['OK']
+      });
+
+    await alert.present();
+  }
+
+  displayVisibilityInfo()
+  {
+    this.presentAlert('About Learning Module Fields',
+    '<b>Display Module During Weeks:</b> ' +
+      'A comma separated list of the weeks of pregnancy this learning module should start being displayed to users. ' +
+        ' <br>Example: 14, 20, 26, 35 <br><br>' + 
+    '<b>Days Visible Before Expiration:</b> ' + 
+      'The number of days after appearing that this module should expire. <br><br>' +
+    '<b>Module Contents:</b> ' +
+      'Text that will be displayed inside a learning module above the module media. <br><br>' +
+    '<b>Next Module:</b> ' +
+      'After watching a video/powerpoint and taking the quiz, users will be shown a button that takes them to this designated module.');
+  }
 }

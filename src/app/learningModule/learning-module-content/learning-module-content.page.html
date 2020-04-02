@@ -20,6 +20,11 @@
       <ion-label>
         About Module
       </ion-label>
+      
+      <ion-button fill="clear" (click)="displayVisibilityInfo()">
+        <ion-icon name="help-circle-outline"></ion-icon>
+      </ion-button>
+
     </ion-item-divider>
 
       <ion-item>
@@ -41,7 +46,9 @@
           <ion-badge *ngIf="learningModuleForm.controls.moduleVisibilityTime.touched && learningModuleForm.controls.moduleVisibilityTime.errors?.required" color="danger">Required</ion-badge>
           <ion-badge *ngIf="learningModuleForm.controls.moduleVisibilityTime.touched && learningModuleForm.controls.moduleVisibilityTime.errors?.pattern" color="danger">Invalid Input</ion-badge>
         </ion-label>
-        <ion-input formControlName="moduleVisibilityTime"></ion-input>
+        <ion-input formControlName="moduleVisibilityTime">
+        </ion-input>
+
       </ion-item>
 
       <ion-item>
