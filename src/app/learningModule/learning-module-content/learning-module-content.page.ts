@@ -305,7 +305,7 @@ export class LearningModuleContentPage implements OnInit {
     await alert.present();
   }
 
-  displayVisibilityInfo()
+  displayHelpInfo()
   {
     this.presentAlert('About Learning Module Fields',
     '<b>Display Module During Weeks:</b> ' +
