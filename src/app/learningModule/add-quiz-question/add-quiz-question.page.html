@@ -25,47 +25,65 @@
 
   <ion-item-divider color="medium">
     <ion-label>
-      Answer Choices
+      Answer Choices (Select Correct Answer)
     </ion-label>
   </ion-item-divider>
+  
+  <ion-grid>
 
-  <ion-item>
-    <ion-label position="stacked">A</ion-label>
-    <ion-textarea formControlName="choice1"></ion-textarea>
-  </ion-item>
-  
-  <ion-item>
-    <ion-label position="stacked">B</ion-label>
-    <ion-textarea formControlName="choice2"></ion-textarea>
-  </ion-item>
-  
-  <ion-item>
-    <ion-label position="stacked">C</ion-label>
-    <ion-textarea formControlName="choice3"></ion-textarea>
-  </ion-item>
-  
-  <ion-item>
-    <ion-label position="stacked">D</ion-label>
-    <ion-textarea formControlName="choice4"></ion-textarea>
-  </ion-item>
+    <ion-radio-group formControlName="correctAnswer">
 
-  <ion-item>
-    <ion-label position="stacked">Correct Answer</ion-label>
-    <ion-select formControlName="correctAnswer" multiple="false" cancelText="Cancel" okText="Ok">
-      <ion-select-option value="choice1">
-        A
-      </ion-select-option>
-      <ion-select-option value="choice2">
-        B
-      </ion-select-option>
-      <ion-select-option value="choice3">
-        C
-      </ion-select-option>
-      <ion-select-option value="choice4">
-        D
-      </ion-select-option>
-    </ion-select>
-  </ion-item>
+    <ion-row>
+      <ion-col size="1">
+        <ion-radio value="choice1"></ion-radio>
+      </ion-col>
+      <ion-col>
+        <ion-item>
+          <ion-label position="stacked">A</ion-label>
+          <ion-textarea formControlName="choice1"></ion-textarea>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col size="1">
+        <ion-radio value="choice2"></ion-radio>
+      </ion-col>
+      <ion-col>
+        <ion-item>
+          <ion-label position="stacked">B</ion-label>
+          <ion-textarea formControlName="choice2"></ion-textarea>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col size="1">
+        <ion-radio value="choice3"></ion-radio>
+      </ion-col>
+      <ion-col>
+        <ion-item>
+          <ion-label position="stacked">C</ion-label>
+          <ion-textarea formControlName="choice3"></ion-textarea>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col size="1">
+        <ion-radio value="choice4"></ion-radio>
+      </ion-col>
+      <ion-col>
+        <ion-item>
+          <ion-label position="stacked">D</ion-label>
+          <ion-textarea formControlName="choice4"></ion-textarea>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+
+  </ion-radio-group>
+
+  </ion-grid>
 
 </form>
 
