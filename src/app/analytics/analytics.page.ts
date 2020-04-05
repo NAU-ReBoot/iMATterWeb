@@ -158,23 +158,28 @@ export class AnalyticsPage implements OnInit{
 
     getCalendarMeasures()
     {
-
-      this.afs.collection("analyticsSessions")
-      .where('timestamp', '=<', this.startDate )
-      .where('timestamp', '>=', this.endDate )
-      .get().then((result) =>{
-
-            result.forEach(doc =>{
-
-            console.log(doc.get("timestamp"));
-
-
-            });
+      console.log("start date " + this.startDate);
+      console.log("end date " + this.endDate);
 
 
 
+          let ref = this.afs.firestore.collection("analyticsStorage");
+          ref.where('timestamp', '>=', this.startDate ).where('timestamp', '<=', this.endDate )
+              .get().then((result) =>{
 
-          });
+
+                result.forEach(doc =>{
+
+                  this.currentView = doc.get("page");
+                  this.currentTime = doc.get("timestamp");
+                  console.log(this.currentTime);
+
+
+
+                });
+
+            // add something here
+              });
     }
 
     maxsStartDate() {
