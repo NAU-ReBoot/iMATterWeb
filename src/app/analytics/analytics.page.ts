@@ -104,6 +104,15 @@ export class AnalyticsPage implements OnInit{
     private analytics: Observable<any>;
     private uniqueSessions: Observable<any>;
 
+    public today: any;
+    public yesterday: any;
+    public todayMinusOne:any;
+    public minEndDay:any;
+    public startDate: any;
+
+    public minStartToEnd: any;
+    public maxStartToEnd: any;
+
 
 
 
@@ -130,6 +139,7 @@ export class AnalyticsPage implements OnInit{
             }
         });
         this.indivUserView= true;
+        this.maxsStartDate();
     }
 
 
@@ -137,6 +147,28 @@ export class AnalyticsPage implements OnInit{
     {
       this.getAllTotalClicks();
     }
+
+    maxsStartDate() {
+    this.today = new Date();
+    this.yesterday = new Date();
+    this.yesterday.setDate(this.today.getDate()-1);
+    console.log(this.yesterday);
+
+    this.todayMinusOne = this.yesterday.toISOString().substr(0.10);
+
+    }
+
+
+    minEndDate()
+    {
+      this.minStartToEnd = this.startDate;
+      console.log(this.minStartToEnd);
+
+      this.maxStartToEnd = this.today.toISOString().substr(0.10);
+      console.log(this.maxStartToEnd);
+
+    }
+
 
     getUserTime()
     {

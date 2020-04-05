@@ -44,13 +44,13 @@
           <ion-label>
             From Date
           </ion-label>
-          <ion-datetime displayFormat= "MM/DD/YYYY" [(ngModel)]= "startDate"></ion-datetime>
+          <ion-datetime displayFormat= "MM/DD/YYYY" [(ngModel)]= "startDate" min = "2020-03-01" max ="{{todayMinusOne}}" ></ion-datetime>
         </ion-item>
         <ion-item>
           <ion-label>
             To Date
           </ion-label>
-          <ion-datetime displayFormat= "MM/DD/YYYY" [(ngModel)]= "endDate"></ion-datetime>
+          <ion-datetime displayFormat= "MM/DD/YYYY" (click) ="minEndDate()" [(ngModel)]= "endDate" min ="{{minStartToEnd}}" max="{{maxStartToEnd}}"></ion-datetime>
         </ion-item>
 
         <ion-card>
