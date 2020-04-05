@@ -112,6 +112,7 @@ export class AnalyticsPage implements OnInit{
 
     public minStartToEnd: any;
     public maxStartToEnd: any;
+    public endDate: any;
 
 
 
