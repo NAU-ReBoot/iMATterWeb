@@ -11,13 +11,20 @@
   <form [formGroup]="pregnancyUpdateForm">
     <ion-item>
       <ion-label position="stacked">Pregnancy Update Day</ion-label>
-      <ion-textarea formControlName="day" [(ngModel)]="pregnancyUpdateCard.day"> </ion-textarea>
+      <ion-textarea formControlName="day"
+                    [class.invalid]="!pregnancyUpdateForm.controls['day'].valid && pregnancyUpdateForm.controls['day'].touched"></ion-textarea>
+    </ion-item>
+    <ion-item class="error-message" *ngIf="!pregnancyUpdateForm.controls['day'].valid && pregnancyUpdateForm.controls['day'].touched">
+      <ion-label>Please enter day 0-280.</ion-label>
     </ion-item>
 
     <ion-item>
       <ion-label position="stacked">Pregnancy Update Information/Description</ion-label>
-      <ion-textarea autoGrow="true" spellcheck="true" autocapitalize="true"
-                    formControlName="description" [(ngModel)]="pregnancyUpdateCard.description"> </ion-textarea>
+      <ion-textarea autoGrow="true" spellcheck="true" autocapitalize="true" formControlName="description"
+                    [class.invalid]="!pregnancyUpdateForm.controls['description'].valid && pregnancyUpdateForm.controls['description'].touched"></ion-textarea>
+    </ion-item>
+    <ion-item class="error-message" *ngIf="!pregnancyUpdateForm.controls['description'].valid && pregnancyUpdateForm.controls['description'].touched">
+      <ion-label>Please enter a description.</ion-label>
     </ion-item>
 
     <ion-item>
@@ -38,7 +45,7 @@
 <ion-footer>
   <ion-row no-padding text-center>
     <ion-col size="6">
-      <ion-button expand="block" fill="outline" color="danger" (click)="deletePregnancyUpdate()">
+      <ion-button expand="block" fill="outline" color="danger" (click)="deletePregnancyUpdateConfirmation()">
         <ion-icon name="trash" slot="start"></ion-icon>
         Delete
       </ion-button>
