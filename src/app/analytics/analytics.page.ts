@@ -149,7 +149,7 @@ export class AnalyticsPage implements OnInit{
 
     ionViewWillEnter()
     {
-    //  this.getAllTotalClicks();
+      this.getAllTotalClicks();
     }
     calendarOn()
     {
@@ -161,6 +161,16 @@ export class AnalyticsPage implements OnInit{
       console.log("start date " + this.startDate);
       console.log("end date " + this.endDate);
 
+      if(typeof this.startDate =="string")
+      {
+        console.log("its a string");
+
+      }
+
+      this.startDate = new Date(this.startDate);
+      this.endDate = new Date(this.endDate);
+
+
 
 
           let ref = this.afs.firestore.collection("analyticsStorage");
@@ -171,8 +181,8 @@ export class AnalyticsPage implements OnInit{
                 result.forEach(doc =>{
 
                   this.currentView = doc.get("page");
-                  this.currentTime = doc.get("timestamp");
-                  console.log(this.currentTime);
+                  this.currentTime = new Date (doc.get("timestamp"));
+                  console.log("the currentTime" + this.currentTime);
 
 
 
