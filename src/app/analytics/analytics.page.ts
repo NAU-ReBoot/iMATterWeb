@@ -114,6 +114,8 @@ export class AnalyticsPage implements OnInit{
     public maxStartToEnd: any;
     public endDate: any;
 
+    public buttonCalendar= false;
+
 
 
 
@@ -140,13 +142,39 @@ export class AnalyticsPage implements OnInit{
             }
         });
         this.indivUserView= true;
+        this.buttonCalendar= false;
         this.maxsStartDate();
     }
 
 
     ionViewWillEnter()
     {
-      this.getAllTotalClicks();
+    //  this.getAllTotalClicks();
+    }
+    calendarOn()
+    {
+      this.buttonCalendar = true;
+    }
+
+    getCalendarMeasures()
+    {
+
+      this.afs.collection("analyticsSessions")
+      .where('timestamp', '=<', this.startDate )
+      .where('timestamp', '>=', this.endDate )
+      .get().then((result) =>{
+
+            result.forEach(doc =>{
+
+            console.log(doc.get("timestamp"));
+
+
+            });
+
+
+
+
+          });
     }
 
     maxsStartDate() {

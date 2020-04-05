@@ -47,18 +47,22 @@
           <ion-datetime displayFormat= "MM/DD/YYYY" (click) ="minEndDate()" [(ngModel)]= "endDate" min ="{{minStartToEnd}}" max="{{maxStartToEnd}}"></ion-datetime>
         </ion-item>
 
-        <ion-button  padding = "100" type='button'>
+        <ion-button  (click) = "calendarOn()" (click) = "getCalendarMeasures()" padding = "100" type='button'>
           submit
         </ion-button>
 
-        <ion-card>
-          <ion-card-header>
-            Calendar Visits
-          </ion-card-header>
-          <ion-card-content>
-            <canvas #lineChart></canvas>
-          </ion-card-content>
-        </ion-card>
+      </div>
+
+      <div *ngIf="buttonCalendar">
+
+      <ion-card>
+        <ion-card-header>
+          Calendar Visits
+        </ion-card-header>
+        <ion-card-content>
+          <canvas #lineChart></canvas>
+        </ion-card-content>
+      </ion-card>
 
       </div>
 
