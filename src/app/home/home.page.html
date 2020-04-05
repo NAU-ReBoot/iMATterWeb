@@ -62,7 +62,7 @@
           <ion-button (click)="updateUser('user', user.id)">
             Update User
           </ion-button>
-          <ion-button color='danger' (click)="deleteUser(user.id)">
+          <ion-button color='danger' (click)="deleteUserConfirmation('user', user.id)">
             Delete User
           </ion-button>
         </ion-buttons>
@@ -78,7 +78,7 @@
           </p>
 
           <ion-buttons  slot="end">
-            <ion-button color='danger' (click)="deleteEmptyUser(emptyUser.id)">
+            <ion-button color='danger' (click)="deleteUserConfirmation('empty', emptyUser.id)">
               Delete Empty User
             </ion-button>
           </ion-buttons>
@@ -147,7 +147,7 @@
           <ion-button (click)="updateUser('provider', provider.id)">
             Update Provider
           </ion-button>
-          <ion-button color='danger' (click)="deleteProvider(provider.id)">
+          <ion-button color='danger' (click)="deleteUserConfirmation('provider', provider.id)">
             Delete Provider
           </ion-button>
         </ion-buttons>
@@ -194,7 +194,7 @@
           <ion-button (click)="updateUser('admin', admin.id)">
             Update Admin
           </ion-button>
-          <ion-button color='danger' (click)="deleteAdmin(admin.id)">
+          <ion-button color='danger' (click)="deleteUserConfirmation('admin', admin.id)">
             Delete Admin
           </ion-button>
         </ion-buttons>

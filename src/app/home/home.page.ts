@@ -6,7 +6,7 @@ import { Storage } from '@ionic/storage';
 import { Router } from '@angular/router';
 import {ProviderType, SettingsService} from '../services/settings/settings.service';
 import {AngularFirestore} from '@angular/fire/firestore';
-import {ToastController} from '@ionic/angular';
+import {AlertController, ToastController} from '@ionic/angular';
 
 @Component({
   selector: 'app-tab1',
@@ -27,7 +27,8 @@ export class HomePage implements OnInit {
               private router: Router,
               private sService: SettingsService,
               private afs: AngularFirestore,
-              private toastCtrl: ToastController) {
+              private toastCtrl: ToastController,
+              public alertController: AlertController) {
 
     this.addProviderForm = this.formBuilder.group({
       nameFirst: [
@@ -325,5 +326,30 @@ export class HomePage implements OnInit {
     this.clearAdminForm();
 
   }
+
+  async deleteUserConfirmation(userType, id) {
+    const alert = await this.alertController.create({
+      header: 'Delete this user?',
+      message: 'Are you sure you want to delete this user?',
+      buttons: [
+        {text: 'Cancel'},
+        {text: 'Delete',
+          handler: () => {
+          if (userType === 'provider') {
+            this.deleteProvider(id);
+          } else if (userType === 'admin') {
+            this.deleteAdmin(id);
+          } else if (userType === 'empty') {
+            this.deleteEmptyUser(id);
+          } else {
+            this.deleteUser(id);
+          }
+          }}
+      ]
+    });
+
+    await alert.present();
+  }
+
 
 }
