@@ -5,6 +5,7 @@ import { ChatService, Cohort, Chat } from '../services/chatroom/chat-service.ser
 import {Observable} from 'rxjs';
 import * as firebase from 'firebase/app';
 import {AngularFirestore} from '@angular/fire/firestore';
+import {AlertController} from '@ionic/angular';
 
 @Component({
   selector: 'app-chatlog',
@@ -38,7 +39,8 @@ export class ChatlogPage implements OnInit {
               private router: Router,
               private storage: Storage,
               private chatService: ChatService,
-              private afs: AngularFirestore) {
+              private afs: AngularFirestore,
+              public alertController: AlertController) {
 
   }
 
@@ -89,5 +91,21 @@ export class ChatlogPage implements OnInit {
 
   deleteChat(chatID) {
     this.chatService.deleteChat(chatID);
+  }
+
+  async deleteChatConfirmation(chatID) {
+    const alert = await this.alertController.create({
+      header: 'Delete this chat?',
+      message: 'Are you sure you want to delete this message',
+      buttons: [
+        {text: 'Cancel'},
+        {text: 'Delete',
+          handler: () => {
+            this.deleteChat(chatID);
+          }}
+      ]
+    });
+
+    await alert.present();
   }
 }

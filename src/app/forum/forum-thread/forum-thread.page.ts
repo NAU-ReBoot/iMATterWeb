@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { QuestionService, Question, Comment } from 'src/app/services/infoDesk/question.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {ToastController} from '@ionic/angular';
+import {AlertController, ToastController} from '@ionic/angular';
 import { Storage } from '@ionic/storage';
 import {Observable} from 'rxjs';
 import {AngularFirestore} from '@angular/fire/firestore';
 import * as firebase from 'firebase/app';
 import FieldValue = firebase.firestore.FieldValue;
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-forum-thread',
@@ -39,13 +40,26 @@ export class ForumThreadPage implements OnInit {
   };
 
   public showCommentBox: boolean = false;
+  public showSubmitButton = false;
+
 
   private comments: Observable<any>;
   private showDeleteOption: boolean;
+  private commentForm: FormGroup;
 
   constructor(private afs: AngularFirestore,
-              private activatedRoute: ActivatedRoute, private questionService: QuestionService,
-              private toastCtrl: ToastController, private router: Router, private storage: Storage) { }
+              private activatedRoute: ActivatedRoute,
+              private questionService: QuestionService,
+              private toastCtrl: ToastController,
+              private router: Router,
+              private storage: Storage,
+              public alertController: AlertController,
+              private formBuilder: FormBuilder) {
+    this.commentForm = this.formBuilder.group({
+      comment: ['',
+        Validators.compose([Validators.required, Validators.minLength(1)])],
+    });
+  }
 
   ngOnInit() {
     this.storage.get('authenticated').then((val) => {
@@ -72,47 +86,51 @@ export class ForumThreadPage implements OnInit {
     }));
   }
 
-  addComment() {
-    let ref;
-    this.comment.postID = this.question.id;
-    console.log('in');
+  addComment(commentForm: FormGroup) {
+    if (commentForm.valid) {
+      let ref;
+      this.comment.postID = this.question.id;
+      this.comment.input = commentForm.value.comment;
+      console.log('in');
 
-    this.storage.get('type').then((val) => {
-      if (val) {
-        console.log(val);
-        this.comment.type = val;
-        console.log(this.comment.type);
-        if (val === 'admin') {
-          ref = this.afs.firestore.collection('admins');
-        } else {
-          ref = this.afs.firestore.collection('providers');
-          console.log('provider');
-        }
-
-        this.storage.get('userCode').then((code) => {
-          if (code) {
-            ref = ref.where('code', '==', code);
-            ref.get().then((result) => {
-              result.forEach(doc => {
-                this.comment.userID = code;
-                this.comment.username = doc.get('username');
-                this.comment.timestamp = firebase.firestore.FieldValue.serverTimestamp();
-                this.comment.profilePic = doc.get('profilePic');
-
-                this.questionService.addComment(this.comment).then(() => {
-                  this.showToast('Comment added');
-                  this.showCommentBox = false;
-
-                }, err => {
-                  this.showToast('There was a problem adding your comment');
-                });
-
-              });
-            });
+      this.storage.get('type').then((val) => {
+        if (val) {
+          console.log(val);
+          this.comment.type = val;
+          console.log(this.comment.type);
+          if (val === 'admin') {
+            ref = this.afs.firestore.collection('admins');
+          } else {
+            ref = this.afs.firestore.collection('providers');
+            console.log('provider');
           }
-        });
-      }
-    });
+
+          this.storage.get('userCode').then((code) => {
+            if (code) {
+              ref = ref.where('code', '==', code);
+              ref.get().then((result) => {
+                result.forEach(doc => {
+                  this.comment.userID = code;
+                  this.comment.username = doc.get('username');
+                  this.comment.timestamp = firebase.firestore.FieldValue.serverTimestamp();
+                  this.comment.profilePic = doc.get('profilePic');
+
+                  this.questionService.addComment(this.comment).then(() => {
+                    this.showToast('Comment added');
+                    this.showCommentBox = false;
+                    this.showSubmitButton = false;
+
+                  }, err => {
+                    this.showToast('There was a problem adding your comment');
+                  });
+
+                });
+              });
+            }
+          });
+        }
+      });
+    }
   }
 
   showToast(msg) {
@@ -124,6 +142,7 @@ export class ForumThreadPage implements OnInit {
 
   displayCommentBox() {
     this.showCommentBox = true;
+    this.showSubmitButton = true;
   }
 
   deletePost() {
@@ -132,12 +151,39 @@ export class ForumThreadPage implements OnInit {
     this.router.navigate(['/forum/']);
   }
 
-  deleteComment(commentID) {
-    this.questionService.deleteComment(commentID);
+  deleteComment(commentObj, postObj) {
+    this.questionService.deleteComment(commentObj.id, commentObj.postID, postObj.numOfComments);
   }
 
-  refreshPost() {
+  async deletePostOrComment(type, commentObj, postObj) {
+    let headerMessage = '';
+    let messageDetail = '';
 
+    if (type === 'post') {
+      headerMessage = 'Delete question?';
+      messageDetail = 'This will delete question and all comments';
+    } else {
+      headerMessage = 'Delete comment?';
+      messageDetail = 'This will delete only this comment';
+    }
+
+    const alert = await this.alertController.create({
+      header: headerMessage,
+      message: messageDetail,
+      buttons: [
+        {text: 'Cancel'},
+        {text: 'Delete',
+          handler: () => {
+          if (type === 'post') {
+            this.deletePost();
+          } else {
+            this.deleteComment(commentObj, postObj);
+          }
+          }}
+      ]
+    });
+
+    await alert.present();
   }
 
   goToProfile(userID: string, questionID: string) {
