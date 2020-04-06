@@ -64,6 +64,7 @@ export class AnalyticsPage implements OnInit{
     private db: any;
     public ref: any;
 
+// individual user values 
     public chatCounter: number;
     public chatHolder: number;
     public calendarCounter: number;
@@ -79,6 +80,7 @@ export class AnalyticsPage implements OnInit{
     public moreCounter: number;
     public moreHolder: number;
 
+// viewing values
     public calendarView = false;
     public indivUserView = false;
     public inValidSelection = false;
@@ -99,11 +101,13 @@ export class AnalyticsPage implements OnInit{
     public durationHolder: any;
     public durationArray: { Time: any, Page: string }[] =[];
 
+// services calues
     private analyticss : string;
     private sessions : Observable<any>;
     private analytics: Observable<any>;
     private uniqueSessions: Observable<any>;
 
+// date range values
     public today: any;
     public yesterday: any;
     public todayMinusOne:any;
@@ -113,6 +117,11 @@ export class AnalyticsPage implements OnInit{
     public minStartToEnd: any;
     public maxStartToEnd: any;
     public endDate: any;
+
+
+// am and pm values
+    public morningCalendarArray:{ Date: any , Number: any}[] = [];
+    public nightCalendarArray:{ Date: any , Number: any}[] = [];
 
     public buttonCalendar= false;
 
