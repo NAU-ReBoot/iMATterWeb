@@ -179,27 +179,31 @@ export class AnalyticsPage implements OnInit{
       this.startDate.setMinutes(0);
       this.startDate.setMilliseconds(0);
       this.startDate.setSeconds(0);
-      this.startDate = this.startDate.toString();
+  //    this.startDate = Timestamp(this.startDate);
+    //  this.startDate = this.startDate.toISOString();
       console.log("start date  h:  " + this.startDate);
       this.endDate = new Date(this.endDate);
       this.endDate.setHours(0);
       this.endDate.setMinutes(0);
       this.endDate.setMilliseconds(0);
       this.endDate.setSeconds(0);
-      this.endDate = this.endDate.toString();
+  //    this.endDate = this.endDate.toISOString();substring(0, 10)
 
 
 
           let ref = this.afs.firestore.collection("analyticsStorage");
-          ref.where('timestamp', '>=', this.startDate ).where('timestamp', '<=', this.endDate )
+          ref.where('timestamp', '>=', this.startDate ).where('timestamp', '<=', this.endDate)
               .get().then((result) =>{
 
 
                 result.forEach(doc =>{
 
                   this.currentView = doc.get("page");
-                  this.currentTime = new Date (doc.get("timestamp"));
-                  console.log("the currentTime" + this.currentTime);
+                  //this.currentTime = new Date (doc.get("timestamp"));
+                  this.currentTime = doc.get("timestamp");
+                  console.log("the currentTime " + this.currentTime);
+                  this.currentTime = new Date(this.currentTime.toDate());
+                  console.log("the currentTime after " + this.currentTime);
 
 
 
@@ -210,20 +214,20 @@ export class AnalyticsPage implements OnInit{
     }
 
     maxsStartDate() {
-    this.today = new Date();
-    this.today.setHours(0);
-    this.today.setMinutes(0);
-    this.today.setMilliseconds(0);
-    this.today.setSeconds(0);
-    this.yesterday = new Date();
-    this.yesterday.setHours(0);
-    this.yesterday.setMinutes(0);
-    this.yesterday.setMilliseconds(0);
-    this.yesterday.setSeconds(0);
-    this.yesterday.setDate(this.today.getDate()-1);
-    console.log(this.yesterday);
+      this.today = new Date();
+      this.today.setHours(0);
+      this.today.setMinutes(0);
+      this.today.setMilliseconds(0);
+      this.today.setSeconds(0);
+      this.yesterday = new Date();
+      this.yesterday.setHours(0);
+      this.yesterday.setMinutes(0);
+      this.yesterday.setMilliseconds(0);
+      this.yesterday.setSeconds(0);
+      this.yesterday.setDate(this.today.getDate()-1);
+      console.log(this.yesterday);
 
-    this.todayMinusOne = this.yesterday.toISOString().substr(0.10);
+      this.todayMinusOne = this.yesterday.toISOString().substr(0.10);
 
     }
 
