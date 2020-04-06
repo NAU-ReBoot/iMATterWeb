@@ -167,9 +167,16 @@ export class AnalyticsPage implements OnInit{
 
       }
 
-      this.startDate = new Date(this.startDate);
-      this.endDate = new Date(this.endDate);
+      /*
 
+      this.startDate = new Date(this.startDate).toISOString().substr(0.10);
+      console.log("start date  h:  " + this.startDate);
+      this.endDate = new Date(this.endDate).toISOString().substr(0.10);
+**/
+
+      this.startDate = new Date(this.startDate).toString().;
+      console.log("start date  h:  " + this.startDate);
+      this.endDate = new Date(this.endDate).toString();
 
 
 
