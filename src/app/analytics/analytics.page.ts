@@ -121,9 +121,9 @@ export class AnalyticsPage implements OnInit{
 
 
 // am and pm values
-    public morningCalendarArray: any = [];
-    public nightCalendarArray: any = [];
-    public labelArray: any = [];
+    public timeOfDayArray: any = [0,0,0,0];
+
+    public timeLabelArray: any = [];
 
     public buttonCalendar= false;
 
@@ -226,25 +226,42 @@ export class AnalyticsPage implements OnInit{
 
                   console.log( " display of hours " + this.currentTime.getHours());
 
-                  if(this.currentTime.getHours() >= 11)
+                  if(this.currentTime.getHours() >= 0 && this.currentTime.getHours() > 6)
                   {
-                    
-                  }
-                  else
-                  {
+                    this.timeOfDayArray[0] = this.timeOfDayArray[0] + 1;
+                    console.log("added to midnight" + this.timeOfDayArray[0]);
 
                   }
-
-
-
-
+                  if(this.currentTime.getHours() >= 6 && this.currentTime.getHours() > 12)
+                  {
+                      this.timeOfDayArray[1] = this.timeOfDayArray[1] + 1;
+                      console.log("added to morning" + this.timeOfDayArray[1]);
+                  }
+                  if(this.currentTime.getHours() >= 12 && this.currentTime.getHours() > 18)
+                  {
+                      this.timeOfDayArray[2] = this.timeOfDayArray[2] + 1;
+                      console.log("added to noon" + this.timeOfDayArray[2]);
+                  }
+                  if(this.currentTime.getHours() >= 18 && this.currentTime.getHours() > 0)
+                  {
+                      this.timeOfDayArray[3] = this.timeOfDayArray[3] + 1;
+                      console.log("added to nigth" + this.timeOfDayArray[3]);
+                  }
 
 
                 });
 
-            // add something here
+            this.savingTimeOfDayArray(this.timeOfDayArray);
+            this.createLineChart();
               });
     }
+
+    savingTimeOfDayArray(timeOfDayArray)
+    {
+      this.timeOfDayArray = timeOfDayArray;
+    }
+
+
 
     maxsStartDate() {
       this.today = new Date();
@@ -397,10 +414,10 @@ export class AnalyticsPage implements OnInit{
       this.myLineChart = new Chart(this.lineChart.nativeElement,{
         type:'line',
         data:{
-          labels: this.timestampCalendarHolder,
+          labels: ["Midnight", "Morning", "Noon" , "Night"],
           datasets: [{
-            label: ["Morning", "Night"],
-            data: this.calendarNumberHolder,
+            label: 'Number of Users',
+            data: this.timeOfDayArray,
             fill: false,
             borderColor: 'rgb(147,112,219)',
             borderWidth:1
