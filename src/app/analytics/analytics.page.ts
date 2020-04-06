@@ -181,7 +181,12 @@ export class AnalyticsPage implements OnInit{
       this.startDate.setSeconds(0);
       this.startDate = this.startDate.toString();
       console.log("start date  h:  " + this.startDate);
-      this.endDate = new Date(this.endDate).toString();
+      this.endDate = new Date(this.endDate);
+      this.endDate.setHours(0);
+      this.endDate.setMinutes(0);
+      this.endDate.setMilliseconds(0);
+      this.endDate.setSeconds(0);
+      this.endDate = this.endDate.toString();
 
 
 
