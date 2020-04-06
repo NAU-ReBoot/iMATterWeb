@@ -172,22 +172,12 @@ export class AnalyticsPage implements OnInit{
       console.log("start date " + this.startDate);
       console.log("end date " + this.endDate);
 
-
-      /*
-
-      this.startDate = new Date(this.startDate).toISOString().substr(0.10);
-      console.log("start date  h:  " + this.startDate);
-      this.endDate = new Date(this.endDate).toISOString().substr(0.10);
-**/
-
       this.startDate = new Date(this.startDate);
       this.startDate.setHours(0);
       this.startDate.setMinutes(0);
       this.startDate.setMilliseconds(0);
       this.startDate.setSeconds(0);
-  //    this.startDate = Timestamp(this.startDate);
-    //  this.startDate = this.startDate.toISOString();
-      console.log("start date  h:  " + this.startDate);
+
       this.endDate = new Date(this.endDate);
       this.endDate.setHours(0);
       this.endDate.setMinutes(0);
@@ -195,16 +185,6 @@ export class AnalyticsPage implements OnInit{
       this.endDate.setSeconds(0);
 
       this.dayDifference = this.endDate.getDate() - this.startDate.getDate();
-      console.log("day difference: " + this.dayDifference);
-
-      if(typeof this.dayDifference ==="number")
-      {
-        console.log("day difference is a number");
-
-      }
-  //    this.endDate = this.endDate.toISOString();substring(0, 10)
-
-
 
           let ref = this.afs.firestore.collection("analyticsStorage");
           ref.where('timestamp', '>=', this.startDate ).where('timestamp', '<=', this.endDate)
@@ -222,30 +202,27 @@ export class AnalyticsPage implements OnInit{
                   this.currentTime = new Date(this.currentTime.toDate());
                   console.log("the currentTime after " + this.currentTime);
 
-
-
-                  console.log( " display of hours " + this.currentTime.getHours());
-
+                  // checks the hours of the time
                   if(this.currentTime.getHours() >= 0 && this.currentTime.getHours() > 6)
                   {
                     this.timeOfDayArray[0] = this.timeOfDayArray[0] + 1;
-                    console.log("added to midnight" + this.timeOfDayArray[0]);
+
 
                   }
                   if(this.currentTime.getHours() >= 6 && this.currentTime.getHours() > 12)
                   {
                       this.timeOfDayArray[1] = this.timeOfDayArray[1] + 1;
-                      console.log("added to morning" + this.timeOfDayArray[1]);
+
                   }
                   if(this.currentTime.getHours() >= 12 && this.currentTime.getHours() > 18)
                   {
                       this.timeOfDayArray[2] = this.timeOfDayArray[2] + 1;
-                      console.log("added to noon" + this.timeOfDayArray[2]);
+
                   }
                   if(this.currentTime.getHours() >= 18 && this.currentTime.getHours() > 0)
                   {
                       this.timeOfDayArray[3] = this.timeOfDayArray[3] + 1;
-                      console.log("added to nigth" + this.timeOfDayArray[3]);
+
                   }
 
 
@@ -253,6 +230,7 @@ export class AnalyticsPage implements OnInit{
 
             this.savingTimeOfDayArray(this.timeOfDayArray);
             this.createLineChart();
+            this.timeOfDayArray = [0,0,0,0];
               });
     }
 
