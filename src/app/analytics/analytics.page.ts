@@ -64,7 +64,7 @@ export class AnalyticsPage implements OnInit{
     private db: any;
     public ref: any;
 
-// individual user values 
+// individual user values
     public chatCounter: number;
     public chatHolder: number;
     public calendarCounter: number;
@@ -206,13 +206,28 @@ export class AnalyticsPage implements OnInit{
 
 
                 result.forEach(doc =>{
-
+                  // get the page of the storage
                   this.currentView = doc.get("page");
-                  //this.currentTime = new Date (doc.get("timestamp"));
+
                   this.currentTime = doc.get("timestamp");
                   console.log("the currentTime " + this.currentTime);
+
+                  // convert timestamp to a new date
                   this.currentTime = new Date(this.currentTime.toDate());
                   console.log("the currentTime after " + this.currentTime);
+
+
+
+                  console.log( " display of hours " + this.currentTime.getHours());
+
+                  if(typeof this.currentTime.getHours() ==="number")
+                  {
+                    console.log("yay its a number ");
+
+                  }
+
+
+
 
 
 
