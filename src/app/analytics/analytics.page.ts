@@ -174,7 +174,12 @@ export class AnalyticsPage implements OnInit{
       this.endDate = new Date(this.endDate).toISOString().substr(0.10);
 **/
 
-      this.startDate = new Date(this.startDate).toString().;
+      this.startDate = new Date(this.startDate);
+      this.startDate.setHours(0);
+      this.startDate.setMinutes(0);
+      this.startDate.setMilliseconds(0);
+      this.startDate.setSeconds(0);
+      this.startDate = this.startDate.toString();
       console.log("start date  h:  " + this.startDate);
       this.endDate = new Date(this.endDate).toString();
 
@@ -201,7 +206,15 @@ export class AnalyticsPage implements OnInit{
 
     maxsStartDate() {
     this.today = new Date();
+    this.today.setHours(0);
+    this.today.setMinutes(0);
+    this.today.setMilliseconds(0);
+    this.today.setSeconds(0);
     this.yesterday = new Date();
+    this.yesterday.setHours(0);
+    this.yesterday.setMinutes(0);
+    this.yesterday.setMilliseconds(0);
+    this.yesterday.setSeconds(0);
     this.yesterday.setDate(this.today.getDate()-1);
     console.log(this.yesterday);
 
