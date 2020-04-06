@@ -117,11 +117,13 @@ export class AnalyticsPage implements OnInit{
     public minStartToEnd: any;
     public maxStartToEnd: any;
     public endDate: any;
+    public dayDifference: any;
 
 
 // am and pm values
-    public morningCalendarArray:{ Date: any , Number: any}[] = [];
-    public nightCalendarArray:{ Date: any , Number: any}[] = [];
+    public morningCalendarArray: any = [];
+    public nightCalendarArray: any = [];
+    public labelArray: any = [];
 
     public buttonCalendar= false;
 
@@ -170,11 +172,6 @@ export class AnalyticsPage implements OnInit{
       console.log("start date " + this.startDate);
       console.log("end date " + this.endDate);
 
-      if(typeof this.startDate =="string")
-      {
-        console.log("its a string");
-
-      }
 
       /*
 
@@ -196,6 +193,15 @@ export class AnalyticsPage implements OnInit{
       this.endDate.setMinutes(0);
       this.endDate.setMilliseconds(0);
       this.endDate.setSeconds(0);
+
+      this.dayDifference = this.endDate.getDate() - this.startDate.getDate();
+      console.log("day difference: " + this.dayDifference);
+
+      if(typeof this.dayDifference ==="number")
+      {
+        console.log("day difference is a number");
+
+      }
   //    this.endDate = this.endDate.toISOString();substring(0, 10)
 
 
@@ -220,9 +226,12 @@ export class AnalyticsPage implements OnInit{
 
                   console.log( " display of hours " + this.currentTime.getHours());
 
-                  if(typeof this.currentTime.getHours() ==="number")
+                  if(this.currentTime.getHours() >= 11)
                   {
-                    console.log("yay its a number ");
+                    
+                  }
+                  else
+                  {
 
                   }
 
@@ -382,6 +391,38 @@ export class AnalyticsPage implements OnInit{
 
 
 
+
+    createLineChart()
+    {
+      this.myLineChart = new Chart(this.lineChart.nativeElement,{
+        type:'line',
+        data:{
+          labels: this.timestampCalendarHolder,
+          datasets: [{
+            label: ["Morning", "Night"],
+            data: this.calendarNumberHolder,
+            fill: false,
+            borderColor: 'rgb(147,112,219)',
+            borderWidth:1
+          }
+        ]
+        },
+        options:{
+          scales:{
+            yAxes:[{
+              ticks:{
+                beginAtZero:true
+              }
+            }]
+          }
+        }
+      });
+      this.myLineChart.update();
+    }
+
+
+/*
+
   createLineChart()
   {
     this.myLineChart = new Chart(this.lineChart.nativeElement,{
@@ -410,7 +451,7 @@ export class AnalyticsPage implements OnInit{
     this.myLineChart.update();
   }
 
-
+**/
 
 
 
