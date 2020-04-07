@@ -196,11 +196,11 @@ export class AnalyticsPage implements OnInit{
                   this.currentView = doc.get("page");
 
                   this.currentTime = doc.get("timestamp");
-                  console.log("the currentTime " + this.currentTime);
+
 
                   // convert timestamp to a new date
                   this.currentTime = new Date(this.currentTime.toDate());
-                  console.log("the currentTime after " + this.currentTime);
+            
 
                   // checks the hours of the time
                   if(this.currentTime.getHours() >= 0 && this.currentTime.getHours() > 6)
