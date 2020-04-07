@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {PregnancyUpdateCard, PregnancyUpdatesService} from '../../services/pregnancyUpdates/pregnancy-updates.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import { ToastController} from '@ionic/angular';
+import {AlertController, ToastController} from '@ionic/angular';
 import {Storage} from '@ionic/storage';
 import {finalize} from 'rxjs/operators';
 import {Observable} from 'rxjs';
@@ -39,7 +39,8 @@ export class UpdatesContentPage implements OnInit {
       private storage: Storage,
       private AFSStorage: AngularFireStorage,
       private database: AngularFirestore,
-      private formBuilder: FormBuilder) {
+      private formBuilder: FormBuilder,
+      public alertController: AlertController) {
 
     this.pregnancyUpdateForm = this.formBuilder.group({
       day: [0,
@@ -68,8 +69,11 @@ export class UpdatesContentPage implements OnInit {
     const id = this.activatedRoute.snapshot.paramMap.get('id');
     if (id) {
       this.pregnancyUpdatesService.getPregnancyUpdate(id).subscribe(pregnancyUpdateCard => {
+
+
         this.pregnancyUpdateCard = pregnancyUpdateCard;
         this.pregnancyUpdateCard.picture = pregnancyUpdateCard.picture;
+        this.pregnancyUpdateForm.patchValue(this.pregnancyUpdateCard);
       });
       this.pregnancyUpdateCard.id = id;
     }
@@ -77,6 +81,7 @@ export class UpdatesContentPage implements OnInit {
   }
 
   ionViewWillEnter() {
+
 
   }
 
@@ -140,4 +145,21 @@ export class UpdatesContentPage implements OnInit {
       });
     });
   }
+
+  async deletePregnancyUpdateConfirmation() {
+    const alert = await this.alertController.create({
+      header: 'Delete this pregnancy update?',
+      message: 'Are you sure you want to delete this pregnancy update',
+      buttons: [
+        {text: 'Cancel'},
+        {text: 'Delete',
+          handler: () => {
+          this.deletePregnancyUpdate();
+          }}
+      ]
+    });
+
+    await alert.present();
+  }
+
 }

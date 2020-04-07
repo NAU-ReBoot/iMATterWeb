@@ -3,3 +3,29 @@
   --background: var(--secondary-color);
 }
 
+.numOfComments {
+  color: #383a3e;
+  font-size: 15px;
+}
+
+.padding-top {
+  padding-top: 10px;
+}
+
+.dots {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 1000px;
+}
+
+.error-message {
+  min-height: 2.2rem;
+  ion-label {
+    margin: 2px 0;
+    font-size: 60%;
+    color: #ff6153;
+  }
+  .item-inner {
+    border-bottom: 0 !important;
+  }
+}

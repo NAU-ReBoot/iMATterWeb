@@ -3,7 +3,7 @@
     <ion-title>
       Information Desk
     </ion-title>
-      <ion-button *ngIf="showDeleteOption" slot="end" color="danger" (click)="deletePost()"> Delete Post </ion-button>
+      <ion-button *ngIf="showDeleteOption" slot="end" color="danger" (click)="deletePostOrComment('post', 'none')"> Delete Post </ion-button>
   </ion-toolbar>
 </ion-header>
 
@@ -45,17 +45,6 @@
       </ion-row>
     </ion-card>
 
-  <ion-button class="fill-button" (click)="displayCommentBox();">
-    Comment
-  </ion-button>
-  <div *ngIf="showCommentBox">
-    <ion-item>
-      <ion-label position="stacked">Enter comment:</ion-label>
-      <ion-textarea [(ngModel)]="comment.input"></ion-textarea>
-    </ion-item>
-    <ion-button class="fill-button" float-end size="small" (click)="addComment()"> Submit </ion-button>
-  </div>
-
     <h6> Answers: </h6>
     <ion-list>
       <ion-item *ngFor="let comment of (comments | async)">
@@ -93,12 +82,36 @@
             </p>
           </ion-row>
           <ion-item *ngIf="showDeleteOption">
-            <ion-button slot="end" color="danger" (click)="deleteComment(comment.id)"> Delete Comment </ion-button>
+            <ion-button slot="end" color="danger" (click)="deletePostOrComment('comment', comment, question)"> Delete Comment </ion-button>
           </ion-item>
         </ion-card>
       </ion-item>
-
     </ion-list>
+
+  <ion-button *ngIf="!showSubmitButton" class="fill-button" expand="full" (click)="displayCommentBox(); ">
+    Comment
+  </ion-button>
+  <div *ngIf="showCommentBox">
+    <form [formGroup]="commentForm">
+      <ion-item>
+        <ion-label position="stacked">Enter Answer:</ion-label>
+        <ion-textarea autoGrow="true" spellcheck="true" autocapitalize="true" formControlName="comment" placeholder="What would you like to say?"
+          [class.invalid]="!commentForm.controls['comment'].valid && commentForm.controls['comment'].touched"></ion-textarea>
+      </ion-item>
+      <ion-item class="error-message" *ngIf="!commentForm.controls['comment'].valid && commentForm.controls['comment'].touched">
+        <ion-label>Please enter a message.</ion-label>
+      </ion-item>
+      <ion-row>
+        <ion-col>
+          <ion-button *ngIf="showSubmitButton" fill="clear" class="text-button" expand="full"  (click)="showSubmitButton = false; showCommentBox = false">
+            Cancel </ion-button>
+        </ion-col>
+        <ion-col>
+          <ion-button *ngIf="showSubmitButton" class="fill-button" expand="full"  (click)="addComment(commentForm)"> Submit </ion-button>
+        </ion-col>
+      </ion-row>
+    </form>
+  </div>
 </ion-content>
 
 

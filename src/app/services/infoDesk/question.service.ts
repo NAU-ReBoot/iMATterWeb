@@ -119,7 +119,11 @@ export class QuestionService {
     return this.questionCollection.doc(id).delete();
   }
 
-  deleteComment(id: string): Promise<void> {
+  deleteComment(id: string, postID, currentNumComment): Promise<void> {
+    currentNumComment -= 1;
+    this.afs.firestore.collection('questions')
+        .doc(postID).update({numOfComments: currentNumComment});
+
     return this.commentCollection.doc(id).delete();
   }
 

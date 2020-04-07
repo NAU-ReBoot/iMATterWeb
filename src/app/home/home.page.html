@@ -62,7 +62,7 @@
           <ion-button (click)="updateUser('user', user.id)">
             Update User
           </ion-button>
-          <ion-button color='danger' (click)="deleteUser(user.id)">
+          <ion-button color='danger' (click)="deleteUserConfirmation('user', user.id)">
             Delete User
           </ion-button>
         </ion-buttons>
@@ -78,7 +78,7 @@
           </p>
 
           <ion-buttons  slot="end">
-            <ion-button color='danger' (click)="deleteEmptyUser(emptyUser.id)">
+            <ion-button color='danger' (click)="deleteUserConfirmation('empty', emptyUser.id)">
               Delete Empty User
             </ion-button>
           </ion-buttons>
@@ -112,12 +112,22 @@
         </ion-item>
         <ion-item>
           <ion-label position="stacked">Enter Date of Birth (mm/dd/yyyy):</ion-label>
-          <ion-textarea formControlName="dob" placeholder="mm/dd/yyyy"></ion-textarea>
+          <ion-textarea formControlName="dob" placeholder="mm/dd/yyyy"
+                        [class.invalid]="!addProviderForm.controls['dob'].valid && addProviderForm.controls['dob'].touched"></ion-textarea>
+        </ion-item>
+        <ion-item class="error-message" *ngIf="!addProviderForm.controls['dob'].valid && addProviderForm.controls['dob'].touched">
+          <ion-label>Please enter valid date of birth.</ion-label>
         </ion-item>
         <ion-item>
           <ion-label position="stacked">Enter Email:</ion-label>
-          <ion-textarea formControlName="email" placeholder="Email"></ion-textarea>
+          <ion-textarea formControlName="email" placeholder="Email"
+                        [class.invalid]="!addProviderForm.controls['email'].valid && addProviderForm.controls['email'].touched"></ion-textarea>
         </ion-item>
+          <ion-item class="error-message" *ngIf="!addProviderForm.controls['email'].valid && addProviderForm.controls['email'].touched">
+            <ion-label>Please enter valid email.</ion-label>
+          </ion-item>
+
+
 
         <ion-row>
           <ion-button class="text-button" fill="clear" size="small" (click)="displayAddProvider = false; clearProviderForm()"> Cancel </ion-button>
@@ -147,7 +157,7 @@
           <ion-button (click)="updateUser('provider', provider.id)">
             Update Provider
           </ion-button>
-          <ion-button color='danger' (click)="deleteProvider(provider.id)">
+          <ion-button color='danger' (click)="deleteUserConfirmation('provider', provider.id)">
             Delete Provider
           </ion-button>
         </ion-buttons>
@@ -164,9 +174,12 @@
     <div *ngIf="displayAddAdmin">
       <form [formGroup]="addAdminForm">
         <ion-item>
-
           <ion-label position="stacked">Enter Email:</ion-label>
-          <ion-textarea formControlName="email" placeholder="Enter Email"></ion-textarea>
+          <ion-textarea formControlName="email" placeholder="Enter Email"
+                        [class.invalid]="!addAdminForm.controls['email'].valid && addAdminForm.controls['email'].touched"></ion-textarea>
+        </ion-item>
+        <ion-item class="error-message" *ngIf="!addAdminForm.controls['email'].valid && addAdminForm.controls['email'].touched">
+          <ion-label>Please enter valid email.</ion-label>
         </ion-item>
         <ion-row>
           <ion-button class="text-button" fill="clear" size="small" (click)="displayAddAdmin = false; clearAdminForm()"> Cancel </ion-button>
@@ -194,7 +207,7 @@
           <ion-button (click)="updateUser('admin', admin.id)">
             Update Admin
           </ion-button>
-          <ion-button color='danger' (click)="deleteAdmin(admin.id)">
+          <ion-button color='danger' (click)="deleteUserConfirmation('admin', admin.id)">
             Delete Admin
           </ion-button>
         </ion-buttons>

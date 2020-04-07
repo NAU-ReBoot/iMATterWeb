@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { InboxService, Submission} from '../../services/inbox/inbox.service';
 import {ActivatedRoute, Router} from '@angular/router';
-import {ToastController} from '@ionic/angular';
+import {AlertController, ToastController} from '@ionic/angular';
 import { Storage } from '@ionic/storage';
 import {Observable} from 'rxjs';
 import {AngularFirestore} from '@angular/fire/firestore';
@@ -27,8 +27,13 @@ export class SubmissionPage implements OnInit {
 
 
 
-  constructor(private afs: AngularFirestore, private activatedRoute: ActivatedRoute, private inboxService: InboxService,
-              private toastCtrl: ToastController, private router: Router, private storage: Storage) { }
+  constructor(private afs: AngularFirestore,
+              private activatedRoute: ActivatedRoute,
+              private inboxService: InboxService,
+              private toastCtrl: ToastController,
+              private router: Router,
+              private storage: Storage,
+              public alertController: AlertController) { }
 
   ngOnInit() {
     this.storage.get('authenticated').then((val) => {
@@ -50,6 +55,23 @@ export class SubmissionPage implements OnInit {
         this.submission = submission;
       });
     }
+  }
+
+  async deleteSubmissionConfirmation() {
+
+    const alert = await this.alertController.create({
+      header: 'Delete submission?',
+      message: 'Do you want to delete this submission?',
+      buttons: [
+        {text: 'Cancel'},
+        {text: 'Delete',
+          handler: () => {
+          this.deleteSubmission();
+          }}
+      ]
+    });
+
+    await alert.present();
   }
 
   deleteSubmission() {
