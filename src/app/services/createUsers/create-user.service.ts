@@ -22,6 +22,7 @@ export interface User {
   bio: string;
   points: number;
   daysSinceLogin: number;
+  codeEntered: false;
 }
 
 export interface Provider {
@@ -155,7 +156,7 @@ export class CreateUserService {
   }
 
   addUser(user: User): Promise<void> {
-    return this.userCollection.doc(user.code).set({code: user.code, joined: null});
+    return this.userCollection.doc(user.code).set({code: user.code, joined: null, codeEntered: false});
   }
 
   getProviders(): Observable<Provider[]> {
