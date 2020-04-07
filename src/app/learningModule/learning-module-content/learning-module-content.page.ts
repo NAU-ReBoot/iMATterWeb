@@ -79,8 +79,7 @@ export class LearningModuleContentPage implements OnInit {
         moduleNext: [''],
         moduleQuiz: [],
         modulePointsWorth: [''],
-        moduleActive: [''],
-        id: []
+        moduleActive: ['']
       });
     }
 
@@ -133,24 +132,45 @@ export class LearningModuleContentPage implements OnInit {
       this.learningModule.id = id; //this line is important!! attaches the ID to the learning module so the content for that LM shows up
       //this.calculatePointsWorth();
     }
+    else
+    {
+      //this.learningModule.id = id;
+      this.learningModuleForm.patchValue(this.learningModule);
+    }
+
   }
 
   addLearningModule()
   {
-    this.learningModuleService.addLearningModule(this.learningModule).then(() => {
-      this.router.navigateByUrl('/learningmodules');
-      this.showToast('Learning module added');
-    }, err => {
-      this.showToast('There was a problem adding your learning module.');
-    });
+    if (this.learningModuleForm.status === 'VALID')
+    {
+      var newData = this.learningModuleForm.value;
 
+      console.log("ADD LEARNING MODULE NEW DATA");
+      console.log(newData);
+
+      this.learningModuleService.addLearningModule(newData).then(() => {
+        this.router.navigateByUrl('/learningmodules');
+        this.showToast('Learning module added');
+      }, err => {
+        this.showToast('There was a problem adding your learning module.');
+      });
+
+    }
   }
 
   updateLearningModule()
   {
     if (this.learningModuleForm.status == 'VALID')
-    {      
+    { 
+      //IMPORTANT: need to pass in this LM's ID when updating
+      this.learningModuleForm.addControl('id', this.formBuilder.control(this.learningModule.id));
+
+      console.log("UPDATED LEARNING MODULE NEW DATA");
+
       var newData = this.learningModuleForm.value;
+
+      console.log(newData);
 
       this.learningModuleService.updateLearningModule(newData).then(() => 
       {
@@ -161,10 +181,22 @@ export class LearningModuleContentPage implements OnInit {
 
   silentlyUpdateLearningModule()
   {
-    this.learningModuleService.updateLearningModule(this.learningModule).then(() => 
-    {
-      console.log("silently updated learning module");
-    })
+    if (this.learningModuleForm.status == 'VALID')
+    { 
+      //IMPORTANT: need to pass in this LM's ID when updating
+      this.learningModuleForm.addControl('id', this.formBuilder.control(this.learningModule.id));
+
+      console.log("UPDATED LEARNING MODULE NEW DATA");
+
+      var newData = this.learningModuleForm.value;
+
+      console.log(newData);
+
+      this.learningModuleService.updateLearningModule(newData).then(() => 
+      {
+        console.log("silently updated learning module");
+      });
+    }
   }
 
 
