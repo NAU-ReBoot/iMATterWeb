@@ -28,7 +28,8 @@ export class ViewableProfilePage implements OnInit {
     joined: '',
     currentEmotion: '',
     profilePic: '',
-    daysSinceLogin: 0
+    daysSinceLogin: 0,
+    codeEntered: true
   };
 
   provider: Provider = {
