@@ -5,6 +5,8 @@
 </ion-header>
 
 <ion-content>
+  
+ <form [formGroup]="learningModuleForm">
 
   <ion-item-divider color="medium">
     <ion-label>
@@ -12,14 +14,16 @@
     </ion-label>
   </ion-item-divider>
 
+  <div formGroupName="moduleQuiz">
+
   <ion-item>
     <ion-label position="stacked">Quiz Question</ion-label>
-    <ion-textarea [(ngModel)]="modalQuizQuestion.questionText" rows="2"></ion-textarea>
+    <ion-textarea formControlName="questionText" rows="2"></ion-textarea>
   </ion-item>
 
   <ion-item>
     <ion-label position="stacked">Points Worth</ion-label>
-    <ion-input [(ngModel)]="modalQuizQuestion.pointsWorth"></ion-input>
+    <ion-input formControlName="pointsWorth"></ion-input>
   </ion-item>
 
   <ion-item-divider color="medium">
@@ -30,7 +34,7 @@
   
   <ion-grid>
 
-    <ion-radio-group [(ngModel)]="modalQuizQuestion.correctAnswer">
+    <ion-radio-group formControlName="correctAnswer">
 
     <ion-row>
       <ion-col size="1">
@@ -39,7 +43,7 @@
       <ion-col>
         <ion-item>
           <ion-label position="stacked">A</ion-label>
-          <ion-textarea [(ngModel)]="modalQuizQuestion.choice1"></ion-textarea>
+          <ion-textarea formControlName="choice1"></ion-textarea>
         </ion-item>
       </ion-col>
     </ion-row>
@@ -51,7 +55,7 @@
       <ion-col>
         <ion-item>
           <ion-label position="stacked">B</ion-label>
-          <ion-textarea [(ngModel)]="modalQuizQuestion.choice2"></ion-textarea>
+          <ion-textarea formControlName="choice2"></ion-textarea>
         </ion-item>
       </ion-col>
     </ion-row>
@@ -63,7 +67,7 @@
       <ion-col>
         <ion-item>
           <ion-label position="stacked">C</ion-label>
-          <ion-textarea [(ngModel)]="modalQuizQuestion.choice3"></ion-textarea>
+          <ion-textarea formControlName="choice3"></ion-textarea>
         </ion-item>
       </ion-col>
     </ion-row>
@@ -75,7 +79,7 @@
       <ion-col>
         <ion-item>
           <ion-label position="stacked">D</ion-label>
-          <ion-textarea [(ngModel)]="modalQuizQuestion.choice4"></ion-textarea>
+          <ion-textarea formControlName="choice4"></ion-textarea>
         </ion-item>
       </ion-col>
     </ion-row>
@@ -83,11 +87,13 @@
   </ion-radio-group>
 
   </ion-grid>
+</div>
+</form>
 
   <ion-row>
     <ion-col text-center>
       <ion-button fill="outline" color="danger" (click)="deleteQuestionConfirmation()">Delete</ion-button>
-      <ion-button class="fill-button" (click)="dismiss()">Save</ion-button>
+      <ion-button class="fill-button" (click)="dismiss()" [disabled]="!learningModuleForm.valid">Save</ion-button>
     </ion-col>
   </ion-row>
 
