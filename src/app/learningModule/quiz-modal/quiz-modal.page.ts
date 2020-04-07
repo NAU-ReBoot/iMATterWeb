@@ -43,7 +43,7 @@ export class QuizModalPage implements OnInit {
       moduleNext: [''],
       moduleQuiz: this.formBuilder.group({
         questionText: ['', Validators.compose([Validators.required, Validators.minLength(1)])],
-        pointsWorth: ['', Validators.compose([Validators.required, Validators.minLength(1), Validators.pattern('[0-9]+([0-9]+)*')])],
+        pointsWorth: ['', Validators.compose([Validators.required, Validators.minLength(1), Validators.pattern('^(0|[1-9][0-9]*)$')])],
         choice1: ['', Validators.compose([Validators.required, Validators.minLength(1)])],
         choice2: ['', Validators.compose([Validators.required, Validators.minLength(1)])],
         choice3: [''],
@@ -51,60 +51,24 @@ export class QuizModalPage implements OnInit {
         correctAnswer: ['', Validators.compose([Validators.required])],
       }),
       modulePointsWorth: [''],
-      moduleActive: [''],
-      id: []
+      moduleActive: ['']
     });
-
-      /*this.quizForm = this.formBuilder.group({
-        questionText: ['', Validators.compose([Validators.required, Validators.minLength(1)])],
-        pointsWorth: ['', Validators.compose([Validators.required, Validators.minLength(1), Validators.pattern('[0-9]+([0-9]+)*')])],
-        choice1: ['', Validators.compose([Validators.required, Validators.minLength(1)])],
-        choice2: ['', Validators.compose([Validators.required, Validators.minLength(1)])],
-        choice3: [''],
-        choice4: [''],
-        correctAnswer: ['', Validators.compose([Validators.required])],
-      });*/
     }
 
-  ngOnInit() { 
+  ngOnInit() 
+  { 
     //find the current quiz question that we're viewing and create the reference to it
-    /*for (var index = 0; index < this.currentLearningModule.moduleQuiz.length; index++)
+    for (var index = 0; index < this.currentLearningModule.moduleQuiz.length; index++)
     {
       if (this.currentLearningModule.moduleQuiz[index] === this.currentQuizQuestion)
       {
         this.indexOfQuestion = index;
-
-        console.log("INDEX: " + index);
-        console.log(this.currentLearningModule.moduleQuiz[index]);
         this.modalQuizQuestion = this.currentLearningModule.moduleQuiz[index];
 
         this.learningModuleForm.patchValue(this.currentLearningModule);
         this.learningModuleForm.patchValue({moduleQuiz: this.modalQuizQuestion});
-        
-        console.log(this.currentLearningModule.moduleQuiz);
       }
-    }*/
-
-    /*this.currentLearningModule.moduleQuiz.forEach(question => {
-
-      if (question === this.currentQuizQuestion)
-      {
-        this.modalQuizQuestion = question;
-        this.learningModuleForm.patchValue(this.currentLearningModule);
-        this.learningModuleForm.patchValue({moduleQuiz: this.modalQuizQuestion});
-        console.log(this.currentLearningModule.moduleQuiz);
-        console.log(this.modalQuizQuestion);
-        //this.learningModuleForm.patchValue(this.modalQuizQuestion);
-      }
-    });*/
-
-    //find the current quiz question that we're viewing and create the reference to it
-    this.currentLearningModule.moduleQuiz.forEach(question => {
-      if (question === this.currentQuizQuestion)
-      {
-        this.modalQuizQuestion = question;
-      }
-    });
+    }
    }
 
   dismiss() {
@@ -141,11 +105,15 @@ export class QuizModalPage implements OnInit {
 
   updateLearningModule()
   {
-    /*var arrayOfQuestions = [];
+    //this is a necessary line for updating this module
+    this.learningModuleForm.addControl('id', this.formBuilder.control(this.currentLearningModule.id));
 
+    var arrayOfQuestions = [];
+
+    //If form valid, recreate the moduleQuiz array except with the updated values from the form
     if (this.learningModuleForm.status == 'VALID')
     {
-      for (var index = this.currentLearningModule.moduleQuiz.length-1; index >= 0; index--)
+      for (var index = 0; index <  this.currentLearningModule.moduleQuiz.length; index++)
       {
         if (index != this.indexOfQuestion)
         {
@@ -153,26 +121,18 @@ export class QuizModalPage implements OnInit {
         }
         else if (index === this.indexOfQuestion)
         {
-          arrayOfQuestions.push(this.learningModuleForm.);
+          arrayOfQuestions.push(this.learningModuleForm.get('moduleQuiz').value);
         }
       }
 
-      console.log(arrayOfQuestions);
+      //Update the moduleQuiz in this LM
+      this.currentLearningModule.moduleQuiz = arrayOfQuestions;
 
-      this.learningModuleForm.patchValue({moduleQuiz: arrayOfQuestions});
-
-      console.log(this.learningModuleForm.value);
-
-      this.learningModuleService.updateLearningModule(this.learningModuleForm.value).then(() => 
+      this.learningModuleService.updateLearningModule(this.currentLearningModule).then(() => 
       {
         this.showToast('Quiz question updated!');
       });
-    }*/
-
-    this.learningModuleService.updateLearningModule(this.currentLearningModule).then(() => 
-      {
-        this.showToast('Quiz question updated!');
-      });
+    }
   }
 
   showToast(msg:string)

@@ -71,16 +71,15 @@ export class LearningModuleContentPage implements OnInit {
       this.learningModuleForm = this.formBuilder.group({
         moduleTitle: ['', Validators.compose([Validators.required, Validators.minLength(1)])],
         moduleDescription: ['', Validators.compose([Validators.required, Validators.minLength(1)])],
-        moduleVisibilityTime: ['', Validators.compose([Validators.required, Validators.minLength(1), Validators.pattern('[0-9]+(, [0-9]+)*')])],
-        moduleExpiration: ['', Validators.compose([Validators.required, Validators.minLength(1), Validators.pattern('[0-9]+([0-9]+)*')])],
+        moduleVisibilityTime: ['', Validators.compose([Validators.required, Validators.minLength(1), Validators.pattern('^(0|([1-9][0-9]*,[ ])*[1-9][0-9]*)')])],
+        moduleExpiration: ['', Validators.compose([Validators.required, Validators.minLength(1), Validators.pattern('^(0|[1-9][0-9]*)$')])],
         moduleContent: ['', Validators.compose([Validators.required, Validators.minLength(1)])],
         moduleVideoID: [''],
         modulePPTurl: [''],
         moduleNext: [''],
         moduleQuiz: [],
         modulePointsWorth: [''],
-        moduleActive: [''],
-        id: []
+        moduleActive: ['']
       });
     }
 
@@ -133,23 +132,37 @@ export class LearningModuleContentPage implements OnInit {
       this.learningModule.id = id; //this line is important!! attaches the ID to the learning module so the content for that LM shows up
       //this.calculatePointsWorth();
     }
+    else
+    {
+      //this.learningModule.id = id;
+      this.learningModuleForm.patchValue(this.learningModule);
+    }
+
   }
 
   addLearningModule()
   {
-    this.learningModuleService.addLearningModule(this.learningModule).then(() => {
-      this.router.navigateByUrl('/learningmodules');
-      this.showToast('Learning module added');
-    }, err => {
-      this.showToast('There was a problem adding your learning module.');
-    });
+    if (this.learningModuleForm.status === 'VALID')
+    {
+      var newData = this.learningModuleForm.value;
 
+      this.learningModuleService.addLearningModule(newData).then(() => {
+        this.router.navigateByUrl('/learningmodules');
+        this.showToast('Learning module added');
+      }, err => {
+        this.showToast('There was a problem adding your learning module.');
+      });
+
+    }
   }
 
   updateLearningModule()
   {
     if (this.learningModuleForm.status == 'VALID')
-    {      
+    { 
+      //IMPORTANT: need to pass in this LM's ID when updating
+      this.learningModuleForm.addControl('id', this.formBuilder.control(this.learningModule.id));
+
       var newData = this.learningModuleForm.value;
 
       this.learningModuleService.updateLearningModule(newData).then(() => 
@@ -161,10 +174,18 @@ export class LearningModuleContentPage implements OnInit {
 
   silentlyUpdateLearningModule()
   {
-    this.learningModuleService.updateLearningModule(this.learningModule).then(() => 
-    {
-      console.log("silently updated learning module");
-    })
+    if (this.learningModuleForm.status == 'VALID')
+    { 
+      //IMPORTANT: need to pass in this LM's ID when updating
+      this.learningModuleForm.addControl('id', this.formBuilder.control(this.learningModule.id));
+
+      var newData = this.learningModuleForm.value;
+
+      this.learningModuleService.updateLearningModule(newData).then(() => 
+      {
+        console.log("silently updated learning module");
+      });
+    }
   }
 
 
@@ -295,4 +316,27 @@ export class LearningModuleContentPage implements OnInit {
     this.silentlyUpdateLearningModule();
   }
 
+  async presentAlert(header: string, message: string) {
+    const alert = await this.alertController.create({
+          header,
+          message,
+          buttons: ['OK']
+      });
+
+    await alert.present();
+  }
+
+  displayHelpInfo()
+  {
+    this.presentAlert('About Learning Module Fields',
+    '<b>Display Module During Weeks:</b> ' +
+      'A comma separated list of the weeks of pregnancy this learning module should start being displayed to users. ' +
+        ' <br>Example: 14, 20, 26, 35 <br><br>' + 
+    '<b>Days Visible Before Expiration:</b> ' + 
+      'The number of days after appearing that this module should expire. <br><br>' +
+    '<b>Module Contents:</b> ' +
+      'Text that will be displayed inside a learning module above the module media. <br><br>' +
+    '<b>Next Module:</b> ' +
+      'After watching a video/powerpoint and taking the quiz, users will be shown a button that takes them to this designated module.');
+  }
 }

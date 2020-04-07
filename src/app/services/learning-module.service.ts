@@ -84,11 +84,6 @@ export class LearningModuleService {
 
   updateLearningModule(learningModule: LearningModule): Promise<void>
   {
-    //pointsWorth was somehow being saved as a string, so ensure that they're numbers
-    learningModule.moduleQuiz.forEach(element => {
-      element.pointsWorth = Number(element.pointsWorth);
-    });
-
     return this.learningModuleCollection.doc(learningModule.id).update({ 
       moduleTitle: learningModule.moduleTitle, 
       moduleDescription: learningModule.moduleDescription, 

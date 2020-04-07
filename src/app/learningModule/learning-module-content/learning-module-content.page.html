@@ -20,25 +20,42 @@
       <ion-label>
         About Module
       </ion-label>
+      
+      <ion-button fill="clear" (click)="displayHelpInfo()">
+        <ion-icon name="help-circle-outline"></ion-icon>
+      </ion-button>
+
     </ion-item-divider>
 
       <ion-item>
-        <ion-label position="stacked">Module Title</ion-label>
+        <ion-label position="stacked">Module Title 
+          <ion-badge *ngIf="learningModuleForm.controls.moduleTitle.touched && learningModuleForm.controls.moduleTitle.invalid" color="danger">Required</ion-badge>
+        </ion-label>
         <ion-input formControlName="moduleTitle"></ion-input>
       </ion-item>
 
       <ion-item>
-        <ion-label position="stacked">Module Description</ion-label>
+        <ion-label position="stacked">Module Description
+          <ion-badge *ngIf="learningModuleForm.controls.moduleDescription.touched && learningModuleForm.controls.moduleDescription.invalid" color="danger">Required</ion-badge>
+        </ion-label>
         <ion-textarea formControlName="moduleDescription"></ion-textarea>
       </ion-item>
 
       <ion-item>
-        <ion-label position="stacked">Display Module During Weeks (enter 0 for always visible)</ion-label>
-        <ion-input formControlName="moduleVisibilityTime"></ion-input>
+        <ion-label position="stacked">Display Module During Weeks (enter 0 for always visible)
+          <ion-badge *ngIf="learningModuleForm.controls.moduleVisibilityTime.touched && learningModuleForm.controls.moduleVisibilityTime.errors?.required" color="danger">Required</ion-badge>
+          <ion-badge *ngIf="learningModuleForm.controls.moduleVisibilityTime.touched && learningModuleForm.controls.moduleVisibilityTime.errors?.pattern" color="danger">Invalid Input</ion-badge>
+        </ion-label>
+        <ion-input formControlName="moduleVisibilityTime">
+        </ion-input>
+
       </ion-item>
 
       <ion-item>
-        <ion-label position="stacked" type="number">Days Visible Before Expiration (enter 0 for never expires)</ion-label>
+        <ion-label position="stacked" type="number">Days Visible Before Expiration (enter 0 for never expires)
+          <ion-badge *ngIf="learningModuleForm.controls.moduleExpiration.touched && learningModuleForm.controls.moduleExpiration.errors?.required" color="danger">Required</ion-badge>
+          <ion-badge *ngIf="learningModuleForm.controls.moduleExpiration.touched && learningModuleForm.controls.moduleExpiration.errors?.pattern" color="danger">Invalid Input</ion-badge>
+        </ion-label>
         <ion-input formControlName="moduleExpiration"></ion-input>
       </ion-item>
 
@@ -48,7 +65,9 @@
       </ion-item>
 
       <ion-item>
-        <ion-label position="stacked">Module Contents</ion-label>
+        <ion-label position="stacked">Module Contents
+          <ion-badge *ngIf="learningModuleForm.controls.moduleContent.touched && learningModuleForm.controls.moduleContent.invalid" color="danger">Required</ion-badge>
+        </ion-label>
         <ion-textarea formControlName="moduleContent" rows="3" autoGrow="true"></ion-textarea>
       </ion-item>
 
