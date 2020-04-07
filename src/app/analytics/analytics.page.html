@@ -33,27 +33,36 @@
         <ion-card>
           Total Average Vists Per Session: {{calendarAverage}}
         </ion-card>
+
         <ion-item>
           <ion-label>
             From Date
           </ion-label>
-          <ion-datetime displayFormat= "MM/DD/YYYY" [(ngModel)]= "startDate"></ion-datetime>
+          <ion-datetime displayFormat= "MM/DD/YYYY" [(ngModel)]= "startDate" min = "2020-03-01" max ="{{todayMinusOne}}" ></ion-datetime>
         </ion-item>
         <ion-item>
           <ion-label>
             To Date
           </ion-label>
-          <ion-datetime displayFormat= "MM/DD/YYYY" [(ngModel)]= "endDate"></ion-datetime>
+          <ion-datetime displayFormat= "MM/DD/YYYY" (click) ="minEndDate()" [(ngModel)]= "endDate" min ="{{minStartToEnd}}" max="{{maxStartToEnd}}"></ion-datetime>
         </ion-item>
 
-        <ion-card>
-          <ion-card-header>
-            Calendar Visits
-          </ion-card-header>
-          <ion-card-content>
-            <canvas #lineChart></canvas>
-          </ion-card-content>
-        </ion-card>
+        <ion-button  (click) = "calendarOn()" (click) = "getCalendarMeasures()" padding = "100" type='button'>
+          submit
+        </ion-button>
+
+      </div>
+
+      <div *ngIf="buttonCalendar">
+
+      <ion-card>
+        <ion-card-header>
+          Calendar Visits
+        </ion-card-header>
+        <ion-card-content>
+          <canvas #lineChart></canvas>
+        </ion-card-content>
+      </ion-card>
 
       </div>
 
@@ -69,7 +78,7 @@
           submit
         </ion-button>
 
-        
+
       </div>
 
 

@@ -34,6 +34,8 @@ export class LocationsPage implements OnInit {
 
   public clicked = false;
   public opened = false;
+  public forcedNumber:number;
+  public secondFrocedNumber: number;
 
 //  public locations: Observable<any>;
 
@@ -69,6 +71,10 @@ ionViewWillEnter()
 
   submitLocation() {
 
+      this.forcedNumber = 0;
+
+    this.location= this.location;
+
 
       this.locationService.addLocation(this.location).then(() => {
       //  this.router.navigateByUrl('/more');
@@ -81,15 +87,13 @@ ionViewWillEnter()
         this.location.operationMF = '';
         this.location.operationSaturday = '';
         this.location.operationSunday = '';
-        this.location.special = '';
+        this.location.special = '  ';
         this.location.type = '';
       }, err => {
         this.showToast('There was a problem adding your location');
       });
 
-
-
-
+      this.slientlyUpdateLocation(this.location);
 
     }
 
@@ -107,6 +111,15 @@ showToast(msg) {
 click(){
   this.clicked = true;
   this.opened = false;
+}
+
+slientlyUpdateLocation(location)
+{
+  this.locationService.updateLocation(this.location).then(()=>
+  {
+    console.log("sliently updated location");
+
+  })
 }
 
 

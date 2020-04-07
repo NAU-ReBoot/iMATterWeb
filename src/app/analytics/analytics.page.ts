@@ -64,6 +64,7 @@ export class AnalyticsPage implements OnInit{
     private db: any;
     public ref: any;
 
+// individual user values
     public chatCounter: number;
     public chatHolder: number;
     public calendarCounter: number;
@@ -79,6 +80,7 @@ export class AnalyticsPage implements OnInit{
     public moreCounter: number;
     public moreHolder: number;
 
+// viewing values
     public calendarView = false;
     public indivUserView = false;
     public inValidSelection = false;
@@ -99,10 +101,31 @@ export class AnalyticsPage implements OnInit{
     public durationHolder: any;
     public durationArray: { Time: any, Page: string }[] =[];
 
+// services calues
     private analyticss : string;
     private sessions : Observable<any>;
     private analytics: Observable<any>;
     private uniqueSessions: Observable<any>;
+
+// date range values
+    public today: any;
+    public yesterday: any;
+    public todayMinusOne:any;
+    public minEndDay:any;
+    public startDate: any;
+
+    public minStartToEnd: any;
+    public maxStartToEnd: any;
+    public endDate: any;
+    public dayDifference: any;
+
+
+// am and pm values
+    public timeOfDayArray: any = [0,0,0,0];
+
+    public timeLabelArray: any = [];
+
+    public buttonCalendar= false;
 
 
 
@@ -130,6 +153,8 @@ export class AnalyticsPage implements OnInit{
             }
         });
         this.indivUserView= true;
+        this.buttonCalendar= false;
+        this.maxsStartDate();
     }
 
 
@@ -137,6 +162,114 @@ export class AnalyticsPage implements OnInit{
     {
       this.getAllTotalClicks();
     }
+    calendarOn()
+    {
+      this.buttonCalendar = true;
+    }
+
+    getCalendarMeasures()
+    {
+      console.log("start date " + this.startDate);
+      console.log("end date " + this.endDate);
+
+      this.startDate = new Date(this.startDate);
+      this.startDate.setHours(0);
+      this.startDate.setMinutes(0);
+      this.startDate.setMilliseconds(0);
+      this.startDate.setSeconds(0);
+
+      this.endDate = new Date(this.endDate);
+      this.endDate.setHours(0);
+      this.endDate.setMinutes(0);
+      this.endDate.setMilliseconds(0);
+      this.endDate.setSeconds(0);
+
+      this.dayDifference = this.endDate.getDate() - this.startDate.getDate();
+
+          let ref = this.afs.firestore.collection("analyticsStorage");
+          ref.where('timestamp', '>=', this.startDate ).where('timestamp', '<=', this.endDate)
+              .get().then((result) =>{
+
+
+                result.forEach(doc =>{
+                  // get the page of the storage
+                  this.currentView = doc.get("page");
+
+                  this.currentTime = doc.get("timestamp");
+
+
+                  // convert timestamp to a new date
+                  this.currentTime = new Date(this.currentTime.toDate());
+            
+
+                  // checks the hours of the time
+                  if(this.currentTime.getHours() >= 0 && this.currentTime.getHours() > 6)
+                  {
+                    this.timeOfDayArray[0] = this.timeOfDayArray[0] + 1;
+
+
+                  }
+                  if(this.currentTime.getHours() >= 6 && this.currentTime.getHours() > 12)
+                  {
+                      this.timeOfDayArray[1] = this.timeOfDayArray[1] + 1;
+
+                  }
+                  if(this.currentTime.getHours() >= 12 && this.currentTime.getHours() > 18)
+                  {
+                      this.timeOfDayArray[2] = this.timeOfDayArray[2] + 1;
+
+                  }
+                  if(this.currentTime.getHours() >= 18 && this.currentTime.getHours() > 0)
+                  {
+                      this.timeOfDayArray[3] = this.timeOfDayArray[3] + 1;
+
+                  }
+
+
+                });
+
+            this.savingTimeOfDayArray(this.timeOfDayArray);
+            this.createLineChart();
+            this.timeOfDayArray = [0,0,0,0];
+              });
+    }
+
+    savingTimeOfDayArray(timeOfDayArray)
+    {
+      this.timeOfDayArray = timeOfDayArray;
+    }
+
+
+
+    maxsStartDate() {
+      this.today = new Date();
+      this.today.setHours(0);
+      this.today.setMinutes(0);
+      this.today.setMilliseconds(0);
+      this.today.setSeconds(0);
+      this.yesterday = new Date();
+      this.yesterday.setHours(0);
+      this.yesterday.setMinutes(0);
+      this.yesterday.setMilliseconds(0);
+      this.yesterday.setSeconds(0);
+      this.yesterday.setDate(this.today.getDate()-1);
+      console.log(this.yesterday);
+
+      this.todayMinusOne = this.yesterday.toISOString().substr(0.10);
+
+    }
+
+
+    minEndDate()
+    {
+      this.minStartToEnd = this.startDate;
+      console.log(this.minStartToEnd);
+
+      this.maxStartToEnd = this.today.toISOString().substr(0.10);
+      console.log(this.maxStartToEnd);
+
+    }
+
 
     getUserTime()
     {
@@ -253,6 +386,38 @@ export class AnalyticsPage implements OnInit{
 
 
 
+
+    createLineChart()
+    {
+      this.myLineChart = new Chart(this.lineChart.nativeElement,{
+        type:'line',
+        data:{
+          labels: ["Midnight", "Morning", "Noon" , "Night"],
+          datasets: [{
+            label: 'Number of Users',
+            data: this.timeOfDayArray,
+            fill: false,
+            borderColor: 'rgb(147,112,219)',
+            borderWidth:1
+          }
+        ]
+        },
+        options:{
+          scales:{
+            yAxes:[{
+              ticks:{
+                beginAtZero:true
+              }
+            }]
+          }
+        }
+      });
+      this.myLineChart.update();
+    }
+
+
+/*
+
   createLineChart()
   {
     this.myLineChart = new Chart(this.lineChart.nativeElement,{
@@ -281,7 +446,7 @@ export class AnalyticsPage implements OnInit{
     this.myLineChart.update();
   }
 
-
+**/
 
 
 
