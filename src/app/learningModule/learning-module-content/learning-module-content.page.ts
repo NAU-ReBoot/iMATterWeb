@@ -71,8 +71,8 @@ export class LearningModuleContentPage implements OnInit {
       this.learningModuleForm = this.formBuilder.group({
         moduleTitle: ['', Validators.compose([Validators.required, Validators.minLength(1)])],
         moduleDescription: ['', Validators.compose([Validators.required, Validators.minLength(1)])],
-        moduleVisibilityTime: ['', Validators.compose([Validators.required, Validators.minLength(1), Validators.pattern('[0-9]+(, [0-9]+)*')])],
-        moduleExpiration: ['', Validators.compose([Validators.required, Validators.minLength(1), Validators.pattern('[0-9]+([0-9]+)*')])],
+        moduleVisibilityTime: ['', Validators.compose([Validators.required, Validators.minLength(1), Validators.pattern('([1-9][0-9]*,[ ])*[1-9][0-9]*')])],
+        moduleExpiration: ['', Validators.compose([Validators.required, Validators.minLength(1), Validators.pattern('^(0|[1-9][0-9]*)$')])],
         moduleContent: ['', Validators.compose([Validators.required, Validators.minLength(1)])],
         moduleVideoID: [''],
         modulePPTurl: [''],

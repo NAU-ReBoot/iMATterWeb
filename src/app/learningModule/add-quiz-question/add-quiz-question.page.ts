@@ -22,7 +22,7 @@ export class AddQuizQuestionPage implements OnInit {
     choice3: '',
     choice4: '',
     correctAnswer: '',
-    pointsWorth: 0
+    pointsWorth: null
   }
 
   constructor(
@@ -33,7 +33,7 @@ export class AddQuizQuestionPage implements OnInit {
     {
       this.quizForm = this.formBuilder.group({
         questionText: ['', Validators.compose([Validators.required, Validators.minLength(1)])],
-        pointsWorth: ['', Validators.compose([Validators.required, Validators.minLength(1), Validators.pattern('[0-9]+([0-9]+)*')])],
+        pointsWorth: ['', Validators.compose([Validators.required, Validators.minLength(1), Validators.pattern('^(0|[1-9][0-9]*)$')])],
         choice1: ['', Validators.compose([Validators.required, Validators.minLength(1)])],
         choice2: ['', Validators.compose([Validators.required, Validators.minLength(1)])],
         choice3: [''],

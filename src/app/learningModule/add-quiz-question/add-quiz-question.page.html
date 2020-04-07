@@ -14,12 +14,17 @@
   <form [formGroup]="quizForm">
 
   <ion-item>
-    <ion-label position="stacked">Question Text</ion-label>
+    <ion-label position="stacked">Question Text
+      <ion-badge *ngIf="quizForm.controls.questionText.touched && quizForm.controls.questionText.invalid" color="danger">Required</ion-badge>
+    </ion-label>
     <ion-textarea formControlName="questionText" rows="2"></ion-textarea>
   </ion-item>
 
   <ion-item>
-    <ion-label position="stacked">Number of Points Question is Worth</ion-label>
+    <ion-label position="stacked">Number of Points Question is Worth
+      <ion-badge *ngIf="quizForm.controls.pointsWorth.touched && quizForm.controls.pointsWorth.errors?.required" color="danger">Required</ion-badge>
+      <ion-badge *ngIf="quizForm.controls.pointsWorth.touched && quizForm.controls.pointsWorth.errors?.pattern" color="danger">Invalid Input</ion-badge>
+    </ion-label>
     <ion-input formControlName="pointsWorth"></ion-input>
   </ion-item>
 
@@ -29,17 +34,20 @@
     </ion-label>
   </ion-item-divider>
   
+  <ion-text *ngIf="quizForm.controls.choice2.touched && quizForm.controls.choice2.valid && quizForm.controls.correctAnswer.errors?.required" color="danger">Please select the correct answer</ion-text>
+  
   <ion-grid>
-
     <ion-radio-group formControlName="correctAnswer">
-
+      
     <ion-row>
       <ion-col size="1">
         <ion-radio value="choice1"></ion-radio>
       </ion-col>
       <ion-col>
         <ion-item>
-          <ion-label position="stacked">A</ion-label>
+          <ion-label position="stacked">A
+            <ion-badge *ngIf="quizForm.controls.choice1.touched && quizForm.controls.choice1.invalid" color="danger">Required</ion-badge>
+          </ion-label>
           <ion-textarea formControlName="choice1"></ion-textarea>
         </ion-item>
       </ion-col>
@@ -51,7 +59,9 @@
       </ion-col>
       <ion-col>
         <ion-item>
-          <ion-label position="stacked">B</ion-label>
+          <ion-label position="stacked">B
+            <ion-badge *ngIf="quizForm.controls.choice2.touched && quizForm.controls.choice2.invalid" color="danger">Required</ion-badge>
+          </ion-label>
           <ion-textarea formControlName="choice2"></ion-textarea>
         </ion-item>
       </ion-col>
@@ -82,7 +92,6 @@
     </ion-row>
 
   </ion-radio-group>
-
   </ion-grid>
 
 </form>

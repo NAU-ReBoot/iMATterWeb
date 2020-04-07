@@ -43,7 +43,7 @@ export class QuizModalPage implements OnInit {
       moduleNext: [''],
       moduleQuiz: this.formBuilder.group({
         questionText: ['', Validators.compose([Validators.required, Validators.minLength(1)])],
-        pointsWorth: ['', Validators.compose([Validators.required, Validators.minLength(1), Validators.pattern('[0-9]+([0-9]+)*')])],
+        pointsWorth: ['', Validators.compose([Validators.required, Validators.minLength(1), Validators.pattern('^(0|[1-9][0-9]*)$')])],
         choice1: ['', Validators.compose([Validators.required, Validators.minLength(1)])],
         choice2: ['', Validators.compose([Validators.required, Validators.minLength(1)])],
         choice3: [''],
@@ -55,7 +55,8 @@ export class QuizModalPage implements OnInit {
     });
     }
 
-  ngOnInit() { 
+  ngOnInit() 
+  { 
     //find the current quiz question that we're viewing and create the reference to it
     for (var index = 0; index < this.currentLearningModule.moduleQuiz.length; index++)
     {
@@ -104,9 +105,12 @@ export class QuizModalPage implements OnInit {
 
   updateLearningModule()
   {
+    //this is a necessary line for updating this module
     this.learningModuleForm.addControl('id', this.formBuilder.control(this.currentLearningModule.id));
+
     var arrayOfQuestions = [];
 
+    //If form valid, recreate the moduleQuiz array except with the updated values from the form
     if (this.learningModuleForm.status == 'VALID')
     {
       for (var index = 0; index <  this.currentLearningModule.moduleQuiz.length; index++)
@@ -121,6 +125,7 @@ export class QuizModalPage implements OnInit {
         }
       }
 
+      //Update the moduleQuiz in this LM
       this.currentLearningModule.moduleQuiz = arrayOfQuestions;
 
       this.learningModuleService.updateLearningModule(this.currentLearningModule).then(() => 
