@@ -29,7 +29,8 @@ export class UpdateUserPage implements OnInit {
     currentEmotion: '',
     bio:  '',
     points: 0,
-    daysSinceLogin: 0
+    daysSinceLogin: 0,
+    codeEntered: true
   };
 
   provider: Provider =  {

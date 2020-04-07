@@ -22,7 +22,7 @@ export interface User {
   bio: string;
   points: number;
   daysSinceLogin: number;
-  codeEntered: false;
+  codeEntered: boolean;
 }
 
 export interface Provider {
