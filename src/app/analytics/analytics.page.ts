@@ -121,7 +121,7 @@ export class AnalyticsPage implements OnInit{
 
 
 // am and pm values
-    public timeOfDayArray: any = [0,0,0,0];
+    public timeOfDayArray: any = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
 
     public timeLabelArray: any = [];
 
@@ -200,7 +200,7 @@ export class AnalyticsPage implements OnInit{
 
                   // convert timestamp to a new date
                   this.currentTime = new Date(this.currentTime.toDate());
-            
+
 
                   // checks the hours of the time
                   if(this.currentTime.getHours() >= 0 && this.currentTime.getHours() > 6)
@@ -230,7 +230,7 @@ export class AnalyticsPage implements OnInit{
 
             this.savingTimeOfDayArray(this.timeOfDayArray);
             this.createLineChart();
-            this.timeOfDayArray = [0,0,0,0];
+            this.timeOfDayArray = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
               });
     }
 
@@ -392,7 +392,10 @@ export class AnalyticsPage implements OnInit{
       this.myLineChart = new Chart(this.lineChart.nativeElement,{
         type:'line',
         data:{
-          labels: ["Midnight", "Morning", "Noon" , "Night"],
+          labels: ["12:00AM", "1:00AM", "2:00AM", "3:00AM" , "4:00AM", "5:00AM" ,
+                    "6:00AM", "7:00AM" , "8:00AM" , "9:00AM", "10:00AM" , "11:00AM",
+                    "12:00PM", "1:00PM", "2:00PM", "3:00PM" , "4:00PM", "5:00PM" ,
+                    "6:00PM", "7:00PM" , "8:00PM" , "9:00PM", "10:00PM" , "11:00PM"],
           datasets: [{
             label: 'Number of Users',
             data: this.timeOfDayArray,
