@@ -268,6 +268,46 @@ export class AnalyticsPage implements OnInit{
                   {
                       this.timeOfDayArray[14] = this.timeOfDayArray[14] + 1;
                   }
+                  if(this.currentTime.getHours() === 15)
+                  {
+                      this.timeOfDayArray[15] = this.timeOfDayArray[15] + 1;
+                  }
+                  if(this.currentTime.getHours() === 16)
+                  {
+                      this.timeOfDayArray[16] = this.timeOfDayArray[16] + 1;
+                  }
+                  if(this.currentTime.getHours() === 17)
+                  {
+                      this.timeOfDayArray[17] = this.timeOfDayArray[17] + 1;
+                  }
+                  if(this.currentTime.getHours() === 18)
+                  {
+                      this.timeOfDayArray[18] = this.timeOfDayArray[18] + 1;
+                  }
+                  if(this.currentTime.getHours() === 19)
+                  {
+                      this.timeOfDayArray[19] = this.timeOfDayArray[19] + 1;
+                  }
+                  if(this.currentTime.getHours() === 20)
+                  {
+                      this.timeOfDayArray[20] = this.timeOfDayArray[20] + 1;
+                  }
+                  if(this.currentTime.getHours() === 21)
+                  {
+                      this.timeOfDayArray[21] = this.timeOfDayArray[21] + 1;
+                  }
+                  if(this.currentTime.getHours() === 22)
+                  {
+                      this.timeOfDayArray[22] = this.timeOfDayArray[22] + 1;
+                  }
+                  if(this.currentTime.getHours() === 23)
+                  {
+                      this.timeOfDayArray[23] = this.timeOfDayArray[23] + 1;
+                  }
+                  if(this.currentTime.getHours() === 24)
+                  {
+                      this.timeOfDayArray[24] = this.timeOfDayArray[24] + 1;
+                  }
 
 
                 });
