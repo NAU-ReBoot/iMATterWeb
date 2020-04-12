@@ -203,26 +203,70 @@ export class AnalyticsPage implements OnInit{
 
 
                   // checks the hours of the time
-                  if(this.currentTime.getHours() >= 0 && this.currentTime.getHours() > 6)
+                  if(this.currentTime.getHours() === 0 )
                   {
                     this.timeOfDayArray[0] = this.timeOfDayArray[0] + 1;
 
 
                   }
-                  if(this.currentTime.getHours() >= 6 && this.currentTime.getHours() > 12)
+                  if(this.currentTime.getHours() === 1)
                   {
                       this.timeOfDayArray[1] = this.timeOfDayArray[1] + 1;
 
                   }
-                  if(this.currentTime.getHours() >= 12 && this.currentTime.getHours() > 18)
+                  if(this.currentTime.getHours() === 2)
                   {
                       this.timeOfDayArray[2] = this.timeOfDayArray[2] + 1;
 
                   }
-                  if(this.currentTime.getHours() >= 18 && this.currentTime.getHours() > 0)
+                  if(this.currentTime.getHours() === 3)
                   {
                       this.timeOfDayArray[3] = this.timeOfDayArray[3] + 1;
 
+                  }
+                  if(this.currentTime.getHours() === 4)
+                  {
+                      this.timeOfDayArray[4] = this.timeOfDayArray[4] + 1;
+                  }
+                  if(this.currentTime.getHours() === 5)
+                  {
+                      this.timeOfDayArray[5] = this.timeOfDayArray[5] + 1;
+                  }
+                  if(this.currentTime.getHours() === 6)
+                  {
+                      this.timeOfDayArray[6] = this.timeOfDayArray[6] + 1;
+                  }
+                  if(this.currentTime.getHours() === 7)
+                  {
+                      this.timeOfDayArray[7] = this.timeOfDayArray[7] + 1;
+                  }
+                  if(this.currentTime.getHours() === 8)
+                  {
+                      this.timeOfDayArray[8] = this.timeOfDayArray[8] + 1;
+                  }
+                  if(this.currentTime.getHours() === 9)
+                  {
+                      this.timeOfDayArray[9] = this.timeOfDayArray[9] + 1;
+                  }
+                  if(this.currentTime.getHours() === 10)
+                  {
+                      this.timeOfDayArray[10] = this.timeOfDayArray[10] + 1;
+                  }
+                  if(this.currentTime.getHours() === 11)
+                  {
+                      this.timeOfDayArray[11] = this.timeOfDayArray[11] + 1;
+                  }
+                  if(this.currentTime.getHours() === 12)
+                  {
+                      this.timeOfDayArray[12] = this.timeOfDayArray[12] + 1;
+                  }
+                  if(this.currentTime.getHours() === 13)
+                  {
+                      this.timeOfDayArray[13] = this.timeOfDayArray[13] + 1;
+                  }
+                  if(this.currentTime.getHours() === 14)
+                  {
+                      this.timeOfDayArray[14] = this.timeOfDayArray[14] + 1;
                   }
 
 
