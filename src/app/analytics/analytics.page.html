@@ -1,38 +1,16 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Analytics</ion-title>
+    <ion-title> Analytics </ion-title>
     <ion-buttons slot="start">
       <ion-menu-button autoHide="false"></ion-menu-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-row>
-  <ion-col>
-    <ion-button class="fill-button" expand="block" size="large" (click)="totalCalendarInfo()"> Calendar Stats</ion-button>
-  </ion-col>
-  <ion-col>
-    <ion-button class="fill-button" expand="block" size="large" (click)="userInformation()"> Individual User Stats</ion-button>
-  </ion-col>
-  <ion-col>
-    <ion-button class="fill-button" expand="block" size="large" (click)="showAdmins()"> ________ Stats </ion-button>
-  </ion-col>
-</ion-row>
-
-
 <ion-content>
-  <ion-content>
     <div class="ion-padding">
 
 
-      <div *ngIf="calendarView">
-
-        <ion-card>
-          Total Calendar UserViews: {{calendarHolder}}
-        </ion-card>
-        <ion-card>
-          Total Average Vists Per Session: {{calendarAverage}}
-        </ion-card>
 
         <ion-item>
           <ion-label>
@@ -47,120 +25,44 @@
           <ion-datetime displayFormat= "MM/DD/YYYY" (click) ="minEndDate()" [(ngModel)]= "endDate" min ="{{minStartToEnd}}" max="{{maxStartToEnd}}"></ion-datetime>
         </ion-item>
 
-        <ion-button  (click) = "calendarOn()" (click) = "getCalendarMeasures()" padding = "100" type='button'>
+        <ion-item>
+          <ion-label> Page </ion-label>
+          <ion-select placeholder="Select One" [(ngModel)] ="pageString">
+            <ion-select-option value="calendar">Calendar</ion-select-option>
+            <ion-select-option value="chat">Chat Room</ion-select-option>
+            <ion-select-option value="home">Home</ion-select-option>
+            <ion-select-option value="infoDesk">Info Desk</ion-select-option>
+            <ion-select-option value="learningModule">Learning Module</ion-select-option>
+            <ion-select-option value="survery">Survey</ion-select-option>
+
+
+          </ion-select>
+        </ion-item>
+
+
+        <ion-button  (click) = "On()" (click) = "getMeasures()" padding = "100" type='button'>
           submit
         </ion-button>
 
-      </div>
+      <div *ngIf = "submitted">
 
-      <div *ngIf="buttonCalendar">
+      <ion-item>
+          Total {{pageString}} UserViews: {{calendarHolder}}
+
+          Total Average Vists Per Session: {{calendarAverage}}
+
+      </ion-item>
 
       <ion-card>
         <ion-card-header>
-          Calendar Visits
+          {{pageString}} Visits
         </ion-card-header>
         <ion-card-content>
           <canvas #lineChart></canvas>
         </ion-card-content>
       </ion-card>
-
       </div>
 
 
-
-
-      <div *ngIf="indivUserView">
-        <ion-item>
-          <ion-label position = "floating" > User ID</ion-label>
-          <ion-input type = "text" [(ngModel)] = "USERID" id="input"></ion-input>
-        </ion-item>
-        <ion-button (click)= "getUserSessions()"  (click) = "getUserTime()" (click)= "getUserTotalClicks()" padding = "100" type='button'>
-          submit
-        </ion-button>
-
-
-      </div>
-
-
-
-      <ion-item *ngFor= "let session of (sessions| async)" >
-        <ion-card>
-
-          <div class = "LoginTime">
-            LoginTime: {{ session.LoginTime.seconds * 1000 | date:'MM-dd-yyyy h:mm a'}}
-          </div>
-          <div>
-            LogOutTime: {{ session.LogOutTime.seconds * 1000 | date:'MM-dd-yyyy h:mm a'}}
-          </div>
-          <div>
-            UserID: {{ session.userID }}
-          </div>
-        </ion-card>
-      </ion-item>
-
-
-
-
-
-
-
-
-
-
-      <ion-item *ngFor= "let analytic of (analytics | async)" >
-        <ion-grid>
-          <ion-row>
-            <ion-col>
-              <div >
-                User: {{ analytic.userID }}
-              </div>
-            </ion-col>
-            <ion-col>
-              <div>
-                Time Stamp: {{ analytic.timestamp.seconds * 1000 | date:'MM-dd-yyyy h:mm a'}}
-              </div>
-            </ion-col>
-            <ion-col>
-              <div>
-                Session ID: {{ analytic.sessionID }}
-              </div>
-            </ion-col>
-            <ion-col>
-              <div>
-                Page: {{ analytic.page }}
-              </div>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
-      </ion-item>
-
-      <ion-item *ngFor= "let unqiueSession of (uniqueSessions | async)" >
-
-        <ion-grid>
-          <ion-row>
-            <ion-col>
-              <div class = "LoginTime">
-                User: {{ unqiueSession.userID }}
-              </div>
-            </ion-col>
-            <ion-col>
-              <div>
-                Time Stamp: {{ unqiueSession.timestamp.seconds * 1000 | date:'MM-dd-yyyy h:mm a' }}
-              </div>
-            </ion-col>
-            <ion-col>
-              <div>
-                Session ID: {{ unqiueSession.sessionID }}
-              </div>
-            </ion-col>
-            <ion-col>
-              <div>
-                Page: {{ unqiueSession.page }}
-              </div>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
-
-      </ion-item>
     </div>
   </ion-content>

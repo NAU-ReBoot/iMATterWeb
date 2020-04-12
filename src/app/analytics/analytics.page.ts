@@ -126,7 +126,7 @@ export class AnalyticsPage implements OnInit{
     public timeLabelArray: any = [];
     public pageString: string;
 
-    public buttonCalendar= false;
+    public submitted= false;
 
 
 
@@ -153,8 +153,7 @@ export class AnalyticsPage implements OnInit{
                 });
             }
         });
-        this.indivUserView= true;
-        this.buttonCalendar= false;
+
         this.maxsStartDate();
     }
 
@@ -163,13 +162,13 @@ export class AnalyticsPage implements OnInit{
     {
       this.getAllTotalClicks();
     }
-    
-    calendarOn()
+
+    On()
     {
-      this.buttonCalendar = true;
+      this.submitted = true;
     }
 
-    getCalendarMeasures()
+    getMeasures()
     {
       console.log("start date " + this.startDate);
       console.log("end date " + this.endDate);
@@ -203,7 +202,7 @@ export class AnalyticsPage implements OnInit{
                   // convert timestamp to a new date
                   this.currentTime = new Date(this.currentTime.toDate());
 
-                  if (this.currentView === "calendar" )
+                  if (this.currentView === this.pageString )
                   {
                     // checks the hours of the time
                     if(this.currentTime.getHours() === 0 )
@@ -359,6 +358,56 @@ export class AnalyticsPage implements OnInit{
     }
 
 
+
+
+    getAllTotalClicks()
+    {
+        this.db.collection("analyticsSessions").get()
+        .then(querySnapshot => {
+
+        this.chatCounter =0;
+        this.calendarCounter =0;
+        this.infoCounter = 0 ;
+        this.surveyCounter =0;
+        this.moduleCounter =0;
+        this.profileCounter = 0;
+        this.moreCounter = 0 ;
+
+        querySnapshot.docs.forEach(doc => {
+          this.chatCounter = this.chatCounter + doc.get("numOfClickChat");
+          this.calendarCounter = this.calendarCounter + doc.get("numOfClickCalendar");
+          this.calendarAverageArray.push(this.calendarCounter);
+        //  this.calendarArray.push(doc.get("numOfClickCalendar"));
+          this.timeStamp = doc.get("LoginTime");
+          this.timeStamp = new Date (this.timeStamp.toDate());
+          this.timeCalendarArray.push({Date: this.timeStamp , Number:doc.get("numOfClickCalendar")});
+          this.moduleCounter = this.moduleCounter + doc.get("numOfClickLModule");
+          this.infoCounter = this.infoCounter + doc.get("numOfClickInfo");
+          this.surveyCounter = this.surveyCounter + doc.get("numOfClickSurvey");
+          this.profileCounter = this.profileCounter + doc.get("numOfClickProfile");
+          this.moreCounter = this.moreCounter + doc.get("numOfClickMore");
+
+      });
+
+      this.chatClicksSaver( this.chatCounter);
+      this.calendarClicksSaver(this.calendarCounter);
+
+      console.log(this.calendarArray);
+      this.moduleClicksSaver(this.moduleCounter);
+      this.infoClicksSaver(this.infoCounter);
+      this.surveyClicksSaver(this.surveyCounter);
+      this.profileClicksSaver(this.profileCounter);
+      this.moreClicksSaver(this.moreCounter);
+      this.calendarAverageCalculation(this.calendarAverageArray);
+      this.setCalendarAverageArray(this.calendarAverageArray);
+      this.timeCalendarArray = this.timeCalendarArray.sort((a,b) => a.Date -  b.Date);
+    //  this.setTimeCalendarArray(this.timeCalendarArray);
+      this.separatingArray(this.timeCalendarArray);
+  //    this.setCalendarArray(this.calendarArray);
+        });
+    }
+
+
     getUserTime()
     {
 
@@ -424,7 +473,7 @@ export class AnalyticsPage implements OnInit{
 
 
 
-
+/*
     getAllTotalClicks()
     {
         this.db.collection("analyticsSessions").get()
@@ -471,6 +520,7 @@ export class AnalyticsPage implements OnInit{
   //    this.setCalendarArray(this.calendarArray);
         });
     }
+    **/
 
 
 
@@ -505,40 +555,6 @@ export class AnalyticsPage implements OnInit{
       });
       this.myLineChart.update();
     }
-
-
-/*
-
-  createLineChart()
-  {
-    this.myLineChart = new Chart(this.lineChart.nativeElement,{
-      type:'line',
-      data:{
-        labels: this.timestampCalendarHolder,
-        datasets: [{
-          label: "Number of Visits Per Session",
-          data: this.calendarNumberHolder,
-          fill: false,
-          borderColor: 'rgb(147,112,219)',
-          borderWidth:1
-        }
-      ]
-      },
-      options:{
-        scales:{
-          yAxes:[{
-            ticks:{
-              beginAtZero:true
-            }
-          }]
-        }
-      }
-    });
-    this.myLineChart.update();
-  }
-
-**/
-
 
 
   calculatingDuration(epochArray, pageviewArray)
