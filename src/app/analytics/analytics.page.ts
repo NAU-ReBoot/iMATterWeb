@@ -374,18 +374,24 @@ export class AnalyticsPage implements OnInit{
         this.moreCounter = 0 ;
 
         querySnapshot.docs.forEach(doc => {
-          this.chatCounter = this.chatCounter + doc.get("numOfClickChat");
-          this.calendarCounter = this.calendarCounter + doc.get("numOfClickCalendar");
-          this.calendarAverageArray.push(this.calendarCounter);
-        //  this.calendarArray.push(doc.get("numOfClickCalendar"));
-          this.timeStamp = doc.get("LoginTime");
-          this.timeStamp = new Date (this.timeStamp.toDate());
-          this.timeCalendarArray.push({Date: this.timeStamp , Number:doc.get("numOfClickCalendar")});
-          this.moduleCounter = this.moduleCounter + doc.get("numOfClickLModule");
-          this.infoCounter = this.infoCounter + doc.get("numOfClickInfo");
-          this.surveyCounter = this.surveyCounter + doc.get("numOfClickSurvey");
-          this.profileCounter = this.profileCounter + doc.get("numOfClickProfile");
-          this.moreCounter = this.moreCounter + doc.get("numOfClickMore");
+
+          if(this.pageString === "calendar")
+          {
+            this.chatCounter = this.chatCounter + doc.get("numOfClickChat");
+            this.calendarCounter = this.calendarCounter + doc.get("numOfClickCalendar");
+            this.calendarAverageArray.push(this.calendarCounter);
+          //  this.calendarArray.push(doc.get("numOfClickCalendar"));
+            this.timeStamp = doc.get("LoginTime");
+            this.timeStamp = new Date (this.timeStamp.toDate());
+            this.timeCalendarArray.push({Date: this.timeStamp , Number:doc.get("numOfClickCalendar")});
+            this.moduleCounter = this.moduleCounter + doc.get("numOfClickLModule");
+            this.infoCounter = this.infoCounter + doc.get("numOfClickInfo");
+            this.surveyCounter = this.surveyCounter + doc.get("numOfClickSurvey");
+            this.profileCounter = this.profileCounter + doc.get("numOfClickProfile");
+            this.moreCounter = this.moreCounter + doc.get("numOfClickMore");
+
+          }
+
 
       });
 
