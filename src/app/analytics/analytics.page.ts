@@ -124,6 +124,7 @@ export class AnalyticsPage implements OnInit{
     public timeOfDayArray: any = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
 
     public timeLabelArray: any = [];
+    public pageString: string;
 
     public buttonCalendar= false;
 
@@ -162,6 +163,7 @@ export class AnalyticsPage implements OnInit{
     {
       this.getAllTotalClicks();
     }
+    
     calendarOn()
     {
       this.buttonCalendar = true;
@@ -201,114 +203,116 @@ export class AnalyticsPage implements OnInit{
                   // convert timestamp to a new date
                   this.currentTime = new Date(this.currentTime.toDate());
 
+                  if (this.currentView === "calendar" )
+                  {
+                    // checks the hours of the time
+                    if(this.currentTime.getHours() === 0 )
+                    {
+                      this.timeOfDayArray[0] = this.timeOfDayArray[0] + 1;
 
-                  // checks the hours of the time
-                  if(this.currentTime.getHours() === 0 )
-                  {
-                    this.timeOfDayArray[0] = this.timeOfDayArray[0] + 1;
 
+                    }
+                    if(this.currentTime.getHours() === 1)
+                    {
+                        this.timeOfDayArray[1] = this.timeOfDayArray[1] + 1;
+
+                    }
+                    if(this.currentTime.getHours() === 2)
+                    {
+                        this.timeOfDayArray[2] = this.timeOfDayArray[2] + 1;
+
+                    }
+                    if(this.currentTime.getHours() === 3)
+                    {
+                        this.timeOfDayArray[3] = this.timeOfDayArray[3] + 1;
+
+                    }
+                    if(this.currentTime.getHours() === 4)
+                    {
+                        this.timeOfDayArray[4] = this.timeOfDayArray[4] + 1;
+                    }
+                    if(this.currentTime.getHours() === 5)
+                    {
+                        this.timeOfDayArray[5] = this.timeOfDayArray[5] + 1;
+                    }
+                    if(this.currentTime.getHours() === 6)
+                    {
+                        this.timeOfDayArray[6] = this.timeOfDayArray[6] + 1;
+                    }
+                    if(this.currentTime.getHours() === 7)
+                    {
+                        this.timeOfDayArray[7] = this.timeOfDayArray[7] + 1;
+                    }
+                    if(this.currentTime.getHours() === 8)
+                    {
+                        this.timeOfDayArray[8] = this.timeOfDayArray[8] + 1;
+                    }
+                    if(this.currentTime.getHours() === 9)
+                    {
+                        this.timeOfDayArray[9] = this.timeOfDayArray[9] + 1;
+                    }
+                    if(this.currentTime.getHours() === 10)
+                    {
+                        this.timeOfDayArray[10] = this.timeOfDayArray[10] + 1;
+                    }
+                    if(this.currentTime.getHours() === 11)
+                    {
+                        this.timeOfDayArray[11] = this.timeOfDayArray[11] + 1;
+                    }
+                    if(this.currentTime.getHours() === 12)
+                    {
+                        this.timeOfDayArray[12] = this.timeOfDayArray[12] + 1;
+                    }
+                    if(this.currentTime.getHours() === 13)
+                    {
+                        this.timeOfDayArray[13] = this.timeOfDayArray[13] + 1;
+                    }
+                    if(this.currentTime.getHours() === 14)
+                    {
+                        this.timeOfDayArray[14] = this.timeOfDayArray[14] + 1;
+                    }
+                    if(this.currentTime.getHours() === 15)
+                    {
+                        this.timeOfDayArray[15] = this.timeOfDayArray[15] + 1;
+                    }
+                    if(this.currentTime.getHours() === 16)
+                    {
+                        this.timeOfDayArray[16] = this.timeOfDayArray[16] + 1;
+                    }
+                    if(this.currentTime.getHours() === 17)
+                    {
+                        this.timeOfDayArray[17] = this.timeOfDayArray[17] + 1;
+                    }
+                    if(this.currentTime.getHours() === 18)
+                    {
+                        this.timeOfDayArray[18] = this.timeOfDayArray[18] + 1;
+                    }
+                    if(this.currentTime.getHours() === 19)
+                    {
+                        this.timeOfDayArray[19] = this.timeOfDayArray[19] + 1;
+                    }
+                    if(this.currentTime.getHours() === 20)
+                    {
+                        this.timeOfDayArray[20] = this.timeOfDayArray[20] + 1;
+                    }
+                    if(this.currentTime.getHours() === 21)
+                    {
+                        this.timeOfDayArray[21] = this.timeOfDayArray[21] + 1;
+                    }
+                    if(this.currentTime.getHours() === 22)
+                    {
+                        this.timeOfDayArray[22] = this.timeOfDayArray[22] + 1;
+                    }
+                    if(this.currentTime.getHours() === 23)
+                    {
+                        this.timeOfDayArray[23] = this.timeOfDayArray[23] + 1;
+                    }
+                    if(this.currentTime.getHours() === 24)
+                    {
+                        this.timeOfDayArray[24] = this.timeOfDayArray[24] + 1;
+                    }
 
                   }
-                  if(this.currentTime.getHours() === 1)
-                  {
-                      this.timeOfDayArray[1] = this.timeOfDayArray[1] + 1;
-
-                  }
-                  if(this.currentTime.getHours() === 2)
-                  {
-                      this.timeOfDayArray[2] = this.timeOfDayArray[2] + 1;
-
-                  }
-                  if(this.currentTime.getHours() === 3)
-                  {
-                      this.timeOfDayArray[3] = this.timeOfDayArray[3] + 1;
-
-                  }
-                  if(this.currentTime.getHours() === 4)
-                  {
-                      this.timeOfDayArray[4] = this.timeOfDayArray[4] + 1;
-                  }
-                  if(this.currentTime.getHours() === 5)
-                  {
-                      this.timeOfDayArray[5] = this.timeOfDayArray[5] + 1;
-                  }
-                  if(this.currentTime.getHours() === 6)
-                  {
-                      this.timeOfDayArray[6] = this.timeOfDayArray[6] + 1;
-                  }
-                  if(this.currentTime.getHours() === 7)
-                  {
-                      this.timeOfDayArray[7] = this.timeOfDayArray[7] + 1;
-                  }
-                  if(this.currentTime.getHours() === 8)
-                  {
-                      this.timeOfDayArray[8] = this.timeOfDayArray[8] + 1;
-                  }
-                  if(this.currentTime.getHours() === 9)
-                  {
-                      this.timeOfDayArray[9] = this.timeOfDayArray[9] + 1;
-                  }
-                  if(this.currentTime.getHours() === 10)
-                  {
-                      this.timeOfDayArray[10] = this.timeOfDayArray[10] + 1;
-                  }
-                  if(this.currentTime.getHours() === 11)
-                  {
-                      this.timeOfDayArray[11] = this.timeOfDayArray[11] + 1;
-                  }
-                  if(this.currentTime.getHours() === 12)
-                  {
-                      this.timeOfDayArray[12] = this.timeOfDayArray[12] + 1;
-                  }
-                  if(this.currentTime.getHours() === 13)
-                  {
-                      this.timeOfDayArray[13] = this.timeOfDayArray[13] + 1;
-                  }
-                  if(this.currentTime.getHours() === 14)
-                  {
-                      this.timeOfDayArray[14] = this.timeOfDayArray[14] + 1;
-                  }
-                  if(this.currentTime.getHours() === 15)
-                  {
-                      this.timeOfDayArray[15] = this.timeOfDayArray[15] + 1;
-                  }
-                  if(this.currentTime.getHours() === 16)
-                  {
-                      this.timeOfDayArray[16] = this.timeOfDayArray[16] + 1;
-                  }
-                  if(this.currentTime.getHours() === 17)
-                  {
-                      this.timeOfDayArray[17] = this.timeOfDayArray[17] + 1;
-                  }
-                  if(this.currentTime.getHours() === 18)
-                  {
-                      this.timeOfDayArray[18] = this.timeOfDayArray[18] + 1;
-                  }
-                  if(this.currentTime.getHours() === 19)
-                  {
-                      this.timeOfDayArray[19] = this.timeOfDayArray[19] + 1;
-                  }
-                  if(this.currentTime.getHours() === 20)
-                  {
-                      this.timeOfDayArray[20] = this.timeOfDayArray[20] + 1;
-                  }
-                  if(this.currentTime.getHours() === 21)
-                  {
-                      this.timeOfDayArray[21] = this.timeOfDayArray[21] + 1;
-                  }
-                  if(this.currentTime.getHours() === 22)
-                  {
-                      this.timeOfDayArray[22] = this.timeOfDayArray[22] + 1;
-                  }
-                  if(this.currentTime.getHours() === 23)
-                  {
-                      this.timeOfDayArray[23] = this.timeOfDayArray[23] + 1;
-                  }
-                  if(this.currentTime.getHours() === 24)
-                  {
-                      this.timeOfDayArray[24] = this.timeOfDayArray[24] + 1;
-                  }
-
 
                 });
 
