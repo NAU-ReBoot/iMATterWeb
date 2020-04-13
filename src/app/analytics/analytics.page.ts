@@ -128,6 +128,8 @@ export class AnalyticsPage implements OnInit{
 
     public submitted= false;
 
+    public sessionIDHolder: any;
+
 
 
 
@@ -311,6 +313,34 @@ export class AnalyticsPage implements OnInit{
                         this.timeOfDayArray[24] = this.timeOfDayArray[24] + 1;
                     }
 
+                    this.sessionIDHolder = doc.get("sessionID");
+
+
+                    this.afs.firestore.collection("analyticsSessions")
+                    .doc(this.sessionIDHolder).ref
+                        .get().then((result) =>{
+                          console(this.sessionID + "inside");
+                          this.currentTime = null;
+                          this.currentView ='';
+
+                          result.forEach(doc =>{
+
+                            this.currentView = doc.get("page");
+                            this.currentTime = doc.get("timestamp");
+
+                            this.currentTime = new Date(this.currentTime.toDate());
+                            this.currentTime = this.currentTime.getTime();
+                            this.epochArray.push(this.currentTime);
+                            this.pageviewArray.push(this.currentView);
+                          });
+
+                        this.calculatingDuration(this.epochArray, this.pageviewArray);
+                        });
+
+
+
+
+
                   }
 
                 });
@@ -359,59 +389,6 @@ export class AnalyticsPage implements OnInit{
 
 
 
-
-    getAllTotalClicks()
-    {
-        this.db.collection("analyticsSessions").get()
-        .then(querySnapshot => {
-
-        this.chatCounter =0;
-        this.calendarCounter =0;
-        this.infoCounter = 0 ;
-        this.surveyCounter =0;
-        this.moduleCounter =0;
-        this.profileCounter = 0;
-        this.moreCounter = 0 ;
-
-        querySnapshot.docs.forEach(doc => {
-
-          if(this.pageString === "calendar")
-          {
-            this.chatCounter = this.chatCounter + doc.get("numOfClickChat");
-            this.calendarCounter = this.calendarCounter + doc.get("numOfClickCalendar");
-            this.calendarAverageArray.push(this.calendarCounter);
-          //  this.calendarArray.push(doc.get("numOfClickCalendar"));
-            this.timeStamp = doc.get("LoginTime");
-            this.timeStamp = new Date (this.timeStamp.toDate());
-            this.timeCalendarArray.push({Date: this.timeStamp , Number:doc.get("numOfClickCalendar")});
-            this.moduleCounter = this.moduleCounter + doc.get("numOfClickLModule");
-            this.infoCounter = this.infoCounter + doc.get("numOfClickInfo");
-            this.surveyCounter = this.surveyCounter + doc.get("numOfClickSurvey");
-            this.profileCounter = this.profileCounter + doc.get("numOfClickProfile");
-            this.moreCounter = this.moreCounter + doc.get("numOfClickMore");
-
-          }
-
-
-      });
-
-      this.chatClicksSaver( this.chatCounter);
-      this.calendarClicksSaver(this.calendarCounter);
-
-      console.log(this.calendarArray);
-      this.moduleClicksSaver(this.moduleCounter);
-      this.infoClicksSaver(this.infoCounter);
-      this.surveyClicksSaver(this.surveyCounter);
-      this.profileClicksSaver(this.profileCounter);
-      this.moreClicksSaver(this.moreCounter);
-      this.calendarAverageCalculation(this.calendarAverageArray);
-      this.setCalendarAverageArray(this.calendarAverageArray);
-      this.timeCalendarArray = this.timeCalendarArray.sort((a,b) => a.Date -  b.Date);
-    //  this.setTimeCalendarArray(this.timeCalendarArray);
-      this.separatingArray(this.timeCalendarArray);
-  //    this.setCalendarArray(this.calendarArray);
-        });
-    }
 
 
     getUserTime()
