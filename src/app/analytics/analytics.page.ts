@@ -132,6 +132,7 @@ export class AnalyticsPage implements OnInit{
     public sessionDocument : any;
     public loginTimeData: any;
     public logoutTimeData: any;
+    public quantityCalculation: any;
 
 
 
@@ -325,7 +326,15 @@ export class AnalyticsPage implements OnInit{
                     .doc(this.sessionIDHolder).get().then(function(doc) {
                     if (doc.exists) {
                         console.log("Document data:", doc.data());
-                        this.loginTimeData = new Date (doc.get("LoginTime").toDate());
+                        this.loginTimeData = doc.get("LoginTime");
+                        this.loginTimeData = new Date (this.loginTimeData.toDate());
+                        this.loginTimeData = this.loginTimeData.getTime();
+                        this.quantityCalculation = doc.get("numOfClickChat") +
+                                    doc.get("numOfClickCalendar")+ doc.get("numOfClickLModule") + doc.get("numOfClickInfo")
+                                    + doc.get("numOfClickSurvey") + doc.get("numOfClickProfile")+ doc.get("numOfClickMore");
+                        console.log(this.quantityCalculation);
+
+
 
 
                     } else {
