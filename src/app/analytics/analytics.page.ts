@@ -128,7 +128,7 @@ export class AnalyticsPage implements OnInit{
 
     public submitted= false;
 
-    public sessionIDHolder: any;
+    public sessionIDHolder: string;
 
 
 
@@ -317,24 +317,21 @@ export class AnalyticsPage implements OnInit{
 
 
                     this.afs.firestore.collection("analyticsSessions")
-                    .doc(this.sessionIDHolder).ref
+                    .doc(this.sessionIDHolder)
                         .get().then((result) =>{
-                          console(this.sessionID + "inside");
-                          this.currentTime = null;
-                          this.currentView ='';
+                          this.chatCounter = this.chatCounter + doc.get("numOfClickChat");
+                          this.calendarCounter = this.calendarCounter + doc.get("numOfClickCalendar");
+                          this.calendarAverageArray.push(this.calendarCounter);
+                        //  this.calendarArray.push(doc.get("numOfClickCalendar"));
+                          this.timeStamp = doc.get("LoginTime");
+                          this.timeStamp = new Date (this.timeStamp.toDate());
+                          this.timeCalendarArray.push({Date: this.timeStamp , Number:doc.get("numOfClickCalendar")});
+                          this.moduleCounter = this.moduleCounter + doc.get("numOfClickLModule");
+                          this.infoCounter = this.infoCounter + doc.get("numOfClickInfo");
+                          this.surveyCounter = this.surveyCounter + doc.get("numOfClickSurvey");
+                          this.profileCounter = this.profileCounter + doc.get("numOfClickProfile");
+                          this.moreCounter = this.moreCounter + doc.get("numOfClickMore");
 
-                          result.forEach(doc =>{
-
-                            this.currentView = doc.get("page");
-                            this.currentTime = doc.get("timestamp");
-
-                            this.currentTime = new Date(this.currentTime.toDate());
-                            this.currentTime = this.currentTime.getTime();
-                            this.epochArray.push(this.currentTime);
-                            this.pageviewArray.push(this.currentView);
-                          });
-
-                        this.calculatingDuration(this.epochArray, this.pageviewArray);
                         });
 
 
