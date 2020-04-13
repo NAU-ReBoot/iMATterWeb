@@ -128,7 +128,11 @@ export class AnalyticsPage implements OnInit{
 
     public submitted= false;
 
-    public sessionIDHolder: string;
+    public sessionIDHolder: any;
+    public sessionDocument : any;
+    public loginTimeData: any;
+    public logoutTimeData: any;
+
 
 
 
@@ -210,7 +214,6 @@ export class AnalyticsPage implements OnInit{
                     if(this.currentTime.getHours() === 0 )
                     {
                       this.timeOfDayArray[0] = this.timeOfDayArray[0] + 1;
-
 
                     }
                     if(this.currentTime.getHours() === 1)
@@ -314,25 +317,25 @@ export class AnalyticsPage implements OnInit{
                     }
 
                     this.sessionIDHolder = doc.get("sessionID");
+                    console.log(this.sessionIDHolder);
 
 
-                    this.afs.firestore.collection("analyticsSessions")
-                    .doc(this.sessionIDHolder)
-                        .get().then((result) =>{
-                          this.chatCounter = this.chatCounter + doc.get("numOfClickChat");
-                          this.calendarCounter = this.calendarCounter + doc.get("numOfClickCalendar");
-                          this.calendarAverageArray.push(this.calendarCounter);
-                        //  this.calendarArray.push(doc.get("numOfClickCalendar"));
-                          this.timeStamp = doc.get("LoginTime");
-                          this.timeStamp = new Date (this.timeStamp.toDate());
-                          this.timeCalendarArray.push({Date: this.timeStamp , Number:doc.get("numOfClickCalendar")});
-                          this.moduleCounter = this.moduleCounter + doc.get("numOfClickLModule");
-                          this.infoCounter = this.infoCounter + doc.get("numOfClickInfo");
-                          this.surveyCounter = this.surveyCounter + doc.get("numOfClickSurvey");
-                          this.profileCounter = this.profileCounter + doc.get("numOfClickProfile");
-                          this.moreCounter = this.moreCounter + doc.get("numOfClickMore");
 
-                        });
+                    this.sessionDocument = this.afs.firestore.collection("analyticsSessions")
+                    .doc(this.sessionIDHolder).get().then(function(doc) {
+                    if (doc.exists) {
+                        console.log("Document data:", doc.data());
+                        this.loginTimeData = new Date (doc.get("LoginTime").toDate());
+
+
+                    } else {
+                        console.log("No such document!");
+                    }
+                }).catch(function(error) {
+                    console.log("Error getting document:", error);
+                });
+
+
 
 
 
@@ -453,7 +456,7 @@ export class AnalyticsPage implements OnInit{
 
 
 
-/*
+
     getAllTotalClicks()
     {
         this.db.collection("analyticsSessions").get()
@@ -500,7 +503,7 @@ export class AnalyticsPage implements OnInit{
   //    this.setCalendarArray(this.calendarArray);
         });
     }
-    **/
+
 
 
 
