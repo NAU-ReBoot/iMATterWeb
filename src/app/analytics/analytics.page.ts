@@ -131,6 +131,7 @@ export class AnalyticsPage implements OnInit{
     public loginTimeData: any;
     public logoutTimeData: any;
     public quantityCalculation: any;
+    public beginningOfSessionIndex: number;
 
 
 
@@ -190,7 +191,7 @@ export class AnalyticsPage implements OnInit{
       this.pageStatistics = true;
       this.durationPage = false;
       this.submitted = false;
-      this.durationSubmitted = false; 
+      this.durationSubmitted = false;
     }
 
     On()
@@ -207,6 +208,8 @@ export class AnalyticsPage implements OnInit{
     {
       console.log("start date " + this.startDate);
       console.log("end date " + this.endDate);
+      this.beginningOfSessionIndex = 0;
+      this.calendarAverageArray = new Array();
 
       this.startDate = new Date(this.startDate);
       this.startDate.setHours(0);
@@ -227,15 +230,18 @@ export class AnalyticsPage implements OnInit{
               .get().then((result) =>{
 
 
+
+
                 result.forEach(doc =>{
                   // get the page of the storage
                   this.currentView = doc.get("page");
-
                   this.currentTime = doc.get("timestamp");
 
-
-                  // convert timestamp to a new date
                   this.currentTime = new Date(this.currentTime.toDate());
+                  this.currentTime = this.currentTime.getTime();
+                  this.epochArray.push(this.currentTime);
+                  this.pageviewArray.push(this.currentView);
+
 
                   if (this.currentView === this.pageString )
                   {
@@ -394,7 +400,6 @@ export class AnalyticsPage implements OnInit{
                         }
 
 
-
                 });
 
 
@@ -403,9 +408,11 @@ export class AnalyticsPage implements OnInit{
 
                 });
 
-            this.savingTimeOfDayArray(this.timeOfDayArray);
-            this.createLineChart();
-            this.timeOfDayArray = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+                this.calendarAverageCalculation(this.calendarAverageArray);
+
+                this.savingTimeOfDayArray(this.timeOfDayArray);
+                this.createLineChart();
+                this.timeOfDayArray = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
               });
     }
 
@@ -569,10 +576,7 @@ export class AnalyticsPage implements OnInit{
        this.myBarChart= new Chart(this.barChart.nativeElement,{
          type:'bar',
          data:{
-           labels: ["12:00AM", "1:00AM", "2:00AM", "3:00AM" , "4:00AM", "5:00AM" ,
-                     "6:00AM", "7:00AM" , "8:00AM" , "9:00AM", "10:00AM" , "11:00AM",
-                     "12:00PM", "1:00PM", "2:00PM", "3:00PM" , "4:00PM", "5:00PM" ,
-                     "6:00PM", "7:00PM" , "8:00PM" , "9:00PM", "10:00PM" , "11:00PM"],
+           labels: ["Calendar", "Chat Room" , "Home" , "Info Desk" , "Learning Center", "Survey Center"],
            datasets: [{
              label: "Number of Time Notifications is Clicked",
              data:[2.5, 3.8, 2, 6.9, 6.9, 7, 10, 0],
