@@ -16,13 +16,13 @@
           <ion-label>
             From Date
           </ion-label>
-          <ion-datetime displayFormat= "MM/DD/YYYY" [(ngModel)]= "startDate" min = "2020-03-01" max ="{{todayMinusOne}}" ></ion-datetime>
+          <ion-datetime fixed class='fixedLabel' displayFormat= "MM/DD/YYYY" [(ngModel)]= "startDate" min = "2020-03-01" max ="{{todayMinusOne}}" ></ion-datetime>
         </ion-item>
         <ion-item>
           <ion-label>
             To Date
           </ion-label>
-          <ion-datetime displayFormat= "MM/DD/YYYY" (click) ="minEndDate()" [(ngModel)]= "endDate" min ="{{minStartToEnd}}" max="{{maxStartToEnd}}"></ion-datetime>
+          <ion-datetime fixed class='fixedLabel' displayFormat= "MM/DD/YYYY" (click) ="minEndDate()" [(ngModel)]= "endDate" min ="{{minStartToEnd}}" max="{{maxStartToEnd}}"></ion-datetime>
         </ion-item>
 
         <ion-item>
@@ -33,7 +33,7 @@
             <ion-select-option value="home">Home</ion-select-option>
             <ion-select-option value="infoDesk">Info Desk</ion-select-option>
             <ion-select-option value="learningModule">Learning Module</ion-select-option>
-            <ion-select-option value="survery">Survey</ion-select-option>
+            <ion-select-option value="survey">Survey</ion-select-option>
 
 
           </ion-select>

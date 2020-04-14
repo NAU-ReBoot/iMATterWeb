@@ -333,20 +333,36 @@ export class AnalyticsPage implements OnInit{
 
 
                         // log out time
-                        this.LogOutTimeData = doc.get("LogOutTime");
+                        this.logOutTimeData = doc.get("LogOutTime");
 
                         this.logoutTimeData = new Date (this.logoutTimeData.toDate());
                         this.logoutTimeData = this.logoutTimeData.getTime();
 
                         this.quantityCalculation = doc.get("numOfClickChat") +
                                     doc.get("numOfClickCalendar")+ doc.get("numOfClickLModule") + doc.get("numOfClickInfo")
-                                    + doc.get("numOfClickSurvey") + doc.get("numOfClickProfile")+ doc.get("numofnumOfClickHome")
+                                    + doc.get("numOfClickSurvey") + doc.get("numOfClickProfile")+ doc.get("numOfClickHome")
                                    + doc.get("numOfClickMore") + doc.get("numOfClickProfile");
                         console.log(this.quantityCalculation);
 
-                        if(this.pageString === " ")
+                        if(this.pageString === "calendar")
                         {
-
+                          this.calendarAverageArray.push(doc.get("numOfClickCalendar"));
+                        }
+                        if(this.pageString === "chat")
+                        {
+                          this.calendarAverageArray.push(doc.get("numOfClickChat"));
+                        }
+                        if (this.pageString ==="home") {
+                          this.calendarAverageArray.push(doc.get("numOfClickHome"));
+                        }
+                        if (this.pageString ==="infoDesk") {
+                          this.calendarAverageArray.push(doc.get("numOfClickInfo"));
+                        }
+                        if (this.pageString ==="learningModule") {
+                          this.calendarAverageArray.push(doc.get("numOfClickLModule"));
+                        }
+                        if (this.pageString ==="survey") {
+                          this.calendarAverageArray.push(doc.get("numOfClickSurvey"));
                         }
 
 
