@@ -103,9 +103,28 @@
         </ion-item>
 
 
-        <ion-button  (click) = "On()" (click) = "getMeasures()" padding = "100" type='button'>
+        <ion-button  (click) = "durationOn()" (click) = "getMeasures()" padding = "100" type='button'>
           submit
         </ion-button>
+    </div>
+
+    <div *ngIf = "durationSubmitted">
+
+    <ion-item>
+        Total {{pageString}} UserViews: {{calendarHolder}}
+
+        Total Average Vists Per Session: {{calendarAverage}}
+
+    </ion-item>
+
+    <ion-card>
+      <ion-card-header>
+        {{pageString}} Visits
+      </ion-card-header>
+      <ion-card-content>
+        <canvas #lineChart></canvas>
+      </ion-card-content>
+    </ion-card>
     </div>
 
 

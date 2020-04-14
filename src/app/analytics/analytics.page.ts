@@ -84,6 +84,7 @@ export class AnalyticsPage implements OnInit{
     public pageStatistics = true;
     public submitted= false;
     public durationPage = false;
+    public durationSubmitted = false;
 
     public calendarArray: any = [];
     public calendarAverageArray: any =[];
@@ -174,6 +175,7 @@ export class AnalyticsPage implements OnInit{
     {
       this.pageStatistics = true;
       this.durationPage = false;
+      this.durationSubmitted = false;
     }
 
     pageStatsOff ()
@@ -187,6 +189,11 @@ export class AnalyticsPage implements OnInit{
     On()
     {
       this.submitted = true;
+    }
+
+    durationOn()
+    {
+      this.durationSubmitted = true;
     }
 
     getMeasures()
