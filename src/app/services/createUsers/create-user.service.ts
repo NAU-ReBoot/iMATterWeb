@@ -38,7 +38,8 @@ export interface Provider {
   bio: string;
   type: string;
   providerType: string;
- // questionsAnswered: any;
+  notes: string;
+  codeEntered: boolean;
 }
 
 export interface Admin {
@@ -49,6 +50,8 @@ export interface Admin {
   password: string;
   type: string;
   profilePic: any;
+  notes: string;
+  codeEntered: boolean;
 }
 
 @Injectable({
@@ -194,7 +197,7 @@ export class CreateUserService {
       type: provider.type,
       profilePic: provider.profilePic,
       providerType: provider.providerType,
-     // questionsAnswered: provider.questionsAnswered
+      codeEntered: false
     }, {merge: true});
   }
 
@@ -223,6 +226,7 @@ export class CreateUserService {
   }
 
   addAdmin(admin: Admin): Promise<void> {
-    return this.adminCollection.doc(admin.code).set({code: admin.code, email: admin.email, type: admin.type}, { merge: true });
+    return this.adminCollection.doc(admin.code).set({code: admin.code, email: admin.email, type: admin.type, codeEntered: false},
+        { merge: true });
   }
 }

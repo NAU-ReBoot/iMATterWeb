@@ -54,6 +54,8 @@ export class AuthServiceProvider {
     dob: '',
     type: '',
     providerType: '',
+    notes: '',
+    codeEntered: true
     // questionsAnswered: []
   };
 
@@ -63,7 +65,10 @@ export class AuthServiceProvider {
     email: '',
     profilePic: '',
     password: '',
-    type: ''};
+    type: '',
+    notes: '',
+    codeEntered: true
+  };
 
   signupProvider(provider: Provider, password: string, username: string, email: string, bio: string): Promise<any> {
     return this.providerCollection.doc(provider.code).set({code: provider.code,

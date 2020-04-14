@@ -41,6 +41,7 @@ export class CodePage implements OnInit {
       if (docData.exists) {
         console.log('Exists');
         this.codeValidated = true;
+        this.setCodeToEntered(code, 'admins');
         this.storage.set('userType', 'admin');
         this.router.navigate(['/signup/', code ]);
         this.codeForm.reset();
@@ -50,6 +51,7 @@ export class CodePage implements OnInit {
           if (doc.exists) {
             console.log('Exists');
             this.codeValidated = true;
+            this.setCodeToEntered(code, 'providers');
             this.storage.set('userType', 'provider');
             this.router.navigate(['/signup/', code]);
             this.codeForm.reset();
@@ -62,6 +64,10 @@ export class CodePage implements OnInit {
     }).catch((err) => {
       console.log('Error getting document', err);
     });
+  }
+
+  setCodeToEntered(doc, type) {
+    this.afs.firestore.collection(type).doc(doc).update({codeEntered: true});
   }
 }
 

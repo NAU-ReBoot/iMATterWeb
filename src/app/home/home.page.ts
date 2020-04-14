@@ -49,6 +49,9 @@ export class HomePage implements OnInit {
       ],
       providerType: [
         Validators.compose([Validators.required]),
+      ],
+      notes: [
+        ''
       ]
     });
 
@@ -56,6 +59,9 @@ export class HomePage implements OnInit {
       email: [
         '',
         Validators.compose([Validators.required, Validators.email]),
+      ],
+      notes: [
+          ''
       ]
     });
 
@@ -103,7 +109,9 @@ export class HomePage implements OnInit {
   dob: '',
   profilePic: '',
   type: '',
-  providerType: ''
+  providerType: '',
+  codeEntered: false,
+  notes: ''
 };
 
   providerType: ProviderType = {
@@ -118,6 +126,8 @@ export class HomePage implements OnInit {
   password: '',
   profilePic: '',
   type: '',
+  codeEntered: false,
+  notes: ''
 };
 
   private userView = true;
@@ -191,7 +201,6 @@ export class HomePage implements OnInit {
     this.displayAddAdmin = false;
   }
 
-
   addUser() {
     this.user.code = HomePage.makeString();
     this.createUserService.addUser(this.user);
@@ -221,18 +230,12 @@ export class HomePage implements OnInit {
           'Need to complete the form, current value: ', addProviderForm.value
       );
     } else {
-      const email: string = addProviderForm.value.email;
-      const nameFirst: string = addProviderForm.value.nameFirst;
-      const nameLast: string = addProviderForm.value.nameLast;
-      const dob: string = addProviderForm.value.dob;
-      const providerType: string = addProviderForm.value.providerType;
-
-      this.provider.firstName = nameFirst;
-      this.provider.lastName = nameLast;
-      this.provider.email = email;
-      this.provider.dob = dob;
+      this.provider.firstName = addProviderForm.value.nameFirst;
+      this.provider.lastName = addProviderForm.value.nameLast;
+      this.provider.email = addProviderForm.value.email;
+      this.provider.dob = addProviderForm.value.dob;
       this.provider.type = 'provider';
-      this.provider.providerType = providerType;
+      this.provider.providerType =  addProviderForm.value.providerType;
 
       const providerTypeRef = this.afs.firestore.collection('providerTypes').where('type', '==', this.provider.providerType);
       providerTypeRef.get().then((res) => {
@@ -292,11 +295,6 @@ export class HomePage implements OnInit {
 
   deleteAdmin(id) {
     this.createUserService.deleteAdmin(id);
-  }
-
-  logOut(): void {
-    this.storage.set('authenticated', 'false');
-    this.router.navigateByUrl('login');
   }
 
   clearProviderForm() {

@@ -37,6 +37,19 @@
   --background-hover: var(--tertiary-color);
 }
 
+.side-navigation-button {
+  --background: var(--main-color);
+  --background-activated: var(--secondary-color);
+  --background-hover: var(--tertiary-color);
+  size: 15px;
+  height: 50px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  color: #ffffff;
+  font-weight: bolder;
+  font-size: large;
+}
+
 .text-button {
   --color: var(--main-color);
 }
