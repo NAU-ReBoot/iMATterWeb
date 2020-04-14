@@ -82,6 +82,8 @@ export class AnalyticsPage implements OnInit{
 
 // viewing values
     public pageStatistics = true;
+    public submitted= false;
+    public durationPage = false;
 
     public calendarArray: any = [];
     public calendarAverageArray: any =[];
@@ -124,7 +126,6 @@ export class AnalyticsPage implements OnInit{
     public timeLabelArray: any = [];
     public pageString: string;
 
-    public submitted= false;
 
     public sessionIDHolder: any;
     public sessionDocument : any;
@@ -166,16 +167,21 @@ export class AnalyticsPage implements OnInit{
     ionViewWillEnter()
     {
       this.getAllTotalClicks();
+      this.durationPage = false;
     }
 
     ionViewDidEnter()
     {
       this.pageStatistics = true;
+      this.durationPage = false;
     }
 
     pageStatsOff ()
     {
-      this.pageStatistics = false; 
+      this.pageStatistics = false;
+      this.submitted = false;
+      this.durationPage = true;
+
     }
 
     On()

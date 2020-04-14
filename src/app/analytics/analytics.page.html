@@ -24,7 +24,7 @@
           <ion-label>
             From Date
           </ion-label>
-          <ion-datetime fixed class='fixedLabel' displayFormat= "MM/DD/YYYY" [(ngModel)]= "startDate" min = "2020-03-01" max ="{{todayMinusOne}}" ></ion-datetime>
+          <ion-datetime fixed class='fixedLabel' displayFormat= "MM/DD/YYYY" [(ngModel)]= "startDate" min = "2020-04-08" max ="{{todayMinusOne}}" ></ion-datetime>
         </ion-item>
         <ion-item>
           <ion-label>
@@ -51,26 +51,62 @@
         <ion-button  (click) = "On()" (click) = "getMeasures()" padding = "100" type='button'>
           submit
         </ion-button>
-
-      <div *ngIf = "submitted">
-
-      <ion-item>
-          Total {{pageString}} UserViews: {{calendarHolder}}
-
-          Total Average Vists Per Session: {{calendarAverage}}
-
-      </ion-item>
-
-      <ion-card>
-        <ion-card-header>
-          {{pageString}} Visits
-        </ion-card-header>
-        <ion-card-content>
-          <canvas #lineChart></canvas>
-        </ion-card-content>
-      </ion-card>
-      </div>
-
-
     </div>
+
+    <div *ngIf = "submitted">
+
+    <ion-item>
+        Total {{pageString}} UserViews: {{calendarHolder}}
+
+        Total Average Vists Per Session: {{calendarAverage}}
+
+    </ion-item>
+
+    <ion-card>
+      <ion-card-header>
+        {{pageString}} Visits
+      </ion-card-header>
+      <ion-card-content>
+        <canvas #lineChart></canvas>
+      </ion-card-content>
+    </ion-card>
+    </div>
+
+
+    <div *ngIf="durationPage" class="ion-padding">
+
+        <ion-item>
+          <ion-label>
+            From Date
+          </ion-label>
+          <ion-datetime fixed class='fixedLabel' displayFormat= "MM/DD/YYYY" [(ngModel)]= "startDate" min = "2020-04-08" max ="{{todayMinusOne}}" ></ion-datetime>
+        </ion-item>
+        <ion-item>
+          <ion-label>
+            To Date
+          </ion-label>
+          <ion-datetime fixed class='fixedLabel' displayFormat= "MM/DD/YYYY" (click) ="minEndDate()" [(ngModel)]= "endDate" min ="{{minStartToEnd}}" max="{{maxStartToEnd}}"></ion-datetime>
+        </ion-item>
+
+        <ion-item>
+          <ion-label> Page </ion-label>
+          <ion-select placeholder="Select One" [(ngModel)] ="pageString">
+            <ion-select-option value="calendar">Calendar</ion-select-option>
+            <ion-select-option value="chat">Chat Room</ion-select-option>
+            <ion-select-option value="home">Home</ion-select-option>
+            <ion-select-option value="infoDesk">Info Desk</ion-select-option>
+            <ion-select-option value="learningModule">Learning Module</ion-select-option>
+            <ion-select-option value="survey">Survey</ion-select-option>
+
+
+          </ion-select>
+        </ion-item>
+
+
+        <ion-button  (click) = "On()" (click) = "getMeasures()" padding = "100" type='button'>
+          submit
+        </ion-button>
+    </div>
+
+
   </ion-content>
