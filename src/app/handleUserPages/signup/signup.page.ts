@@ -77,7 +77,9 @@ export class SignupPage implements OnInit {
     dob: '',
     profilePic: '',
     type: '',
-    providerType: ''
+    providerType: '',
+    codeEntered: true,
+    notes: ''
   };
 
   admin: Admin = {
@@ -86,7 +88,9 @@ export class SignupPage implements OnInit {
     email: '',
     password: '',
     profilePic: '',
-    type: ''
+    type: '',
+    codeEntered: true,
+    notes: ''
   };
 
   ngOnInit() {

@@ -44,7 +44,9 @@ export class UpdateUserPage implements OnInit {
     dob: '',
     profilePic: '',
     type: '',
-    providerType: ''
+    providerType: '',
+    codeEntered: true,
+    notes: ''
   };
 
   admin: Admin = {
@@ -54,6 +56,8 @@ export class UpdateUserPage implements OnInit {
     password: '',
     profilePic: '',
     type: '',
+    codeEntered: true,
+    notes: ''
   };
 
   private userType: string;

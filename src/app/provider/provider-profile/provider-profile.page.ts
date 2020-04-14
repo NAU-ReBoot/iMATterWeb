@@ -24,7 +24,9 @@ export class ProviderProfilePage implements OnInit {
     dob: '',
     profilePic: '',
     type: '',
-    providerType: ''
+    providerType: '',
+    codeEntered: true,
+    notes: ''
   };
 
   public providerProfileID: any;

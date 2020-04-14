@@ -6,18 +6,20 @@
       </ion-toolbar>
     </ion-header>
     <ion-content>
+      <ion-menu-toggle auto-hide="true">
       <ion-list>
-        <ion-item-option class="fill-button" routerLink="/tabs/home">Users</ion-item-option>
-        <ion-item-option class="fill-button" routerLink="/forum">Information Desk</ion-item-option>
-        <ion-item-option class="fill-button" routerLink="/chat-cohort-list/">Chat Log</ion-item-option>
-        <ion-item-option class="fill-button" routerLink="/learningmodules">Learning Modules</ion-item-option>
-        <ion-item-option class="fill-button" routerLink="/survey-list">Surveys</ion-item-option>
-        <ion-item-option class="fill-button" routerLink="/pregnancy-updates">Pregnancy Updates</ion-item-option>
-        <ion-item-option class="fill-button" routerLink="/analytics">Analytics</ion-item-option>
-        <ion-item-option class="fill-button" routerLink="/inbox">Inbox</ion-item-option>
-        <ion-item-option class="fill-button" routerLink="/locations">Location</ion-item-option>
-        <ion-item-option class="fill-button" routerLink="/mobile-settings">Settings</ion-item-option>
+        <ion-item class="side-navigation-button" routerLink="/tabs/home">Users</ion-item>
+        <ion-item class="side-navigation-button" routerLink="/forum">Information Desk</ion-item>
+        <ion-item class="side-navigation-button" routerLink="/chat-cohort-list/">Chat Log</ion-item>
+        <ion-item class="side-navigation-button" routerLink="/learningmodules">Learning Modules</ion-item>
+        <ion-item class="side-navigation-button" routerLink="/survey-list">Surveys</ion-item>
+        <ion-item class="side-navigation-button" routerLink="/pregnancy-updates">Pregnancy Updates</ion-item>
+        <ion-item class="side-navigation-button" routerLink="/analytics">Analytics</ion-item>
+        <ion-item class="side-navigation-button" routerLink="/inbox">Inbox</ion-item>
+        <ion-item class="side-navigation-button" routerLink="/locations">Location</ion-item>
+        <ion-item class="side-navigation-button" routerLink="/mobile-settings">Settings</ion-item>
       </ion-list>
+      </ion-menu-toggle>
     </ion-content>
   </ion-menu>
   <ion-router-outlet id="content1" main></ion-router-outlet>
