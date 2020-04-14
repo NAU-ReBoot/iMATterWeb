@@ -132,6 +132,7 @@ export class AnalyticsPage implements OnInit{
     public logoutTimeData: any;
     public quantityCalculation: any;
     public beginningOfSessionIndex: number;
+    public endOfSessionIndex: number;
 
 
 
@@ -209,6 +210,7 @@ export class AnalyticsPage implements OnInit{
       console.log("start date " + this.startDate);
       console.log("end date " + this.endDate);
       this.beginningOfSessionIndex = 0;
+      this.endOfSessionIndex = 0;
       this.calendarAverageArray = new Array();
 
       this.startDate = new Date(this.startDate);
@@ -376,6 +378,7 @@ export class AnalyticsPage implements OnInit{
                                     doc.get("numOfClickCalendar")+ doc.get("numOfClickLModule") + doc.get("numOfClickInfo")
                                     + doc.get("numOfClickSurvey") + doc.get("numOfClickProfile")+ doc.get("numOfClickHome")
                                    + doc.get("numOfClickMore") + doc.get("numOfClickProfile");
+                        this.beginningOfSessionIndex += this.quantityCalculation;
                         console.log(this.quantityCalculation);
 
                         if(this.pageString === "calendar")
@@ -399,6 +402,13 @@ export class AnalyticsPage implements OnInit{
                           this.calendarAverageArray.push(doc.get("numOfClickSurvey"));
                         }
 
+                        this.beginningOfSessionIndex = this.endOfSessionIndex + 1;
+
+                        this.endOfSessionIndex += this.quantityCalculation;
+
+                        this.epochArray[this.beginningOfSessionIndex] = this.loginTimeData;
+                        this.epochArray[this.quantityCalculation] = this.logoutTimeData;
+
 
                 });
 
@@ -409,7 +419,7 @@ export class AnalyticsPage implements OnInit{
                 });
 
                 this.calendarAverageCalculation(this.calendarAverageArray);
-
+                this.calculatingDuration(this.epochArray, this.pageviewArray);
                 this.savingTimeOfDayArray(this.timeOfDayArray);
                 this.createLineChart();
                 this.timeOfDayArray = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
@@ -641,17 +651,12 @@ export class AnalyticsPage implements OnInit{
 
     for(let index = 0; index < this.epochArray.length; index++)
     {
-      if(index !== 0)
-      {
+
         //  Math.round((timeStart.getTime() - (new Date()).getTime()) / 1000)
         this.durationHolder = (this.epochArray[index+1] - this.epochArray[index]);
         this.durationHolder =  Math.abs(Math.ceil((this.durationHolder/ 1000)/60 ));
         this.durationArray.push({Time: this.durationHolder, Page: this.pageviewArray[index]});
-      }
-      else
-      {
-        this.durationArray.push({ Time: 0 , Page : this.pageviewArray[index]});
-      }
+
     }
 
     console.log(this.durationArray);
