@@ -220,10 +220,10 @@ export class AnalyticsPage implements OnInit{
       this.startDate.setSeconds(0);
 
       this.endDate = new Date(this.endDate);
-      this.endDate.setHours(0);
-      this.endDate.setMinutes(0);
-      this.endDate.setMilliseconds(0);
-      this.endDate.setSeconds(0);
+      this.endDate.setHours(23);
+      this.endDate.setMinutes(59);
+      this.endDate.setMilliseconds(59);
+      this.endDate.setSeconds(59);
 
       this.dayDifference = this.endDate.getDate() - this.startDate.getDate();
 
@@ -240,9 +240,11 @@ export class AnalyticsPage implements OnInit{
                   this.currentTime = doc.get("timestamp");
 
                   this.currentTime = new Date(this.currentTime.toDate());
-                  this.currentTime = this.currentTime.getTime();
-                  this.epochArray.push(this.currentTime);
+
+                  this.epochArray.push(this.currentTime.getTime());
                   this.pageviewArray.push(this.currentView);
+                  console.log("here before getHours");
+
 
 
                   if (this.currentView === this.pageString )
@@ -361,7 +363,7 @@ export class AnalyticsPage implements OnInit{
                     this.sessionDocument = this.afs.firestore.collection("analyticsSessions")
                     .doc(this.sessionIDHolder).get().then((doc) =>{
 
-                      ``// log in time
+                      // log in time
                         this.loginTimeData = doc.get("LoginTime");
 
                         this.loginTimeData = new Date (this.loginTimeData.toDate());
@@ -383,7 +385,10 @@ export class AnalyticsPage implements OnInit{
 
                         if(this.pageString === "calendar")
                         {
+
                           this.calendarAverageArray.push(doc.get("numOfClickCalendar"));
+                          console.log("average array" + this.calendarAverageArray);
+                          console.log("average array length " + this.calendarAverageArray.length);
                         }
                         if(this.pageString === "chat")
                         {
@@ -418,10 +423,12 @@ export class AnalyticsPage implements OnInit{
 
                 });
 
-                this.calendarAverageCalculation(this.calendarAverageArray);
+                this.createLineChart();
+                this.setCalendarAverageArray(this.calendarAverageArray);
+
                 this.calculatingDuration(this.epochArray, this.pageviewArray);
                 this.savingTimeOfDayArray(this.timeOfDayArray);
-                this.createLineChart();
+
                 this.timeOfDayArray = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
               });
     }
@@ -641,6 +648,7 @@ export class AnalyticsPage implements OnInit{
         }
       });
       this.myLineChart.update();
+      this.calendarAverageCalculation(this.calendarAverageArray);
     }
 
 
@@ -648,6 +656,9 @@ export class AnalyticsPage implements OnInit{
   {
     this.epochArray = epochArray;
     this.pageviewArray = pageviewArray;
+
+
+
 
     for(let index = 0; index < this.epochArray.length; index++)
     {
@@ -666,6 +677,10 @@ export class AnalyticsPage implements OnInit{
   calendarAverageCalculation(calendarAverageArray)
   {
     this.calendarAverageArray = calendarAverageArray;
+
+    console.log("average array" + this.calendarAverageArray);
+    console.log("average array length " + this.calendarAverageArray.length);
+
     for ( let index = 0; index < this.calendarAverageArray.length; index++)
     {
     //  console.log(this.calendarArray[index]);
@@ -676,7 +691,7 @@ export class AnalyticsPage implements OnInit{
     }
 
     this.calendarAverage =Math.ceil( this.calendarAverage/this.calendarAverageArray.length );
-  //  console.log(this.calendarAverage);
+   console.log("calendar average" +this.calendarAverage);
 
   }
 
