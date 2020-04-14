@@ -75,6 +75,12 @@
 
     <div *ngIf="durationPage" class="ion-padding">
 
+      <ion-card>
+        <ion-card-content>
+          <canvas #barChart></canvas>
+        </ion-card-content>
+      </ion-card>
+
         <ion-item>
           <ion-label>
             From Date
@@ -121,9 +127,7 @@
       <ion-card-header>
         {{pageString}} Visits
       </ion-card-header>
-      <ion-card-content>
-        <canvas #lineChart></canvas>
-      </ion-card-content>
+
     </ion-card>
     </div>
 
