@@ -134,6 +134,8 @@ export class AnalyticsPage implements OnInit{
     public beginningOfSessionIndex: number;
     public endOfSessionIndex: number;
 
+    public finalDurationArray:any = [0,0,0,0,0,0];
+
 
 
 
@@ -715,7 +717,7 @@ export class AnalyticsPage implements OnInit{
            labels: ["Calendar", "Chat Room" , "Home" , "Info Desk" , "Learning Center", "Survey Center"],
            datasets: [{
              label: "Number of Duration in Hours For Each Page",
-             data:[2.5, 3.8, 2, 6.9, 6.9, 7, 10, 0],
+             data:this.finalDurationArray,
              backgroundColor: 'rgb(147,112,219)',
              borderColor: 'rgb(147,112,219)',
              borderWidth:1
@@ -768,6 +770,43 @@ export class AnalyticsPage implements OnInit{
       });
       this.myLineChart.update();
       this.calendarAverageCalculation(this.calendarAverageArray);
+    }
+
+
+    separatingArray(durationArray)
+    {
+      this.durationArray = timeCalendarArray;
+      for(let index = 0; index < this.durationArray.length; index++ )
+      {
+        if(this.durationArray[index].Page == "calendar")
+        {
+          this.finalDurationArray[0] += this.durationArray[index].Time;
+        }
+        if(this.durationArray[index].Page == "chat")
+        {
+          this.finalDurationArray[1] += this.durationArray[index].Time;
+        }
+        if(this.durationArray[index].Page == "home")
+        {
+          this.finalDurationArray[2] += this.durationArray[index].Time;
+        }
+        if(this.durationArray[index].Page == "infoDesk")
+        {
+          this.finalDurationArray[3] += this.durationArray[index].Time;
+        }
+        if(this.durationArray[index].Page == "learningModule")
+        {
+          this.finalDurationArray[4] += this.durationArray[index].Time;
+        }
+        if(this.durationArray[index].Page == "survey")
+        {
+          this.finalDurationArray[5] += this.durationArray[index].Time;
+        }
+
+      }
+
+
+
     }
 
 
