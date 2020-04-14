@@ -543,6 +543,7 @@ export class AnalyticsPage implements OnInit{
 
                 });
 
+
                 this.createLineChart();
                 this.setCalendarAverageArray(this.calendarAverageArray);
 
@@ -773,9 +774,9 @@ export class AnalyticsPage implements OnInit{
     }
 
 
-    separatingArray(durationArray)
+    separatingDurationArray(durationArray)
     {
-      this.durationArray = timeCalendarArray;
+      this.durationArray = durationArray;
       for(let index = 0; index < this.durationArray.length; index++ )
       {
         if(this.durationArray[index].Page == "calendar")
@@ -828,7 +829,7 @@ export class AnalyticsPage implements OnInit{
 
     }
 
-    console.log(this.durationArray);
+    this.separatingDurationArray(this.durationArray);
   }
 
 
