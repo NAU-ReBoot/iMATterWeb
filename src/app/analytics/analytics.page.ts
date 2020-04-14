@@ -442,8 +442,10 @@ export class AnalyticsPage implements OnInit{
       console.log("start date " + this.startDate);
       console.log("end date " + this.endDate);
       this.beginningOfSessionIndex = 0;
-      this.endOfSessionIndex = 0;
+      this.endOfSessionIndex = -1;
       this.calendarAverageArray = new Array();
+      this.epochArray = new Array();
+      this.pageviewArray = new Array ();
 
       this.startDate = new Date(this.startDate);
       this.startDate.setHours(0);
@@ -460,7 +462,7 @@ export class AnalyticsPage implements OnInit{
       this.dayDifference = this.endDate.getDate() - this.startDate.getDate();
 
           let ref = this.afs.firestore.collection("analyticsStorage");
-          ref.where('timestamp', '>=', this.startDate ).where('timestamp', '<=', this.endDate)
+          ref.where('timestamp', '>=', this.startDate ).where('timestamp', '<=', this.endDate).orderBy('timestamp')
               .get().then((result) =>{
 
 
@@ -473,7 +475,7 @@ export class AnalyticsPage implements OnInit{
 
                   this.currentTime = new Date(this.currentTime.toDate());
 
-                  this.epochArray.push(this.currentTime.getTime());
+                  this.epochArray.push(this.currentTime);
                   this.pageviewArray.push(this.currentView);
                   console.log("here before getHours");
 
@@ -534,7 +536,9 @@ export class AnalyticsPage implements OnInit{
                         this.endOfSessionIndex += this.quantityCalculation;
 
                         this.epochArray[this.beginningOfSessionIndex] = this.loginTimeData;
+                        this.pageviewArray.push("log");
                         this.epochArray[this.quantityCalculation] = this.logoutTimeData;
+                        this.pageviewArray.push("log");
 
 
                 });
@@ -542,15 +546,18 @@ export class AnalyticsPage implements OnInit{
 
 
                 });
+            //    this.timeCalendarArray = this.timeCalendarArray.sort((a,b) => a.Date -  b.Date);
 
 
-                this.createLineChart();
+                this.createBarChart();
                 this.setCalendarAverageArray(this.calendarAverageArray);
+                console.log("here is epoch : " + this.epochArray);
+
 
                 this.calculatingDuration(this.epochArray, this.pageviewArray);
                 this.savingTimeOfDayArray(this.timeOfDayArray);
 
-                this.timeOfDayArray = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+                this.finalDurationArray = [0,0,0,0,0,0];
               });
     }
 
@@ -819,12 +826,15 @@ export class AnalyticsPage implements OnInit{
 
 
 
-    for(let index = 0; index < this.epochArray.length; index++)
+    for(let index = 0; index <= this.epochArray.length; index++)
     {
 
         //  Math.round((timeStart.getTime() - (new Date()).getTime()) / 1000)
+        this.durationHolder = 0 ;
         this.durationHolder = (this.epochArray[index+1] - this.epochArray[index]);
         this.durationHolder =  Math.abs(Math.ceil((this.durationHolder/ 1000)/60 ));
+        console.log("minutes " +this.durationHolder);
+
         this.durationArray.push({Time: this.durationHolder, Page: this.pageviewArray[index]});
 
     }

@@ -94,21 +94,6 @@
           <ion-datetime fixed class='fixedLabel' displayFormat= "MM/DD/YYYY" (click) ="minEndDate()" [(ngModel)]= "endDate" min ="{{minStartToEnd}}" max="{{maxStartToEnd}}"></ion-datetime>
         </ion-item>
 
-        <ion-item>
-          <ion-label> Page </ion-label>
-          <ion-select placeholder="Select One" [(ngModel)] ="pageString">
-            <ion-select-option value="calendar">Calendar</ion-select-option>
-            <ion-select-option value="chat">Chat Room</ion-select-option>
-            <ion-select-option value="home">Home</ion-select-option>
-            <ion-select-option value="infoDesk">Info Desk</ion-select-option>
-            <ion-select-option value="learningModule">Learning Module</ion-select-option>
-            <ion-select-option value="survey">Survey</ion-select-option>
-
-
-          </ion-select>
-        </ion-item>
-
-
         <ion-button  (click) = "durationOn()" (click) = "getDurationMeasures()" padding = "100" type='button'>
           submit
         </ion-button>
@@ -125,7 +110,7 @@
 
     <ion-card>
       <ion-card-header>
-        {{pageString}} Visits
+         Visits
       </ion-card-header>
 
     </ion-card>
