@@ -433,6 +433,125 @@ export class AnalyticsPage implements OnInit{
               });
     }
 
+
+
+    getDurationMeasures()
+    {
+      console.log("start date " + this.startDate);
+      console.log("end date " + this.endDate);
+      this.beginningOfSessionIndex = 0;
+      this.endOfSessionIndex = 0;
+      this.calendarAverageArray = new Array();
+
+      this.startDate = new Date(this.startDate);
+      this.startDate.setHours(0);
+      this.startDate.setMinutes(0);
+      this.startDate.setMilliseconds(0);
+      this.startDate.setSeconds(0);
+
+      this.endDate = new Date(this.endDate);
+      this.endDate.setHours(23);
+      this.endDate.setMinutes(59);
+      this.endDate.setMilliseconds(59);
+      this.endDate.setSeconds(59);
+
+      this.dayDifference = this.endDate.getDate() - this.startDate.getDate();
+
+          let ref = this.afs.firestore.collection("analyticsStorage");
+          ref.where('timestamp', '>=', this.startDate ).where('timestamp', '<=', this.endDate)
+              .get().then((result) =>{
+
+
+
+
+                result.forEach(doc =>{
+                  // get the page of the storage
+                  this.currentView = doc.get("page");
+                  this.currentTime = doc.get("timestamp");
+
+                  this.currentTime = new Date(this.currentTime.toDate());
+
+                  this.epochArray.push(this.currentTime.getTime());
+                  this.pageviewArray.push(this.currentView);
+                  console.log("here before getHours");
+
+                    this.sessionIDHolder = doc.get("sessionID");
+                    console.log(this.sessionIDHolder);
+
+
+
+                    this.sessionDocument = this.afs.firestore.collection("analyticsSessions")
+                    .doc(this.sessionIDHolder).get().then((doc) =>{
+
+                      // log in time
+                        this.loginTimeData = doc.get("LoginTime");
+
+                        this.loginTimeData = new Date (this.loginTimeData.toDate());
+                        this.loginTimeData = this.loginTimeData.getTime();
+
+
+                        // log out time
+                        this.logoutTimeData= doc.get("LogOutTime");
+
+                        this.logoutTimeData = new Date (this.logoutTimeData.toDate());
+                        this.logoutTimeData = this.logoutTimeData.getTime();
+
+                        this.quantityCalculation = doc.get("numOfClickChat") +
+                                    doc.get("numOfClickCalendar")+ doc.get("numOfClickLModule") + doc.get("numOfClickInfo")
+                                    + doc.get("numOfClickSurvey") + doc.get("numOfClickProfile")+ doc.get("numOfClickHome")
+                                   + doc.get("numOfClickMore") + doc.get("numOfClickProfile");
+                        this.beginningOfSessionIndex += this.quantityCalculation;
+                        console.log(this.quantityCalculation);
+
+                        if(this.pageString === "calendar")
+                        {
+
+                          this.calendarAverageArray.push(doc.get("numOfClickCalendar"));
+                          console.log("average array" + this.calendarAverageArray);
+                          console.log("average array length " + this.calendarAverageArray.length);
+                        }
+                        if(this.pageString === "chat")
+                        {
+                          this.calendarAverageArray.push(doc.get("numOfClickChat"));
+                        }
+                        if (this.pageString ==="home") {
+                          this.calendarAverageArray.push(doc.get("numOfClickHome"));
+                        }
+                        if (this.pageString ==="infoDesk") {
+                          this.calendarAverageArray.push(doc.get("numOfClickInfo"));
+                        }
+                        if (this.pageString ==="learningModule") {
+                          this.calendarAverageArray.push(doc.get("numOfClickLModule"));
+                        }
+                        if (this.pageString ==="survey") {
+                          this.calendarAverageArray.push(doc.get("numOfClickSurvey"));
+                        }
+
+                        this.beginningOfSessionIndex = this.endOfSessionIndex + 1;
+
+                        this.endOfSessionIndex += this.quantityCalculation;
+
+                        this.epochArray[this.beginningOfSessionIndex] = this.loginTimeData;
+                        this.epochArray[this.quantityCalculation] = this.logoutTimeData;
+
+
+                });
+
+
+
+                });
+
+                this.createLineChart();
+                this.setCalendarAverageArray(this.calendarAverageArray);
+
+                this.calculatingDuration(this.epochArray, this.pageviewArray);
+                this.savingTimeOfDayArray(this.timeOfDayArray);
+
+                this.timeOfDayArray = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+              });
+    }
+
+
     savingTimeOfDayArray(timeOfDayArray)
     {
       this.timeOfDayArray = timeOfDayArray;
@@ -595,7 +714,7 @@ export class AnalyticsPage implements OnInit{
          data:{
            labels: ["Calendar", "Chat Room" , "Home" , "Info Desk" , "Learning Center", "Survey Center"],
            datasets: [{
-             label: "Number of Time Notifications is Clicked",
+             label: "Number of Duration in Hours For Each Page",
              data:[2.5, 3.8, 2, 6.9, 6.9, 7, 10, 0],
              backgroundColor: 'rgb(147,112,219)',
              borderColor: 'rgb(147,112,219)',
