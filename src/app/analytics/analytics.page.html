@@ -9,10 +9,10 @@
 
 <ion-row>
   <ion-col>
-    <ion-button class="fill-button" [class.noHighlight]="userView != true" expand="block" size="large" > Page Statisitcs</ion-button>
+    <ion-button class="fill-button"  expand="block" size="large" (click) = "pageStatsOn()" > Page Statisitcs</ion-button>
   </ion-col>
   <ion-col>
-    <ion-button class="fill-button" [class.noHighlight]="providerView != true" expand="block" size="large" (click) = "pageStatsOff()"> Duration Statistics</ion-button>
+    <ion-button class="fill-button"  expand="block" size="large" (click) = "pageStatsOff()"> Duration Statistics</ion-button>
   </ion-col>
 
 </ion-row>
