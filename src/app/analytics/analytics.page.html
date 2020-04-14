@@ -7,10 +7,18 @@
   </ion-toolbar>
 </ion-header>
 
+<ion-row>
+  <ion-col>
+    <ion-button class="fill-button" [class.noHighlight]="userView != true" expand="block" size="large" > Page Statisitcs</ion-button>
+  </ion-col>
+  <ion-col>
+    <ion-button class="fill-button" [class.noHighlight]="providerView != true" expand="block" size="large" (click) = "pageStatsOff()"> Duration Statistics</ion-button>
+  </ion-col>
+
+</ion-row>
+
 <ion-content>
-    <div class="ion-padding">
-
-
+    <div *ngIf="pageStatistics" class="ion-padding">
 
         <ion-item>
           <ion-label>

@@ -81,9 +81,7 @@ export class AnalyticsPage implements OnInit{
     public moreHolder: number;
 
 // viewing values
-    public calendarView = false;
-    public indivUserView = false;
-    public inValidSelection = false;
+    public pageStatistics = true;
 
     public calendarArray: any = [];
     public calendarAverageArray: any =[];
@@ -168,6 +166,16 @@ export class AnalyticsPage implements OnInit{
     ionViewWillEnter()
     {
       this.getAllTotalClicks();
+    }
+
+    ionViewDidEnter()
+    {
+      this.pageStatistics = true;
+    }
+
+    pageStatsOff ()
+    {
+      this.pageStatistics = false; 
     }
 
     On()
