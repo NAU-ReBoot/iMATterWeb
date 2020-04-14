@@ -323,30 +323,35 @@ export class AnalyticsPage implements OnInit{
 
 
                     this.sessionDocument = this.afs.firestore.collection("analyticsSessions")
-                    .doc(this.sessionIDHolder).get().then(function(doc) {
-                    if (doc.exists) {
-                        console.log("Document data:", doc.data());
+                    .doc(this.sessionIDHolder).get().then((doc) =>{
+
+                      ``// log in time
                         this.loginTimeData = doc.get("LoginTime");
+
                         this.loginTimeData = new Date (this.loginTimeData.toDate());
                         this.loginTimeData = this.loginTimeData.getTime();
+
+
+                        // log out time
+                        this.LogOutTimeData = doc.get("LogOutTime");
+
+                        this.logoutTimeData = new Date (this.logoutTimeData.toDate());
+                        this.logoutTimeData = this.logoutTimeData.getTime();
+
                         this.quantityCalculation = doc.get("numOfClickChat") +
                                     doc.get("numOfClickCalendar")+ doc.get("numOfClickLModule") + doc.get("numOfClickInfo")
-                                    + doc.get("numOfClickSurvey") + doc.get("numOfClickProfile")+ doc.get("numOfClickMore");
+                                    + doc.get("numOfClickSurvey") + doc.get("numOfClickProfile")+ doc.get("numofnumOfClickHome")
+                                   + doc.get("numOfClickMore") + doc.get("numOfClickProfile");
                         console.log(this.quantityCalculation);
 
+                        if(this.pageString === " ")
+                        {
+
+                        }
 
 
 
-                    } else {
-                        console.log("No such document!");
-                    }
-                }).catch(function(error) {
-                    console.log("Error getting document:", error);
                 });
-
-
-
-
 
 
 
