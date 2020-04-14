@@ -5,8 +5,8 @@
       <ion-menu-button autoHide="false"></ion-menu-button>
     </ion-buttons>
     <ion-buttons slot="end">
-      <ion-button class="text-button" (click)="logOut()">
-        Log Out
+      <ion-button [routerLink]="['/profile']">
+        <ion-icon slot="icon-only" name="person"></ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>

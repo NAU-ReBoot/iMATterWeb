@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AlertController } from '@ionic/angular';
+import {AlertController, ToastController} from '@ionic/angular';
 import { Provider } from '../../services/createUsers/create-user.service';
 // import { ProfileService } from '../../services/user/profile.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -41,7 +41,8 @@ export class ProviderProfilePage implements OnInit {
       private afs: AngularFirestore,
       private storage: Storage,
       public alertController: AlertController,
-      private profileService: ProfileService
+      private profileService: ProfileService,
+      private toastCtrl: ToastController,
   ) {}
 
   ngOnInit() {
@@ -86,9 +87,18 @@ export class ProviderProfilePage implements OnInit {
         {
           text: 'Save',
           handler: data => {
+            if (this.validateEmail(data.newEmail)) {
             this.profileService
-                .updateEmail(data.newEmail, data.password, this.providerProfileID);
-            this.provider.email = data.newEmail;
+                .updateEmail(data.newEmail, data.password, this.providerProfileID, 'providers').then(() => {
+                  this.showToast('Your email has been updated!');
+                  this.refreshPage();
+                  this.provider.email = data.newEmail;},
+                err => {this.showToast('There was a problem updating your email');
+                });
+            } else {
+              alert.message = 'Invalid Email';
+              return false;
+            }
           },
         },
       ],
@@ -107,11 +117,17 @@ export class ProviderProfilePage implements OnInit {
         {
           text: 'Save',
           handler: data => {
-            this.profileService.updatePassword(
-                data.newPassword,
-                data.oldPassword, this.providerProfileID
-            );
-            this.refreshPage();
+            if (data.newPassword.length >= 8) {
+            this.profileService.updatePassword(data.newPassword, data.oldPassword, this.providerProfileID,
+                'providers').then(() => {
+                  this.showToast('Your password has been updated!');
+                  this.refreshPage(); },
+                err => {this.showToast('There was a problem updating your bio');
+                });
+            } else {
+              alert.message = 'Password must be 8 characters or longer';
+              return false;
+            }
           },
         },
       ],
@@ -130,9 +146,11 @@ export class ProviderProfilePage implements OnInit {
           text: 'Save',
           handler: data => {
             this.profileService.updateBio(
-                data.newBio, this.providerProfileID
-            );
-            this.refreshPage();
+                data.newBio, this.providerProfileID).then(() => {
+                  this.showToast('Your password has been updated!');
+                  this.refreshPage(); },
+                err => {this.showToast('There was a problem updating your bio');
+                });
           },
         },
       ],
@@ -154,6 +172,21 @@ export class ProviderProfilePage implements OnInit {
         });
       }
     });
+  }
+
+  validateEmail(email) {
+    if ( /(.+)@(.+){2,}\.(.+){2,}/.test(email)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  showToast(msg) {
+    this.toastCtrl.create({
+      message: msg,
+      duration: 2000
+    }).then(toast => toast.present());
   }
 
   logOut(): void {

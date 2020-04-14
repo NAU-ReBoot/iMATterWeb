@@ -297,11 +297,6 @@ export class HomePage implements OnInit {
     this.createUserService.deleteAdmin(id);
   }
 
-  logOut(): void {
-    this.storage.set('authenticated', 'false');
-    this.router.navigateByUrl('login');
-  }
-
   clearProviderForm() {
     this.addProviderForm.reset();
   }

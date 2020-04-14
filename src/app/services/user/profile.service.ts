@@ -14,27 +14,27 @@ export class ProfileService {
   constructor(public afs: AngularFirestore) {}
 
 
-  updateEmail(newEmail: string, password: string, providerID: string) {
-      this.afs.firestore.collection('providers').where('code', '==', providerID)
+  async updateEmail(newEmail: string, password: string, id: string, type: string) {
+      this.afs.firestore.collection(type).where('code', '==', id)
           .get().then(snapshot => {
               snapshot.forEach(doc => {
                   const userPassword = doc.get('password');
                   if (userPassword === password) {
                       return this.afs.firestore.collection('providers')
-                          .doc(providerID).update({email: newEmail});
+                          .doc(id).update({email: newEmail});
                   }
               });
           });
   }
 
-    updatePassword(newPassword: string, oldPassword: string, providerID: string) {
-        this.afs.firestore.collection('providers').where('code', '==', providerID)
+    async updatePassword(newPassword: string, oldPassword: string, id: string, type: string) {
+        this.afs.firestore.collection(type).where('code', '==', id)
             .get().then(snapshot => {
             snapshot.forEach(doc => {
                 const userPassword = doc.get('password');
                 if (userPassword === oldPassword) {
                     return this.afs.firestore.collection('providers')
-                        .doc(providerID).update({password: newPassword});
+                        .doc(id).update({password: newPassword});
                 }
             });
         });
