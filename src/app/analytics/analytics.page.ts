@@ -141,7 +141,9 @@ export class AnalyticsPage implements OnInit{
     public timePageArray: { Time: any, Session:any, Page: string }[] =[];
     public totalTimePageArray: { Time: any, Page: string }[] =[];
     public sessionArray : any = [];
-    public logCounter: any;
+
+
+    private _CANVAS  : any;
 
 
 
@@ -187,6 +189,11 @@ export class AnalyticsPage implements OnInit{
       this.durationSubmitted = false;
     }
 
+    ionViewDidLoad()
+    {
+
+    }
+
     pageStatsOff ()
     {
       this.pageStatistics = false;
@@ -221,7 +228,8 @@ export class AnalyticsPage implements OnInit{
       console.log("end date " + this.endDate);
       this.beginningOfSessionIndex = 0;
       this.endOfSessionIndex = 0;
-      this.calendarAverageArray = new Array();
+
+
 
       this.startDate = new Date(this.startDate);
       this.startDate.setHours(0);
@@ -280,6 +288,15 @@ export class AnalyticsPage implements OnInit{
 
     async totalDurationMeasuresCalculation()
     {
+      this.timePageArray.length = 0;
+      this.timePageArray=[];
+      this.sessionArray.length = 0; 
+      this.calendarAverageArray.length = 0 ;
+      this.totalTimePageArray.length = 0 ;
+      this.durationArray.length = 0;
+      this.logArray.length = 0 ;
+      this.finalDurationArray= [0,0,0,0,0,0];
+
       console.log("inside tester");
       console.log("about call getmeasures ");
 
@@ -298,7 +315,6 @@ export class AnalyticsPage implements OnInit{
       console.log(this.totalTimePageArray);
 
       this.calculatingDuration(this.totalTimePageArray);
-      console.log(this.durationArray);
       console.log(this.finalDurationArray);
 
 
@@ -309,6 +325,7 @@ export class AnalyticsPage implements OnInit{
 
     async storageCaller()
     {
+
 
       let secondref = this.afs.firestore.collection("analyticsStorage");
       for( const session of this.sessionArray )
@@ -337,11 +354,9 @@ export class AnalyticsPage implements OnInit{
         async  combineArraysForDuration()
           {
 
+
            for(let logIndex=0 ;  logIndex <= this.logArray.length-1 ; logIndex++ )
               {
-                console.log("yop");
-
-                console.log(this.logArray[logIndex].Time);
 
                 this.totalTimePageArray.push({Time: this.logArray[logIndex].Time,
                    Page: this.logArray[logIndex].Page});
@@ -352,9 +367,7 @@ export class AnalyticsPage implements OnInit{
                   if(this.logArray[logIndex].Session === this.timePageArray[pageIndex].Session &&
                     this.logArray[logIndex].Page !== 'logout')
                   {
-                    console.log("mid");
 
-                    console.log(this.timePageArray[pageIndex].Time);
                     this.totalTimePageArray.push({Time: this.timePageArray[pageIndex].Time ,
                                                   Page: this.timePageArray[pageIndex].Page});
                     this.saveTotaltimeArray(this.totalTimePageArray);
@@ -797,7 +810,7 @@ export class AnalyticsPage implements OnInit{
               this.pageviewArray.push(this.currentView);
             });
 
-          this.calculatingDuration(this.epochArray, this.pageviewArray);
+        //  this.calculatingDuration(this.epochArray, this.pageviewArray);
           });
     }
 
@@ -996,6 +1009,7 @@ export class AnalyticsPage implements OnInit{
 
     calculatingDuration(totalTimePageArray)
     {
+      this.finalDurationArray= [0,0,0,0,0,0];
       this.totalTimePageArray = totalTimePageArray;
 
       for(let index = 0; index < this.totalTimePageArray.length-1; index++)
@@ -1004,13 +1018,14 @@ export class AnalyticsPage implements OnInit{
           this.durationHolder = 0 ;
           this.durationHolder = (this.totalTimePageArray[index+1].Time - this.totalTimePageArray[index].Time);
           this.durationHolder =  Math.abs(Math.ceil((this.durationHolder/ 1000)/60 ));
-          console.log("minutes " +this.durationHolder);
 
           this.durationArray.push({Time: this.durationHolder, Page: this.totalTimePageArray[index].Page});
 
       }
 
       this.separatingDurationArray(this.durationArray);
+
+
     }
 
 /*
