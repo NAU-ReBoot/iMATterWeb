@@ -245,7 +245,7 @@ export class AnalyticsPage implements OnInit{
             result.forEach( async doc =>{
 
 
-            if(doc.get("LogOutTime") !=="" && doc.get("LoginTime") !=="")
+            if(doc.get("LogOutTime") !=="" && doc.get("LoginTime") !== "")
               {
                 console.log("document id = " + doc.id);
 
@@ -266,9 +266,9 @@ export class AnalyticsPage implements OnInit{
 
                   this.logArray.push({Time: this.loginTimeData , Page:'login', Session: this.sessionIDHolder});
 
-                  this.sessionArray.push(this.sessionIDHolder);
+                  this.sessionArray.push (this.sessionIDHolder);
 
-                    this.logArray.push({Time: this.loginTimeData , Page:'logout' , Session: this.sessionIDHolder});
+                    this.logArray.push({Time: this.logoutTimeData , Page:'logout' , Session: this.sessionIDHolder});
                     this.setlogArray(this.logArray);
 
               }
@@ -278,7 +278,7 @@ export class AnalyticsPage implements OnInit{
           });
     }
 
-    async tester()
+    async totalDurationMeasuresCalculation()
     {
       console.log("inside tester");
       console.log("about call getmeasures ");
@@ -296,6 +296,12 @@ export class AnalyticsPage implements OnInit{
       console.log("about to print totalTimePageArray");
 
       console.log(this.totalTimePageArray);
+
+      this.calculatingDuration(this.totalTimePageArray);
+      console.log(this.durationArray);
+      console.log(this.finalDurationArray);
+
+
 
     }
 
@@ -327,40 +333,49 @@ export class AnalyticsPage implements OnInit{
                       }
                     }
 
-      combineArraysForDuration()
+
+        async  combineArraysForDuration()
           {
-console.log("entered combine ");
 
-            for(let logIndex=0 ;  logIndex <= this.logArray.length ; logIndex++ )
-            {
-              this.totalTimePageArray.push({Time: this.logArray[logIndex].Time, Page: 'login'});
-
-              for(let pageIndex =0; pageIndex <= this.timePageArray.length ;pageIndex++ )
+           for(let logIndex=0 ;  logIndex <= this.logArray.length-1 ; logIndex++ )
               {
+                console.log("yop");
 
-                if(this.logArray[logIndex].Session === this.timePageArray[pageIndex].Session &&
-                  this.logArray[logIndex].Page !== 'logout')
+                console.log(this.logArray[logIndex].Time);
+
+                this.totalTimePageArray.push({Time: this.logArray[logIndex].Time,
+                   Page: this.logArray[logIndex].Page});
+
+                for(let pageIndex =0; pageIndex <= this.timePageArray.length-1 ;pageIndex++ )
                 {
-                  this.totalTimePageArray.push({Time: this.timePageArray[pageIndex].Time ,
-                                                Page: this.timePageArray[pageIndex].Page});
-                  this.saveTotaltimeArray(this.totalTimePageArray);
+
+                  if(this.logArray[logIndex].Session === this.timePageArray[pageIndex].Session &&
+                    this.logArray[logIndex].Page !== 'logout')
+                  {
+                    console.log("mid");
+
+                    console.log(this.timePageArray[pageIndex].Time);
+                    this.totalTimePageArray.push({Time: this.timePageArray[pageIndex].Time ,
+                                                  Page: this.timePageArray[pageIndex].Page});
+                    this.saveTotaltimeArray(this.totalTimePageArray);
+
+                  }
 
                 }
 
-                console.log("about to print totalTimePageArray");
 
-                console.log(this.totalTimePageArray);
+              this.saveTotaltimeArray(this.totalTimePageArray);
 
               }
               this.saveTotaltimeArray(this.totalTimePageArray);
-              this.totalTimePageArray.push({Time: this.logArray[logIndex+1].Time ,
-                                            Page: 'logout'});
 
 
             }
 
-
-          }
+            saveTotaltimeArray(totalTimePageArray)
+            {
+              this.totalTimePageArray = totalTimePageArray;
+            }
 
 
 
@@ -978,12 +993,27 @@ console.log("entered combine ");
     }
 
 
-    saveTotaltimeArray(totalTimePageArray)
+
+    calculatingDuration(totalTimePageArray)
     {
       this.totalTimePageArray = totalTimePageArray;
+
+      for(let index = 0; index < this.totalTimePageArray.length-1; index++)
+      {
+
+          this.durationHolder = 0 ;
+          this.durationHolder = (this.totalTimePageArray[index+1].Time - this.totalTimePageArray[index].Time);
+          this.durationHolder =  Math.abs(Math.ceil((this.durationHolder/ 1000)/60 ));
+          console.log("minutes " +this.durationHolder);
+
+          this.durationArray.push({Time: this.durationHolder, Page: this.totalTimePageArray[index].Page});
+
+      }
+
+      this.separatingDurationArray(this.durationArray);
     }
 
-
+/*
   calculatingDuration(epochArray, pageviewArray)
   {
     this.epochArray = epochArray;
@@ -1007,6 +1037,7 @@ console.log("entered combine ");
 
     this.separatingDurationArray(this.durationArray);
   }
+  */
 
 
   calendarAverageCalculation(calendarAverageArray)

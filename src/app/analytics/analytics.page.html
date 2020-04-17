@@ -94,7 +94,7 @@
           <ion-datetime fixed class='fixedLabel' displayFormat= "MM/DD/YYYY" (click) ="minEndDate()" [(ngModel)]= "endDate" min ="{{minStartToEnd}}" max="{{maxStartToEnd}}"></ion-datetime>
         </ion-item>
 
-        <ion-button  (click) = "durationOn()" (click) = "tester()" padding = "100" type='button'>
+        <ion-button  (click) = "durationOn()" (click) = "totalDurationMeasuresCalculation()" padding = "100" type='button'>
           submit
         </ion-button>
     </div>
