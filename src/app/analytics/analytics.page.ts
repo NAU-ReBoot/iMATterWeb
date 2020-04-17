@@ -137,9 +137,11 @@ export class AnalyticsPage implements OnInit{
     public finalDurationArray:any = [0,0,0,0,0,0];
     public flag: boolean;
 
-    public logArray: { Time: any, Page: string }[] =[];
+    public logArray: { Time: any, Page: string , Session:string }[] =[];
     public timePageArray: { Time: any, Session:any, Page: string }[] =[];
+    public totalTimePageArray: { Time: any, Page: string }[] =[];
     public sessionArray : any = [];
+
 
 
 
@@ -267,11 +269,11 @@ export class AnalyticsPage implements OnInit{
                              + doc.get("numOfClickMore") + doc.get("numOfClickProfile");
 
 
-                  this.logArray.push({Time: this.loginTimeData , Page:'login'});
+                  this.logArray.push({Time: this.loginTimeData , Page:'login', Session: this.sessionIDHolder});
 
                   this.sessionArray.push (this.sessionIDHolder);
 
-                    this.logArray.push({Time: this.loginTimeData , Page:'logout'});
+                    this.logArray.push({Time: this.loginTimeData , Page:'logout' , Session: this.sessionIDHolder});
                     this.setlogArray(this.logArray);
                     console.log("logarray");
 
@@ -282,60 +284,77 @@ export class AnalyticsPage implements OnInit{
           });
     }
 
-async tester()
-{
-  console.log("inside tester");
-  console.log("about call getmeasures ");
+    async tester()
+    {
+      console.log("inside tester");
+      console.log("about call getmeasures ");
 
-  await this.getDurationMeasures();
-  await this.storageCaller();
+      await this.getDurationMeasures();
+      await this.storageCaller();
 
-  console.log("after tester");
-  console.log("about to print arrays");
+      console.log("after tester");
+      console.log("about to print arrays");
 
-  console.log(this.logArray);
-  console.log(this.timePageArray);
-
-
-
-
-}
+      console.log(this.logArray);
+      console.log(this.timePageArray);
 
 
 
-async storageCaller()
-{
-  let secondref = this.afs.firestore.collection("analyticsStorage");
-  for( const session of this.sessionArray )
-  {
-    const result = await secondref.where('sessionID', '==', session).orderBy('timestamp')
-                    .get().then((result) =>{
-                      this.currentTime = null;
-                      this.currentView ='';
-
-                      result.forEach(doc =>{
-
-                        this.currentView = doc.get("page");
-                        this.currentTime = doc.get("timestamp");
-                        this.sessionDocument = doc.get("sessionID");
-
-                        this.currentTime = new Date(this.currentTime.toDate());
-                        this.currentTime = this.currentTime.getTime();
-                        this.timePageArray.push({Time: this.currentTime, Session: this.sessionDocument , Page: this.currentView});
-                      });
-                      this.setTimePageArray(this.timePageArray);
-                      console.log("timePageArray");
 
 
-                      console.log(this.timePageArray);
 
-                      console.log("finalllllllllllllllllllllllllll" + this.timePageArray);
-                    });
-
-  }
+    }
 
 
-}
+
+    async storageCaller()
+    {
+      let secondref = this.afs.firestore.collection("analyticsStorage");
+      for( const session of this.sessionArray )
+      {
+        const result = await secondref.where('sessionID', '==', session).orderBy('timestamp')
+                        .get().then((result) =>{
+                          this.currentTime = null;
+                          this.currentView ='';
+
+                          result.forEach(doc =>{
+
+                            this.currentView = doc.get("page");
+                            this.currentTime = doc.get("timestamp");
+                            this.sessionDocument = doc.get("sessionID");
+
+                            this.currentTime = new Date(this.currentTime.toDate());
+                            this.currentTime = this.currentTime.getTime();
+                            this.timePageArray.push({Time: this.currentTime, Session: this.sessionDocument , Page: this.currentView});
+                          });
+                          this.setTimePageArray(this.timePageArray);
+                          console.log("timePageArray");
+
+
+                          console.log(this.timePageArray);
+
+                          console.log("finalllllllllllllllllllllllllll" + this.timePageArray);
+                        });
+                      }
+                    }
+
+          combineArraysForDuration()
+          {
+
+            for(let logIndex=0 ;  logIndex < this.logArray.length ; logIndex++ )
+            {
+              this.totalTimePageArray.push({Time: this.logArray[logIndex].Time, Page: 'log'})
+              for(let pageIndex =0; pageIndex < this.timePageArray.length ;pageIndex++ )
+              {
+                if(this.logArray[logIndex].Session === this.timePageArray[pageIndex+1].Session )
+                {
+                  this.totalTimePageArray.push({Time: this.timePageArray[pageIndex].Time ,
+                                                Page: this.timePageArray[pageIndex].Page})
+                }
+              }
+            }
+
+          }
 
 
 
