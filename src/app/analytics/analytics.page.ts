@@ -141,6 +141,7 @@ export class AnalyticsPage implements OnInit{
     public timePageArray: { Time: any, Session:any, Page: string }[] =[];
     public totalTimePageArray: { Time: any, Page: string }[] =[];
     public sessionArray : any = [];
+    public logCounter: any;
 
 
 
@@ -281,6 +282,7 @@ export class AnalyticsPage implements OnInit{
               }
 
             });
+            this.setlogArray(this.logArray);
           });
     }
 
@@ -298,11 +300,7 @@ export class AnalyticsPage implements OnInit{
       console.log(this.logArray);
       console.log(this.timePageArray);
 
-
-
-
-
-
+      this.combineArraysForDuration();
     }
 
 
@@ -333,26 +331,45 @@ export class AnalyticsPage implements OnInit{
 
                           console.log(this.timePageArray);
 
-                          console.log("finalllllllllllllllllllllllllll" + this.timePageArray);
                         });
                       }
                     }
 
           combineArraysForDuration()
           {
+console.log("entered combine ");
 
             for(let logIndex=0 ;  logIndex < this.logArray.length ; logIndex++ )
             {
               this.totalTimePageArray.push({Time: this.logArray[logIndex].Time, Page: 'log'})
+              this.logCounter = 1;
               for(let pageIndex =0; pageIndex < this.timePageArray.length ;pageIndex++ )
               {
-                if(this.logArray[logIndex].Session === this.timePageArray[pageIndex+1].Session )
+                console.log(this.totalTimePageArray);
+
+                if(this.logArray[logIndex].Session === this.timePageArray[pageIndex+1].Session && this.logCounter==2 )
                 {
                   this.totalTimePageArray.push({Time: this.timePageArray[pageIndex].Time ,
-                                                Page: this.timePageArray[pageIndex].Page})
+                                                Page: this.timePageArray[pageIndex].Page});
+
+
+                }
+                else
+                {
+                  this.totalTimePageArray.push({Time: this.timePageArray[pageIndex].Time ,
+                                                Page: this.timePageArray[pageIndex].Page});
+                  this.totalTimePageArray.push({Time: this.logArray[logIndex+1].Time ,
+                                                Page: this.logArray[logIndex+1].Page});
+                  this.logCounter = 2;
+
                 }
               }
+              this.logCounter = 0;
             }
+            console.log("about to print totalTimePageArray");
+
+            console.log(this.totalTimePageArray);
+
 
           }
 
