@@ -135,7 +135,11 @@ export class AnalyticsPage implements OnInit{
     public endOfSessionIndex: number;
 
     public finalDurationArray:any = [0,0,0,0,0,0];
+    public flag: boolean;
 
+    public logArray: { Time: any, Page: string }[] =[];
+    public timePageArray: { Time: any, Session:any, Page: string }[] =[];
+    public sessionArray : any = [];
 
 
 
@@ -169,7 +173,7 @@ export class AnalyticsPage implements OnInit{
 
     ionViewWillEnter()
     {
-      this.getAllTotalClicks();
+  //    this.getAllTotalClicks();
       this.durationPage = false;
     }
 
@@ -206,6 +210,136 @@ export class AnalyticsPage implements OnInit{
     {
       this.durationSubmitted = true;
     }
+
+
+    async getDurationMeasures()
+    {
+      console.log("start date " + this.startDate);
+      console.log("end date " + this.endDate);
+      this.beginningOfSessionIndex = 0;
+      this.endOfSessionIndex = 0;
+      this.calendarAverageArray = new Array();
+
+      this.startDate = new Date(this.startDate);
+      this.startDate.setHours(0);
+      this.startDate.setMinutes(0);
+      this.startDate.setMilliseconds(0);
+      this.startDate.setSeconds(0);
+
+      this.endDate = new Date(this.endDate);
+      this.endDate.setHours(23);
+      this.endDate.setMinutes(59);
+      this.endDate.setMilliseconds(59);
+      this.endDate.setSeconds(59);
+
+      this.dayDifference = this.endDate.getDate() - this.startDate.getDate();
+
+      let ref = this.afs.firestore.collection("analyticsSessions");
+      await ref.where('LoginTime', '>=', this.startDate). where('LoginTime' , '<=', this.endDate).orderBy('LoginTime')
+          .get().then( (result) =>{
+
+
+            result.forEach( async doc =>{
+
+
+            if(doc.get("LogOutTime") !=="")
+              {
+                console.log("document id = " + doc.id);
+                console.log("after the doc.id");
+                this.sessionIDHolder = doc.id;
+
+                 /*log in time*/
+                  this.loginTimeData = doc.get("LoginTime");
+
+                  this.loginTimeData = new Date (this.loginTimeData.toDate());
+                  this.loginTimeData = this.loginTimeData.getTime();
+
+
+                  /*log out time*/
+                  this.logoutTimeData= doc.get("LogOutTime");
+
+                  this.logoutTimeData = new Date (this.logoutTimeData.toDate());
+                  this.logoutTimeData = this.logoutTimeData.getTime();
+
+                  this.quantityCalculation = doc.get("numOfClickChat") +
+                              doc.get("numOfClickCalendar")+ doc.get("numOfClickLModule") + doc.get("numOfClickInfo")
+                              + doc.get("numOfClickSurvey") + doc.get("numOfClickProfile")+ doc.get("numOfClickHome")
+                             + doc.get("numOfClickMore") + doc.get("numOfClickProfile");
+
+
+                  this.logArray.push({Time: this.loginTimeData , Page:'login'});
+
+                  this.sessionArray.push (this.sessionIDHolder);
+
+                    this.logArray.push({Time: this.loginTimeData , Page:'logout'});
+                    this.setlogArray(this.logArray);
+                    console.log("logarray");
+
+                    console.log(this.logArray);
+              }
+
+            });
+          });
+    }
+
+async tester()
+{
+  console.log("inside tester");
+  console.log("about call getmeasures ");
+
+  await this.getDurationMeasures();
+  await this.storageCaller();
+
+  console.log("after tester");
+  console.log("about to print arrays");
+
+  console.log(this.logArray);
+  console.log(this.timePageArray);
+
+
+
+
+}
+
+
+
+async storageCaller()
+{
+  let secondref = this.afs.firestore.collection("analyticsStorage");
+  for( const session of this.sessionArray )
+  {
+    const result = await secondref.where('sessionID', '==', session).orderBy('timestamp')
+                    .get().then((result) =>{
+                      this.currentTime = null;
+                      this.currentView ='';
+
+                      result.forEach(doc =>{
+
+                        this.currentView = doc.get("page");
+                        this.currentTime = doc.get("timestamp");
+                        this.sessionDocument = doc.get("sessionID");
+
+                        this.currentTime = new Date(this.currentTime.toDate());
+                        this.currentTime = this.currentTime.getTime();
+                        this.timePageArray.push({Time: this.currentTime, Session: this.sessionDocument , Page: this.currentView});
+                      });
+                      this.setTimePageArray(this.timePageArray);
+                      console.log("timePageArray");
+
+
+                      console.log(this.timePageArray);
+
+                      console.log("finalllllllllllllllllllllllllll" + this.timePageArray);
+                    });
+
+  }
+
+
+}
+
+
+
+    /*
 
     getMeasures()
     {
@@ -437,6 +571,7 @@ export class AnalyticsPage implements OnInit{
 
 
 
+
     getDurationMeasures()
     {
       console.log("start date " + this.startDate);
@@ -560,7 +695,7 @@ export class AnalyticsPage implements OnInit{
                 this.finalDurationArray = [0,0,0,0,0,0];
               });
     }
-
+*/
 
     savingTimeOfDayArray(timeOfDayArray)
     {
@@ -666,7 +801,7 @@ export class AnalyticsPage implements OnInit{
         }
 
 
-
+/*
 
     getAllTotalClicks()
     {
@@ -714,7 +849,7 @@ export class AnalyticsPage implements OnInit{
   //    this.setCalendarArray(this.calendarArray);
         });
     }
-
+*/
 
     createBarChart()
      {
@@ -875,6 +1010,18 @@ export class AnalyticsPage implements OnInit{
   }
 
 **/
+
+setTimePageArray(timePageArray)
+{
+  this.timePageArray = timePageArray;
+
+}
+
+setlogArray(logArray)
+{
+  this.logArray = logArray;
+
+}
 
 
   separatingArray(timeCalendarArray)
