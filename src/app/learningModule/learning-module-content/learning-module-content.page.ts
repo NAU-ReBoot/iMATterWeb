@@ -34,7 +34,8 @@ export class LearningModuleContentPage implements OnInit {
     moduleQuiz: [],
     modulePointsWorth: 0,
     moduleNext: '',
-    userVisibility: []
+    userVisibility: [],
+    previousUserVisibility: []
   }
 
   quizQuestions: Question =
@@ -79,7 +80,9 @@ export class LearningModuleContentPage implements OnInit {
         moduleNext: [''],
         moduleQuiz: [],
         modulePointsWorth: [''],
-        moduleActive: ['']
+        moduleActive: [''],
+        userVisibility: [''],
+        previousUserVisibility: ['']
       });
     }
 
