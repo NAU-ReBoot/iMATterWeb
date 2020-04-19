@@ -119,6 +119,7 @@ export class AnalyticsPage implements OnInit{
     public maxStartToEnd: any;
     public endDate: any;
     public dayDifference: any;
+    public minDate : any;
 
 
 // am and pm values
@@ -174,6 +175,7 @@ export class AnalyticsPage implements OnInit{
         });
 
         this.maxsStartDate();
+        this.minDate();
     }
 
 
@@ -753,6 +755,12 @@ export class AnalyticsPage implements OnInit{
     }
 
 
+    minDate()
+    {
+      this.minDate = new Date('2020-04-08')
+    }
+
+
 
     maxsStartDate() {
       this.today = new Date();
@@ -766,9 +774,7 @@ export class AnalyticsPage implements OnInit{
       this.yesterday.setMilliseconds(0);
       this.yesterday.setSeconds(0);
       this.yesterday.setDate(this.today.getDate()-1);
-      console.log(this.yesterday);
 
-      this.todayMinusOne = this.yesterday.toISOString().substr(0.10);
 
     }
 
