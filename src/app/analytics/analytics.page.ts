@@ -1024,32 +1024,6 @@ export class AnalyticsPage implements OnInit{
 
     }
 
-/*
-  calculatingDuration(epochArray, pageviewArray)
-  {
-    this.epochArray = epochArray;
-    this.pageviewArray = pageviewArray;
-
-
-
-
-    for(let index = 0; index <= this.epochArray.length; index++)
-    {
-
-        //  Math.round((timeStart.getTime() - (new Date()).getTime()) / 1000)
-        this.durationHolder = 0 ;
-        this.durationHolder = (this.epochArray[index+1] - this.epochArray[index]);
-        this.durationHolder =  Math.abs(Math.ceil((this.durationHolder/ 1000)/60 ));
-        console.log("minutes " +this.durationHolder);
-
-        this.durationArray.push({Time: this.durationHolder, Page: this.pageviewArray[index]});
-
-    }
-
-    this.separatingDurationArray(this.durationArray);
-  }
-  */
-
 
   calendarAverageCalculation()
   {
