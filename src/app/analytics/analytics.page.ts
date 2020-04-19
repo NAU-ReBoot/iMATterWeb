@@ -22,6 +22,7 @@ export class AnalyticsPage implements OnInit{
 @ViewChild('lineChart', {static: false}) lineChart;
 @ViewChild('barChart', {static: false}) barChart;
 
+
     analytic: Analytics =
         {
             page: '',
@@ -290,7 +291,7 @@ export class AnalyticsPage implements OnInit{
     {
       this.timePageArray.length = 0;
       this.timePageArray=[];
-      this.sessionArray.length = 0; 
+      this.sessionArray.length = 0;
       this.calendarAverageArray.length = 0 ;
       this.totalTimePageArray.length = 0 ;
       this.durationArray.length = 0;
@@ -316,6 +317,8 @@ export class AnalyticsPage implements OnInit{
 
       this.calculatingDuration(this.totalTimePageArray);
       console.log(this.finalDurationArray);
+      this.myBarChart.update();
+      this.barChart.ngOnChanges();
 
 
 
@@ -385,16 +388,33 @@ export class AnalyticsPage implements OnInit{
 
             }
 
-            saveTotaltimeArray(totalTimePageArray)
-            {
-              this.totalTimePageArray = totalTimePageArray;
-            }
+        saveTotaltimeArray(totalTimePageArray)
+        {
+          this.totalTimePageArray = totalTimePageArray;
+        }
 
 
 
-    /*
+    async  getMeasureForPages()
+        {
+          await this.getMeasures();
+          await this.getStorage();
 
-    getMeasures()
+          this.setCalendarAverageArray(this.calendarAverageArray);
+          this.savingTimeOfDayArray(this.timeOfDayArray);
+          this.calculatingDuration(this.totalTimePageArray);
+          this.createLineChart();
+
+
+
+          this.timeOfDayArray = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+        }
+
+
+
+
+
+    async getMeasures()
     {
       console.log("start date " + this.startDate);
       console.log("end date " + this.endDate);
@@ -415,340 +435,232 @@ export class AnalyticsPage implements OnInit{
       this.endDate.setSeconds(59);
 
       this.dayDifference = this.endDate.getDate() - this.startDate.getDate();
+      let ref = this.afs.firestore.collection("analyticsSessions");
 
-          let ref = this.afs.firestore.collection("analyticsStorage");
-          ref.where('timestamp', '>=', this.startDate ).where('timestamp', '<=', this.endDate)
-              .get().then((result) =>{
+      await ref.where('LoginTime' , '>=', this.startDate).where('LoginTime' , '<=', this.endDate)
+      .get().then((result) =>{
 
-
-
-
-                result.forEach(doc =>{
-                  // get the page of the storage
-                  this.currentView = doc.get("page");
-                  this.currentTime = doc.get("timestamp");
-
-                  this.currentTime = new Date(this.currentTime.toDate());
-
-                  this.epochArray.push(this.currentTime.getTime());
-                  this.pageviewArray.push(this.currentView);
-                  console.log("here before getHours");
+        result.forEach( async doc => {
 
 
-
-                  if (this.currentView === this.pageString )
+                  if(doc.get("LoginTime") !== "" && doc.get("LogOutTime")!== "")
                   {
-                    // checks the hours of the time
-                    if(this.currentTime.getHours() === 0 )
-                    {
-                      this.timeOfDayArray[0] = this.timeOfDayArray[0] + 1;
 
-                    }
-                    if(this.currentTime.getHours() === 1)
-                    {
-                        this.timeOfDayArray[1] = this.timeOfDayArray[1] + 1;
+                    console.log("document id = " + doc.id);
 
-                    }
-                    if(this.currentTime.getHours() === 2)
-                    {
-                        this.timeOfDayArray[2] = this.timeOfDayArray[2] + 1;
-
-                    }
-                    if(this.currentTime.getHours() === 3)
-                    {
-                        this.timeOfDayArray[3] = this.timeOfDayArray[3] + 1;
-
-                    }
-                    if(this.currentTime.getHours() === 4)
-                    {
-                        this.timeOfDayArray[4] = this.timeOfDayArray[4] + 1;
-                    }
-                    if(this.currentTime.getHours() === 5)
-                    {
-                        this.timeOfDayArray[5] = this.timeOfDayArray[5] + 1;
-                    }
-                    if(this.currentTime.getHours() === 6)
-                    {
-                        this.timeOfDayArray[6] = this.timeOfDayArray[6] + 1;
-                    }
-                    if(this.currentTime.getHours() === 7)
-                    {
-                        this.timeOfDayArray[7] = this.timeOfDayArray[7] + 1;
-                    }
-                    if(this.currentTime.getHours() === 8)
-                    {
-                        this.timeOfDayArray[8] = this.timeOfDayArray[8] + 1;
-                    }
-                    if(this.currentTime.getHours() === 9)
-                    {
-                        this.timeOfDayArray[9] = this.timeOfDayArray[9] + 1;
-                    }
-                    if(this.currentTime.getHours() === 10)
-                    {
-                        this.timeOfDayArray[10] = this.timeOfDayArray[10] + 1;
-                    }
-                    if(this.currentTime.getHours() === 11)
-                    {
-                        this.timeOfDayArray[11] = this.timeOfDayArray[11] + 1;
-                    }
-                    if(this.currentTime.getHours() === 12)
-                    {
-                        this.timeOfDayArray[12] = this.timeOfDayArray[12] + 1;
-                    }
-                    if(this.currentTime.getHours() === 13)
-                    {
-                        this.timeOfDayArray[13] = this.timeOfDayArray[13] + 1;
-                    }
-                    if(this.currentTime.getHours() === 14)
-                    {
-                        this.timeOfDayArray[14] = this.timeOfDayArray[14] + 1;
-                    }
-                    if(this.currentTime.getHours() === 15)
-                    {
-                        this.timeOfDayArray[15] = this.timeOfDayArray[15] + 1;
-                    }
-                    if(this.currentTime.getHours() === 16)
-                    {
-                        this.timeOfDayArray[16] = this.timeOfDayArray[16] + 1;
-                    }
-                    if(this.currentTime.getHours() === 17)
-                    {
-                        this.timeOfDayArray[17] = this.timeOfDayArray[17] + 1;
-                    }
-                    if(this.currentTime.getHours() === 18)
-                    {
-                        this.timeOfDayArray[18] = this.timeOfDayArray[18] + 1;
-                    }
-                    if(this.currentTime.getHours() === 19)
-                    {
-                        this.timeOfDayArray[19] = this.timeOfDayArray[19] + 1;
-                    }
-                    if(this.currentTime.getHours() === 20)
-                    {
-                        this.timeOfDayArray[20] = this.timeOfDayArray[20] + 1;
-                    }
-                    if(this.currentTime.getHours() === 21)
-                    {
-                        this.timeOfDayArray[21] = this.timeOfDayArray[21] + 1;
-                    }
-                    if(this.currentTime.getHours() === 22)
-                    {
-                        this.timeOfDayArray[22] = this.timeOfDayArray[22] + 1;
-                    }
-                    if(this.currentTime.getHours() === 23)
-                    {
-                        this.timeOfDayArray[23] = this.timeOfDayArray[23] + 1;
-                    }
-                    if(this.currentTime.getHours() === 24)
-                    {
-                        this.timeOfDayArray[24] = this.timeOfDayArray[24] + 1;
-                    }
-
-                    this.sessionIDHolder = doc.get("sessionID");
-                    console.log(this.sessionIDHolder);
-
-
-
-                    this.sessionDocument = this.afs.firestore.collection("analyticsSessions")
-                    .doc(this.sessionIDHolder).get().then((doc) =>{
-
+                      this.sessionIDHolder = doc.id;
                       // log in time
-                        this.loginTimeData = doc.get("LoginTime");
+                      this.loginTimeData = doc.get("LoginTime");
 
-                        this.loginTimeData = new Date (this.loginTimeData.toDate());
-                        this.loginTimeData = this.loginTimeData.getTime();
-
-
-                        // log out time
-                        this.logoutTimeData= doc.get("LogOutTime");
-
-                        this.logoutTimeData = new Date (this.logoutTimeData.toDate());
-                        this.logoutTimeData = this.logoutTimeData.getTime();
-
-                        this.quantityCalculation = doc.get("numOfClickChat") +
-                                    doc.get("numOfClickCalendar")+ doc.get("numOfClickLModule") + doc.get("numOfClickInfo")
-                                    + doc.get("numOfClickSurvey") + doc.get("numOfClickProfile")+ doc.get("numOfClickHome")
-                                   + doc.get("numOfClickMore") + doc.get("numOfClickProfile");
-                        this.beginningOfSessionIndex += this.quantityCalculation;
-                        console.log(this.quantityCalculation);
-
-                        if(this.pageString === "calendar")
-                        {
-
-                          this.calendarAverageArray.push(doc.get("numOfClickCalendar"));
-                          console.log("average array" + this.calendarAverageArray);
-                          console.log("average array length " + this.calendarAverageArray.length);
-                        }
-                        if(this.pageString === "chat")
-                        {
-                          this.calendarAverageArray.push(doc.get("numOfClickChat"));
-                        }
-                        if (this.pageString ==="home") {
-                          this.calendarAverageArray.push(doc.get("numOfClickHome"));
-                        }
-                        if (this.pageString ==="infoDesk") {
-                          this.calendarAverageArray.push(doc.get("numOfClickInfo"));
-                        }
-                        if (this.pageString ==="learningModule") {
-                          this.calendarAverageArray.push(doc.get("numOfClickLModule"));
-                        }
-                        if (this.pageString ==="survey") {
-                          this.calendarAverageArray.push(doc.get("numOfClickSurvey"));
-                        }
-
-                        this.beginningOfSessionIndex = this.endOfSessionIndex + 1;
-
-                        this.endOfSessionIndex += this.quantityCalculation;
-
-                        this.epochArray[this.beginningOfSessionIndex] = this.loginTimeData;
-                        this.epochArray[this.quantityCalculation] = this.logoutTimeData;
+                      this.loginTimeData = new Date (this.loginTimeData.toDate());
+                      this.loginTimeData = this.loginTimeData.getTime();
 
 
-                });
+                      // log out time
+                      this.logoutTimeData= doc.get("LogOutTime");
 
+                      this.logoutTimeData = new Date (this.logoutTimeData.toDate());
+                      this.logoutTimeData = this.logoutTimeData.getTime();
 
+                      this.logArray.push({Time: this.loginTimeData , Page:'login', Session: this.sessionIDHolder});
+                      this.sessionArray.push (this.sessionIDHolder);
 
+                      this.logArray.push({Time: this.logoutTimeData , Page:'logout' , Session: this.sessionIDHolder});
+
+                      this.setlogArray(this.logArray);
+
+                      this.currentTime = this.currentTime.getTime();
+                      this.timePageArray.push({Time: this.currentTime, Session: this.sessionDocument , Page: this.currentView});
+
+                      if(this.pageString === "calendar")
+                      {
+
+                        this.calendarAverageArray.push(doc.get("numOfClickCalendar"));
+                        console.log("average array" + this.calendarAverageArray);
+                        console.log("average array length " + this.calendarAverageArray.length);
+                      }
+                      if(this.pageString === "chat")
+                      {
+                        this.calendarAverageArray.push(doc.get("numOfClickChat"));
+                      }
+                      if (this.pageString ==="home") {
+                        this.calendarAverageArray.push(doc.get("numOfClickHome"));
+                      }
+                      if (this.pageString ==="infoDesk") {
+                        this.calendarAverageArray.push(doc.get("numOfClickInfo"));
+                      }
+                      if (this.pageString ==="learningModule") {
+                        this.calendarAverageArray.push(doc.get("numOfClickLModule"));
+                      }
+                      if (this.pageString ==="survey") {
+                        this.calendarAverageArray.push(doc.get("numOfClickSurvey"));
+                      }
                   }
 
-                });
+                  this.setCalendarAverageArray(this.calendarAverageArray);
 
-                this.createLineChart();
-                this.setCalendarAverageArray(this.calendarAverageArray);
+        });
 
-                this.calculatingDuration(this.epochArray, this.pageviewArray);
-                this.savingTimeOfDayArray(this.timeOfDayArray);
+      });
 
-                this.timeOfDayArray = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
-              });
+
     }
 
 
-
-
-    getDurationMeasures()
+    async getStorage()
     {
-      console.log("start date " + this.startDate);
-      console.log("end date " + this.endDate);
-      this.beginningOfSessionIndex = 0;
-      this.endOfSessionIndex = -1;
-      this.calendarAverageArray = new Array();
-      this.epochArray = new Array();
-      this.pageviewArray = new Array ();
 
-      this.startDate = new Date(this.startDate);
-      this.startDate.setHours(0);
-      this.startDate.setMinutes(0);
-      this.startDate.setMilliseconds(0);
-      this.startDate.setSeconds(0);
+          let secondref = this.afs.firestore.collection("analyticsStorage");
+          for(const session of this.sessionArray)
+          {
 
-      this.endDate = new Date(this.endDate);
-      this.endDate.setHours(23);
-      this.endDate.setMinutes(59);
-      this.endDate.setMilliseconds(59);
-      this.endDate.setSeconds(59);
-
-      this.dayDifference = this.endDate.getDate() - this.startDate.getDate();
-
-          let ref = this.afs.firestore.collection("analyticsStorage");
-          ref.where('timestamp', '>=', this.startDate ).where('timestamp', '<=', this.endDate).orderBy('timestamp')
-              .get().then((result) =>{
+            const result = await secondref.where('sessionID', '==', session).orderBy('timestamp')
+                .get().then((result) =>{
+                  this.currentTime = null;
+                  this.currentView = '';
 
 
+                  result.forEach( async doc =>{
+                    // get the page of the storage
+                    this.currentView = doc.get("page");
+                    this.currentTime = doc.get("timestamp");
+                    this.sessionDocument = doc.get("sessionID");
+
+                    this.currentTime = new Date(this.currentTime.toDate());
+                    this.currentTime = this.currentTime.getTime();
+                    this.timePageArray.push({Time: this.currentTime, Session: this.sessionDocument , Page: this.currentView});
 
 
-                result.forEach(doc =>{
-                  // get the page of the storage
-                  this.currentView = doc.get("page");
-                  this.currentTime = doc.get("timestamp");
+                    if (this.currentView === this.pageString )
+                    {
 
-                  this.currentTime = new Date(this.currentTime.toDate());
+                      // checks the hours of the time
+                      if(this.currentTime.getHours() === 0 )
+                      {
+                        this.timeOfDayArray[0] = this.timeOfDayArray[0] + 1;
 
-                  this.epochArray.push(this.currentTime);
-                  this.pageviewArray.push(this.currentView);
-                  console.log("here before getHours");
+                      }
+                      if(this.currentTime.getHours() === 1)
+                      {
+                          this.timeOfDayArray[1] = this.timeOfDayArray[1] + 1;
 
-                    this.sessionIDHolder = doc.get("sessionID");
-                    console.log(this.sessionIDHolder);
+                      }
+                      if(this.currentTime.getHours() === 2)
+                      {
+                          this.timeOfDayArray[2] = this.timeOfDayArray[2] + 1;
+
+                      }
+                      if(this.currentTime.getHours() === 3)
+                      {
+                          this.timeOfDayArray[3] = this.timeOfDayArray[3] + 1;
+
+                      }
+                      if(this.currentTime.getHours() === 4)
+                      {
+                          this.timeOfDayArray[4] = this.timeOfDayArray[4] + 1;
+                      }
+                      if(this.currentTime.getHours() === 5)
+                      {
+                          this.timeOfDayArray[5] = this.timeOfDayArray[5] + 1;
+                      }
+                      if(this.currentTime.getHours() === 6)
+                      {
+                          this.timeOfDayArray[6] = this.timeOfDayArray[6] + 1;
+                      }
+                      if(this.currentTime.getHours() === 7)
+                      {
+                          this.timeOfDayArray[7] = this.timeOfDayArray[7] + 1;
+                      }
+                      if(this.currentTime.getHours() === 8)
+                      {
+                          this.timeOfDayArray[8] = this.timeOfDayArray[8] + 1;
+                      }
+                      if(this.currentTime.getHours() === 9)
+                      {
+                          this.timeOfDayArray[9] = this.timeOfDayArray[9] + 1;
+                      }
+                      if(this.currentTime.getHours() === 10)
+                      {
+                          this.timeOfDayArray[10] = this.timeOfDayArray[10] + 1;
+                      }
+                      if(this.currentTime.getHours() === 11)
+                      {
+                          this.timeOfDayArray[11] = this.timeOfDayArray[11] + 1;
+                      }
+                      if(this.currentTime.getHours() === 12)
+                      {
+                          this.timeOfDayArray[12] = this.timeOfDayArray[12] + 1;
+                      }
+                      if(this.currentTime.getHours() === 13)
+                      {
+                          this.timeOfDayArray[13] = this.timeOfDayArray[13] + 1;
+                      }
+                      if(this.currentTime.getHours() === 14)
+                      {
+                          this.timeOfDayArray[14] = this.timeOfDayArray[14] + 1;
+                      }
+                      if(this.currentTime.getHours() === 15)
+                      {
+                          this.timeOfDayArray[15] = this.timeOfDayArray[15] + 1;
+                      }
+                      if(this.currentTime.getHours() === 16)
+                      {
+                          this.timeOfDayArray[16] = this.timeOfDayArray[16] + 1;
+                      }
+                      if(this.currentTime.getHours() === 17)
+                      {
+                          this.timeOfDayArray[17] = this.timeOfDayArray[17] + 1;
+                      }
+                      if(this.currentTime.getHours() === 18)
+                      {
+                          this.timeOfDayArray[18] = this.timeOfDayArray[18] + 1;
+                      }
+                      if(this.currentTime.getHours() === 19)
+                      {
+                          this.timeOfDayArray[19] = this.timeOfDayArray[19] + 1;
+                      }
+                      if(this.currentTime.getHours() === 20)
+                      {
+                          this.timeOfDayArray[20] = this.timeOfDayArray[20] + 1;
+                      }
+                      if(this.currentTime.getHours() === 21)
+                      {
+                          this.timeOfDayArray[21] = this.timeOfDayArray[21] + 1;
+                      }
+                      if(this.currentTime.getHours() === 22)
+                      {
+                          this.timeOfDayArray[22] = this.timeOfDayArray[22] + 1;
+                      }
+                      if(this.currentTime.getHours() === 23)
+                      {
+                          this.timeOfDayArray[23] = this.timeOfDayArray[23] + 1;
+                      }
+                      if(this.currentTime.getHours() === 24)
+                      {
+                          this.timeOfDayArray[24] = this.timeOfDayArray[24] + 1;
+                      }
 
 
 
-                    this.sessionDocument = this.afs.firestore.collection("analyticsSessions")
-                    .doc(this.sessionIDHolder).get().then((doc) =>{
 
-                      // log in time
-                        this.loginTimeData = doc.get("LoginTime");
+                    }
 
-                        this.loginTimeData = new Date (this.loginTimeData.toDate());
-                        this.loginTimeData = this.loginTimeData.getTime();
+                  });
 
 
-                        // log out time
-                        this.logoutTimeData= doc.get("LogOutTime");
 
-                        this.logoutTimeData = new Date (this.logoutTimeData.toDate());
-                        this.logoutTimeData = this.logoutTimeData.getTime();
-
-                        this.quantityCalculation = doc.get("numOfClickChat") +
-                                    doc.get("numOfClickCalendar")+ doc.get("numOfClickLModule") + doc.get("numOfClickInfo")
-                                    + doc.get("numOfClickSurvey") + doc.get("numOfClickProfile")+ doc.get("numOfClickHome")
-                                   + doc.get("numOfClickMore") + doc.get("numOfClickProfile");
-                        this.beginningOfSessionIndex += this.quantityCalculation;
-                        console.log(this.quantityCalculation);
-
-                        if(this.pageString === "calendar")
-                        {
-
-                          this.calendarAverageArray.push(doc.get("numOfClickCalendar"));
-                          console.log("average array" + this.calendarAverageArray);
-                          console.log("average array length " + this.calendarAverageArray.length);
-                        }
-                        if(this.pageString === "chat")
-                        {
-                          this.calendarAverageArray.push(doc.get("numOfClickChat"));
-                        }
-                        if (this.pageString ==="home") {
-                          this.calendarAverageArray.push(doc.get("numOfClickHome"));
-                        }
-                        if (this.pageString ==="infoDesk") {
-                          this.calendarAverageArray.push(doc.get("numOfClickInfo"));
-                        }
-                        if (this.pageString ==="learningModule") {
-                          this.calendarAverageArray.push(doc.get("numOfClickLModule"));
-                        }
-                        if (this.pageString ==="survey") {
-                          this.calendarAverageArray.push(doc.get("numOfClickSurvey"));
-                        }
-
-                        this.beginningOfSessionIndex = this.endOfSessionIndex + 1;
-
-                        this.endOfSessionIndex += this.quantityCalculation;
-
-                        this.epochArray[this.beginningOfSessionIndex] = this.loginTimeData;
-                        this.pageviewArray.push("log");
-                        this.epochArray[this.quantityCalculation] = this.logoutTimeData;
-                        this.pageviewArray.push("log");
 
 
                 });
 
 
+          }
 
-                });
-            //    this.timeCalendarArray = this.timeCalendarArray.sort((a,b) => a.Date -  b.Date);
-
-
-                this.createBarChart();
-                this.setCalendarAverageArray(this.calendarAverageArray);
-                console.log("here is epoch : " + this.epochArray);
-
-
-                this.calculatingDuration(this.epochArray, this.pageviewArray);
-                this.savingTimeOfDayArray(this.timeOfDayArray);
-
-                this.finalDurationArray = [0,0,0,0,0,0];
-              });
     }
-*/
+
+
+
+
 
     savingTimeOfDayArray(timeOfDayArray)
     {
@@ -1195,6 +1107,236 @@ setlogArray(logArray)
 //     console.log(this.moreHolder);
   }
 
+
+/*
+getMeasures()
+{
+  console.log("start date " + this.startDate);
+  console.log("end date " + this.endDate);
+  this.beginningOfSessionIndex = 0;
+  this.endOfSessionIndex = 0;
+  this.calendarAverageArray = new Array();
+
+  this.startDate = new Date(this.startDate);
+  this.startDate.setHours(0);
+  this.startDate.setMinutes(0);
+  this.startDate.setMilliseconds(0);
+  this.startDate.setSeconds(0);
+
+  this.endDate = new Date(this.endDate);
+  this.endDate.setHours(23);
+  this.endDate.setMinutes(59);
+  this.endDate.setMilliseconds(59);
+  this.endDate.setSeconds(59);
+
+  this.dayDifference = this.endDate.getDate() - this.startDate.getDate();
+
+      let ref = this.afs.firestore.collection("analyticsStorage");
+      ref.where('timestamp', '>=', this.startDate ).where('timestamp', '<=', this.endDate)
+          .get().then((result) =>{
+
+
+
+
+            result.forEach(doc =>{
+              // get the page of the storage
+              this.currentView = doc.get("page");
+              this.currentTime = doc.get("timestamp");
+
+              this.currentTime = new Date(this.currentTime.toDate());
+
+              this.epochArray.push(this.currentTime.getTime());
+              this.pageviewArray.push(this.currentView);
+              console.log("here before getHours");
+
+
+
+              if (this.currentView === this.pageString )
+              {
+                // checks the hours of the time
+                if(this.currentTime.getHours() === 0 )
+                {
+                  this.timeOfDayArray[0] = this.timeOfDayArray[0] + 1;
+
+                }
+                if(this.currentTime.getHours() === 1)
+                {
+                    this.timeOfDayArray[1] = this.timeOfDayArray[1] + 1;
+
+                }
+                if(this.currentTime.getHours() === 2)
+                {
+                    this.timeOfDayArray[2] = this.timeOfDayArray[2] + 1;
+
+                }
+                if(this.currentTime.getHours() === 3)
+                {
+                    this.timeOfDayArray[3] = this.timeOfDayArray[3] + 1;
+
+                }
+                if(this.currentTime.getHours() === 4)
+                {
+                    this.timeOfDayArray[4] = this.timeOfDayArray[4] + 1;
+                }
+                if(this.currentTime.getHours() === 5)
+                {
+                    this.timeOfDayArray[5] = this.timeOfDayArray[5] + 1;
+                }
+                if(this.currentTime.getHours() === 6)
+                {
+                    this.timeOfDayArray[6] = this.timeOfDayArray[6] + 1;
+                }
+                if(this.currentTime.getHours() === 7)
+                {
+                    this.timeOfDayArray[7] = this.timeOfDayArray[7] + 1;
+                }
+                if(this.currentTime.getHours() === 8)
+                {
+                    this.timeOfDayArray[8] = this.timeOfDayArray[8] + 1;
+                }
+                if(this.currentTime.getHours() === 9)
+                {
+                    this.timeOfDayArray[9] = this.timeOfDayArray[9] + 1;
+                }
+                if(this.currentTime.getHours() === 10)
+                {
+                    this.timeOfDayArray[10] = this.timeOfDayArray[10] + 1;
+                }
+                if(this.currentTime.getHours() === 11)
+                {
+                    this.timeOfDayArray[11] = this.timeOfDayArray[11] + 1;
+                }
+                if(this.currentTime.getHours() === 12)
+                {
+                    this.timeOfDayArray[12] = this.timeOfDayArray[12] + 1;
+                }
+                if(this.currentTime.getHours() === 13)
+                {
+                    this.timeOfDayArray[13] = this.timeOfDayArray[13] + 1;
+                }
+                if(this.currentTime.getHours() === 14)
+                {
+                    this.timeOfDayArray[14] = this.timeOfDayArray[14] + 1;
+                }
+                if(this.currentTime.getHours() === 15)
+                {
+                    this.timeOfDayArray[15] = this.timeOfDayArray[15] + 1;
+                }
+                if(this.currentTime.getHours() === 16)
+                {
+                    this.timeOfDayArray[16] = this.timeOfDayArray[16] + 1;
+                }
+                if(this.currentTime.getHours() === 17)
+                {
+                    this.timeOfDayArray[17] = this.timeOfDayArray[17] + 1;
+                }
+                if(this.currentTime.getHours() === 18)
+                {
+                    this.timeOfDayArray[18] = this.timeOfDayArray[18] + 1;
+                }
+                if(this.currentTime.getHours() === 19)
+                {
+                    this.timeOfDayArray[19] = this.timeOfDayArray[19] + 1;
+                }
+                if(this.currentTime.getHours() === 20)
+                {
+                    this.timeOfDayArray[20] = this.timeOfDayArray[20] + 1;
+                }
+                if(this.currentTime.getHours() === 21)
+                {
+                    this.timeOfDayArray[21] = this.timeOfDayArray[21] + 1;
+                }
+                if(this.currentTime.getHours() === 22)
+                {
+                    this.timeOfDayArray[22] = this.timeOfDayArray[22] + 1;
+                }
+                if(this.currentTime.getHours() === 23)
+                {
+                    this.timeOfDayArray[23] = this.timeOfDayArray[23] + 1;
+                }
+                if(this.currentTime.getHours() === 24)
+                {
+                    this.timeOfDayArray[24] = this.timeOfDayArray[24] + 1;
+                }
+
+                this.sessionIDHolder = doc.get("sessionID");
+                console.log(this.sessionIDHolder);
+
+
+
+                this.sessionDocument = this.afs.firestore.collection("analyticsSessions")
+                .doc(this.sessionIDHolder).get().then((doc) =>{
+
+                  // log in time
+                    this.loginTimeData = doc.get("LoginTime");
+
+                    this.loginTimeData = new Date (this.loginTimeData.toDate());
+                    this.loginTimeData = this.loginTimeData.getTime();
+
+
+                    // log out time
+                    this.logoutTimeData= doc.get("LogOutTime");
+
+                    this.logoutTimeData = new Date (this.logoutTimeData.toDate());
+                    this.logoutTimeData = this.logoutTimeData.getTime();
+
+                    this.quantityCalculation = doc.get("numOfClickChat") +
+                                doc.get("numOfClickCalendar")+ doc.get("numOfClickLModule") + doc.get("numOfClickInfo")
+                                + doc.get("numOfClickSurvey") + doc.get("numOfClickProfile")+ doc.get("numOfClickHome")
+                               + doc.get("numOfClickMore") + doc.get("numOfClickProfile");
+                    this.beginningOfSessionIndex += this.quantityCalculation;
+                    console.log(this.quantityCalculation);
+
+                    if(this.pageString === "calendar")
+                    {
+
+                      this.calendarAverageArray.push(doc.get("numOfClickCalendar"));
+                      console.log("average array" + this.calendarAverageArray);
+                      console.log("average array length " + this.calendarAverageArray.length);
+                    }
+                    if(this.pageString === "chat")
+                    {
+                      this.calendarAverageArray.push(doc.get("numOfClickChat"));
+                    }
+                    if (this.pageString ==="home") {
+                      this.calendarAverageArray.push(doc.get("numOfClickHome"));
+                    }
+                    if (this.pageString ==="infoDesk") {
+                      this.calendarAverageArray.push(doc.get("numOfClickInfo"));
+                    }
+                    if (this.pageString ==="learningModule") {
+                      this.calendarAverageArray.push(doc.get("numOfClickLModule"));
+                    }
+                    if (this.pageString ==="survey") {
+                      this.calendarAverageArray.push(doc.get("numOfClickSurvey"));
+                    }
+
+                    this.beginningOfSessionIndex = this.endOfSessionIndex + 1;
+
+                    this.endOfSessionIndex += this.quantityCalculation;
+
+                    this.epochArray[this.beginningOfSessionIndex] = this.loginTimeData;
+                    this.epochArray[this.quantityCalculation] = this.logoutTimeData;
+
+
+            });
+
+
+
+              }
+
+            });
+
+            this.createLineChart();
+            this.setCalendarAverageArray(this.calendarAverageArray);
+
+            this.calculatingDuration(this.epochArray, this.pageviewArray);
+            this.savingTimeOfDayArray(this.timeOfDayArray);
+
+            this.timeOfDayArray = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+          });
+}
+*/
 
 
 }
