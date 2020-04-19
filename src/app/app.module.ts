@@ -19,6 +19,8 @@ import { environment } from '../environments/environment';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { QuizModalPageModule } from './learningModule/quiz-modal/quiz-modal.module';
 import { AddQuizQuestionPageModule } from './learningModule/add-quiz-question/add-quiz-question.module';
+import { DatePickerModule } from 'ionic4-date-picker';
+
 
 @NgModule({
   declarations: [AppComponent],
@@ -34,8 +36,10 @@ import { AddQuizQuestionPageModule } from './learningModule/add-quiz-question/ad
     FormsModule,
     QuizModalPageModule,
     AddQuizQuestionPageModule,
-    AngularFireStorageModule
+    AngularFireStorageModule,
+    DatePickerModule
   ],
+  
   providers: [
     StatusBar,
     SplashScreen,

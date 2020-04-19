@@ -8,6 +8,7 @@ import { IonContent } from '@ionic/angular';
 import { AnalyticsService, Analytics, Sessions, UniqueSessions} from '../services/analytics-service.service';
 import {Router} from '@angular/router';
 import {Storage} from '@ionic/storage';
+import { DatePickerModule } from 'ionic4-date-picker';
 
 @Component({
     selector: 'app-analytics',
