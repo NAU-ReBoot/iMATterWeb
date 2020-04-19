@@ -56,7 +56,7 @@
     <div *ngIf = "submitted">
 
     <ion-item>
-        Page Duration in Minutes: {{displayDuration}} Minutes 
+        Page Duration in Minutes: {{displayDuration}} Minutes
   </ion-item>
   <ion-item>
         Total Average Vists Per Session: {{calendarAverage}}
@@ -94,7 +94,7 @@
           <ion-datetime fixed class='fixedLabel' displayFormat= "MM/DD/YYYY" (click) ="minEndDate()" [(ngModel)]= "endDate" min ="{{minStartToEnd}}" max="{{maxStartToEnd}}"></ion-datetime>
         </ion-item>
 
-        <ion-button  (click) = "durationOn()" (click) = "totalDurationMeasuresCalculation()" padding = "100" type='button'>
+        <ion-button  (click) = "durationOn()" (click) = "totalDurationMeasuresCalculation('non')" padding = "100" type='button'>
           submit
         </ion-button>
     </div>

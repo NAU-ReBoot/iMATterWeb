@@ -122,8 +122,6 @@ export class AnalyticsPage implements OnInit{
 
 // am and pm values
     public timeOfDayArray: any = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
-
-    public timeLabelArray: any = [];
     public pageString: string;
 
 
@@ -201,7 +199,8 @@ export class AnalyticsPage implements OnInit{
       this.pageStatistics = false;
       this.submitted = false;
       this.durationPage = true;
-      this.createBarChart();
+      this.finalDurationArray= [0,0,0,0,0,0];
+      this.totalDurationMeasuresCalculation("initial");
 
     }
 
@@ -224,34 +223,47 @@ export class AnalyticsPage implements OnInit{
     }
 
 
-    async getDurationMeasures()
+    async getDurationMeasures(state)
     {
-      console.log("start date " + this.startDate);
-      console.log("end date " + this.endDate);
-      this.beginningOfSessionIndex = 0;
-      this.endOfSessionIndex = 0;
 
+      if (state == "initial")
+      {
+        this.startDate = new Date();
+        this.startDate.setHours(0);
+        this.startDate.setMinutes(0);
+        this.startDate.setMilliseconds(0);
+        this.startDate.setSeconds(0);
+        this.startDate.setDate(this.startDate.getDate()-1);
 
+        this.endDate = new Date();
+        this.endDate.setHours(23);
+        this.endDate.setMinutes(59);
+        this.endDate.setMilliseconds(59);
+        this.endDate.setSeconds(59);
+      }
+      else
+      {
+        this.startDate = new Date(this.startDate);
+        this.startDate.setHours(0);
+        this.startDate.setMinutes(0);
+        this.startDate.setMilliseconds(0);
+        this.startDate.setSeconds(0);
 
-      this.startDate = new Date(this.startDate);
-      this.startDate.setHours(0);
-      this.startDate.setMinutes(0);
-      this.startDate.setMilliseconds(0);
-      this.startDate.setSeconds(0);
+        this.endDate = new Date(this.endDate);
+        this.endDate.setHours(23);
+        this.endDate.setMinutes(59);
+        this.endDate.setMilliseconds(59);
+        this.endDate.setSeconds(59);
 
-      this.endDate = new Date(this.endDate);
-      this.endDate.setHours(23);
-      this.endDate.setMinutes(59);
-      this.endDate.setMilliseconds(59);
-      this.endDate.setSeconds(59);
+      }
 
-      this.dayDifference = this.endDate.getDate() - this.startDate.getDate();
 
       let ref = this.afs.firestore.collection("analyticsSessions");
       await ref.where('LoginTime', '>=', this.startDate). where('LoginTime' , '<=', this.endDate).orderBy('LoginTime')
           .get().then( (result) =>{
             this.loginTimeData = 0;
             this.logoutTimeData = 0;
+            this.sessionIDHolder='';
 
 
             result.forEach( async doc =>{
@@ -290,21 +302,37 @@ export class AnalyticsPage implements OnInit{
           });
     }
 
-    async totalDurationMeasuresCalculation()
+    async totalDurationMeasuresCalculation(state)
     {
+
+
       this.timePageArray.length = 0;
-      this.timePageArray=[];
+      this.timeOfDayArray = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
       this.sessionArray.length = 0;
       this.calendarAverageArray.length = 0 ;
       this.totalTimePageArray.length = 0 ;
       this.durationArray.length = 0;
       this.logArray.length = 0 ;
       this.finalDurationArray= [0,0,0,0,0,0];
+      console.log(this.timePageArray);
+      console.log(this.timeOfDayArray);
+      console.log(this.sessionArray);
+      console.log(this.calendarAverageArray);
+      console.log(this.totalTimePageArray);
+      console.log(this.durationArray);
+      console.log(this.logArray);
+      console.log(this.finalDurationArray);
+
+
+
+
+
+
 
       console.log("inside tester");
       console.log("about call getmeasures ");
 
-      await this.getDurationMeasures();
+      await this.getDurationMeasures(state);
       await this.storageCaller();
 
       console.log("after tester");
@@ -320,7 +348,8 @@ export class AnalyticsPage implements OnInit{
 
       this.calculatingDuration(this.totalTimePageArray);
       console.log(this.finalDurationArray);
-      this.myBarChart.update();
+      this.createBarChart();
+
       this.barChart.ngOnChanges();
 
 
@@ -489,7 +518,7 @@ export class AnalyticsPage implements OnInit{
 
                       this.sessionIDHolder = doc.id;
                       // log in time
-                      
+
                       this.loginTimeData = doc.get("LoginTime");
 
                       this.loginTimeData = new Date (this.loginTimeData.toDate());
@@ -879,7 +908,7 @@ export class AnalyticsPage implements OnInit{
          data:{
            labels: ["Calendar", "Chat Room" , "Home" , "Info Desk" , "Learning Center", "Survey Center"],
            datasets: [{
-             label: "Number of Duration in Hours For Each Page",
+             label: "Number of Duration in Minutes For Each Page",
              data:this.finalDurationArray,
              backgroundColor: 'rgb(147,112,219)',
              borderColor: 'rgb(147,112,219)',
@@ -932,7 +961,7 @@ export class AnalyticsPage implements OnInit{
         }
       });
       this.myLineChart.update();
-      this.calendarAverageCalculation(this.calendarAverageArray);
+
     }
 
 
@@ -1162,236 +1191,6 @@ setlogArray(logArray)
 //     console.log(this.moreHolder);
   }
 
-
-/*
-getMeasures()
-{
-  console.log("start date " + this.startDate);
-  console.log("end date " + this.endDate);
-  this.beginningOfSessionIndex = 0;
-  this.endOfSessionIndex = 0;
-  this.calendarAverageArray = new Array();
-
-  this.startDate = new Date(this.startDate);
-  this.startDate.setHours(0);
-  this.startDate.setMinutes(0);
-  this.startDate.setMilliseconds(0);
-  this.startDate.setSeconds(0);
-
-  this.endDate = new Date(this.endDate);
-  this.endDate.setHours(23);
-  this.endDate.setMinutes(59);
-  this.endDate.setMilliseconds(59);
-  this.endDate.setSeconds(59);
-
-  this.dayDifference = this.endDate.getDate() - this.startDate.getDate();
-
-      let ref = this.afs.firestore.collection("analyticsStorage");
-      ref.where('timestamp', '>=', this.startDate ).where('timestamp', '<=', this.endDate)
-          .get().then((result) =>{
-
-
-
-
-            result.forEach(doc =>{
-              // get the page of the storage
-              this.currentView = doc.get("page");
-              this.currentTime = doc.get("timestamp");
-
-              this.currentTime = new Date(this.currentTime.toDate());
-
-              this.epochArray.push(this.currentTime.getTime());
-              this.pageviewArray.push(this.currentView);
-              console.log("here before getHours");
-
-
-
-              if (this.currentView === this.pageString )
-              {
-                // checks the hours of the time
-                if(this.currentTime.getHours() === 0 )
-                {
-                  this.timeOfDayArray[0] = this.timeOfDayArray[0] + 1;
-
-                }
-                if(this.currentTime.getHours() === 1)
-                {
-                    this.timeOfDayArray[1] = this.timeOfDayArray[1] + 1;
-
-                }
-                if(this.currentTime.getHours() === 2)
-                {
-                    this.timeOfDayArray[2] = this.timeOfDayArray[2] + 1;
-
-                }
-                if(this.currentTime.getHours() === 3)
-                {
-                    this.timeOfDayArray[3] = this.timeOfDayArray[3] + 1;
-
-                }
-                if(this.currentTime.getHours() === 4)
-                {
-                    this.timeOfDayArray[4] = this.timeOfDayArray[4] + 1;
-                }
-                if(this.currentTime.getHours() === 5)
-                {
-                    this.timeOfDayArray[5] = this.timeOfDayArray[5] + 1;
-                }
-                if(this.currentTime.getHours() === 6)
-                {
-                    this.timeOfDayArray[6] = this.timeOfDayArray[6] + 1;
-                }
-                if(this.currentTime.getHours() === 7)
-                {
-                    this.timeOfDayArray[7] = this.timeOfDayArray[7] + 1;
-                }
-                if(this.currentTime.getHours() === 8)
-                {
-                    this.timeOfDayArray[8] = this.timeOfDayArray[8] + 1;
-                }
-                if(this.currentTime.getHours() === 9)
-                {
-                    this.timeOfDayArray[9] = this.timeOfDayArray[9] + 1;
-                }
-                if(this.currentTime.getHours() === 10)
-                {
-                    this.timeOfDayArray[10] = this.timeOfDayArray[10] + 1;
-                }
-                if(this.currentTime.getHours() === 11)
-                {
-                    this.timeOfDayArray[11] = this.timeOfDayArray[11] + 1;
-                }
-                if(this.currentTime.getHours() === 12)
-                {
-                    this.timeOfDayArray[12] = this.timeOfDayArray[12] + 1;
-                }
-                if(this.currentTime.getHours() === 13)
-                {
-                    this.timeOfDayArray[13] = this.timeOfDayArray[13] + 1;
-                }
-                if(this.currentTime.getHours() === 14)
-                {
-                    this.timeOfDayArray[14] = this.timeOfDayArray[14] + 1;
-                }
-                if(this.currentTime.getHours() === 15)
-                {
-                    this.timeOfDayArray[15] = this.timeOfDayArray[15] + 1;
-                }
-                if(this.currentTime.getHours() === 16)
-                {
-                    this.timeOfDayArray[16] = this.timeOfDayArray[16] + 1;
-                }
-                if(this.currentTime.getHours() === 17)
-                {
-                    this.timeOfDayArray[17] = this.timeOfDayArray[17] + 1;
-                }
-                if(this.currentTime.getHours() === 18)
-                {
-                    this.timeOfDayArray[18] = this.timeOfDayArray[18] + 1;
-                }
-                if(this.currentTime.getHours() === 19)
-                {
-                    this.timeOfDayArray[19] = this.timeOfDayArray[19] + 1;
-                }
-                if(this.currentTime.getHours() === 20)
-                {
-                    this.timeOfDayArray[20] = this.timeOfDayArray[20] + 1;
-                }
-                if(this.currentTime.getHours() === 21)
-                {
-                    this.timeOfDayArray[21] = this.timeOfDayArray[21] + 1;
-                }
-                if(this.currentTime.getHours() === 22)
-                {
-                    this.timeOfDayArray[22] = this.timeOfDayArray[22] + 1;
-                }
-                if(this.currentTime.getHours() === 23)
-                {
-                    this.timeOfDayArray[23] = this.timeOfDayArray[23] + 1;
-                }
-                if(this.currentTime.getHours() === 24)
-                {
-                    this.timeOfDayArray[24] = this.timeOfDayArray[24] + 1;
-                }
-
-                this.sessionIDHolder = doc.get("sessionID");
-                console.log(this.sessionIDHolder);
-
-
-
-                this.sessionDocument = this.afs.firestore.collection("analyticsSessions")
-                .doc(this.sessionIDHolder).get().then((doc) =>{
-
-                  // log in time
-                    this.loginTimeData = doc.get("LoginTime");
-
-                    this.loginTimeData = new Date (this.loginTimeData.toDate());
-                    this.loginTimeData = this.loginTimeData.getTime();
-
-
-                    // log out time
-                    this.logoutTimeData= doc.get("LogOutTime");
-
-                    this.logoutTimeData = new Date (this.logoutTimeData.toDate());
-                    this.logoutTimeData = this.logoutTimeData.getTime();
-
-                    this.quantityCalculation = doc.get("numOfClickChat") +
-                                doc.get("numOfClickCalendar")+ doc.get("numOfClickLModule") + doc.get("numOfClickInfo")
-                                + doc.get("numOfClickSurvey") + doc.get("numOfClickProfile")+ doc.get("numOfClickHome")
-                               + doc.get("numOfClickMore") + doc.get("numOfClickProfile");
-                    this.beginningOfSessionIndex += this.quantityCalculation;
-                    console.log(this.quantityCalculation);
-
-                    if(this.pageString === "calendar")
-                    {
-
-                      this.calendarAverageArray.push(doc.get("numOfClickCalendar"));
-                      console.log("average array" + this.calendarAverageArray);
-                      console.log("average array length " + this.calendarAverageArray.length);
-                    }
-                    if(this.pageString === "chat")
-                    {
-                      this.calendarAverageArray.push(doc.get("numOfClickChat"));
-                    }
-                    if (this.pageString ==="home") {
-                      this.calendarAverageArray.push(doc.get("numOfClickHome"));
-                    }
-                    if (this.pageString ==="infoDesk") {
-                      this.calendarAverageArray.push(doc.get("numOfClickInfo"));
-                    }
-                    if (this.pageString ==="learningModule") {
-                      this.calendarAverageArray.push(doc.get("numOfClickLModule"));
-                    }
-                    if (this.pageString ==="survey") {
-                      this.calendarAverageArray.push(doc.get("numOfClickSurvey"));
-                    }
-
-                    this.beginningOfSessionIndex = this.endOfSessionIndex + 1;
-
-                    this.endOfSessionIndex += this.quantityCalculation;
-
-                    this.epochArray[this.beginningOfSessionIndex] = this.loginTimeData;
-                    this.epochArray[this.quantityCalculation] = this.logoutTimeData;
-
-
-            });
-
-
-
-              }
-
-            });
-
-            this.createLineChart();
-            this.setCalendarAverageArray(this.calendarAverageArray);
-
-            this.calculatingDuration(this.epochArray, this.pageviewArray);
-            this.savingTimeOfDayArray(this.timeOfDayArray);
-
-            this.timeOfDayArray = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
-          });
-}
-*/
 
 
 }
