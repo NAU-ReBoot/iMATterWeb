@@ -142,6 +142,7 @@ export class AnalyticsPage implements OnInit{
     public timePageArray: { Time: any, Session:any, Page: string }[] =[];
     public totalTimePageArray: { Time: any, Page: string }[] =[];
     public sessionArray : any = [];
+    public displayDuration: any;
 
 
     private _CANVAS  : any;
@@ -249,6 +250,8 @@ export class AnalyticsPage implements OnInit{
       let ref = this.afs.firestore.collection("analyticsSessions");
       await ref.where('LoginTime', '>=', this.startDate). where('LoginTime' , '<=', this.endDate).orderBy('LoginTime')
           .get().then( (result) =>{
+            this.loginTimeData = 0;
+            this.logoutTimeData = 0;
 
 
             result.forEach( async doc =>{
@@ -406,6 +409,7 @@ export class AnalyticsPage implements OnInit{
           this.durationArray.length = 0;
           this.logArray.length = 0 ;
           this.finalDurationArray= [0,0,0,0,0,0];
+          this.displayDuration = 0;
 
           await this.getMeasures();
           await this.getStorage();
@@ -416,6 +420,10 @@ export class AnalyticsPage implements OnInit{
           console.log(this.timePageArray);
 
           this.setCalendarAverageArray(this.calendarAverageArray);
+
+          this.calendarAverageCalculation();
+          console.log(this.calendarAverage);
+
           this.savingTimeOfDayArray(this.timeOfDayArray);
           await this.combineArraysForDuration();
           console.log("about to print totalTimePageArray");
@@ -424,6 +432,7 @@ export class AnalyticsPage implements OnInit{
 
           this.calculatingDuration(this.totalTimePageArray);
           console.log(this.finalDurationArray);
+          this.displayDurationCalculation();
 
 
           console.log('this time of day array');
@@ -467,6 +476,8 @@ export class AnalyticsPage implements OnInit{
 
       await ref.where('LoginTime' , '>=', this.startDate).where('LoginTime' , '<=', this.endDate)
       .get().then((result) =>{
+        this.loginTimeData = 0;
+        this.logoutTimeData = 0;
 
         result.forEach( async doc => {
 
@@ -478,16 +489,18 @@ export class AnalyticsPage implements OnInit{
 
                       this.sessionIDHolder = doc.id;
                       // log in time
+                      
                       this.loginTimeData = doc.get("LoginTime");
 
                       this.loginTimeData = new Date (this.loginTimeData.toDate());
                       this.loginTimeData = this.loginTimeData.getTime();
 
 
+
                       // log out time
                       this.logoutTimeData= doc.get("LogOutTime");
-
                       this.logoutTimeData = new Date (this.logoutTimeData.toDate());
+
                       this.logoutTimeData = this.logoutTimeData.getTime();
 
                       this.logArray.push({Time: this.loginTimeData , Page:'login', Session: this.sessionIDHolder});
@@ -497,15 +510,11 @@ export class AnalyticsPage implements OnInit{
 
                       this.setlogArray(this.logArray);
 
-                      this.currentTime = this.currentTime.getTime();
-                      this.timePageArray.push({Time: this.currentTime, Session: this.sessionDocument , Page: this.currentView});
 
                       if(this.pageString === "calendar")
                       {
-
                         this.calendarAverageArray.push(doc.get("numOfClickCalendar"));
-                        console.log("average array" + this.calendarAverageArray);
-                        console.log("average array length " + this.calendarAverageArray.length);
+
                       }
                       if(this.pageString === "chat")
                       {
@@ -528,6 +537,7 @@ export class AnalyticsPage implements OnInit{
                   this.setCalendarAverageArray(this.calendarAverageArray);
 
         });
+        this.setCalendarAverageArray(this.calendarAverageArray);
 
       });
 
@@ -671,16 +681,36 @@ export class AnalyticsPage implements OnInit{
                     this.timePageArray.push({Time: this.currentTime, Session: this.sessionDocument , Page: this.currentView});
 
                   });
-
-
-
-
-
                 });
-
-
           }
+    }
 
+    displayDurationCalculation()
+    {
+      if(this.pageString == "calendar")
+      {
+        this.displayDuration = this.finalDurationArray[0];
+      }
+      if(this.pageString == "chat")
+      {
+        this.displayDuration = this.finalDurationArray[1];
+      }
+      if(this.pageString == "home")
+      {
+        this.displayDuration = this.finalDurationArray[2];
+      }
+      if(this.pageString == "infoDesk")
+      {
+        this.displayDuration = this.finalDurationArray[3];
+      }
+      if(this.pageString == "learningModule")
+      {
+        this.displayDuration = this.finalDurationArray[4];
+      }
+      if(this.pageString == "survey")
+      {
+        this.displayDuration = this.finalDurationArray[5];
+      }
     }
 
 
@@ -992,9 +1022,9 @@ export class AnalyticsPage implements OnInit{
   */
 
 
-  calendarAverageCalculation(calendarAverageArray)
+  calendarAverageCalculation()
   {
-    this.calendarAverageArray = calendarAverageArray;
+
 
     console.log("average array" + this.calendarAverageArray);
     console.log("average array length " + this.calendarAverageArray.length);
