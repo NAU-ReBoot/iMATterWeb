@@ -350,8 +350,8 @@ export class AnalyticsPage implements OnInit{
                           });
                           this.setTimePageArray(this.timePageArray);
                         });
-                      }
-                    }
+          }
+      }
 
 
         async  combineArraysForDuration()
@@ -397,17 +397,45 @@ export class AnalyticsPage implements OnInit{
 
     async  getMeasureForPages()
         {
+          this.timePageArray.length = 0;
+          this.timeOfDayArray = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+          this.timePageArray=[];
+          this.sessionArray.length = 0;
+          this.calendarAverageArray.length = 0 ;
+          this.totalTimePageArray.length = 0 ;
+          this.durationArray.length = 0;
+          this.logArray.length = 0 ;
+          this.finalDurationArray= [0,0,0,0,0,0];
+
           await this.getMeasures();
           await this.getStorage();
+          console.log("after tester");
+          console.log("about to print arrays");
+
+          console.log(this.logArray);
+          console.log(this.timePageArray);
 
           this.setCalendarAverageArray(this.calendarAverageArray);
           this.savingTimeOfDayArray(this.timeOfDayArray);
+          await this.combineArraysForDuration();
+          console.log("about to print totalTimePageArray");
+
+          console.log(this.totalTimePageArray);
+
           this.calculatingDuration(this.totalTimePageArray);
+          console.log(this.finalDurationArray);
+
+
+          console.log('this time of day array');
+          console.log(this.timeOfDayArray);
+
+
+
           this.createLineChart();
 
 
 
-          this.timeOfDayArray = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+          this.timeOfDayArray = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
         }
 
 
@@ -527,8 +555,6 @@ export class AnalyticsPage implements OnInit{
                     this.sessionDocument = doc.get("sessionID");
 
                     this.currentTime = new Date(this.currentTime.toDate());
-                    this.currentTime = this.currentTime.getTime();
-                    this.timePageArray.push({Time: this.currentTime, Session: this.sessionDocument , Page: this.currentView});
 
 
                     if (this.currentView === this.pageString )
@@ -639,11 +665,10 @@ export class AnalyticsPage implements OnInit{
                       {
                           this.timeOfDayArray[24] = this.timeOfDayArray[24] + 1;
                       }
-
-
-
-
                     }
+
+                    this.currentTime = this.currentTime.getTime();
+                    this.timePageArray.push({Time: this.currentTime, Session: this.sessionDocument , Page: this.currentView});
 
                   });
 
