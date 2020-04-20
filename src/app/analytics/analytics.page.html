@@ -18,56 +18,54 @@
 </ion-row>
 
 <ion-content>
+
+
     <div *ngIf="pageStatistics" class="ion-padding">
+      <ion-item>
+        <ion-label> Page </ion-label>
+        <ion-select placeholder="Select One" [(ngModel)] ="pageString">
+          <ion-select-option value="calendar">Calendar</ion-select-option>
+          <ion-select-option value="chat">Chat Room</ion-select-option>
+          <ion-select-option value="home">Home</ion-select-option>
+          <ion-select-option value="infoDesk">Info Desk</ion-select-option>
+          <ion-select-option value="learningModule">Learning Module</ion-select-option>
+          <ion-select-option value="survey">Survey</ion-select-option>
+        </ion-select>
+      </ion-item>
 
       <ion-item>
         <ion-icon name="calendar"></ion-icon>
-        <ion-button expand="block" fill="clear" >From Date </ion-button>
-        <ion-label>bananas</ion-label>
+        <ion-button expand="block" fill="clear" (click)= "openFromCalendar()" >From Date </ion-button>
+        <ion-label>{{startDate}}</ion-label>
       </ion-item>
-      <div>
-        <ion-item>
-          <ionic-calendar-date-picker [fromDate]=  "minDate" [toDate]="yesterday" ></ionic-calendar-date-picker>
-
-            <ion-button expand="block" fill="clear" >Ok </ion-button>
-            <ion-button expand="block" fill="clear" >Cancel </ion-button>
-
-        </ion-item>
-
-      </div>
-
-        <ion-item>
-          <ion-label>
-            From Date
-          </ion-label>
-          <ion-datetime fixed class='fixedLabel' displayFormat= "MM/DD/YYYY" [(ngModel)]= "startDate" min = "2020-04-08" max ="{{todayMinusOne}}" ></ion-datetime>
-        </ion-item>
-        <ion-item>
-          <ion-label>
-            To Date
-          </ion-label>
-          <ion-datetime fixed class='fixedLabel' displayFormat= "MM/DD/YYYY" (click) ="minEndDate()" [(ngModel)]= "endDate" min ="{{minStartToEnd}}" max="{{maxStartToEnd}}"></ion-datetime>
-        </ion-item>
-
-        <ion-item>
-          <ion-label> Page </ion-label>
-          <ion-select placeholder="Select One" [(ngModel)] ="pageString">
-            <ion-select-option value="calendar">Calendar</ion-select-option>
-            <ion-select-option value="chat">Chat Room</ion-select-option>
-            <ion-select-option value="home">Home</ion-select-option>
-            <ion-select-option value="infoDesk">Info Desk</ion-select-option>
-            <ion-select-option value="learningModule">Learning Module</ion-select-option>
-            <ion-select-option value="survey">Survey</ion-select-option>
-
-
-          </ion-select>
-        </ion-item>
-
-
+      <ion-item>
+        <ion-icon name="calendar"></ion-icon>
+        <ion-button expand="block" fill="clear" (click)= "openToCalendar()" >To Date </ion-button>
+        <ion-label>{{endDate}}</ion-label>
+      </ion-item>
         <ion-button  (click) = "On()" (click)="getMeasureForPages()" padding = "100" type='button'>
           submit
         </ion-button>
     </div>
+
+    <div *ngIf="openFromCalendarSwitch">
+      <ion-item>
+        <ionic-calendar-date-picker #start (onSelect) ="dateSelected($event)" [fromDate]= "minDate" [toDate]="yesterday"></ionic-calendar-date-picker>
+
+          <ion-button expand="block" fill="clear" (click)="closeFromCalendar()" >Ok </ion-button>
+
+      </ion-item>
+    </div>
+
+        <div  *ngIf="openToCalendarSwitch">
+          <ion-item>
+            <ionic-calendar-date-picker #end (onSelect) ="dateSelectedEnd($event)" [fromDate]=  "minStartToEnd" [toDate]="maxStartToEnd" ></ionic-calendar-date-picker>
+
+              <ion-button expand="block" fill="clear" (click) = "closeToCalendar()">Ok </ion-button>
+
+          </ion-item>
+
+        </div>
 
     <div *ngIf = "submitted">
 

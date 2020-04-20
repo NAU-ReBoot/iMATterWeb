@@ -143,6 +143,10 @@ export class AnalyticsPage implements OnInit{
     public totalTimePageArray: { Time: any, Page: string }[] =[];
     public sessionArray : any = [];
     public displayDuration: any;
+    public openFromCalendarSwitch= false;
+    public openToCalendarSwitch = false;
+    public fromDateString: any;
+    public toDayeString:any;
 
 
     private _CANVAS  : any;
@@ -175,7 +179,7 @@ export class AnalyticsPage implements OnInit{
         });
 
         this.maxsStartDate();
-        this.minDate();
+        this.findMinDate();
     }
 
 
@@ -225,6 +229,75 @@ export class AnalyticsPage implements OnInit{
       this.durationSubmitted = true;
     }
 
+    dateSelected(start:Date)
+     {
+       this.startDate= start;
+       console.log(this.startDate);
+
+     }
+
+
+     dateSelectedEnd(end:Date)
+      {
+        this.endDate= end;
+      }
+
+
+    findMinDate()
+    {
+      this.minDate = new Date('2020-04-08')
+    }
+
+
+
+          maxsStartDate() {
+            this.today = new Date();
+            this.today.setHours(0);
+            this.today.setMinutes(0);
+            this.today.setMilliseconds(0);
+            this.today.setSeconds(0);
+            this.yesterday = new Date();
+            this.yesterday.setHours(0);
+            this.yesterday.setMinutes(0);
+            this.yesterday.setMilliseconds(0);
+            this.yesterday.setSeconds(0);
+            this.yesterday.setDate(this.today.getDate()-1);
+
+
+          }
+
+
+          minEndDate()
+          {
+            this.minStartToEnd = this.startDate;
+            console.log(this.minStartToEnd);
+
+            this.maxStartToEnd = this.today;
+            console.log(this.maxStartToEnd);
+
+          }
+          openFromCalendar()
+          {
+            this.openFromCalendarSwitch = true;
+          }
+
+          closeFromCalendar()
+          {
+            this.openFromCalendarSwitch = false;
+          }
+
+
+          openToCalendar()
+          {
+            this.openToCalendarSwitch = true;
+          }
+
+          closeToCalendar()
+          {
+            this.openToCalendarSwitch = false;
+          }
+
+
 
     async getDurationMeasures(state)
     {
@@ -246,13 +319,13 @@ export class AnalyticsPage implements OnInit{
       }
       else
       {
-        this.startDate = new Date(this.startDate);
+        this.startDate = this.startDate;
         this.startDate.setHours(0);
         this.startDate.setMinutes(0);
         this.startDate.setMilliseconds(0);
         this.startDate.setSeconds(0);
 
-        this.endDate = new Date(this.endDate);
+        this.endDate = this.endDate;
         this.endDate.setHours(23);
         this.endDate.setMinutes(59);
         this.endDate.setMilliseconds(59);
@@ -752,41 +825,6 @@ export class AnalyticsPage implements OnInit{
     savingTimeOfDayArray(timeOfDayArray)
     {
       this.timeOfDayArray = timeOfDayArray;
-    }
-
-
-    minDate()
-    {
-      this.minDate = new Date('2020-04-08')
-    }
-
-
-
-    maxsStartDate() {
-      this.today = new Date();
-      this.today.setHours(0);
-      this.today.setMinutes(0);
-      this.today.setMilliseconds(0);
-      this.today.setSeconds(0);
-      this.yesterday = new Date();
-      this.yesterday.setHours(0);
-      this.yesterday.setMinutes(0);
-      this.yesterday.setMilliseconds(0);
-      this.yesterday.setSeconds(0);
-      this.yesterday.setDate(this.today.getDate()-1);
-
-
-    }
-
-
-    minEndDate()
-    {
-      this.minStartToEnd = this.startDate;
-      console.log(this.minStartToEnd);
-
-      this.maxStartToEnd = this.today.toISOString().substr(0.10);
-      console.log(this.maxStartToEnd);
-
     }
 
 
