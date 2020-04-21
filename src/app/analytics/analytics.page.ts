@@ -146,7 +146,7 @@ export class AnalyticsPage implements OnInit{
     public openFromCalendarSwitch= false;
     public openToCalendarSwitch = false;
     public fromDateString: any;
-    public toDayeString:any;
+    public toDateString:any;
 
 
     private _CANVAS  : any;
@@ -232,7 +232,10 @@ export class AnalyticsPage implements OnInit{
     dateSelected(start:Date)
      {
        this.startDate= start;
+       this.fromDateString = this.startDate.toString().split(" ").slice(0, 4).join(" ");
        console.log(this.startDate);
+       console.log(this.fromDateString);
+
 
      }
 
@@ -240,6 +243,8 @@ export class AnalyticsPage implements OnInit{
      dateSelectedEnd(end:Date)
       {
         this.endDate= end;
+        this.toDateString = this.startDate.toString().split(" ").slice(0, 4).join(" ");
+
       }
 
 
@@ -279,22 +284,26 @@ export class AnalyticsPage implements OnInit{
           openFromCalendar()
           {
             this.openFromCalendarSwitch = true;
+
           }
 
           closeFromCalendar()
           {
             this.openFromCalendarSwitch = false;
+
           }
 
 
           openToCalendar()
           {
             this.openToCalendarSwitch = true;
+
           }
 
           closeToCalendar()
           {
             this.openToCalendarSwitch = false;
+
           }
 
 
