@@ -244,7 +244,9 @@ export class AnalyticsPage implements OnInit{
      dateSelectedEnd(end:Date)
       {
         this.endDate= end;
-        this.toDateString = this.startDate.toString().split(" ").slice(0, 4).join(" ");
+        console.log(this.endDate);
+
+        this.toDateString = this.endDate.toString().split(" ").slice(0, 4).join(" ");
 
       }
 
@@ -282,6 +284,8 @@ export class AnalyticsPage implements OnInit{
             console.log(this.maxStartToEnd);
 
           }
+
+
           openFromCalendar()
           {
             this.openFromCalendarSwitch = true;
@@ -343,6 +347,10 @@ export class AnalyticsPage implements OnInit{
 
       }
 
+      this.fromDateString = this.startDate.toString().split(" ").slice(0, 4).join(" ");
+
+      this.toDateString = this.endDate.toString().split(" ").slice(0, 4).join(" ");
+
 
       let ref = this.afs.firestore.collection("analyticsSessions");
       await ref.where('LoginTime', '>=', this.startDate). where('LoginTime' , '<=', this.endDate).orderBy('LoginTime')
@@ -390,8 +398,6 @@ export class AnalyticsPage implements OnInit{
 
     async totalDurationMeasuresCalculation(state)
     {
-
-
       this.timePageArray.length = 0;
       this.timeOfDayArray = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
       this.sessionArray.length = 0;
@@ -431,17 +437,12 @@ export class AnalyticsPage implements OnInit{
       this.createBarChart();
 
       this.barChart.ngOnChanges();
-
-
-
     }
 
 
 
     async storageCaller()
     {
-
-
       let secondref = this.afs.firestore.collection("analyticsStorage");
       for( const session of this.sessionArray )
       {

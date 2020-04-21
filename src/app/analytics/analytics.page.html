@@ -50,7 +50,7 @@
 
     <div *ngIf="openFromCalendarSwitch">
       <ion-item>
-        <ionic-calendar-date-picker #start (onSelect) ="dateSelected($event)" [fromDate]= "minDate" [toDate]="yesterday"></ionic-calendar-date-picker>
+        <ionic-calendar-date-picker #start (onSelect) ="dateSelected($event)" [fromDate]= "minDate" [toDate]="today" ></ionic-calendar-date-picker>
 
           <ion-button expand="block" fill="clear"  (click)="closeFromCalendar()" >Ok </ion-button>
 
@@ -59,7 +59,7 @@
 
         <div  *ngIf="openToCalendarSwitch">
           <ion-item>
-            <ionic-calendar-date-picker #end (onSelect) ="dateSelectedEnd($event)" [fromDate]=  "minStartToEnd" [toDate]="maxStartToEnd" ></ionic-calendar-date-picker>
+            <ionic-calendar-date-picker #end (onSelect) ="dateSelectedEnd($event)" [fromDate]= "minStartToEnd" [toDate]="maxStartToEnd" ></ionic-calendar-date-picker>
 
               <ion-button expand="block" fill="clear" (click) = "closeToCalendar()">Ok </ion-button>
 
@@ -84,6 +84,16 @@
         <canvas #lineChart></canvas>
       </ion-card-content>
     </ion-card>
+    </div>
+
+    <div *ngIf = "durationSubmitted">
+
+    <ion-item>
+
+        Total Average Vists Per Session: {{calendarAverage}}
+
+    </ion-item>
+
     </div>
 
 
@@ -111,22 +121,7 @@
         </ion-button>
     </div>
 
-    <div *ngIf = "durationSubmitted">
 
-    <ion-item>
-        Total {{pageString}} UserViews: {{calendarHolder}}
-
-        Total Average Vists Per Session: {{calendarAverage}}
-
-    </ion-item>
-
-    <ion-card>
-      <ion-card-header>
-         Visits
-      </ion-card-header>
-
-    </ion-card>
-    </div>
 
 
   </ion-content>
