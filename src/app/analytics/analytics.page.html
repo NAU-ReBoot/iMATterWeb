@@ -40,8 +40,8 @@
       </ion-item>
       <ion-item>
         <ion-icon name="calendar"></ion-icon>
-        <ion-button expand="block" fill="clear" (click)= "openToCalendar()" >To Date </ion-button>
-        <ion-label>{{endDate}}</ion-label>
+        <ion-button expand="block" fill="clear" (click)="minEndDate()" (click)= "openToCalendar()" >To Date </ion-button>
+        <ion-label>{{toDateString}}</ion-label>
       </ion-item>
         <ion-button  (click) = "On()" (click)="getMeasureForPages()" padding = "100" type='button'>
           submit
@@ -52,7 +52,7 @@
       <ion-item>
         <ionic-calendar-date-picker #start (onSelect) ="dateSelected($event)" [fromDate]= "minDate" [toDate]="yesterday"></ionic-calendar-date-picker>
 
-          <ion-button expand="block" fill="clear" (click)="closeFromCalendar()" >Ok </ion-button>
+          <ion-button expand="block" fill="clear"  (click)="closeFromCalendar()" >Ok </ion-button>
 
       </ion-item>
     </div>

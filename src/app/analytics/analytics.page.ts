@@ -240,6 +240,7 @@ export class AnalyticsPage implements OnInit{
      }
 
 
+
      dateSelectedEnd(end:Date)
       {
         this.endDate= end;
@@ -408,12 +409,6 @@ export class AnalyticsPage implements OnInit{
       console.log(this.logArray);
       console.log(this.finalDurationArray);
 
-
-
-
-
-
-
       console.log("inside tester");
       console.log("about call getmeasures ");
 
@@ -573,13 +568,13 @@ export class AnalyticsPage implements OnInit{
       this.endOfSessionIndex = 0;
       this.calendarAverageArray = new Array();
 
-      this.startDate = new Date(this.startDate);
+      this.startDate = this.startDate;
       this.startDate.setHours(0);
       this.startDate.setMinutes(0);
       this.startDate.setMilliseconds(0);
       this.startDate.setSeconds(0);
 
-      this.endDate = new Date(this.endDate);
+      this.endDate = this.endDate;
       this.endDate.setHours(23);
       this.endDate.setMinutes(59);
       this.endDate.setMilliseconds(59);
