@@ -3,3 +3,16 @@
   --background-activated: var(--secondary-color);
   --background-hover: var(--tertiary-color);
 }
+
+.fixedLabel {
+       min-width: 20% !important;
+       max-width: 20% !important;
+   }
+
+ion-card{
+       display: flex;
+       flex-direction: column;
+       width: 60% !important;
+       height: 50% !important;
+       margin: 0 !important;
+     }

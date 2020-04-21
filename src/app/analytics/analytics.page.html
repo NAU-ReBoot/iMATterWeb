@@ -1,6 +1,6 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Analytics</ion-title>
+    <ion-title> Analytics </ion-title>
     <ion-buttons slot="start">
       <ion-menu-button autoHide="false"></ion-menu-button>
     </ion-buttons>
@@ -9,158 +9,119 @@
 
 <ion-row>
   <ion-col>
-    <ion-button class="fill-button" expand="block" size="large" (click)="totalCalendarInfo()"> Calendar Stats</ion-button>
+    <ion-button class="fill-button"  expand="block" size="large" (click) = "pageStatsOn()" > Page Statisitcs</ion-button>
   </ion-col>
   <ion-col>
-    <ion-button class="fill-button" expand="block" size="large" (click)="userInformation()"> Individual User Stats</ion-button>
+    <ion-button class="fill-button"  expand="block" size="large" (click) = "pageStatsOff()"> Duration Statistics</ion-button>
   </ion-col>
-  <ion-col>
-    <ion-button class="fill-button" expand="block" size="large" (click)="showAdmins()"> ________ Stats </ion-button>
-  </ion-col>
+
 </ion-row>
 
-
 <ion-content>
-  <ion-content>
-    <div class="ion-padding">
 
 
-      <div *ngIf="calendarView">
-
-        <ion-card>
-          Total Calendar UserViews: {{calendarHolder}}
-        </ion-card>
-        <ion-card>
-          Total Average Vists Per Session: {{calendarAverage}}
-        </ion-card>
-
-        <ion-item>
-          <ion-label>
-            From Date
-          </ion-label>
-          <ion-datetime displayFormat= "MM/DD/YYYY" [(ngModel)]= "startDate" min = "2020-03-01" max ="{{todayMinusOne}}" ></ion-datetime>
-        </ion-item>
-        <ion-item>
-          <ion-label>
-            To Date
-          </ion-label>
-          <ion-datetime displayFormat= "MM/DD/YYYY" (click) ="minEndDate()" [(ngModel)]= "endDate" min ="{{minStartToEnd}}" max="{{maxStartToEnd}}"></ion-datetime>
-        </ion-item>
-
-        <ion-button  (click) = "calendarOn()" (click) = "getCalendarMeasures()" padding = "100" type='button'>
-          submit
-        </ion-button>
-
-      </div>
-
-      <div *ngIf="buttonCalendar">
-
-      <ion-card>
-        <ion-card-header>
-          Calendar Visits
-        </ion-card-header>
-        <ion-card-content>
-          <canvas #lineChart></canvas>
-        </ion-card-content>
-      </ion-card>
-
-      </div>
-
-
-
-
-      <div *ngIf="indivUserView">
-        <ion-item>
-          <ion-label position = "floating" > User ID</ion-label>
-          <ion-input type = "text" [(ngModel)] = "USERID" id="input"></ion-input>
-        </ion-item>
-        <ion-button (click)= "getUserSessions()"  (click) = "getUserTime()" (click)= "getUserTotalClicks()" padding = "100" type='button'>
-          submit
-        </ion-button>
-
-
-      </div>
-
-
-
-      <ion-item *ngFor= "let session of (sessions| async)" >
-        <ion-card>
-
-          <div class = "LoginTime">
-            LoginTime: {{ session.LoginTime.seconds * 1000 | date:'MM-dd-yyyy h:mm a'}}
-          </div>
-          <div>
-            LogOutTime: {{ session.LogOutTime.seconds * 1000 | date:'MM-dd-yyyy h:mm a'}}
-          </div>
-          <div>
-            UserID: {{ session.userID }}
-          </div>
-        </ion-card>
+    <div *ngIf="pageStatistics" class="ion-padding">
+      <ion-item>
+        <ion-label> Page </ion-label>
+        <ion-select placeholder="Select One" [(ngModel)] ="pageString">
+          <ion-select-option value="calendar">Calendar</ion-select-option>
+          <ion-select-option value="chat">Chat Room</ion-select-option>
+          <ion-select-option value="home">Home</ion-select-option>
+          <ion-select-option value="infoDesk">Info Desk</ion-select-option>
+          <ion-select-option value="learningModule">Learning Module</ion-select-option>
+          <ion-select-option value="survey">Survey</ion-select-option>
+        </ion-select>
       </ion-item>
 
-
-
-
-
-
-
-
-
-
-      <ion-item *ngFor= "let analytic of (analytics | async)" >
-        <ion-grid>
-          <ion-row>
-            <ion-col>
-              <div >
-                User: {{ analytic.userID }}
-              </div>
-            </ion-col>
-            <ion-col>
-              <div>
-                Time Stamp: {{ analytic.timestamp.seconds * 1000 | date:'MM-dd-yyyy h:mm a'}}
-              </div>
-            </ion-col>
-            <ion-col>
-              <div>
-                Session ID: {{ analytic.sessionID }}
-              </div>
-            </ion-col>
-            <ion-col>
-              <div>
-                Page: {{ analytic.page }}
-              </div>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
+      <ion-item>
+        <ion-icon name="calendar"></ion-icon>
+        <ion-button expand="block" fill="clear" (click)= "openFromCalendar()" >From Date </ion-button>
+        <ion-label>{{fromDateString}}</ion-label>
       </ion-item>
+      <ion-item>
+        <ion-icon name="calendar"></ion-icon>
+        <ion-button expand="block" fill="clear" (click)="minEndDate()" (click)= "openToCalendar()" >To Date </ion-button>
+        <ion-label>{{toDateString}}</ion-label>
+      </ion-item>
+        <ion-button  (click) = "On()" (click)="getMeasureForPages()" padding = "100" type='button'>
+          submit
+        </ion-button>
+    </div>
 
-      <ion-item *ngFor= "let unqiueSession of (uniqueSessions | async)" >
+    <div *ngIf="openFromCalendarSwitch">
+      <ion-item>
+        <ionic-calendar-date-picker #start (onSelect) ="dateSelected($event)" [fromDate]= "minDate" [toDate]="today" ></ionic-calendar-date-picker>
 
-        <ion-grid>
-          <ion-row>
-            <ion-col>
-              <div class = "LoginTime">
-                User: {{ unqiueSession.userID }}
-              </div>
-            </ion-col>
-            <ion-col>
-              <div>
-                Time Stamp: {{ unqiueSession.timestamp.seconds * 1000 | date:'MM-dd-yyyy h:mm a' }}
-              </div>
-            </ion-col>
-            <ion-col>
-              <div>
-                Session ID: {{ unqiueSession.sessionID }}
-              </div>
-            </ion-col>
-            <ion-col>
-              <div>
-                Page: {{ unqiueSession.page }}
-              </div>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
+          <ion-button expand="block" fill="clear"  (click)="closeFromCalendar()" >Ok </ion-button>
 
       </ion-item>
     </div>
+
+        <div  *ngIf="openToCalendarSwitch">
+          <ion-item>
+            <ionic-calendar-date-picker #end (onSelect) ="dateSelectedEnd($event)" [fromDate]= "minStartToEnd" [toDate]="maxStartToEnd" ></ionic-calendar-date-picker>
+
+              <ion-button expand="block" fill="clear" (click) = "closeToCalendar()">Ok </ion-button>
+
+          </ion-item>
+
+        </div>
+
+    <div *ngIf = "submitted">
+
+    <ion-item>
+        Page Duration in Minutes: {{displayDuration}} Minutes
+  </ion-item>
+  <ion-item>
+        Total Average Vists Per Session: {{calendarAverage}}
+    </ion-item>
+
+    <ion-card>
+      <ion-card-header>
+        {{pageString}} Visits
+      </ion-card-header>
+      <ion-card-content>
+        <canvas #lineChart></canvas>
+      </ion-card-content>
+    </ion-card>
+    </div>
+
+    <div *ngIf = "durationSubmitted">
+
+    <ion-item>
+
+        Total Average Vists Per Session: {{calendarAverage}}
+
+    </ion-item>
+
+    </div>
+
+
+    <div *ngIf="durationPage" class="ion-padding">
+
+      <ion-card style='height:100%'>
+        <ion-card-content >
+          <canvas  #barChart></canvas>
+        </ion-card-content>
+      </ion-card>
+
+      <ion-item>
+        <ion-icon name="calendar"></ion-icon>
+        <ion-button expand="block" fill="clear" (click)= "openFromCalendar()" >From Date </ion-button>
+        <ion-label>{{fromDateString}}</ion-label>
+      </ion-item>
+      <ion-item>
+        <ion-icon name="calendar"></ion-icon>
+        <ion-button expand="block" fill="clear" (click)= "openToCalendar()" >To Date </ion-button>
+        <ion-label>{{toDateString}}</ion-label>
+      </ion-item>
+
+        <ion-button  (click) = "durationOn()" (click) = "totalDurationMeasuresCalculation('non')" padding = "100" type='button'>
+          submit
+        </ion-button>
+    </div>
+
+
+
+
   </ion-content>
