@@ -30,7 +30,7 @@ import { DatePickerModule } from 'ionic4-date-picker';
     IonicStorageModule.forRoot(),
     AppRoutingModule,
     AngularFirestoreModule,
-    //AngularFireModule.initializeApp(environment.firebase),
+    AngularFireModule.initializeApp(environment),
     AngularFireAuthModule,
     ReactiveFormsModule,
     FormsModule,
