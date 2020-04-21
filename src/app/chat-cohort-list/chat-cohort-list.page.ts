@@ -10,9 +10,9 @@ import { Router } from '@angular/router';
 })
 export class ChatCohortListPage implements OnInit {
 
-  private cohorts: any;
+  public cohorts: any;
 
-  constructor(private chatService: ChatService, private router: Router, private storage: Storage) {
+  constructor(public chatService: ChatService, public router: Router, public storage: Storage) {
     this.cohorts = this.chatService.getCohorts();
   }
 

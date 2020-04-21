@@ -13,13 +13,13 @@ import {EmotionNotif, ProviderInboxService} from '../../services/providerInbox/p
 })
 export class ProviderInboxPage implements OnInit {
 
-  private emotionNotifs: Observable<EmotionNotif[]>;
+  public emotionNotifs: Observable<EmotionNotif[]>;
 
-  constructor(private providerInboxService: ProviderInboxService,
-              private storage: Storage,
-              private router: Router,
+  constructor(public providerInboxService: ProviderInboxService,
+              public storage: Storage,
+              public router: Router,
               public alertController: AlertController,
-              private AFSStorage: AngularFireStorage) { }
+              public AFSStorage: AngularFireStorage) { }
 
   ngOnInit() {
     this.storage.get('authenticated').then((val) => {

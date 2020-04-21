@@ -10,11 +10,11 @@ import {Storage} from '@ionic/storage';
   styleUrls: ['./pregnancy-updates.page.scss'],
 })
 export class PregnancyUpdatesPage implements OnInit {
-  private pregnancyUpdates: Observable<PregnancyUpdateCard[]>;
+  public pregnancyUpdates: Observable<PregnancyUpdateCard[]>;
 
-  constructor(private pregUpdateService: PregnancyUpdatesService,
-              private router: Router,
-              private storage: Storage) {
+  constructor(public pregUpdateService: PregnancyUpdatesService,
+              public router: Router,
+              public storage: Storage) {
   }
 
   ngOnInit() {

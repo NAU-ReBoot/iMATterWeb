@@ -60,14 +60,14 @@ export class UpdateUserPage implements OnInit {
     notes: ''
   };
 
-  private userType: string;
+  public userType: string;
 
-  constructor(private router: Router,
+  constructor(public router: Router,
               public afs: AngularFirestore,
-              private toastCtrl: ToastController,
-              private storage: Storage,
-              private activatedRoute: ActivatedRoute,
-              private createUserService: CreateUserService,) { }
+              public toastCtrl: ToastController,
+              public storage: Storage,
+              public activatedRoute: ActivatedRoute,
+              public createUserService: CreateUserService,) { }
 
   ngOnInit() {
 

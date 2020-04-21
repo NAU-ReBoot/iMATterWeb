@@ -17,16 +17,16 @@ import { ProfileService } from '../../services/user/profile.service';
 export class RecoveryCodePage implements OnInit {
 	public loginForm: FormGroup;
     public loading: HTMLIonLoadingElement;
-    private email: string;
-    private password: string;
-    private userID: string;
-    private userEmail: boolean;
-    private userPassword: string;
-	private recoveryCode: string;
-	private theCode: string;
-	private wantedUserID: string;
-	private recoveryPassword: string;
-	private isProvider: boolean;
+    public email: string;
+    public password: string;
+    public userID: string;
+    public userEmail: boolean;
+    public userPassword: string;
+	public recoveryCode: string;
+	public theCode: string;
+	public wantedUserID: string;
+	public recoveryPassword: string;
+	public isProvider: boolean;
 	
 	
 
@@ -34,13 +34,13 @@ export class RecoveryCodePage implements OnInit {
   constructor(
       public loadingCtrl: LoadingController,
         public alertCtrl: AlertController,
-        private authService: AuthServiceProvider,
-        private router: Router,
-        private formBuilder: FormBuilder,
+        public authService: AuthServiceProvider,
+        public router: Router,
+        public formBuilder: FormBuilder,
         public afs: AngularFirestore,
-        private toastCtrl: ToastController,
-        private storage: Storage,
-		private profileService: ProfileService
+        public toastCtrl: ToastController,
+        public storage: Storage,
+		public profileService: ProfileService
   ) {
     this.enterCodeForm = this.formBuilder.group({
       recoveryCode: [

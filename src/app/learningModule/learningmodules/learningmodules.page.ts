@@ -15,11 +15,11 @@ import { Router } from '@angular/router';
 })
 export class LearningmodulesPage implements OnInit {
 
-  private learningModules: Observable<LearningModule[]>;
+  public learningModules: Observable<LearningModule[]>;
   
-  constructor(private learningModService: LearningModuleService,
-              private router: Router,
-              private storage: Storage) { }
+  constructor(public learningModService: LearningModuleService,
+              public router: Router,
+              public storage: Storage) { }
 
   ngOnInit() {
     this.storage.get('authenticated').then((val) => {

@@ -43,18 +43,18 @@ export class ForumThreadPage implements OnInit {
   public showSubmitButton = false;
 
 
-  private comments: Observable<any>;
-  private showDeleteOption: boolean;
-  private commentForm: FormGroup;
+  public comments: Observable<any>;
+  public showDeleteOption: boolean;
+  public commentForm: FormGroup;
 
-  constructor(private afs: AngularFirestore,
-              private activatedRoute: ActivatedRoute,
-              private questionService: QuestionService,
-              private toastCtrl: ToastController,
-              private router: Router,
-              private storage: Storage,
+  constructor(public afs: AngularFirestore,
+              public activatedRoute: ActivatedRoute,
+              public questionService: QuestionService,
+              public toastCtrl: ToastController,
+              public router: Router,
+              public storage: Storage,
               public alertController: AlertController,
-              private formBuilder: FormBuilder) {
+              public formBuilder: FormBuilder) {
     this.commentForm = this.formBuilder.group({
       comment: ['',
         Validators.compose([Validators.required, Validators.minLength(1)])],

@@ -13,13 +13,13 @@ import {AngularFirestore} from '@angular/fire/firestore';
 })
 export class ProviderHomePage implements OnInit {
 
-  private questions: Observable<Question[]>;
-  private searchbar: any;
+  public questions: Observable<Question[]>;
+  public searchbar: any;
   public searchControl: FormControl;
   public items: any;
 
-  private allPosts: boolean;
-  private usersPosts: boolean;
+  public allPosts: boolean;
+  public usersPosts: boolean;
 
   public questionList: any[];
   public loadedQuestionList: any[];
@@ -27,8 +27,8 @@ export class ProviderHomePage implements OnInit {
   public thisUserQuestionList: any[];
   public thisUserLoadedQuestionList: any[];
 
-  constructor(private questionService: QuestionService, private router: Router, private storage: Storage,
-              private afs: AngularFirestore) {
+  constructor(public questionService: QuestionService, public router: Router, public storage: Storage,
+              public afs: AngularFirestore) {
     this.searchControl = new FormControl();
   }
 
