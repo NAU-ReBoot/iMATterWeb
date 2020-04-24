@@ -958,7 +958,7 @@ export class AnalyticsPage implements OnInit{
          data:{
            labels: ["Calendar", "Chat Room" , "Home" , "Info Desk" , "Learning Center", "Survey Center"],
            datasets: [{
-             label: "Number of Duration in Minutes For Each Page",
+             label: "Number of Minutes For Each Page",
              data:this.finalDurationArray,
              backgroundColor: 'rgb(147,112,219)',
              borderColor: 'rgb(147,112,219)',
@@ -984,14 +984,14 @@ export class AnalyticsPage implements OnInit{
    						display: true,
    						scaleLabel: {
    							display: true,
-   							labelString: 'Month'
+   							labelString: 'Pages'
    						}
    					}],
    					yAxes: [{
    						display: true,
    						scaleLabel: {
    							display: true,
-   							labelString: 'Value'
+   							labelString: 'Minutes'
    						}
    					}]
            }
@@ -1006,53 +1006,42 @@ export class AnalyticsPage implements OnInit{
 
     createLineChart()
     {
+      let data = {
+        labels: ["12:00AM", "1:00AM", "2:00AM", "3:00AM" , "4:00AM", "5:00AM" ,
+                  "6:00AM", "7:00AM" , "8:00AM" , "9:00AM", "10:00AM" , "11:00AM",
+                  "12:00PM", "1:00PM", "2:00PM", "3:00PM" , "4:00PM", "5:00PM" ,
+                  "6:00PM", "7:00PM" , "8:00PM" , "9:00PM", "10:00PM" , "11:00PM"],
+        datasets: [{
+          label: 'Number of Visits',
+          data: this.timeOfDayArray,
+          fill: false,
+          borderColor: 'rgb(147,112,219)',
+          borderWidth: 2
+        }
+      ]
+    };
+    let options = {
+        scales: {
+        xAxes: [{
+          display: true,
+          scaleLabel: {
+            display: true,
+            labelString: 'Time Of Day'
+          }
+
+        }],
+        yAxes: [{
+        scaleLabel: {
+            display: true,
+            labelString: 'Visits'
+          }
+        }]
+      }
+    };
       this.myLineChart = new Chart(this.lineChart.nativeElement,{
         type:'line',
-        data:{
-          labels: ["12:00AM", "1:00AM", "2:00AM", "3:00AM" , "4:00AM", "5:00AM" ,
-                    "6:00AM", "7:00AM" , "8:00AM" , "9:00AM", "10:00AM" , "11:00AM",
-                    "12:00PM", "1:00PM", "2:00PM", "3:00PM" , "4:00PM", "5:00PM" ,
-                    "6:00PM", "7:00PM" , "8:00PM" , "9:00PM", "10:00PM" , "11:00PM"],
-          datasets: [{
-            label: 'Number of Users',
-            data: this.timeOfDayArray,
-            fill: false,
-            borderColor: 'rgb(147,112,219)',
-            borderWidth: 2
-          }
-        ]
-        },
-        options:{
-          responsive: true,
-  				title: {
-  					display: true,
-  					text: 'Line Chart'
-  				},
-  				tooltips: {
-  					mode: 'index',
-  					intersect: false,
-  				},
-  				hover: {
-  					mode: 'nearest',
-  					intersect: true
-  				},
-  				scales: {
-  					xAxes: [{
-  						display: true,
-  						scaleLabel: {
-  							display: true,
-  							labelString: 'Month'
-  						}
-  					}],
-  					yAxes: [{
-  						display: true,
-  						scaleLabel: {
-  							display: true,
-  							labelString: 'Value'
-  						}
-  					}]
-          }
-        }
+        data: data,
+        options: options
       });
       this.myLineChart.update();
 
