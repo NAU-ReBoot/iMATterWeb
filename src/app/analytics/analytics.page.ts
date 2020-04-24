@@ -966,12 +966,34 @@ export class AnalyticsPage implements OnInit{
            }]
          },
          options:{
-           scales:{
-             yAxes:[{
-               ticks:{
-                 beginAtZero:true
-               }
-             }]
+           responsive: true,
+   				title: {
+   					display: true,
+   					text: 'Analytics Bar Chart'
+   				},
+   				tooltips: {
+   					mode: 'index',
+   					intersect: false,
+   				},
+   				hover: {
+   					mode: 'nearest',
+   					intersect: true
+   				},
+   				scales: {
+   					xAxes: [{
+   						display: true,
+   						scaleLabel: {
+   							display: true,
+   							labelString: 'Month'
+   						}
+   					}],
+   					yAxes: [{
+   						display: true,
+   						scaleLabel: {
+   							display: true,
+   							labelString: 'Value'
+   						}
+   					}]
            }
          }
        });
@@ -996,17 +1018,39 @@ export class AnalyticsPage implements OnInit{
             data: this.timeOfDayArray,
             fill: false,
             borderColor: 'rgb(147,112,219)',
-            borderWidth:1
+            borderWidth: 2
           }
         ]
         },
         options:{
-          scales:{
-            yAxes:[{
-              ticks:{
-                beginAtZero:true
-              }
-            }]
+          responsive: true,
+  				title: {
+  					display: true,
+  					text: 'Line Chart'
+  				},
+  				tooltips: {
+  					mode: 'index',
+  					intersect: false,
+  				},
+  				hover: {
+  					mode: 'nearest',
+  					intersect: true
+  				},
+  				scales: {
+  					xAxes: [{
+  						display: true,
+  						scaleLabel: {
+  							display: true,
+  							labelString: 'Month'
+  						}
+  					}],
+  					yAxes: [{
+  						display: true,
+  						scaleLabel: {
+  							display: true,
+  							labelString: 'Value'
+  						}
+  					}]
           }
         }
       });
