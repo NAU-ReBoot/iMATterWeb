@@ -1022,7 +1022,10 @@ export class AnalyticsPage implements OnInit{
    						scaleLabel: {
    							display: true,
    							labelString: 'Minutes'
-   						}
+   						},
+              ticks: {
+          stepSize: 1
+        }
    					}]
            }
          }
@@ -1064,7 +1067,10 @@ export class AnalyticsPage implements OnInit{
         scaleLabel: {
             display: true,
             labelString: 'Visits'
-          }
+          },
+          ticks: {
+          stepSize: 1
+        }
         }]
       }
     };
