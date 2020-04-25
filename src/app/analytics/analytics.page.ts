@@ -194,6 +194,7 @@ export class AnalyticsPage implements OnInit{
       this.pageStatistics = true;
       this.durationPage = false;
       this.durationSubmitted = false;
+      this.pageStatsOn();
     }
 
     ionViewDidLoad()
@@ -207,6 +208,7 @@ export class AnalyticsPage implements OnInit{
       this.submitted = false;
       this.durationPage = true;
       this.finalDurationArray= [0,0,0,0,0,0];
+      this.pageString == "chat";
       this.totalDurationMeasuresCalculation("initial");
 
     }
@@ -216,7 +218,10 @@ export class AnalyticsPage implements OnInit{
       this.pageStatistics = true;
       this.durationPage = false;
       this.submitted = false;
+      this.finalDurationArray= [0,0,0,0,0,0];
       this.durationSubmitted = false;
+      this.getMeasureForPages("initial");
+
     }
 
     On()
@@ -434,9 +439,14 @@ export class AnalyticsPage implements OnInit{
 
       this.calculatingDuration(this.totalTimePageArray);
       console.log(this.finalDurationArray);
+
+      if(state !== "initial")
+      {
+        this.myBarChart.destroy();
+      }
+
       this.createBarChart();
 
-      this.barChart.ngOnChanges();
     }
 
 
@@ -508,7 +518,7 @@ export class AnalyticsPage implements OnInit{
 
 
 
-    async  getMeasureForPages()
+    async  getMeasureForPages(state)
         {
           this.timePageArray.length = 0;
           this.timeOfDayArray = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
@@ -521,7 +531,7 @@ export class AnalyticsPage implements OnInit{
           this.finalDurationArray= [0,0,0,0,0,0];
           this.displayDuration = 0;
 
-          await this.getMeasures();
+          await this.getMeasures(state);
           await this.getStorage();
           console.log("after tester");
           console.log("about to print arrays");
@@ -548,40 +558,60 @@ export class AnalyticsPage implements OnInit{
           console.log('this time of day array');
           console.log(this.timeOfDayArray);
 
+          if(state !== "initial")
+          {
+            this.myLineChart.destroy();
 
+          }
 
-          this.createLineChart();
+            this.createLineChart();
 
-
-
-          this.timeOfDayArray = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
         }
 
 
 
 
 
-    async getMeasures()
-    {
-      console.log("start date " + this.startDate);
-      console.log("end date " + this.endDate);
-      this.beginningOfSessionIndex = 0;
-      this.endOfSessionIndex = 0;
-      this.calendarAverageArray = new Array();
+    async getMeasures(state)
+    {      if (state == "initial")
+          {
+            this.startDate = new Date();
+            this.startDate.setHours(0);
+            this.startDate.setMinutes(0);
+            this.startDate.setMilliseconds(0);
+            this.startDate.setSeconds(0);
+            this.startDate.setDate(this.startDate.getDate()-1);
 
-      this.startDate = this.startDate;
-      this.startDate.setHours(0);
-      this.startDate.setMinutes(0);
-      this.startDate.setMilliseconds(0);
-      this.startDate.setSeconds(0);
+            this.endDate = new Date();
+            this.endDate.setHours(23);
+            this.endDate.setMinutes(59);
+            this.endDate.setMilliseconds(59);
+            this.endDate.setSeconds(59);
 
-      this.endDate = this.endDate;
-      this.endDate.setHours(23);
-      this.endDate.setMinutes(59);
-      this.endDate.setMilliseconds(59);
-      this.endDate.setSeconds(59);
+            this.pageString ="chat";
+          }
+          else
+          {
+            this.startDate = this.startDate;
+            this.startDate.setHours(0);
+            this.startDate.setMinutes(0);
+            this.startDate.setMilliseconds(0);
+            this.startDate.setSeconds(0);
+
+            this.endDate = this.endDate;
+            this.endDate.setHours(23);
+            this.endDate.setMinutes(59);
+            this.endDate.setMilliseconds(59);
+            this.endDate.setSeconds(59);
+
+          }
+
+          this.fromDateString = this.startDate.toString().split(" ").slice(0, 4).join(" ");
+
+          this.toDateString = this.endDate.toString().split(" ").slice(0, 4).join(" ");
 
       this.dayDifference = this.endDate.getDate() - this.startDate.getDate();
+
       let ref = this.afs.firestore.collection("analyticsSessions");
 
       await ref.where('LoginTime' , '>=', this.startDate).where('LoginTime' , '<=', this.endDate)
@@ -997,7 +1027,7 @@ export class AnalyticsPage implements OnInit{
            }
          }
        });
-       this.myBarChart.update();
+
      }
 
 
@@ -1043,7 +1073,7 @@ export class AnalyticsPage implements OnInit{
         data: data,
         options: options
       });
-      this.myLineChart.update();
+
 
     }
 

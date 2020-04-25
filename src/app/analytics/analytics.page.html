@@ -21,6 +21,13 @@
 
 
     <div *ngIf="pageStatistics" class="ion-padding">
+
+      <ion-card style='height:100%'>
+        <ion-card-content >
+          <canvas  #lineChart></canvas>
+        </ion-card-content>
+      </ion-card>
+
       <ion-item>
         <ion-label> Page </ion-label>
         <ion-select placeholder="Select One" [(ngModel)] ="pageString">
@@ -76,14 +83,7 @@
         Total Average Vists Per Session: {{calendarAverage}}
     </ion-item>
 
-    <ion-card>
-      <ion-card-header>
-        {{pageString}} Visits
-      </ion-card-header>
-      <ion-card-content>
-        <canvas #lineChart></canvas>
-      </ion-card-content>
-    </ion-card>
+
     </div>
 
     <div *ngIf = "durationSubmitted">
