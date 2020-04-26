@@ -3,8 +3,9 @@ import { SettingsService, GiftCardType, ProviderType } from '../services/setting
 import { Storage } from '@ionic/storage';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
-import { Observable } from 'rxjs';
+import { Observable, Scheduler } from 'rxjs';
 import { AngularFireStorage, AngularFireUploadTask } from '@angular/fire/storage';
+import { CloudSchedulerClient } from '@google-cloud/scheduler';
 
 @Component({
   selector: 'app-mobile-settings',
@@ -17,7 +18,7 @@ export class MobileSettingsPage implements OnInit {
               private storage: Storage,
               private router: Router,
               public alertController: AlertController,
-              private AFSStorage: AngularFireStorage,
+              private AFSStorage: AngularFireStorage
               ) { }
 
   providerType: ProviderType = {
@@ -60,7 +61,7 @@ export class MobileSettingsPage implements OnInit {
   private displayAdminProfilePic: boolean;
   private displayUpdateAdminPic: boolean;
   private displayNotificationSettings: boolean;
-  private displayLMNotifSettings: boolean;
+  private displayLMNotifSettings: boolean; //learning module
   private displaySurveyNotifSettings: boolean;
 
   // for uploading image
