@@ -1001,14 +1001,6 @@ export class AnalyticsPage implements OnInit{
    					display: true,
    					text: 'Analytics Bar Chart'
    				},
-   				tooltips: {
-   					mode: 'index',
-   					intersect: false,
-   				},
-   				hover: {
-   					mode: 'nearest',
-   					intersect: true
-   				},
    				scales: {
    					xAxes: [{
    						display: true,
@@ -1024,10 +1016,11 @@ export class AnalyticsPage implements OnInit{
    							labelString: 'Minutes'
    						},
               ticks: {
-          stepSize: 1
+                percision: 0
         }
    					}]
            }
+
          }
        });
 
@@ -1053,27 +1046,32 @@ export class AnalyticsPage implements OnInit{
         }
       ]
     };
-    let options = {
-        scales: {
-        xAxes: [{
-          display: true,
-          scaleLabel: {
-            display: true,
-            labelString: 'Time Of Day'
-          }
 
-        }],
-        yAxes: [{
-        scaleLabel: {
-            display: true,
-            labelString: 'Visits'
-          },
-          ticks: {
-          stepSize: 1
-        }
-        }]
+    let options = {
+      title: {
+        display: true,
+        text: 'Analytics Line Chart'
+      },
+     scales: {
+       xAxes: [{
+         scaleLabel: {
+           display: true,
+           labelString: 'Times'
+         }
+       }],
+
+       yAxes: [{
+         scaleLabel: {
+           display: true,
+           labelString: 'Visits'
+         },
+         ticks: {
+        percision: 0
       }
-    };
+       }],
+
+     }
+   };
       this.myLineChart = new Chart(this.lineChart.nativeElement,{
         type:'line',
         data: data,
