@@ -11,6 +11,8 @@ export interface Submission {
   userID: string;
   timestamp: any;
   type: any;
+  operatingSys: string;
+  version: string;
 }
 
 export interface LocationSuggestion {
