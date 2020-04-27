@@ -4,6 +4,7 @@
       Information Desk
     </ion-title>
       <ion-button *ngIf="showDeleteOption" slot="end" color="danger" (click)="deletePostOrComment('post', 'none', question)"> Delete Post </ion-button>
+      <ion-button *ngIf="showReportOption" slot="end" color="danger" (click)="reportQuestionOrComment('post', 'none', question)"> Report </ion-button>
   </ion-toolbar>
 </ion-header>
 
@@ -83,6 +84,9 @@
           </ion-row>
           <ion-item *ngIf="showDeleteOption">
             <ion-button slot="end" color="danger" (click)="deletePostOrComment('comment', comment, question)"> Delete Comment </ion-button>
+          </ion-item>
+          <ion-item *ngIf="showReportOption" >
+          <ion-button slot="end" color="danger" (click)="reportQuestionOrComment('comment', comment, question)"> Report </ion-button>
           </ion-item>
         </ion-card>
       </ion-item>

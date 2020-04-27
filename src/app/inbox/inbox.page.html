@@ -9,7 +9,20 @@
   </ion-toolbar>
 </ion-header>
 
+<ion-row>
+  <ion-col>
+    <ion-button class="fill-button" [class.noHighlight]="problemsView != true" expand="block" size="large" (click)="problemsView = true; locationView = false; reportView = false;"> User Reports</ion-button>
+  </ion-col>
+  <ion-col>
+    <ion-button class="fill-button" [class.noHighlight]="reportView != true" expand="block" size="large" (click)="problemsView = false; locationView = false; reportView = true;"> Provider Reports </ion-button>
+  </ion-col>
+  <ion-col>
+    <ion-button class="fill-button" [class.noHighlight]="locationView != true" expand="block" size="large" (click)="problemsView = false; locationView = true; reportView = false;"> Location Suggestions </ion-button>
+  </ion-col>
+</ion-row>
+
 <ion-content>
+  <div *ngIf="problemsView">
   <ion-item class="subheader">
   <ion-label class="label"> User Reported Problems</ion-label>
   </ion-item>
@@ -18,14 +31,30 @@
       {{submission.type}} : {{ submission.title }}
       <ion-icon name="arrow-forward" slot="end"></ion-icon>
     </ion-item>
+  </ion-list>
+  </div>
 
+  <div *ngIf="reportView">
+    <ion-item class="subheader">
+      <ion-label class="label"> Provider Reported Posts/Comments</ion-label>
+    </ion-item>
+    <ion-list>
+      <ion-item button [routerLink]="['/inbox/provider-report/', report.id]" *ngFor="let report of (providerReports | async)">
+        Report : A {{ report.type }} has been reported.
+        <ion-icon name="arrow-forward" slot="end"></ion-icon>
+      </ion-item>
+    </ion-list>
+  </div>
+
+  <div *ngIf="locationView">
     <ion-item class="subheader">
       <ion-label class="label"> User Location Suggestions</ion-label>
     </ion-item>
+    <ion-list>
     <ion-item button [routerLink]="['/inbox/suggestion/', suggestion.id]" *ngFor="let suggestion of (locationSuggestions | async)">
       {{suggestion.type}} : {{ suggestion.name }}
       <ion-icon name="arrow-forward" slot="end"></ion-icon>
     </ion-item>
-
-  </ion-list>
+    </ion-list>
+  </div>
 </ion-content>

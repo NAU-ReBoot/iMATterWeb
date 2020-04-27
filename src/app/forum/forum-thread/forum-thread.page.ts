@@ -39,12 +39,15 @@ export class ForumThreadPage implements OnInit {
 
   };
 
-  public showCommentBox: boolean = false;
+  public showCommentBox = false;
   public showSubmitButton = false;
 
 
   public comments: Observable<any>;
+  // for admin
   public showDeleteOption: boolean;
+  // for provider
+  public showReportOption: boolean;
   public commentForm: FormGroup;
 
   constructor(public afs: AngularFirestore,
@@ -81,6 +84,8 @@ export class ForumThreadPage implements OnInit {
         this.comment.type = type;
         if (type === 'admin') {
           this.showDeleteOption = true;
+        } else {
+          this.showReportOption = true;
         }
       }
     }));
@@ -145,6 +150,53 @@ export class ForumThreadPage implements OnInit {
     this.showSubmitButton = true;
   }
 
+  async reportQuestionOrComment(type, comment, question) {
+    let headerMessage = '';
+    let messageDetail = '';
+
+    if (type === 'post') {
+      headerMessage = 'Report question?';
+      messageDetail = 'Are you sure you want to report this question?';
+    } else {
+      headerMessage = 'Report comment?';
+      messageDetail = 'Are you sure you want to report this comment?';
+    }
+
+    const alert = await this.alertController.create({
+      header: headerMessage,
+      message: messageDetail,
+      buttons: [
+        {text: 'Cancel'},
+        {text: 'Report',
+          handler: () => {
+            this.storage.get('userCode').then((code) => {
+              if (code) {
+                this.afs.firestore.collection('providers').where('code', '==', code).get().then((result) => {
+                  result.forEach(doc => {
+                    if (type === 'post') {
+                      const providerUsername = doc.get('username');
+                      console.log(providerUsername);
+                      this.questionService.reportPost(question, providerUsername);
+                      this.showToast('Post has been reported');
+                    } else {
+                      const providerUsername = doc.get('username');
+                      this.questionService.reportComment(question, comment, providerUsername);
+                      this.showToast('Comment has been reported');
+                    }
+                  }, err => {
+                    this.showToast('There was a problem adding your comment');
+                  });
+                });
+              }
+            });
+
+          }}
+      ]
+    });
+
+    await alert.present();
+  }
+
   deletePost() {
 
     this.questionService.deleteQuestion(this.question.id);
@@ -190,4 +242,8 @@ export class ForumThreadPage implements OnInit {
     this.router.navigate(['/viewable-profile/', userID]);
     this.storage.set('currentPost', questionID);
   }
+
+
+
+
 }

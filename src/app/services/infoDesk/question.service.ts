@@ -29,6 +29,7 @@ export interface Comment {
   anon: boolean;
 }
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -90,17 +91,7 @@ export class QuestionService {
     );
   }
 
-  getSpecificQuestions(includedPhrase) {
 
-  }
-
-  addQuestion(question: Question): Promise<DocumentReference> {
-    return this.questionCollection.add(question);
-  }
-
-  updateQuestion(question: Question): Promise<void> {
-    return this.questionCollection.doc(question.id).update({title: question.title, description: question.description});
-  }
 
   deleteQuestion(id: string): Promise<void> {
 
@@ -143,6 +134,36 @@ export class QuestionService {
       profilePic: comment.profilePic
     });
   }
+
+  reportPost(post, providerUsername) {
+    this.afs.collection('providerReports').add({
+      provider: providerUsername,
+      username: post.username,
+      input: post.description,
+      postID: post.id,
+      userID: post.userID,
+      title: post.title,
+      timestampOfObj: post.timestamp,
+      timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+      type: 'question'
+    });
+  }
+
+  reportComment(post, comment, providerUsername) {
+
+    this.afs.collection('providerReports').add({
+      provider: providerUsername,
+      username: comment.username,
+      input: comment.input,
+      postID: post.id,
+      commentID: comment.id,
+      title: post.title,
+      userID: comment.userID,
+      timestampOfObj: comment.timestamp,
+      timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+      type: 'comment'
+    });
+}
 
 
 }
