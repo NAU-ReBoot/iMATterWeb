@@ -23,9 +23,9 @@ export class SubmissionPage implements OnInit {
   userID: '',
   timestamp: '',
   type: '',
+  operatingSys: '',
+  version: ''
 };
-
-
 
   constructor(private afs: AngularFirestore,
               private activatedRoute: ActivatedRoute,

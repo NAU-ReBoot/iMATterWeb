@@ -7,3 +7,8 @@
 .subheader {
   --background: #f5f6f9;
 }
+
+
+.noHighlight {
+  --background: var(--secondary-color);
+}

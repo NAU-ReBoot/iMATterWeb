@@ -10,16 +10,19 @@
 <ion-content>
   <ion-list>
     <ion-item>
-      Submitted by: {{ submission.username }}
+      <b> Submitted by: </b>  {{ submission.username }}
     </ion-item>
     <ion-item>
-      User ID: {{ submission.userID }}
+      <b> User ID: </b>  {{ submission.userID }}
     </ion-item>
     <ion-item>
-      Title: {{ submission.title }}
+      <b> Android or iOS: </b>  {{ submission.operatingSys }}
     </ion-item>
     <ion-item>
-      Description: {{ submission.description }}
+      <b> Title: </b>  {{ submission.title }}
+    </ion-item>
+    <ion-item>
+      <b> Description: </b>  {{ submission.description }}
     </ion-item>
   </ion-list>
 </ion-content>
