@@ -10,9 +10,15 @@
    }
 
 ion-card{
-       display: flex;
-       flex-direction: column;
+
        width: 60% !important;
-       height: 50% !important;
-       margin: 0 !important;
+       height: 60% !important;
+       margin: 20 !important;
      }
+
+
+     canvas {
+             -moz-user-select: none;
+             -webkit-user-select: none;
+             -ms-user-select: none;
+         }

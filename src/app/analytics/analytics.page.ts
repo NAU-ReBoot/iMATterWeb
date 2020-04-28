@@ -1001,25 +1001,21 @@ export class AnalyticsPage implements OnInit{
    					display: true,
    					text: 'Analytics Bar Chart'
    				},
-   				scales: {
-   					xAxes: [{
-   						display: true,
-   						scaleLabel: {
-   							display: true,
-   							labelString: 'Pages'
-   						}
-   					}],
-   					yAxes: [{
-   						display: true,
-   						scaleLabel: {
-   							display: true,
-   							labelString: 'Minutes'
-   						},
-              ticks: {
-                percision: 0
-        }
-   					}]
-           }
+          scales: {
+            yAxes: [{
+  						scaleLabel: {
+  							display: true,
+  							labelString: 'Time',
+  						}
+  					}],
+
+					xAxes: [{
+						scaleLabel: {
+							display: true,
+							labelString: 'Pages',
+						}
+					}]
+				}
 
          }
        });
@@ -1043,35 +1039,31 @@ export class AnalyticsPage implements OnInit{
           fill: false,
           borderColor: 'rgb(147,112,219)',
           borderWidth: 2
-        }
-      ]
+        }]
     };
 
-    let options = {
-      title: {
-        display: true,
-        text: 'Analytics Line Chart'
-      },
-     scales: {
-       xAxes: [{
-         scaleLabel: {
-           display: true,
-           labelString: 'Times'
-         }
-       }],
-
-       yAxes: [{
-         scaleLabel: {
-           display: true,
-           labelString: 'Visits'
-         },
-         ticks: {
-        percision: 0
-      }
-       }],
-
-     }
-   };
+    let options =  {
+				title: {
+					display: true,
+					text: 'Analytics Line Chart'
+				},
+				scales: {
+					xAxes: [{
+						display: true,
+						scaleLabel: {
+							display: true,
+							labelString: 'Month'
+						}
+					}],
+					yAxes: [{
+						display: true,
+						scaleLabel: {
+							display: true,
+							labelString: 'Visits'
+						}
+					}]
+				}
+			}
       this.myLineChart = new Chart(this.lineChart.nativeElement,{
         type:'line',
         data: data,
