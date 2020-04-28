@@ -5,7 +5,6 @@ import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { Observable, Scheduler } from 'rxjs';
 import { AngularFireStorage, AngularFireUploadTask } from '@angular/fire/storage';
-import { CloudSchedulerClient } from '@google-cloud/scheduler';
 
 @Component({
   selector: 'app-mobile-settings',
