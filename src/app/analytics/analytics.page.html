@@ -9,7 +9,7 @@
 
 <ion-row>
   <ion-col>
-    <ion-button class="fill-button"  expand="block" size="large" (click) = "pageStatsOn()" > Page Statisitcs</ion-button>
+    <ion-button class="fill-button"  expand="block" size="large" (click) = "pageStatsOn()" > Page Statistics</ion-button>
   </ion-col>
   <ion-col>
     <ion-button class="fill-button"  expand="block" size="large" (click) = "pageStatsOff()"> Duration Statistics</ion-button>
@@ -19,8 +19,27 @@
 
 <ion-content>
 
+  <div *ngIf = "submitted">
+
+  <ion-item>
+      Page Duration in Minutes: {{displayDuration}} Minutes
+</ion-item>
+<ion-item>
+      Total Average Vists Per Session: {{calendarAverage}}
+  </ion-item>
+
+
+  </div>
+
 
     <div *ngIf="pageStatistics" class="ion-padding">
+
+      <ion-card style='height:100%'>
+        <ion-card-content >
+          <canvas  #lineChart></canvas>
+        </ion-card-content>
+      </ion-card>
+
       <ion-item>
         <ion-label> Page </ion-label>
         <ion-select placeholder="Select One" [(ngModel)] ="pageString">
@@ -32,66 +51,15 @@
           <ion-select-option value="survey">Survey</ion-select-option>
         </ion-select>
       </ion-item>
-
-      <ion-item>
-        <ion-icon name="calendar"></ion-icon>
-        <ion-button expand="block" fill="clear" (click)= "openFromCalendar()" >From Date </ion-button>
-        <ion-label>{{fromDateString}}</ion-label>
-      </ion-item>
-      <ion-item>
-        <ion-icon name="calendar"></ion-icon>
-        <ion-button expand="block" fill="clear" (click)="minEndDate()" (click)= "openToCalendar()" >To Date </ion-button>
-        <ion-label>{{toDateString}}</ion-label>
-      </ion-item>
-        <ion-button  (click) = "On()" (click)="getMeasureForPages()" padding = "100" type='button'>
-          submit
-        </ion-button>
     </div>
 
-    <div *ngIf="openFromCalendarSwitch">
-      <ion-item>
-        <ionic-calendar-date-picker #start (onSelect) ="dateSelected($event)" [fromDate]= "minDate" [toDate]="today" ></ionic-calendar-date-picker>
 
-          <ion-button expand="block" fill="clear"  (click)="closeFromCalendar()" >Ok </ion-button>
 
-      </ion-item>
-    </div>
-
-        <div  *ngIf="openToCalendarSwitch">
-          <ion-item>
-            <ionic-calendar-date-picker #end (onSelect) ="dateSelectedEnd($event)" [fromDate]= "minStartToEnd" [toDate]="maxStartToEnd" ></ionic-calendar-date-picker>
-
-              <ion-button expand="block" fill="clear" (click) = "closeToCalendar()">Ok </ion-button>
-
-          </ion-item>
-
-        </div>
-
-    <div *ngIf = "submitted">
-
-    <ion-item>
-        Page Duration in Minutes: {{displayDuration}} Minutes
-  </ion-item>
-  <ion-item>
-        Total Average Vists Per Session: {{calendarAverage}}
-    </ion-item>
-
-    <ion-card>
-      <ion-card-header>
-        {{pageString}} Visits
-      </ion-card-header>
-      <ion-card-content>
-        <canvas #lineChart></canvas>
-      </ion-card-content>
-    </ion-card>
-    </div>
 
     <div *ngIf = "durationSubmitted">
 
     <ion-item>
-
         Total Average Vists Per Session: {{calendarAverage}}
-
     </ion-item>
 
     </div>
@@ -105,6 +73,10 @@
         </ion-card-content>
       </ion-card>
 
+    </div>
+
+
+    <div *ngIf="!openFromCalendarSwitch && !openToCalendarSwitch">
       <ion-item>
         <ion-icon name="calendar"></ion-icon>
         <ion-button expand="block" fill="clear" (click)= "openFromCalendar()" >From Date </ion-button>
@@ -112,14 +84,67 @@
       </ion-item>
       <ion-item>
         <ion-icon name="calendar"></ion-icon>
-        <ion-button expand="block" fill="clear" (click)= "openToCalendar()" >To Date </ion-button>
+        <ion-button expand="block" fill="clear" (click)="minEndDate()" (click)= "openToCalendar()" >To Date </ion-button>
         <ion-label>{{toDateString}}</ion-label>
       </ion-item>
+      <ion-button  (click) = "On()" (click)="getMeasureForPages()" padding = "100" type='button'>
+        submit
+      </ion-button>
+      </div>
 
-        <ion-button  (click) = "durationOn()" (click) = "totalDurationMeasuresCalculation('non')" padding = "100" type='button'>
+
+      <div *ngIf="!openFromCalendarSwitch && !openToCalendarSwitch && !pageStatistics">
+        <ion-item>
+          <ion-icon name="calendar"></ion-icon>
+          <ion-button expand="block" fill="clear" (click)= "openFromCalendar()" >From Date </ion-button>
+          <ion-label>{{fromDateString}}</ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-icon name="calendar"></ion-icon>
+          <ion-button expand="block" fill="clear" (click)="minEndDate()" (click)= "openToCalendar()" >To Date </ion-button>
+          <ion-label>{{toDateString}}</ion-label>
+        </ion-item>
+        <ion-button  (click) = "On()" (click)="totalDurationMeasuresCalculation()" padding = "100" type='button'>
           submit
         </ion-button>
+        </div>
+
+    <div *ngIf="openFromCalendarSwitch">
+
+      <ion-card>
+        <ion-item>
+          <ion-icon name="calendar"></ion-icon>
+          <ion-button expand="block" fill="clear" (click)= "openFromCalendar()" >From Date </ion-button>
+          <ion-label>{{fromDateString}}</ion-label>
+        </ion-item>
+
+        <ion-item>
+        <ionic-calendar-date-picker #start (onSelect) ="dateSelected($event)" [fromDate]= "minDate" [toDate]="today" ></ionic-calendar-date-picker>
+
+          <ion-button expand="block" fill="clear"  (click)="closeFromCalendar()" >Ok </ion-button>
+        </ion-item>
+
+      </ion-card>
     </div>
+
+        <div  *ngIf="openToCalendarSwitch && !openFromCalendarSwitch">
+
+          <ion-card>
+            <ion-item>
+                <ion-icon name="calendar"></ion-icon>
+                <ion-button expand="block" fill="clear" (click)="minEndDate()" (click)= "openToCalendar()" >To Date </ion-button>
+                <ion-label>{{toDateString}}</ion-label>
+            </ion-item>
+
+          <ion-item>
+            <ionic-calendar-date-picker #end (onSelect) ="dateSelectedEnd($event)" [fromDate]= "minStartToEnd" [toDate]="maxStartToEnd" ></ionic-calendar-date-picker>
+
+              <ion-button expand="block" fill="clear" (click) = "closeToCalendar()">Ok </ion-button>
+
+          </ion-item>
+          </ion-card>
+
+        </div>
 
 
 
