@@ -28,10 +28,10 @@ export class ChatlogPage implements OnInit {
     visibility: true
   };
 
-  private cohortChat: string;
+  public cohortChat: string;
   public chats: Observable<any>;
-  private showLog: boolean;
-  private id: any;
+  public showLog: boolean;
+  public id: any;
   public chatsList: any[];
   public loadedChats: any[];
 
@@ -40,7 +40,7 @@ export class ChatlogPage implements OnInit {
               private storage: Storage,
               private chatService: ChatService,
               private afs: AngularFirestore,
-              public alertController: AlertController) {
+              private alertController: AlertController) {
 
   }
 

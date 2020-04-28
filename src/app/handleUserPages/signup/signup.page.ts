@@ -19,22 +19,22 @@ export class SignupPage implements OnInit {
   public signupProviderForm: FormGroup;
   public signupAdminForm: FormGroup;
   public loading: any;
-  private id: any;
-  private typeAdmin: boolean;
-  private allPicURLs: any;
-  private picURL: any;
-  private showImages: boolean;
+  public  id: any;
+  public  typeAdmin: boolean;
+  public  allPicURLs: any;
+  public  picURL: any;
+  public  showImages: boolean;
 
   constructor(
-      private authService: AuthServiceProvider,
-      private storage: Storage,
-      private loadingCtrl: LoadingController,
-      private alertCtrl: AlertController,
-      private formBuilder: FormBuilder,
-      private activatedRoute: ActivatedRoute,
-      private router: Router,
-      private afs: AngularFirestore,
-      private toastCtrl: ToastController
+      public  authService: AuthServiceProvider,
+      public  storage: Storage,
+      public  loadingCtrl: LoadingController,
+      public  alertCtrl: AlertController,
+      public  formBuilder: FormBuilder,
+      public  activatedRoute: ActivatedRoute,
+      public  router: Router,
+      public  afs: AngularFirestore,
+      public  toastCtrl: ToastController
   ) {
 
     this.picURL = 'https://firebasestorage.googleapis.com/v0/b/techdemofirebase.appspot.com/o/ProviderProfileImages%2F1453544.png?alt=media&token=fd46b228-4473-4d30-907d-f3209dc1b790';

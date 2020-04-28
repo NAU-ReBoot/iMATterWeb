@@ -18,15 +18,15 @@
 
   <ion-item>
     <ion-label position="stacked">Quiz Question
-      <ion-badge *ngIf="learningModuleForm.controls.moduleQuiz.controls.questionText.touched && learningModuleForm.controls.moduleQuiz.controls.questionText.invalid" color="danger">Required</ion-badge>
+      <ion-badge *ngIf="learningModuleForm['controls'].moduleQuiz['controls'].questionText.touched && learningModuleForm['controls'].moduleQuiz['controls'].questionText.invalid" color="danger">Required</ion-badge>
     </ion-label>
     <ion-textarea formControlName="questionText" rows="2"></ion-textarea>
   </ion-item>
 
   <ion-item>
     <ion-label position="stacked">Points Worth
-      <ion-badge *ngIf="learningModuleForm.controls.moduleQuiz.controls.pointsWorth.touched && learningModuleForm.controls.moduleQuiz.controls.pointsWorth.errors?.required" color="danger">Required</ion-badge>
-      <ion-badge *ngIf="learningModuleForm.controls.moduleQuiz.controls.pointsWorth.touched && learningModuleForm.controls.moduleQuiz.controls.pointsWorth.errors?.pattern" color="danger">Invalid Input</ion-badge>
+      <ion-badge *ngIf="learningModuleForm['controls'].moduleQuiz['controls'].pointsWorth.touched && learningModuleForm['controls'].moduleQuiz['controls'].pointsWorth.errors?.required" color="danger">Required</ion-badge>
+      <ion-badge *ngIf="learningModuleForm['controls'].moduleQuiz['controls'].pointsWorth.touched && learningModuleForm['controls'].moduleQuiz['controls'].pointsWorth.errors?.pattern" color="danger">Invalid Input</ion-badge>
     </ion-label>
     <ion-input formControlName="pointsWorth"></ion-input>
   </ion-item>
@@ -48,7 +48,7 @@
       <ion-col>
         <ion-item>
           <ion-label position="stacked">A
-            <ion-badge *ngIf="learningModuleForm.controls.moduleQuiz.controls.choice1.touched && learningModuleForm.controls.moduleQuiz.controls.choice1.invalid" color="danger">Required</ion-badge>
+            <ion-badge *ngIf="learningModuleForm['controls'].moduleQuiz['controls'].choice1.touched && learningModuleForm['controls'].moduleQuiz['controls'].choice1.invalid" color="danger">Required</ion-badge>
           </ion-label>
           <ion-textarea formControlName="choice1"></ion-textarea>
         </ion-item>
@@ -62,7 +62,7 @@
       <ion-col>
         <ion-item>
           <ion-label position="stacked">B
-            <ion-badge *ngIf="learningModuleForm.controls.moduleQuiz.controls.choice2.touched && learningModuleForm.controls.moduleQuiz.controls.choice2.invalid" color="danger">Required</ion-badge>
+            <ion-badge *ngIf="learningModuleForm['controls'].moduleQuiz['controls'].choice2.touched && learningModuleForm['controls'].moduleQuiz['controls'].choice2.invalid" color="danger">Required</ion-badge>
           </ion-label>
           <ion-textarea formControlName="choice2"></ion-textarea>
         </ion-item>

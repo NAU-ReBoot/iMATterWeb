@@ -32,7 +32,8 @@
     "ionic4-date-picker": "^0.1.0",
     "rxjs": "~6.5.1",
     "tslib": "^1.9.0",
-    "zone.js": "~0.9.1"
+    "zone.js": "~0.9.1",
+    "@babel/compat-data": "7.8.0"
   },
   "devDependencies": {
     "@angular-devkit/architect": "~0.801.2",
@@ -48,6 +49,8 @@
     "@types/jasminewd2": "~2.0.3",
     "@types/node": "~8.9.4",
     "codelyzer": "^5.2.1",
+    "eslint": "^6.8.0",
+    "eslint-plugin-promise": "^4.2.1",
     "jasmine-core": "~3.4.0",
     "jasmine-spec-reporter": "~4.2.1",
     "karma": "^4.4.1",

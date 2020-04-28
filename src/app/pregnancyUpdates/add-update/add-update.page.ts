@@ -24,21 +24,21 @@ export class AddUpdatePage implements OnInit {
         picture: ''
       };
 
-  private UploadedFileURL: Observable<string>;
-  private fileName: string;
-  private task: Promise<any>;
-  private uploadedImage: FileList;
-  private pregnancyUpdateForm: FormGroup;
+  public UploadedFileURL: Observable<string>;
+  public fileName: string;
+  public task: Promise<any>;
+  public uploadedImage: FileList;
+  public pregnancyUpdateForm: FormGroup;
 
   constructor(
-      private activatedRoute: ActivatedRoute,
-      private pregnancyUpdatesService: PregnancyUpdatesService,
-      private router: Router,
-      private toastCtrl: ToastController,
-      private storage: Storage,
-      private AFSStorage: AngularFireStorage,
-      private database: AngularFirestore,
-      private formBuilder: FormBuilder) {
+      public activatedRoute: ActivatedRoute,
+      public pregnancyUpdatesService: PregnancyUpdatesService,
+      public router: Router,
+      public toastCtrl: ToastController,
+      public storage: Storage,
+      public AFSStorage: AngularFireStorage,
+      public database: AngularFirestore,
+      public formBuilder: FormBuilder) {
 
     this.pregnancyUpdateForm = this.formBuilder.group({
       day: ['',

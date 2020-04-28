@@ -12,10 +12,10 @@ import { Router } from '@angular/router';
 })
 export class InboxPage implements OnInit {
 
-  private submissions: Observable<Submission[]>;
-  private locationSuggestions: Observable<LocationSuggestion[]>;
+  public submissions: Observable<Submission[]>;
+  public locationSuggestions: Observable<LocationSuggestion[]>;
 
-  constructor(private inboxService: InboxService, private router: Router, private storage: Storage) {
+  constructor(public inboxService: InboxService, public router: Router, public storage: Storage) {
   }
 
   ngOnInit() {

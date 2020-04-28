@@ -13,11 +13,11 @@ import { AngularFireStorage, AngularFireUploadTask } from '@angular/fire/storage
 })
 export class MobileSettingsPage implements OnInit {
 
-  constructor(private msService: SettingsService,
-              private storage: Storage,
-              private router: Router,
+  constructor(public msService: SettingsService,
+              public storage: Storage,
+              public router: Router,
               public alertController: AlertController,
-              private AFSStorage: AngularFireStorage,
+              public AFSStorage: AngularFireStorage,
               ) { }
 
   providerType: ProviderType = {
@@ -26,39 +26,39 @@ export class MobileSettingsPage implements OnInit {
   };
 
   // from db
-  private autoProfilePic: string;
-  private adminPic: string;
-  private profilePics: Array<string>;
-  private securityQs: Array<string>;
-  private chatLifeSetting: string;
-  private chatHoursToLive: number;
-  private chatNumberToLive: number;
-  private GCEmail: string;
-  private typesOfGC: Array<GiftCardType>;
-  private pointsToRedeemGC: number;
-  private providerTypes: Observable<any>;
+  public autoProfilePic: string;
+  public adminPic: string;
+  public profilePics: Array<string>;
+  public securityQs: Array<string>;
+  public chatLifeSetting: string;
+  public chatHoursToLive: number;
+  public chatNumberToLive: number;
+  public GCEmail: string;
+  public typesOfGC: Array<GiftCardType>;
+  public pointsToRedeemGC: number;
+  public providerTypes: Observable<any>;
 
 
   // display booleans
-  private displayUserSignUp: boolean;
-  private displayChatRoom: boolean;
-  private displayGCRedeem: boolean;
-  private displayAutoPic: boolean;
-  private displayProfilePics: boolean;
-  private displaySecurityQs: boolean;
-  private displayHoursForChats: boolean;
-  private displayNumberForChats: boolean;
-  private displayEmailAdmin: boolean;
-  private displayTotalPoints: boolean;
-  private displayTypesOfGC: boolean;
-  private displayUpdateAutoPic: boolean;
-  private displayAddProfilePic: boolean;
-  private displayProviderSettings: boolean;
-  private displayProviderTypes: boolean;
-  private displayAddProviderType: boolean;
-  private displayAdminSettings: boolean;
-  private displayAdminProfilePic: boolean;
-  private displayUpdateAdminPic: boolean;
+  public displayUserSignUp: boolean;
+  public displayChatRoom: boolean;
+  public displayGCRedeem: boolean;
+  public displayAutoPic: boolean;
+  public displayProfilePics: boolean;
+  public displaySecurityQs: boolean;
+  public displayHoursForChats: boolean;
+  public displayNumberForChats: boolean;
+  public displayEmailAdmin: boolean;
+  public displayTotalPoints: boolean;
+  public displayTypesOfGC: boolean;
+  public displayUpdateAutoPic: boolean;
+  public displayAddProfilePic: boolean;
+  public displayProviderSettings: boolean;
+  public displayProviderTypes: boolean;
+  public displayAddProviderType: boolean;
+  public displayAdminSettings: boolean;
+  public displayAdminProfilePic: boolean;
+  public displayUpdateAdminPic: boolean;
 
   // for uploading image
   UploadedFileURL: Observable<string>;
@@ -67,8 +67,8 @@ export class MobileSettingsPage implements OnInit {
   uploadedImage: FileList;
   newImage: boolean;
 
-  private newProviderTypeName: string;
-  private newProviderTypeEntered: boolean;
+  public newProviderTypeName: string;
+  public newProviderTypeEntered: boolean;
 
   static getFileName(downloadURL) {
     console.log(downloadURL);

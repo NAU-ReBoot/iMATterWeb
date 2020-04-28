@@ -26,11 +26,11 @@ export class QuizModalPage implements OnInit {
   indexOfQuestion: number;
 
   constructor(
-    private modalController: ModalController, 
+    public modalController: ModalController, 
     public alertController: AlertController,
-    private learningModuleService: LearningModuleService,
-    private toastCtrl: ToastController,
-    private formBuilder: FormBuilder) 
+    public learningModuleService: LearningModuleService,
+    public toastCtrl: ToastController,
+    public formBuilder: FormBuilder) 
     {
       this.learningModuleForm = this.formBuilder.group({
       moduleTitle: [''],
