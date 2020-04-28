@@ -2,6 +2,7 @@
   padding-left: 18px;
   color: black;
   font-size: 16px;
+  max-width: 100% !important;
 }
 
 .header {
@@ -37,8 +38,12 @@
   }
 }
 
-ion-card{
-  width: 100% !important;
+ion-item{
+  max-width: 100% !important;
+}
+
+ion-list{
+  max-width: 100% !important;
 }
 
 .comment-type {
