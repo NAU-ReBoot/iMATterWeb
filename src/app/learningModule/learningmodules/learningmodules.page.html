@@ -10,8 +10,15 @@
 <ion-content>
   
   <ion-button class="fill-button" [routerLink]="['/learning-module-content']">
+    <ion-icon name="add-circle-outline"></ion-icon>
     Add New Module
   </ion-button>
+
+  <ion-button class="fill-button">
+    <ion-icon name="notifications-outline"></ion-icon>
+    Send Notifications Now
+  </ion-button>
+
 
   <ion-list>
     <ion-card button [routerLink]="['/learning-module-content', learningMod.id]" *ngFor="let learningMod of ( learningModules | async )">

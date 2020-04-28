@@ -3,7 +3,7 @@ import { SettingsService, GiftCardType, ProviderType } from '../services/setting
 import { Storage } from '@ionic/storage';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
-import { Observable } from 'rxjs';
+import { Observable, Scheduler } from 'rxjs';
 import { AngularFireStorage, AngularFireUploadTask } from '@angular/fire/storage';
 
 @Component({
@@ -59,6 +59,9 @@ export class MobileSettingsPage implements OnInit {
   public displayAdminSettings: boolean;
   public displayAdminProfilePic: boolean;
   public displayUpdateAdminPic: boolean;
+  public displayNotificationSettings: boolean;
+  public displayLMNotifSettings: boolean; //learning module
+  public displaySurveyNotifSettings: boolean;
 
   // for uploading image
   UploadedFileURL: Observable<string>;
@@ -421,7 +424,6 @@ export class MobileSettingsPage implements OnInit {
   }
 
 
-
   initDisplaysToFalse() {
     this.displayUserSignUp = false;
     this.displayChatRoom = false;
@@ -440,25 +442,35 @@ export class MobileSettingsPage implements OnInit {
     this.displayAdminSettings = false;
     this.displayAdminProfilePic = false;
     this.displayUpdateAdminPic = false;
+    this.displayNotificationSettings = false;
+    this.displayLMNotifSettings = false;
+    this.displaySurveyNotifSettings = false;
   }
 
   displaySubCategories(display, displayType) {
-    if (displayType === 'userSignUp') {
+    if (displayType === 'userSignUp') 
+    {
       this.displayAutoPic = display;
       this.displayProfilePics = display;
       this.displaySecurityQs = display;
 
-    } else if (displayType === 'chatRoom') {
+    } 
+    else if (displayType === 'chatRoom') 
+    {
       this.displayHoursForChats = display;
       this.displayNumberForChats = display;
 
-    } else if (displayType === 'giftCard') {
+    } 
+    else if (displayType === 'giftCard') 
+    {
       this.displayEmailAdmin = display;
       this.displayTotalPoints = display;
       this.displayTypesOfGC = display;
-    } else if (displayType === 'provider') {
+    } 
+    else if (displayType === 'provider') 
+    {
       this.displayProviderTypes = display;
-    }
+    } 
   }
 
   ionViewWillLeave() {

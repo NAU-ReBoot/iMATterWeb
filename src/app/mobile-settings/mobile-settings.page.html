@@ -8,6 +8,7 @@
 </ion-header>
 
 <ion-content>
+
 <!-- User Sign Up Settings -->
     <!-- Hide all content -->
   <ion-list>
@@ -296,6 +297,267 @@
         </div>
     </div>
 
+    <!-- Notification Settings -->
+    <div *ngIf="displayNotificationSettings == false" class="ion-padding-bottom">
+      <ion-list-header class="header" (click)="displayNotificationSettings = true"> 
+        Mobile Notification Settings
+        <ion-icon size="large" name="arrow-dropright"></ion-icon>
+      </ion-list-header>
+    </div>
+
+    <div *ngIf="displayNotificationSettings == true" class="ion-padding-bottom">
+      <ion-list-header class="header" (click)="displayNotificationSettings = false">
+        Mobile Notification Settings
+        <ion-icon size="large" name="arrow-dropdown"></ion-icon>
+      </ion-list-header>
+
+      <!-- Hide Learning Module Notification Settings -->
+      <div *ngIf="displayLMNotifSettings == false">
+        <ion-item class="subheader">
+          <ion-label class="label" (click)="displayLMNotifSettings= true"> 
+            Learning Modules
+            <ion-icon size="large" name="arrow-dropright"></ion-icon>
+          </ion-label>
+        </ion-item>
+      </div>
+
+      <!-- Show Learning Module Notification Settings -->
+      <div *ngIf="displayLMNotifSettings == true">
+        <ion-item class="subheader">
+          <ion-label class="label" (click)="displayLMNotifSettings = false"> 
+            Learning Modules
+            <ion-icon slot="end" size="large" name="arrow-dropdown"></ion-icon>
+          </ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-text> Every Day at</ion-text>
+          <ion-select interface="popover">
+            <ion-select-option>
+              1
+            </ion-select-option>
+            <ion-select-option>
+              2
+            </ion-select-option>
+            <ion-select-option>
+              3
+            </ion-select-option>
+            <ion-select-option>
+              4
+            </ion-select-option>
+            <ion-select-option>
+              5
+            </ion-select-option>
+            <ion-select-option>
+              6
+            </ion-select-option>
+            <ion-select-option>
+              7
+            </ion-select-option>
+            <ion-select-option>
+              8
+            </ion-select-option>
+            <ion-select-option>
+              9
+            </ion-select-option>
+            <ion-select-option>
+              10
+            </ion-select-option>
+            <ion-select-option>
+              11
+            </ion-select-option>
+            <ion-select-option>
+              12
+            </ion-select-option>
+          </ion-select>
+          <ion-select interface="popover">
+            <ion-select-option>
+              AM
+            </ion-select-option>
+            <ion-select-option>
+              PM
+            </ion-select-option>
+          </ion-select>
+          <ion-toggle></ion-toggle>
+        </ion-item>
+        <ion-item>
+          <ion-text> Every Day at</ion-text>
+          <ion-select interface="popover">
+            <ion-select-option>
+              1
+            </ion-select-option>
+            <ion-select-option>
+              2
+            </ion-select-option>
+            <ion-select-option>
+              3
+            </ion-select-option>
+            <ion-select-option>
+              4
+            </ion-select-option>
+            <ion-select-option>
+              5
+            </ion-select-option>
+            <ion-select-option>
+              6
+            </ion-select-option>
+            <ion-select-option>
+              7
+            </ion-select-option>
+            <ion-select-option>
+              8
+            </ion-select-option>
+            <ion-select-option>
+              9
+            </ion-select-option>
+            <ion-select-option>
+              10
+            </ion-select-option>
+            <ion-select-option>
+              11
+            </ion-select-option>
+            <ion-select-option>
+              12
+            </ion-select-option>
+          </ion-select>
+          <ion-select interface="popover">
+            <ion-select-option>
+              AM
+            </ion-select-option>
+            <ion-select-option>
+              PM
+            </ion-select-option>
+          </ion-select>
+          <ion-toggle></ion-toggle>
+        </ion-item>
+        <ion-item>
+          <ion-button class="fill-button">Save</ion-button>
+        </ion-item>
+      </div>
+
+      <!-- Hide Survey Notification Settings -->
+      <div *ngIf="displaySurveyNotifSettings == false">
+        <ion-item class="subheader">
+          <ion-label class="label" (click)="displaySurveyNotifSettings = true"> 
+            Surveys
+            <ion-icon size="large" name="arrow-dropright"></ion-icon>
+          </ion-label>
+        </ion-item>
+      </div>
+
+      <!-- Show Survey Notification Settings -->
+      <div *ngIf="displaySurveyNotifSettings == true">
+        <ion-item class="subheader">
+          <ion-label class="label" (click)="displaySurveyNotifSettings = false"> 
+            Surveys
+            <ion-icon slot="end" size="large" name="arrow-dropdown"></ion-icon>
+          </ion-label>
+        </ion-item>
+        <ion-item>
+          <ion-text> Every Day at</ion-text>
+          <ion-select interface="popover">
+            <ion-select-option>
+              1
+            </ion-select-option>
+            <ion-select-option>
+              2
+            </ion-select-option>
+            <ion-select-option>
+              3
+            </ion-select-option>
+            <ion-select-option>
+              4
+            </ion-select-option>
+            <ion-select-option>
+              5
+            </ion-select-option>
+            <ion-select-option>
+              6
+            </ion-select-option>
+            <ion-select-option>
+              7
+            </ion-select-option>
+            <ion-select-option>
+              8
+            </ion-select-option>
+            <ion-select-option>
+              9
+            </ion-select-option>
+            <ion-select-option>
+              10
+            </ion-select-option>
+            <ion-select-option>
+              11
+            </ion-select-option>
+            <ion-select-option>
+              12
+            </ion-select-option>
+          </ion-select>
+          <ion-select interface="popover">
+            <ion-select-option>
+              AM
+            </ion-select-option>
+            <ion-select-option>
+              PM
+            </ion-select-option>
+          </ion-select>
+          <ion-toggle></ion-toggle>
+        </ion-item>
+        <ion-item>
+          <ion-text> Every Day at</ion-text>
+          <ion-select interface="popover">
+            <ion-select-option>
+              1
+            </ion-select-option>
+            <ion-select-option>
+              2
+            </ion-select-option>
+            <ion-select-option>
+              3
+            </ion-select-option>
+            <ion-select-option>
+              4
+            </ion-select-option>
+            <ion-select-option>
+              5
+            </ion-select-option>
+            <ion-select-option>
+              6
+            </ion-select-option>
+            <ion-select-option>
+              7
+            </ion-select-option>
+            <ion-select-option>
+              8
+            </ion-select-option>
+            <ion-select-option>
+              9
+            </ion-select-option>
+            <ion-select-option>
+              10
+            </ion-select-option>
+            <ion-select-option>
+              11
+            </ion-select-option>
+            <ion-select-option>
+              12
+            </ion-select-option>
+          </ion-select>
+          <ion-select interface="popover">
+            <ion-select-option>
+              AM
+            </ion-select-option>
+            <ion-select-option>
+              PM
+            </ion-select-option>
+          </ion-select>
+          <ion-toggle></ion-toggle>
+        </ion-item>
+        <ion-item>
+          <ion-button class="fill-button">Save</ion-button>
+        </ion-item>
+      </div>
+
+    </div>
 
     <!-- Admin Settings -->
     <!-- Hide all Admin Settings -->
