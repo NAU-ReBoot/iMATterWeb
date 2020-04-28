@@ -48,12 +48,12 @@ export class ViewableProfilePage implements OnInit {
     notes: ''
   };
 
-  private userProfileID: any;
-  private currentPost: any;
-  private userType: string;
+  public userProfileID: any;
+  public currentPost: any;
+  public userType: string;
 
-  constructor(private afs: AngularFirestore, private activatedRoute: ActivatedRoute, private questionService: QuestionService,
-              private router: Router, private storage: Storage) {
+  constructor(public afs: AngularFirestore, public activatedRoute: ActivatedRoute, public questionService: QuestionService,
+              public router: Router, public storage: Storage) {
   }
 
   ngOnInit() {

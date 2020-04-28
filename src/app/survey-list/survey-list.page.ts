@@ -10,7 +10,7 @@ import {Router} from '@angular/router';
   styleUrls: ['./survey-list.page.scss'],
 })
 export class SurveyListPage implements OnInit {
-  private surveys: Observable<Survey[]>;
+  public surveys: Observable<Survey[]>;
 
   constructor(private fs: FireService,
               private storage: Storage,

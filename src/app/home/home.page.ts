@@ -19,7 +19,7 @@ export class HomePage implements OnInit {
 
   public addAdminForm: FormGroup;
   public addProviderForm: FormGroup;
-  private updateUserForm: FormGroup;
+  public updateUserForm: FormGroup;
 
   constructor(private createUserService: CreateUserService,
               private formBuilder: FormBuilder,
@@ -28,7 +28,7 @@ export class HomePage implements OnInit {
               private sService: SettingsService,
               private afs: AngularFirestore,
               private toastCtrl: ToastController,
-              public alertController: AlertController) {
+              private alertController: AlertController) {
 
     this.addProviderForm = this.formBuilder.group({
       nameFirst: [
@@ -130,23 +130,23 @@ export class HomePage implements OnInit {
   notes: ''
 };
 
-  private userView = true;
-  private signedUserView = true;
-  private emptyUserView = false;
-  private providerView = false;
-  private adminView = false;
-  private codeView = false;
-  private showUpdateUser = false;
+  public userView = true;
+  public signedUserView = true;
+  public emptyUserView = false;
+  public providerView = false;
+  public adminView = false;
+  public codeView = false;
+  public showUpdateUser = false;
 
-  private displayAddAdmin = false;
-  private displayAddProvider = false;
+  public displayAddAdmin = false;
+  public displayAddProvider = false;
 
-  private users: Observable<User[]>;
+  public users: Observable<User[]>;
   // allows admin to view those that have not signed up yet
-  private emptyUsers: Observable<User[]>;
-  private providers: Observable<Provider[]>;
-  private admins: Observable<Admin[]>;
-  private providerTypes: Observable<any>;
+  public emptyUsers: Observable<User[]>;
+  public providers: Observable<Provider[]>;
+  public admins: Observable<Admin[]>;
+  public providerTypes: Observable<any>;
 
   static makeString() {
     const inOptions = 'ABCDEFGHIJKLMNOPQRSTUVabcdefghijklmnopqrstuvwxyz0123456789';

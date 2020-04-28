@@ -4,7 +4,7 @@ admin.initializeApp(functions.config().firebase);
 
 var newChat;
 const nodemailer = require('nodemailer');
-admin.initializeApp(functions.config().firebase);
+//admin.initializeApp(functions.config().firebase);
 
 
 //admin.initializeApp();

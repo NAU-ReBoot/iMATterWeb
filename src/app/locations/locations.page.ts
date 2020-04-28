@@ -39,8 +39,8 @@ export class LocationsPage implements OnInit {
 
 //  public locations: Observable<any>;
 
-constructor(private afs: AngularFirestore, private activatedRoute: ActivatedRoute, private locationService: LocationService,
-            private toastCtrl: ToastController, private router: Router, private storage: Storage) { }
+constructor(public afs: AngularFirestore, public activatedRoute: ActivatedRoute, public locationService: LocationService,
+            public toastCtrl: ToastController, public router: Router, public storage: Storage) { }
 
   ngOnInit()
   {

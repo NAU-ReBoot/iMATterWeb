@@ -101,7 +101,7 @@
 
     <ion-footer >
       <ion-toolbar>
-        <ion-button *ngIf="location.title != '' && location.longitude != '' && location.latitude !='' && location.content !=''
+        <ion-button *ngIf="location.title != '' && location.longitude != 0 && location.latitude != 0 && location.content !=''
         && location.type !='' && location.street !=''&& location.phone !='' && location.operationMF !=''&& location.operationSunday !=''
         && location.operationSaturday !=''" class="fill-button" expand="full" (click)="submitLocation()">
           Submit
