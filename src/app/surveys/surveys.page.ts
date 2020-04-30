@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ToastController } from '@ionic/angular';
+import { ToastController, AlertController } from '@ionic/angular';
 import { FireService, Survey, Question } from '../services/fire/fire.service';
 import {Storage} from '@ionic/storage';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 
 @Component({
@@ -12,6 +13,7 @@ import {Storage} from '@ionic/storage';
 })
 
 export class SurveysPage implements OnInit {
+  public surveyForm: FormGroup;
 
   survey: Survey = {
     title: '',
@@ -31,8 +33,24 @@ export class SurveysPage implements OnInit {
               private fs: FireService,
               private toastCtrl: ToastController,
               private router: Router,
-              private storage: Storage
-  ) { }
+              private storage: Storage,
+              public alertController: AlertController,
+              private formBuilder: FormBuilder
+  ) { 
+    this.surveyForm = this.formBuilder.group({
+      title: ['', Validators.compose([Validators.required, Validators.minLength(1)])],
+      surveyLink: ['', Validators.compose([Validators.required, Validators.minLength(1)])],
+      type: ['', Validators.compose([Validators.required, Validators.minLength(1)])],
+      daysTillRelease: [''],
+      daysBeforeDueDate: [''],
+      daysTillExpire: [''],
+      daysInactive: [''],
+      emotionChosen: [''],
+      pointsWorth: [''],
+      userVisibility: [''],
+      surveyDescription: ['', Validators.compose([Validators.required, Validators.minLength(1)])],
+    });
+  }
 
   ngOnInit() {
 
@@ -48,23 +66,48 @@ export class SurveysPage implements OnInit {
         });
       }
     });
+  }
 
+  ionViewWillEnter(){
     let id = this.activatedRoute.snapshot.paramMap.get('id');
 
     if(id){
       this.fs.getSurvey(id).subscribe(survey => {
         this.survey = survey;
+        this.surveyForm.patchValue(this.survey);
+      });
+ 
+    }
+  }
+  
+
+  addSurvey(){    
+    if(this.surveyForm.status === 'VALID'){
+      var newData = this.surveyForm.value;
+
+      this.fs.addSurvey(newData).then(() => {
+        this.router.navigateByUrl('/survey-list');
+        this.showToast('Survey added');
+      }, err => {
+          this.showToast('There was a problem adding your survey');
       });
     }
   }
 
-  addSurvey(){    
-    this.fs.addSurvey(this.survey).then(() => {
-      this.router.navigateByUrl('/survey-list');
-      this.showToast('Survey added');
-    }, err => {
-        this.showToast('There was a problem adding your survey');
+  async deleteSurveyConfirmation(){
+    const alert = await this.alertController.create({
+      header: 'Delete Survey?',
+      message: 'Are you sure you want to delete this survey?',
+      buttons: [
+        {text: 'Cancel'}, 
+        {text: 'Delete',
+        handler: () => {
+          this.deleteSurvey();
+        }}
+      ]
     });
+
+    await alert.present();
   }
 
   deleteSurvey(){
@@ -77,15 +120,49 @@ export class SurveysPage implements OnInit {
   }
 
   updateSurvey(){    
-    this.fs.updateSurvey(this.survey).then(() => {
-      this.showToast('Survey updated');
-    }, err => {
-        this.showToast('There was a problem updating your survey');
-    });
+    if (this.surveyForm.status == 'VALID')
+    { 
+      //IMPORTANT: need to pass in this LM's ID when updating
+      this.surveyForm.addControl('id', this.formBuilder.control(this.survey.id));
+
+      var newData = this.surveyForm.value;
+
+      this.fs.updateSurvey(newData).then(() => 
+      {
+        this.showToast('Survey updated');
+      }, err => {
+          this.showToast('There was a problem updating your survey');
+      });
+    }
   }
 
   chosenType(){
     console.log(this.survey.type);
+  }
+  async presentAlert(header: string, message: string) {
+    const alert = await this.alertController.create({
+          header,
+          message,
+          buttons: ['OK']
+      });
+
+    await alert.present();
+  }
+  displayHelpInfo()
+  {
+    this.presentAlert('About Survey Fields',
+    '<b>Display Survey During days After Joining:</b> ' +
+      'A comma separated list of the days since joining the app the survey should start being displayed to users. ' +
+        ' <br>Example: 5, 10, 15 <br><br>' + 
+    '<b>Display Survey During days Before Due Date:</b> ' +
+      'A comma separated list of the days before due date the survey should start being displayed to users. ' +
+        ' <br>Example: 7, 14, 21 <br><br>' + 
+    '<b>Days Visible Before Expiration:</b> ' + 
+      'The number of days after appearing that this survey should expire. <br><br>' +
+    '<b>Survey URL:</b> ' +
+      'Web URL that will link the the qualtrics survey<br><br>' +
+    '<b>Type:</b> ' +
+      'The type of survey');
   }
 
   showToast(msg){
