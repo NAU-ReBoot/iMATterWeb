@@ -40,7 +40,9 @@ export class LearningmodulesPage implements OnInit {
     this.learningModules = this.learningModService.getAllLearningModules();
   }
 
-
+/**
+ * https://dev.to/jorgecf/integrating-google-authentication-with-your-angular-app-4j2a
+ */
    load()
   {
     gapi.load('auth2', this.init);
