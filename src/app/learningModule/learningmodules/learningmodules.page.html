@@ -7,6 +7,8 @@
   </ion-toolbar>
 </ion-header>
 
+<script async defer src="https://apis.google.com/js/api.js"></script>
+
 <ion-content>
   
   <ion-button class="fill-button" [routerLink]="['/learning-module-content']">
@@ -14,7 +16,7 @@
     Add New Module
   </ion-button>
 
-  <ion-button class="fill-button">
+  <ion-button class="fill-button" (click)="load()">
     <ion-icon name="notifications-outline"></ion-icon>
     Send Notifications Now
   </ion-button>

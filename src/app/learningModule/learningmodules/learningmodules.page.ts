@@ -1,3 +1,5 @@
+/// <reference types="@types/gapi.auth2" />
+
 import { Component, OnInit } from '@angular/core';
 import { LearningModuleService, LearningModule } from '../../services/learning-module.service';
 import { Observable } from 'rxjs';
@@ -36,6 +38,29 @@ export class LearningmodulesPage implements OnInit {
     });
 
     this.learningModules = this.learningModService.getAllLearningModules();
+  }
+
+
+   load()
+  {
+    gapi.load('auth2', this.init);
+  }
+
+  init()
+  {
+    gapi.client.init({
+      'clientId': '173430196657-73pv7jdl40pdldfqhacq1f96kfrio0ki.apps.googleusercontent.com',
+      'apiKey': 'AIzaSyD2jC2kQSWjqdHGKjteedSKGEtoX7J3e0Q',
+      'scope': 'https://www.googleapis.com/auth/cloud-platform',
+    }).then(() => {
+      return gapi.client.request({
+        'path': 'https://cloudscheduler.googleapis.com/v1/projects/techdemofirebase/locations/us-central1/jobs/learning_module_notification:run'
+      })
+    }).then((response) => {
+      console.log(response.result);
+    }, (reason) => {
+      console.log("error: " + reason.result.error.message);
+    });
   }
 
 }
