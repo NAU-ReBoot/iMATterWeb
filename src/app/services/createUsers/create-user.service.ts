@@ -197,7 +197,8 @@ export class CreateUserService {
       type: provider.type,
       profilePic: provider.profilePic,
       providerType: provider.providerType,
-      codeEntered: false
+      codeEntered: false,
+      notes: provider.notes
     }, {merge: true});
   }
 
