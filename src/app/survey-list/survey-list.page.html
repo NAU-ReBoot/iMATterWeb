@@ -7,10 +7,18 @@
   </ion-toolbar>
 </ion-header>
 
+<script async defer src="https://apis.google.com/js/api.js"></script>
+
 <ion-content>
 
   <ion-button class="fill-button" [routerLink]="['/surveys']">
+    <ion-icon name="add-circle-outline"></ion-icon>
     Add New Survey
+  </ion-button>
+
+  <ion-button class="fill-button" (click)="authenticate().then(loadClient).then(execute)">
+    <ion-icon name="notifications-outline"></ion-icon>
+    Send Notifications Now
   </ion-button>
 
   <ion-list>

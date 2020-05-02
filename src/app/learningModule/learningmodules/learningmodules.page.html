@@ -16,11 +16,10 @@
     Add New Module
   </ion-button>
 
-  <ion-button class="fill-button" (click)="load()">
+  <ion-button class="fill-button" (click)="authenticate().then(loadClient).then(execute)">
     <ion-icon name="notifications-outline"></ion-icon>
     Send Notifications Now
   </ion-button>
-
 
   <ion-list>
     <ion-card button [routerLink]="['/learning-module-content', learningMod.id]" *ngFor="let learningMod of ( learningModules | async )">

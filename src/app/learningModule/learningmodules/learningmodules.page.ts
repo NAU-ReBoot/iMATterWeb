@@ -6,6 +6,8 @@ import { Observable } from 'rxjs';
 import { Storage } from '@ionic/storage';
 import { Router } from '@angular/router';
 
+declare var gapi: any;
+
 /**
  * openModal grabs the "new-learning-module-form" and displays it in the modal
  * see new-learning-module-form for functionality regarding adding a new learning module
@@ -16,6 +18,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./learningmodules.page.scss'],
 })
 export class LearningmodulesPage implements OnInit {
+  
 
   public learningModules: Observable<LearningModule[]>;
   
@@ -38,31 +41,44 @@ export class LearningmodulesPage implements OnInit {
     });
 
     this.learningModules = this.learningModService.getAllLearningModules();
-  }
-
-/**
- * https://dev.to/jorgecf/integrating-google-authentication-with-your-angular-app-4j2a
- */
-   load()
-  {
-    gapi.load('auth2', this.init);
-  }
-
-  init()
-  {
-    gapi.client.init({
-      'clientId': '173430196657-73pv7jdl40pdldfqhacq1f96kfrio0ki.apps.googleusercontent.com',
-      'apiKey': 'AIzaSyD2jC2kQSWjqdHGKjteedSKGEtoX7J3e0Q',
-      'scope': 'https://www.googleapis.com/auth/cloud-platform',
-    }).then(() => {
-      return gapi.client.request({
-        'path': 'https://cloudscheduler.googleapis.com/v1/projects/techdemofirebase/locations/us-central1/jobs/learning_module_notification:run'
-      })
-    }).then((response) => {
-      console.log(response.result);
-    }, (reason) => {
-      console.log("error: " + reason.result.error.message);
+    
+    gapi.load("client:auth2", function() {
+      gapi.auth2.init({client_id: "173430196657-73pv7jdl40pdldfqhacq1f96kfrio0ki.apps.googleusercontent.com"});
     });
+  }
+
+   /**
+    * These functions call Google Cloud Scheduler API to run learning module notification function immediately
+    * Refer to the following link for how this code was obtained
+   * https://cloud.google.com/scheduler/docs/reference/rest/v1/projects.locations.jobs
+   * /run?apix_params=%7B%22name%22%3A%22projects%2Ftechdemofirebase%2Flocations%2Fus-central1%2Fjobs%2F
+   * learning_module_notification%22%2C%22resource%22%3A%7B%7D%7D&apix=true
+   */
+  authenticate() {
+    return gapi.auth2.getAuthInstance()
+        .signIn({scope: "https://www.googleapis.com/auth/cloud-platform"})
+        .then(function() { console.log("Sign-in successful"); },
+              function(err) { console.error("Error signing in", err); });
+  }
+
+  loadClient() {
+    gapi.client.setApiKey("AIzaSyBuzbsBUVWvgyqvc3hiUrDWLMMSsCf3a0E");
+    return gapi.client.load("https://content.googleapis.com/discovery/v1/apis/cloudscheduler/v1/rest")
+        .then(function() { console.log("GAPI client loaded for API"); },
+              function(err) { console.error("Error loading GAPI client for API", err); });
+  }
+
+  // Make sure the client is loaded and sign-in is complete before calling this method.
+  execute() {
+    return gapi.client.cloudscheduler.projects.locations.jobs.run({
+      "name": "projects/techdemofirebase/locations/us-central1/jobs/learning_module_notification",
+      "resource": {}
+    })
+        .then(function(response) {
+                // Handle the results here (response.result has the parsed body).
+                console.log("Response", response);
+              },
+              function(err) { console.error("Execute error", err); });
   }
 
 }

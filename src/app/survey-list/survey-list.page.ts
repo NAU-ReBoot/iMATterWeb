@@ -32,6 +32,7 @@ export class SurveyListPage implements OnInit {
     });
 
     this.surveys = this.fs.getSurveys();
+
   }
 
 }
