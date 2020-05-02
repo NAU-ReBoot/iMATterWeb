@@ -5,6 +5,7 @@ import { LearningModuleService, LearningModule } from '../../services/learning-m
 import { Observable } from 'rxjs';
 import { Storage } from '@ionic/storage';
 import { Router } from '@angular/router';
+import { ToastController } from '@ionic/angular';
 
 declare var gapi: any;
 
@@ -24,7 +25,8 @@ export class LearningmodulesPage implements OnInit {
   
   constructor(public learningModService: LearningModuleService,
               public router: Router,
-              public storage: Storage) { }
+              public storage: Storage,
+              private toastCtrl: ToastController) { }
 
   ngOnInit() {
     this.storage.get('authenticated').then((val) => {
@@ -45,6 +47,14 @@ export class LearningmodulesPage implements OnInit {
     gapi.load("client:auth2", function() {
       gapi.auth2.init({client_id: "173430196657-73pv7jdl40pdldfqhacq1f96kfrio0ki.apps.googleusercontent.com"});
     });
+  }
+
+  showToast(msg:string)
+  {
+    this.toastCtrl.create({
+      message: msg,
+      duration: 2000
+    }).then(toast => toast.present());
   }
 
    /**
@@ -74,11 +84,16 @@ export class LearningmodulesPage implements OnInit {
       "name": "projects/techdemofirebase/locations/us-central1/jobs/learning_module_notification",
       "resource": {}
     })
-        .then(function(response) {
+        .then(function(response) 
+              {
                 // Handle the results here (response.result has the parsed body).
                 console.log("Response", response);
               },
-              function(err) { console.error("Execute error", err); });
+              function(err) 
+              { 
+                console.error("Execute error", err);
+                //this.showToast('There was an error sending learning module notifications.'); 
+              });
   }
 
 }

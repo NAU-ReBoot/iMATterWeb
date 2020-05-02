@@ -5,6 +5,7 @@ import { FireService, Survey } from '../services/fire/fire.service';
 import { Observable } from 'rxjs';
 import {Storage} from '@ionic/storage';
 import {Router} from '@angular/router';
+import { ToastController } from '@ionic/angular';
 
 declare var gapi: any;
 
@@ -18,7 +19,8 @@ export class SurveyListPage implements OnInit {
 
   constructor(private fs: FireService,
               private storage: Storage,
-              private router: Router) { }
+              private router: Router,
+              private toastCtrl: ToastController) { }
 
   ngOnInit() {
 
@@ -43,6 +45,14 @@ export class SurveyListPage implements OnInit {
 
   }
 
+  showToast(msg:string)
+  {
+    this.toastCtrl.create({
+      message: msg,
+      duration: 2000
+    }).then(toast => toast.present());
+  }
+
   authenticate() {
     return gapi.auth2.getAuthInstance()
         .signIn({scope: "https://www.googleapis.com/auth/cloud-platform"})
@@ -64,7 +74,12 @@ export class SurveyListPage implements OnInit {
         .then(function(response) {
                 // Handle the results here (response.result has the parsed body).
                 console.log("Response", response);
+                //this.showToast('Notifications for surveys were successfully sent!');
               },
-              function(err) { console.error("Execute error", err); });
+              function(err) 
+              { 
+                console.error("Execute error", err); 
+                //this.showToast('There was an error sending survey notifications.');
+              });
   }
 }
