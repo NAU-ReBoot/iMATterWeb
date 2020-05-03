@@ -9,18 +9,17 @@
 
 <ion-content>
 
-  <ion-item>
-    <ion-label position="stacked">Choose the name of the survey</ion-label>
-    <ion-input [(ngModel)]="survey.title"></ion-input>
+  <ion-item *ngIf="survey.id" color="light">
+    <ion-text>Survey Type: {{ survey.type }}</ion-text>
   </ion-item>
 
   <div *ngIf="!survey.id">
 
     <ion-list>
-      <ion-item>
-        <ion-label color="primary">Choose the type of survey</ion-label>
+      <ion-item color="light">
+        <ion-label>Survey Type</ion-label>
         <ion-select [(ngModel)]="survey.type" (ionChange)="chosenType()" placeholder="Select One">
-          <ion-select-option  value="After Joining">After user Joining</ion-select-option>
+          <ion-select-option  value="After Joining">After User Joining</ion-select-option>
           <ion-select-option  value="Due Date">Before Due Date</ion-select-option>
           <ion-select-option  value="Inactive">Inactive User</ion-select-option>
           <ion-select-option  value="Emotion">Particular Mood</ion-select-option>
@@ -31,14 +30,24 @@
   </div>
 
   <ion-item>
-    <ion-label position="stacked">Provide a general Description of the survey</ion-label>
+    <ion-label position="stacked">Survey Name</ion-label>
+    <ion-input [(ngModel)]="survey.title"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="stacked">Survey Description</ion-label>
     <ion-input type="string" [(ngModel)]="survey.surveyDescription"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="stacked">Survey URL</ion-label>
+    <ion-input type="url" [(ngModel)]="survey.surveyLink"></ion-input>
   </ion-item>
 
   <div *ngIf="isAfterJoining">
     
     <ion-item>
-      <ion-label position="stacked">Choose one or more days the survey is released after a user joins(separate by comma)</ion-label>
+      <ion-label position="stacked">Days After Joining Survey is Released (comma separated list)</ion-label>
       <ion-input type="string" [(ngModel)]="survey.daysTillRelease"></ion-input>
     </ion-item>
 
@@ -47,7 +56,7 @@
   <div *ngIf="isDueDate">
     
     <ion-item>
-      <ion-label position="stacked">Choose one or more days the survey is released before a user's due date(separate by comma)</ion-label>
+      <ion-label position="stacked">Days Before Due Date Survey is Released (comma separated list)</ion-label>
       <ion-input type="string" [(ngModel)]="survey.daysBeforeDueDate"></ion-input>
     </ion-item>
 
@@ -56,7 +65,7 @@
   <div *ngIf="isInactive">
     
     <ion-item>
-      <ion-label position="stacked">Choose the number of days of inactivity before survey displays to user</ion-label>
+      <ion-label position="stacked">Display on Number of Days Inactive</ion-label>
       <ion-input type="number" [(ngModel)]="survey.daysInactive"></ion-input>
     </ion-item>
 
@@ -64,42 +73,46 @@
 
   <div *ngIf="isEmotion">
 
+    <ion-item>
+      <ion-text>Release if user's mood is:</ion-text>
+    </ion-item>
+
     <ion-radio-group
     allow-empty-selection = "true"
     [(ngModel)]="survey.emotionChosen">
 
     <ion-item>
-      <ion-label>Release if mood is Excited</ion-label>
+      <ion-label>Excited</ion-label>
       <ion-radio slot="start" value="excited"></ion-radio>
     </ion-item>
 
     <ion-item>
-      <ion-label>Release if mood is Happy</ion-label>
+      <ion-label>Happy</ion-label>
       <ion-radio slot="start" value="happy"></ion-radio>
     </ion-item>
 
     <ion-item>
-      <ion-label>Release if mood is Loved</ion-label>
+      <ion-label>Loved</ion-label>
       <ion-radio slot="start" value="loved"></ion-radio>
     </ion-item>
 
     <ion-item>
-      <ion-label>Release if mood is Indifferent</ion-label>
+      <ion-label>Indifferent</ion-label>
       <ion-radio slot="start" value="indifferent"></ion-radio>
     </ion-item>
 
     <ion-item>
-      <ion-label>Release if mood is Overwhelmed</ion-label>
+      <ion-label>Overwhelmed</ion-label>
       <ion-radio slot="start" value="overwhelmed"></ion-radio>
     </ion-item>
 
     <ion-item>
-      <ion-label>Release if mood is Sad</ion-label>
+      <ion-label>Sad</ion-label>
       <ion-radio slot="start" value="sad"></ion-radio>
     </ion-item>
 
     <ion-item>
-      <ion-label>Release if mood is Angry</ion-label>
+      <ion-label>Angry</ion-label>
       <ion-radio slot="start" value="angry"></ion-radio>
     </ion-item>
 
@@ -109,28 +122,18 @@
 
   <div>
     <ion-item *ngIf="!isEmotion && !isInactive">
-      <ion-label position="stacked">Choose the number of days after release before the survey expires</ion-label>
+      <ion-label position="stacked">Days Visible Before Expiration</ion-label>
       <ion-input type="number" [(ngModel)]="survey.daysTillExpire"></ion-input>
     </ion-item>
   </div>
 
-
   <ion-item>
-    <ion-label position="stacked">URL</ion-label>
-    <ion-input type="url" [(ngModel)]="survey.surveyLink"></ion-input>
-  </ion-item>
-
-  <ion-item>
-    <ion-label position="stacked">Specify the number of points this survey is worth</ion-label>
+    <ion-label position="stacked">Survey Reward Points</ion-label>
     <ion-input type="number" [(ngModel)]="survey.pointsWorth"></ion-input>
   </ion-item>
 
-  <div *ngIf="survey.id">
-    <h4>Type: {{ survey.type }}</h4>
-  </div>
-
   <div *ngIf="!survey.id">
-    <ion-button class="fill-button" (click)="addSurvey()">Save</ion-button>
+    <ion-button class="fill-button" (click)="addSurvey()">Add Survey</ion-button>
   </div>
 
 </ion-content>

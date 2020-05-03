@@ -21,10 +21,61 @@
     Send Notifications Now
   </ion-button>
 
-  <ion-list>
-    <ion-item button *ngFor="let survey of (surveys | async)" [routerLink]="['/surveys', survey.id]">
-      {{ survey.title }}
+  <ion-item-divider color="medium">
+    <ion-label>
+      After Joining Surveys
+    </ion-label>
+  </ion-item-divider>
+
+  <ng-container *ngFor="let survey of (surveys | async)" >
+    <ion-item button *ngIf="survey.type == 'After Joining'" [routerLink]="['/surveys', survey.id]">
+      <ion-label>
+        {{ survey.title }}
+      </ion-label>
     </ion-item>
-  </ion-list>
+  </ng-container>
+
+
+<ion-item-divider color="medium">
+  <ion-label>
+    Due Date Surveys
+  </ion-label>
+</ion-item-divider>
+
+<ng-container *ngFor="let survey of (surveys | async)" >
+  <ion-item button *ngIf="survey.type == 'Due Date'" [routerLink]="['/surveys', survey.id]">
+    <ion-label>
+      {{ survey.title }}
+    </ion-label>
+  </ion-item>
+</ng-container>
+
+<ion-item-divider color="medium">
+  <ion-label>
+    Inactive User Surveys
+  </ion-label>
+</ion-item-divider>
+
+<ng-container *ngFor="let survey of (surveys | async)" >
+  <ion-item button *ngIf="survey.type == 'Inactive'" [routerLink]="['/surveys', survey.id]">
+    <ion-label>
+      {{ survey.title }}
+    </ion-label>
+  </ion-item>
+</ng-container>
+
+<ion-item-divider color="medium">
+  <ion-label>
+    Emotion Triggered Surveys
+  </ion-label>
+</ion-item-divider>
+
+<ng-container *ngFor="let survey of (surveys | async)" >
+  <ion-item button *ngIf="survey.type == 'Emotion'" [routerLink]="['/surveys', survey.id]">
+    <ion-label>
+      {{ survey.title }}
+    </ion-label>
+  </ion-item>
+</ng-container>
 
 </ion-content>
