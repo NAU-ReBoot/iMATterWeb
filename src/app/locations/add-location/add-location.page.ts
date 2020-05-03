@@ -40,7 +40,22 @@ export class AddLocationPage implements OnInit {
 
   constructor(public afs: AngularFirestore, public activatedRoute: ActivatedRoute, public locationService: LocationService,
               public toastCtrl: ToastController, public router: Router, public storage: Storage,
-              private formBuilder: FormBuilder) { }
+              private formBuilder: FormBuilder)
+              {
+                this.locationForm = this.formBuilder.group({
+                  title: ['', Validators.compose([Validators.required, Validators.minLength(1)])],
+                  content: ['', Validators.compose([Validators.required, Validators.minLength(1)])],
+                  latitude: ['', Validators.compose([Validators.required, Validators.minLength(1), Validators.pattern('^(-?(\d|([1-8][0-9])*(\.\d)?)|(90(\.0)?))')])],
+                  longitude: ['', Validators.compose([Validators.required, Validators.minLength(1), Validators.pattern('^(-?([1]?[0-7][0-9]|[1-9]?[0-9])(\.\d*)?)|-?180(\.[0]*)?')])],
+                  street: ['', Validators.compose([Validators.required, Validators.minLength(1)])],
+                  phone: ['', Validators.compose([Validators.required, Validators.minLength(1), Validators.pattern('^([0-9][0-9][1-9]-[0-9][1-9][0-9]-[1-9][0-9][1-9][0-9])')])],
+                  operationMF: ['', Validators.compose([Validators.required, Validators.minLength(1)])],
+                  operationSaturday: ['', Validators.compose([Validators.required, Validators.minLength(1)])],
+                  operationSunday: ['', Validators.compose([Validators.required, Validators.minLength(1)])],
+                  special: [''],
+                  type: ['', Validators.compose([Validators.required, Validators.minLength(1)])]
+                });
+               }
 
 
 
@@ -56,21 +71,6 @@ export class AddLocationPage implements OnInit {
           }
         });
       }
-    });
-
-
-    this.locationForm = this.formBuilder.group({
-      title: ['', Validators.compose([Validators.required, Validators.minLength(1)])],
-      content: ['', Validators.compose([Validators.required, Validators.minLength(1)])],
-      latitude: ['', Validators.compose([Validators.required, Validators.minLength(1), Validators.pattern('^(-?(\d|([1-8][0-9])*(\.\d)?)|(90(\.0)?))')])],
-      longitude: ['', Validators.compose([Validators.required, Validators.minLength(1), Validators.pattern('^(-?([1]?[0-7][0-9]|[1-9]?[0-9])(\.\d*)?)|-?180(\.[0]*)?')])],
-      street: ['', Validators.compose([Validators.required, Validators.minLength(1)])],
-      phone: ['', Validators.compose([Validators.required, Validators.minLength(1), Validators.pattern('^([0-9][0-9][1-9]-[0-9][1-9][0-9]-[1-9][0-9][1-9][0-9])')])],
-      operationMF: ['', Validators.compose([Validators.required, Validators.minLength(1)])],
-      operationSaturday: ['', Validators.compose([Validators.required, Validators.minLength(1)])],
-      operationSunday: ['', Validators.compose([Validators.required, Validators.minLength(1)])],
-      special: [''],
-      type: ['', Validators.compose([Validators.required, Validators.minLength(1)])]
     });
 
   }

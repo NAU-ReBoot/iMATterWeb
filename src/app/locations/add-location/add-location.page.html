@@ -9,12 +9,13 @@
 </ion-header>
 
 <ion-content>
-  <form [formGroup]="locationForm"
+  <form [formGroup]="locationForm">
 
   <ion-item>
     <ion-label position= "stacked"> Location Title
-    <ion-badge *ngIf= "locationForm.controls.title.touched && locationForm.controls.title.invalid" color= "danger"> Required</ion-badge> </ion-label>
-    <ion-input formControlName = "location.title"></ion-input>
+    <ion-badge *ngIf= "locationForm.controls.title.touched && locationForm.controls.title.invalid" color= "danger"> Required</ion-badge>
+   </ion-label>
+    <ion-input formControlName = "title"></ion-input>
   </ion-item>
 
   <ion-item>
