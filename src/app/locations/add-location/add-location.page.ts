@@ -7,6 +7,7 @@ import {Observable} from 'rxjs';
 import {AngularFirestore} from '@angular/fire/firestore';
 import * as firebase from 'firebase/app';
 import FieldValue = firebase.firestore.FieldValue;
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-add-location',
@@ -37,7 +38,8 @@ export class AddLocationPage implements OnInit {
   };
 
   constructor(public afs: AngularFirestore, public activatedRoute: ActivatedRoute, public locationService: LocationService,
-              public toastCtrl: ToastController, public router: Router, public storage: Storage) { }
+              public toastCtrl: ToastController, public router: Router, public storage: Storage,
+              private formBuilder: FormBuilder) { }
 
 
 
@@ -55,7 +57,21 @@ export class AddLocationPage implements OnInit {
       }
     });
 
-  this.locations = this.locationService.getLocations();
+
+    this.locationForm = this.formBuilder.group({
+      title: ['', Validators.compose([Validators.required, Validators.minLength(1)])],
+      content: ['', Validators.compose([Validators.required, Validators.minLength(1)])],
+      latitude: ['', Validators.compose([Validators.required, Validators.minLength(1)])],
+      longitude: ['', Validators.compose([Validators.required, Validators.minLength(1)])],
+      street: ['', Validators.compose([Validators.required, Validators.minLength(1)])],
+      phone: ['', Validators.compose([Validators.required, Validators.minLength(1), Validators.pattern('^([1-9][0-9][1-9]-[0-9][1-9][0-9]-[1-9][0-9][1-9][0-9])')])],
+      operationMF: ['', Validators.compose([Validators.required, Validators.minLength(1)])],
+      operationSaturday: ['', Validators.compose([Validators.required, Validators.minLength(1)])],
+      operationSunday: ['', Validators.compose([Validators.required, Validators.minLength(1)])],
+      special: [''],
+      type: ['', Validators.compose([Validators.required, Validators.minLength(1)])]
+    });
+
   }
 
 
