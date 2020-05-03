@@ -572,8 +572,8 @@ formCronTime(hourOne:number, hourTwo:number = null)
   if (hourTwo === null)
   {
     cronString = "0 " + hourOneString + " * * *";
-
     console.log("CRON STRING: " + cronString);
+    
     return cronString;
   }
   else if (hourTwo !== null)
@@ -597,25 +597,38 @@ updateLMNotifSettings()
 
   var hourOne = this.convertTo24Hour(this.learningModuleOne.hour, this.learningModuleOne.timeOfDay);
 
-  console.log("HOUR ONE: " + hourOne);
-
   if (this.learningModuleTwo.active === true)
   {
     var hourTwo = this.convertTo24Hour(this.learningModuleTwo.hour, this.learningModuleTwo.timeOfDay);
-    console.log("HOUR TWO: " + hourTwo);
-
     this.LMNotifTime = this.formCronTime(hourOne, hourTwo);
   }
   else
   {
     this.LMNotifTime = this.formCronTime(hourOne);
   }
+
 }
 
+/**
+ * Update survey notification settings in the database
+ * Calculate surveyNotifTime
+ */
 updateSurveyNotifSettings()
 {
   this.msService.updateMobileNotifications("surveyOne", this.surveyOne);
   this.msService.updateMobileNotifications("surveyTwo", this.surveyTwo);
+
+  var hourOne = this.convertTo24Hour(this.surveyOne.hour, this.surveyOne.timeOfDay);
+
+  if (this.surveyTwo.active === true)
+  {
+    var hourTwo = this.convertTo24Hour(this.surveyTwo.hour, this.surveyTwo.timeOfDay);
+    this.SurveyNotifTime = this.formCronTime(hourOne, hourTwo);
+  }
+  else
+  {
+    this.SurveyNotifTime = this.formCronTime(hourOne);
+  }
 }
 
   authenticate() {
@@ -633,12 +646,12 @@ updateSurveyNotifSettings()
   }
   
   // Updating Learning Module Notifications
-  executeLearningModuleNotif() {
+  executeLearningModuleNotif(crontab) {
     return gapi.client.cloudscheduler.projects.locations.jobs.patch({
       "name": "projects/techdemofirebase/locations/us-central1/jobs/learning_module_notification",
       "updateMask": "schedule",
       "resource": {
-        "schedule": this.LMNotifTime
+        "schedule": crontab
       }
     })
         .then(function(response) {
@@ -649,12 +662,12 @@ updateSurveyNotifSettings()
   }
 
   // Updating Survey Notifications
-  executeSurveyNotif() {
+  executeSurveyNotif(crontab) {
     return gapi.client.cloudscheduler.projects.locations.jobs.patch({
       "name": "projects/techdemofirebase/locations/us-central1/jobs/survey_notification",
       "updateMask": "schedule",
       "resource": {
-        "schedule": "0 6 * * *"
+        "schedule": crontab
       }
     })
         .then(function(response) {

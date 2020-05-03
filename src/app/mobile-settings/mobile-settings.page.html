@@ -432,7 +432,7 @@
         </ion-item>
         <ion-item>
           <!--(click)="authenticate().then(loadClient).then(executeLearningModuleNotif)-->
-          <ion-button class="fill-button" (click)="updateLMNotifSettings().then(authenticate).then(loadClient).then(executeLearningModuleNotif)">
+          <ion-button class="fill-button" (click)="[updateLMNotifSettings(), authenticate().then(loadClient).then(executeLearningModuleNotif(LMNotifTime))]">
             Save
           </ion-button>
         </ion-item>
@@ -557,7 +557,7 @@
         </ion-item>
         <ion-item>
           <!--(click)="authenticate().then(loadClient).then(executeSurveyNotif)"-->
-          <ion-button class="fill-button" (click)="updateSurveyNotifSettings().then(authenticate).then(loadClient).then(executeLearningModuleNotif)">
+          <ion-button class="fill-button" (click)="[updateSurveyNotifSettings(), authenticate().then(loadClient).then(executeSurveyNotif(SurveyNotifTime))]">
           Save
           </ion-button>
         </ion-item>
