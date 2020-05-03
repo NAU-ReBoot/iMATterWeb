@@ -82,6 +82,8 @@ export class AddLocationPage implements OnInit {
           this.location.operationSunday = '';
           this.location.special = '  ';
           this.location.type = '';
+
+          this.router.navigateByUrl('/locations');
         }, err => {
           this.showToast('There was a problem adding your location');
         });
