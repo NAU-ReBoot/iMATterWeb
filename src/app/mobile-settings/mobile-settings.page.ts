@@ -529,15 +529,86 @@ export class MobileSettingsPage implements OnInit {
 
 //BELOW IS MOBILE NOTIFICATIONS SETTINGS CODE
 
+/**
+ * Handling converting the AM/PM hours to 24hour version to use in cron job
+ */
+convertTo24Hour(hour:number, timeOfDay:String)
+{
+  if (timeOfDay === "AM")
+  {
+    if (hour === 12)
+    {
+      return 0;
+    }
+    else
+    {
+      return hour;
+    }
+  }
+  else if (timeOfDay === "PM")
+  {
+    if (hour === 12)
+    {
+      return hour;
+    }
+    else
+    {
+      return ((24-12) + hour);
+    }
+  }
 
+}
+
+/**
+ * Creates the string that will be used to configure the cloud function trigger time
+ * Operates under the assumption these jobs will run once a day on the given hour
+ * @param hourTwo optional
+ */
+formCronTime(hourOne:number, hourTwo:number = null)
+{
+  var cronString;
+  var hourOneString = hourOne.toString();
+
+  if (hourTwo === null)
+  {
+    cronString = "0 " + hourOneString + " * * *";
+
+    console.log("CRON STRING: " + cronString);
+    return cronString;
+  }
+  else if (hourTwo !== null)
+  {
+    var hourTwoString = hourTwo.toString();
+    cronString = "0 " + hourOneString + "," + hourTwoString + " * * *";
+    console.log("CRON STRING: " + cronString);
+
+    return cronString;
+  }
+}
+
+/**
+ * Update learning module notification settings in the database
+ * Calculate the LMNotifTime
+ */
 updateLMNotifSettings()
 {
   this.msService.updateMobileNotifications("learningModuleOne", this.learningModuleOne);
   this.msService.updateMobileNotifications("learningModuleTwo", this.learningModuleTwo);
 
+  var hourOne = this.convertTo24Hour(this.learningModuleOne.hour, this.learningModuleOne.timeOfDay);
+
+  console.log("HOUR ONE: " + hourOne);
+
   if (this.learningModuleTwo.active === true)
   {
-    
+    var hourTwo = this.convertTo24Hour(this.learningModuleTwo.hour, this.learningModuleTwo.timeOfDay);
+    console.log("HOUR TWO: " + hourTwo);
+
+    this.LMNotifTime = this.formCronTime(hourOne, hourTwo);
+  }
+  else
+  {
+    this.LMNotifTime = this.formCronTime(hourOne);
   }
 }
 
@@ -567,7 +638,7 @@ updateSurveyNotifSettings()
       "name": "projects/techdemofirebase/locations/us-central1/jobs/learning_module_notification",
       "updateMask": "schedule",
       "resource": {
-        "schedule": "0 8,10 * * *"
+        "schedule": this.LMNotifTime
       }
     })
         .then(function(response) {
