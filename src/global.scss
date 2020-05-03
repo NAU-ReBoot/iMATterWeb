@@ -52,6 +52,12 @@
 
 .text-button {
   --color: var(--main-color);
+  --color-activated: var(--secondary-color);
+  --background-hover: var(--secondary-color);
+}
+
+.danger-text-button {
+  --color: red;
 }
 
 .error-message {

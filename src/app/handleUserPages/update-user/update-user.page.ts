@@ -17,7 +17,6 @@ export class UpdateUserPage implements OnInit {
     code: '',
     username: '',
     email:  '',
-    password: '',
     dueMonth: '',
     weeksPregnant: 0,
     location: 0,
@@ -30,7 +29,8 @@ export class UpdateUserPage implements OnInit {
     bio:  '',
     points: 0,
     daysSinceLogin: 0,
-    codeEntered: true
+    codeEntered: true,
+    notes: ''
   };
 
   provider: Provider =  {

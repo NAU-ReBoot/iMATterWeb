@@ -9,7 +9,6 @@ export interface User {
   code: string;
   username: string;
   email: string;
-  password: string;
   dueMonth: string;
   weeksPregnant: number;
   profilePic: any;
@@ -23,6 +22,7 @@ export interface User {
   points: number;
   daysSinceLogin: number;
   codeEntered: boolean;
+  notes: string;
 }
 
 export interface Provider {
@@ -151,7 +151,8 @@ export class CreateUserService {
     return this.afs.firestore.collection('users').doc(userID).update({
           email: user.email,
           cohort: user.cohort,
-          points: user.points});
+          points: user.points,
+          notes: user.notes});
   }
 
   deleteUser(id: string): Promise<void> {
@@ -159,7 +160,7 @@ export class CreateUserService {
   }
 
   addUser(user: User): Promise<void> {
-    return this.userCollection.doc(user.code).set({code: user.code, joined: null, codeEntered: false});
+    return this.userCollection.doc(user.code).set({code: user.code, joined: null, codeEntered: false, notes: user.notes});
   }
 
   getProviders(): Observable<Provider[]> {
@@ -180,7 +181,8 @@ export class CreateUserService {
     return this.afs.firestore.collection('providers').doc(providerID).update({
           email: provider.email,
           firstName: provider.firstName,
-          lastName: provider.lastName});
+          lastName: provider.lastName,
+          notes: provider.notes});
   }
 
   deleteProvider(id: string): Promise<void> {
@@ -219,7 +221,7 @@ export class CreateUserService {
 
   updateAdmin(adminID: string, admin: Admin): Promise<void> {
     return this.afs.firestore.collection('admins').doc(adminID).update({
-          email: admin.email});
+          notes: admin.notes});
   }
 
   deleteAdmin(id: string): Promise<void> {
@@ -227,7 +229,12 @@ export class CreateUserService {
   }
 
   addAdmin(admin: Admin): Promise<void> {
-    return this.adminCollection.doc(admin.code).set({code: admin.code, email: admin.email, type: admin.type, codeEntered: false},
+    return this.adminCollection.doc(admin.code)
+        .set({code: admin.code,
+              email: admin.email,
+              type: admin.type,
+              codeEntered: false,
+              notes: admin.notes},
         { merge: true });
   }
 }

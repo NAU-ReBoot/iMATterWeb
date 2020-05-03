@@ -15,26 +15,32 @@
 <ion-content padding>
   <ion-list>
     <ion-list-header> Personal Information </ion-list-header>
-    <ion-item (click)="updateEmail()">
+    <ion-item>
       <ion-label>
         <ion-grid>
           <ion-row>
             <ion-col class="text-left" size="5"> Email </ion-col>
-            <ion-col class="text-center" size="7">
+            <ion-col class="text-center" size="5">
               {{admin.email}}
+            </ion-col>
+            <ion-col class="text-right">
+              <ion-button fill="clear" class="text-button" (click)="updateEmail()"> Update Email </ion-button>
             </ion-col>
           </ion-row>
         </ion-grid>
       </ion-label>
     </ion-item>
 
-    <ion-item (click)="updatePassword()">
+    <ion-item>
       <ion-label>
         <ion-grid>
           <ion-row>
             <ion-col class="text-left" size="5"> Password </ion-col>
-            <ion-col class="text-center" size="7">
+            <ion-col class="text-center" size="5">
               Hidden
+            </ion-col>
+            <ion-col class="text-right">
+              <ion-button fill="clear" class="text-button" (click)="updatePassword()"> Update Password </ion-button>
             </ion-col>
           </ion-row>
         </ion-grid>
