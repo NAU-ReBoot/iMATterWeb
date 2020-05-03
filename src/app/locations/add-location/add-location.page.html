@@ -113,7 +113,7 @@
 
 <ion-footer >
   <ion-toolbar>
-    <ion-button class="fill-button" expand="full" (click)="submitLocation()">
+    <ion-button class="fill-button" expand="full" (click)="submitLocation(locationForm)" [disabled] = "!locationForm.valid">
       Submit
     </ion-button>
   </ion-toolbar>

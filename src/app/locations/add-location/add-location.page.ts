@@ -73,23 +73,36 @@ export class AddLocationPage implements OnInit {
       }
     });
 
+    this.locations = this.locationService.getLocations();
+
+  }
+
+  ionViewWillEnter()
+  {
+    this.locationForm.patchValue(this.location);
   }
 
 
 
 
 
-    submitLocation() {
+    submitLocation(locationForm: FormGroup) {
 
       if(this.locationForm.status == 'VALID')
       {
-        this.location= this.location;
+        this.location.title= locationForm.value.title;
+        this.location.content = locationForm.value.content;
+        this.location.latitude = locationForm.value.latitude;
+        this.location.longitude = locationForm.value.longitude;
+        this.location.street = locationForm.value.street;
+        this.location.phone = locationForm.value.phone;
+        this.location.operationMF = locationForm.value.operationMF;
+        this.location.operationSaturday = locationForm.value.operationSaturday;
+        this.location.operationSunday = locationForm.value.operationSunday;
+        this.location.special = locationForm.value.special + ' ';
+        this.location.type = locationForm.value.type;
 
-        var newData = this.locationForm.value;
-
-
-          this.locationService.addLocation(newData).then(() => {
-          //  this.router.navigateByUrl('/more');
+          this.locationService.addLocation(this.location).then(() => {
             this.showToast('Location Added');
 
             this.router.navigateByUrl('/locations');
@@ -121,11 +134,5 @@ export class AddLocationPage implements OnInit {
     });
   }
 
-
-
-  async addLocation(locationForm: FormGroup)
-  {
-
-  }
 
 }
