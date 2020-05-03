@@ -40,7 +40,7 @@
         <ion-label color="primary">Choose the type of survey
           <ion-badge *ngIf="surveyForm.controls.type.touched && surveyForm.controls.title.invalid" color="danger">Required</ion-badge>
         </ion-label>
-        <ion-select formControlName="type" placeholder="Select One">
+        <ion-select [(ngModel)]="survey.type" formControlName="type" placeholder="Select One">
           <ion-select-option  value="After Joining">After user Joining</ion-select-option>
           <ion-select-option  value="Due Date">Before Due Date</ion-select-option>
           <ion-select-option  value="Inactive">Inactive User</ion-select-option>

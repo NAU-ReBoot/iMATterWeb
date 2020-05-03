@@ -45,7 +45,7 @@ export class SurveysPage implements OnInit {
       type: ['', Validators.compose([Validators.required, Validators.minLength(1)])],
       daysTillRelease: [''],
       daysBeforeDueDate: [''],
-      daysTillExpire: ['', Validators.compose([Validators.required, Validators.minLength(1)])],
+      daysTillExpire: ['', Validators.compose([Validators.required, Validators.minLength(0)])],
       daysInactive: [''],
       emotionChosen: [''],
       pointsWorth: [''],
