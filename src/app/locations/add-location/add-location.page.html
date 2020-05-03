@@ -33,9 +33,9 @@
   </ion-item>
 
   <ion-item>
-    <ion-label position= "stacked"> Phone Number: ###-###-####
+    <ion-label position= "stacked"> Phone Number
     <ion-badge *ngIf= "locationForm.controls.phone.touched && locationForm.controls.phone.errors?.required" color= "danger"> Required</ion-badge>
-    <ion-badge *ngIf= "locationForm.controls.phone.touched && locationForm.controls.phone.errors?.pattern" color= "danger"> Invalid Input</ion-badge>
+    <ion-badge *ngIf= "locationForm.controls.phone.touched && locationForm.controls.phone.errors?.pattern" color= "danger"> Invalid Input : ###-###-####</ion-badge>
    </ion-label>
     <ion-input formControlName = "phone"></ion-input>
   </ion-item>
