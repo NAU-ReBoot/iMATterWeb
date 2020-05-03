@@ -1,17 +1,48 @@
+/// <reference types="@types/gapi.auth2" />
+
 import { Component, OnInit } from '@angular/core';
-import { SettingsService, GiftCardType, ProviderType } from '../services/settings/settings.service';
+import { SettingsService, GiftCardType, ProviderType, mobileNotificationSetting } from '../services/settings/settings.service';
 import { Storage } from '@ionic/storage';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { Observable, Scheduler } from 'rxjs';
 import { AngularFireStorage, AngularFireUploadTask } from '@angular/fire/storage';
 
+declare var gapi: any;
 @Component({
   selector: 'app-mobile-settings',
   templateUrl: './mobile-settings.page.html',
   styleUrls: ['./mobile-settings.page.scss'],
 })
 export class MobileSettingsPage implements OnInit {
+
+  learningModuleOne: mobileNotificationSetting = 
+  {
+    active: null,
+    hour: 0,
+    timeOfDay: ''
+  }
+
+  learningModuleTwo: mobileNotificationSetting = 
+  {
+    active: null,
+    hour: 0,
+    timeOfDay: ''
+  }
+
+  surveyOne: mobileNotificationSetting = 
+  {
+    active: null,
+    hour: 0,
+    timeOfDay: ''
+  }
+
+  surveyTwo: mobileNotificationSetting = 
+  {
+    active: null,
+    hour: 0,
+    timeOfDay: ''
+  }
 
   constructor(public msService: SettingsService,
               public storage: Storage,
@@ -24,6 +55,10 @@ export class MobileSettingsPage implements OnInit {
     type: '',
     profilePic: ''
   };
+
+  // mobile notification settings
+  public LMNotifTime: string; //learning module
+  public SurveyNotifTime;
 
   // from db
   public autoProfilePic: string;
@@ -109,6 +144,11 @@ export class MobileSettingsPage implements OnInit {
     this.getAdminPic();
     this.getChatRoomLifeSetting();
     this.getChatRoomNumberSetting();
+    this.getMobileNotifSettings();
+
+    gapi.load("client:auth2", function() {
+      gapi.auth2.init({client_id: "173430196657-73pv7jdl40pdldfqhacq1f96kfrio0ki.apps.googleusercontent.com"});
+    });
 
   }
 
@@ -170,6 +210,15 @@ export class MobileSettingsPage implements OnInit {
   getGCTypes() {
     SettingsService.getGCSettings().then((result) => {
       this.typesOfGC = result.get('types');
+    });
+  }
+
+  getMobileNotifSettings() {
+    SettingsService.getMobileNotifSettings().then((result) => {
+      this.learningModuleOne = result.get('learningModuleOne');
+      this.learningModuleTwo = result.get('learningModuleTwo');
+      this.surveyOne = result.get('surveyOne');
+      this.surveyTwo = result.get('surveyTwo');
     });
   }
 
@@ -475,6 +524,73 @@ export class MobileSettingsPage implements OnInit {
 
   ionViewWillLeave() {
     this.initDisplaysToFalse();
+  }
+
+
+//BELOW IS MOBILE NOTIFICATIONS SETTINGS CODE
+
+
+updateLMNotifSettings()
+{
+  this.msService.updateMobileNotifications("learningModuleOne", this.learningModuleOne);
+  this.msService.updateMobileNotifications("learningModuleTwo", this.learningModuleTwo);
+
+  if (this.learningModuleTwo.active === true)
+  {
+    
+  }
+}
+
+updateSurveyNotifSettings()
+{
+  this.msService.updateMobileNotifications("surveyOne", this.surveyOne);
+  this.msService.updateMobileNotifications("surveyTwo", this.surveyTwo);
+}
+
+  authenticate() {
+    return gapi.auth2.getAuthInstance()
+        .signIn({scope: "https://www.googleapis.com/auth/cloud-platform"})
+        .then(function() { console.log("Sign-in successful"); },
+              function(err) { console.error("Error signing in", err); });
+  }
+
+  loadClient() {
+    gapi.client.setApiKey("YOUR_API_KEY");
+    return gapi.client.load("https://content.googleapis.com/discovery/v1/apis/cloudscheduler/v1/rest")
+        .then(function() { console.log("GAPI client loaded for API"); },
+              function(err) { console.error("Error loading GAPI client for API", err); });
+  }
+  
+  // Updating Learning Module Notifications
+  executeLearningModuleNotif() {
+    return gapi.client.cloudscheduler.projects.locations.jobs.patch({
+      "name": "projects/techdemofirebase/locations/us-central1/jobs/learning_module_notification",
+      "updateMask": "schedule",
+      "resource": {
+        "schedule": "0 8,10 * * *"
+      }
+    })
+        .then(function(response) {
+                // Handle the results here (response.result has the parsed body).
+                console.log("Response", response);
+              },
+              function(err) { console.error("Execute error", err); });
+  }
+
+  // Updating Survey Notifications
+  executeSurveyNotif() {
+    return gapi.client.cloudscheduler.projects.locations.jobs.patch({
+      "name": "projects/techdemofirebase/locations/us-central1/jobs/survey_notification",
+      "updateMask": "schedule",
+      "resource": {
+        "schedule": "0 6 * * *"
+      }
+    })
+        .then(function(response) {
+                // Handle the results here (response.result has the parsed body).
+                console.log("Response", response);
+              },
+              function(err) { console.error("Execute error", err); });
   }
 }
 
