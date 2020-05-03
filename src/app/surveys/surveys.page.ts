@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastController, AlertController } from '@ionic/angular';
-import { FireService, Survey, Question } from '../services/fire/fire.service';
+import { FireService, Survey } from '../services/fire/fire.service';
 import {Storage} from '@ionic/storage';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
@@ -15,6 +15,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class SurveysPage implements OnInit {
   public surveyForm: FormGroup;
 
+  // Survey object for new and existing surveys
   survey: Survey = {
     title: '',
     surveyLink: '',
@@ -37,13 +38,14 @@ export class SurveysPage implements OnInit {
               public alertController: AlertController,
               private formBuilder: FormBuilder
   ) { 
+    // Makes sure that the necessary fields are added
     this.surveyForm = this.formBuilder.group({
       title: ['', Validators.compose([Validators.required, Validators.minLength(1)])],
       surveyLink: ['', Validators.compose([Validators.required, Validators.minLength(1)])],
       type: ['', Validators.compose([Validators.required, Validators.minLength(1)])],
       daysTillRelease: [''],
       daysBeforeDueDate: [''],
-      daysTillExpire: [''],
+      daysTillExpire: ['', Validators.compose([Validators.required, Validators.minLength(1)])],
       daysInactive: [''],
       emotionChosen: [''],
       pointsWorth: [''],
@@ -53,7 +55,6 @@ export class SurveysPage implements OnInit {
   }
 
   ngOnInit() {
-
     this.storage.get('authenticated').then((val) => {
       if (val === 'false') {
         this.router.navigate(['/login/']);
@@ -69,8 +70,11 @@ export class SurveysPage implements OnInit {
   }
 
   ionViewWillEnter(){
+    // gets the id of the survey
     let id = this.activatedRoute.snapshot.paramMap.get('id');
 
+    // if the id exists, meaning that this is an already existing survey, get the corresponding
+    // survey and assign it to the Survey object delcared above
     if(id){
       this.fs.getSurvey(id).subscribe(survey => {
         this.survey = survey;
@@ -82,6 +86,7 @@ export class SurveysPage implements OnInit {
   
 
   addSurvey(){    
+    // if the survey fields are valid, then add the survey in the database using the fs service
     if(this.surveyForm.status === 'VALID'){
       var newData = this.surveyForm.value;
 
@@ -95,6 +100,7 @@ export class SurveysPage implements OnInit {
   }
 
   async deleteSurveyConfirmation(){
+    // asks the administrator if they are certain that they want to delete the survey
     const alert = await this.alertController.create({
       header: 'Delete Survey?',
       message: 'Are you sure you want to delete this survey?',
@@ -111,6 +117,7 @@ export class SurveysPage implements OnInit {
   }
 
   deleteSurvey(){
+    // if the administrator confirms, the survey will be deleted using the fs service
     this.fs.deleteSurvey(this.survey.id).then(() => {
       this.router.navigateByUrl('/survey-list');
       this.showToast('Survey deleted');
@@ -119,7 +126,8 @@ export class SurveysPage implements OnInit {
     });
   }
 
-  updateSurvey(){    
+  updateSurvey(){
+    // if the survey fields are valid, then update the survey in the database using the fs service
     if (this.surveyForm.status == 'VALID')
     { 
       //IMPORTANT: need to pass in this LM's ID when updating
@@ -136,9 +144,7 @@ export class SurveysPage implements OnInit {
     }
   }
 
-  chosenType(){
-    console.log(this.survey.type);
-  }
+  // presents the alert desired
   async presentAlert(header: string, message: string) {
     const alert = await this.alertController.create({
           header,
@@ -148,6 +154,8 @@ export class SurveysPage implements OnInit {
 
     await alert.present();
   }
+
+  // useful information when creating/updating a survey
   displayHelpInfo()
   {
     this.presentAlert('About Survey Fields',
@@ -165,6 +173,7 @@ export class SurveysPage implements OnInit {
       'The type of survey');
   }
 
+  // displays the message that is desired
   showToast(msg){
     this.toastCtrl.create({
       message: msg,
@@ -172,18 +181,22 @@ export class SurveysPage implements OnInit {
     }).then(toast => toast.present());
   }
 
+  // determines if the survey type the administrator chose for this survey is After Joining
   get isAfterJoining(){
     return this.survey.type === 'After Joining';
   }
 
+  // determines if the survey type the administrator chose for this survey is Due Date
   get isDueDate(){
     return this.survey.type === 'Due Date';
   }
 
+  // determines if the survey type the administrator chose for this survey is Inactive
   get isInactive(){
     return this.survey.type === 'Inactive';
   }
 
+  // determines if the survey type the administrator chose for this survey is Emotion
   get isEmotion(){
     return this.survey.type === 'Emotion';
   }
