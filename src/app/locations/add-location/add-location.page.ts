@@ -22,6 +22,7 @@ export class AddLocationPage implements OnInit {
   public opened = false;
   public forcedNumber:number;
   public secondFrocedNumber: number;
+  public locationForm: FormGroup;
 
   location: Location = {
     title: '',
@@ -61,10 +62,10 @@ export class AddLocationPage implements OnInit {
     this.locationForm = this.formBuilder.group({
       title: ['', Validators.compose([Validators.required, Validators.minLength(1)])],
       content: ['', Validators.compose([Validators.required, Validators.minLength(1)])],
-      latitude: ['', Validators.compose([Validators.required, Validators.minLength(1)])],
-      longitude: ['', Validators.compose([Validators.required, Validators.minLength(1)])],
+      latitude: ['', Validators.compose([Validators.required, Validators.minLength(1), Validators.pattern('^(-?(\d|([1-8][0-9])*(\.\d)?)|(90(\.0)?))')])],
+      longitude: ['', Validators.compose([Validators.required, Validators.minLength(1), Validators.pattern('^(-?([1]?[0-7][0-9]|[1-9]?[0-9])(\.\d*)?)|-?180(\.[0]*)?')])],
       street: ['', Validators.compose([Validators.required, Validators.minLength(1)])],
-      phone: ['', Validators.compose([Validators.required, Validators.minLength(1), Validators.pattern('^([1-9][0-9][1-9]-[0-9][1-9][0-9]-[1-9][0-9][1-9][0-9])')])],
+      phone: ['', Validators.compose([Validators.required, Validators.minLength(1), Validators.pattern('^([0-9][0-9][1-9]-[0-9][1-9][0-9]-[1-9][0-9][1-9][0-9])')])],
       operationMF: ['', Validators.compose([Validators.required, Validators.minLength(1)])],
       operationSaturday: ['', Validators.compose([Validators.required, Validators.minLength(1)])],
       operationSunday: ['', Validators.compose([Validators.required, Validators.minLength(1)])],
@@ -80,31 +81,26 @@ export class AddLocationPage implements OnInit {
 
     submitLocation() {
 
-        this.forcedNumber = 0;
+      if(this.locationForm.status == 'VALID')
+      {
+        this.location= this.location;
 
-      this.location= this.location;
+        var newData = this.locationForm.value;
 
 
-        this.locationService.addLocation(this.location).then(() => {
-        //  this.router.navigateByUrl('/more');
-          this.showToast('Location Added');
-          this.location.title = '';
-          this.location.content = '';
-          this.location.phone = '';
-          this.location.longitude = 0;
-          this.location.latitude = 0;
-          this.location.operationMF = '';
-          this.location.operationSaturday = '';
-          this.location.operationSunday = '';
-          this.location.special = '  ';
-          this.location.type = '';
+          this.locationService.addLocation(newData).then(() => {
+          //  this.router.navigateByUrl('/more');
+            this.showToast('Location Added');
 
-          this.router.navigateByUrl('/locations');
-        }, err => {
-          this.showToast('There was a problem adding your location');
-        });
+            this.router.navigateByUrl('/locations');
+          }, err => {
+            this.showToast('There was a problem adding your location');
+          });
 
-        this.slientlyUpdateLocation(this.location);
+          this.slientlyUpdateLocation(this.location);
+      }
+
+
 
       }
 
@@ -122,7 +118,14 @@ export class AddLocationPage implements OnInit {
     {
       console.log("sliently updated location");
 
-    })
+    });
+  }
+
+
+
+  async addLocation(locationForm: FormGroup)
+  {
+
   }
 
 }
