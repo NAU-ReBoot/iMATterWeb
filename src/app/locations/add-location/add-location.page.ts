@@ -48,7 +48,7 @@ export class AddLocationPage implements OnInit {
                   latitude: ['', Validators.compose([Validators.required, Validators.minLength(1), Validators.pattern('^-?(?:90(?:(?:\\.0{1,24})?)|(?:[0-9]|[1-8][0-9])(?:(?:\\.[0-9]{1,24})?))$')])],
                   longitude: ['', Validators.compose([Validators.required, Validators.minLength(1), Validators.pattern('^(-?(?:1[0-7]|[1-9])?\\d(?:\\.\\d{1,24})?|180(?:\\.0{1,24})?)$')])],
                   street: ['', Validators.compose([Validators.required, Validators.minLength(1)])],
-                  phone: ['', Validators.compose([Validators.required, Validators.minLength(1), Validators.pattern('^([0-9][0-9][1-9]-[0-9][1-9][0-9]-[1-9][0-9][1-9][0-9])')])],
+                  phone: ['', Validators.compose([Validators.required, Validators.minLength(1), Validators.pattern('^(\\([0-9][0-9][1-9]\\)[0-9][1-9][0-9]-[1-9][0-9][1-9][0-9])')])],
                   operationMF: ['', Validators.compose([Validators.required, Validators.minLength(1)])],
                   operationSaturday: ['', Validators.compose([Validators.required, Validators.minLength(1)])],
                   operationSunday: ['', Validators.compose([Validators.required, Validators.minLength(1)])],
@@ -92,8 +92,8 @@ export class AddLocationPage implements OnInit {
       {
         this.location.title= locationForm.value.title;
         this.location.content = locationForm.value.content;
-        this.location.latitude = locationForm.value.latitude;
-        this.location.longitude = locationForm.value.longitude;
+        this.location.latitude = Number(locationForm.value.latitude);
+        this.location.longitude = Number(locationForm.value.longitude);
         this.location.street = locationForm.value.street;
         this.location.phone = locationForm.value.phone;
         this.location.operationMF = locationForm.value.operationMF;

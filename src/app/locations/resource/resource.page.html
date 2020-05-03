@@ -10,81 +10,107 @@
 </ion-header>
 
 <ion-content >
-      <ion-item>
-        <ion-label position= "stacked"> Location Title </ion-label>
-        <ion-input [(ngModel)] = "location.title"></ion-input>
-      </ion-item>
+  <form [formGroup]="locationForm">
 
-      <ion-item>
-        <ion-label position= "stacked"> Location Description </ion-label>
-        <ion-textarea [(ngModel)] = "location.content"></ion-textarea>
-      </ion-item>
+  <ion-item>
+    <ion-label position= "stacked"> Location Title
+    <ion-badge *ngIf= "locationForm.controls.title.touched && locationForm.controls.title.invalid" color= "danger"> Required</ion-badge>
+   </ion-label>
+    <ion-input formControlName = "title"></ion-input>
+  </ion-item>
 
-      <ion-item>
-        <ion-label position= "stacked"> Street Address </ion-label>
-        <ion-input [(ngModel)] = "location.street"></ion-input>
-      </ion-item>
+  <ion-item>
+    <ion-label position= "stacked"> Location Description
+      <ion-badge *ngIf= "locationForm.controls.content.touched && locationForm.controls.content.invalid" color= "danger"> Required</ion-badge>
+    </ion-label>
+    <ion-textarea formControlName = "content"> </ion-textarea>
+  </ion-item>
 
-      <ion-item>
-        <ion-label position= "stacked"> Phone Number </ion-label>
-        <ion-input [(ngModel)] = "location.phone"></ion-input>
-      </ion-item>
+  <ion-item>
+    <ion-label position= "stacked"> Street Address
+    <ion-badge *ngIf= "locationForm.controls.street.touched && locationForm.controls.street.invalid" color= "danger"> Required</ion-badge>
+  </ion-label>
+    <ion-input formControlName = "street"></ion-input>
+  </ion-item>
 
-      <ion-item>
-        <ion-label position= "stacked"> Latitude </ion-label>
-        <ion-input [(ngModel)] = "location.latitude"></ion-input>
-      </ion-item>
+  <ion-item>
+    <ion-label position= "stacked"> Phone Number
+    <ion-badge *ngIf= "locationForm.controls.phone.touched && locationForm.controls.phone.errors?.required" color= "danger"> Required</ion-badge>
+    <ion-badge *ngIf= "locationForm.controls.phone.touched && locationForm.controls.phone.errors?.pattern" color= "danger"> Invalid Input : (###)###-####</ion-badge>
+   </ion-label>
+    <ion-input formControlName = "phone"></ion-input>
+  </ion-item>
 
-      <ion-item>
-        <ion-label position= "stacked"> Longitude </ion-label>
-        <ion-input [(ngModel)] = "location.longitude"></ion-input>
-      </ion-item>
+  <ion-item>
+    <ion-label position= "stacked" > Latitude
+    <ion-badge *ngIf= "locationForm.controls.latitude.touched && locationForm.controls.latitude.errors?.required" color= "danger"> Required</ion-badge>
+    <ion-badge *ngIf= "locationForm.controls.latitude.touched && locationForm.controls.latitude.errors?.pattern" color= "danger">Invalid Input</ion-badge>
+   </ion-label>
+    <ion-input formControlName = "latitude"></ion-input>
+  </ion-item>
 
-      <ion-item>
-        <ion-label position= "stacked"> Hours of Operation Monday - Friday </ion-label>
-        <ion-input [(ngModel)] = "location.operationMF"></ion-input>
-      </ion-item>
+  <ion-item>
+    <ion-label position= "stacked"> Longitude
+    <ion-badge *ngIf= "locationForm.controls.longitude.touched && locationForm.controls.longitude.errors?.required" color= "danger"> Required</ion-badge>
+    <ion-badge *ngIf= "locationForm.controls.longitude.touched && locationForm.controls.longitude.errors?.pattern" color= "danger"> Invalid Input</ion-badge>
+   </ion-label>
+    <ion-input formControlName = "longitude"></ion-input>
+  </ion-item>
 
-      <ion-item>
-        <ion-label position= "stacked"> Hours of Operation Saturday </ion-label>
-        <ion-input [(ngModel)] = "location.operationSaturday"></ion-input>
-      </ion-item>
+  <ion-item>
+    <ion-label position= "stacked"> Hours of Operation Monday - Friday
+    <ion-badge *ngIf= "locationForm.controls.operationMF.touched && locationForm.controls.operationMF.invalid" color= "danger"> Required</ion-badge>
+  </ion-label>
+    <ion-input formControlName = "operationMF"></ion-input>
+  </ion-item>
 
-      <ion-item>
-        <ion-label position= "stacked"> Hours of Operation Sunday </ion-label>
-        <ion-input [(ngModel)] = "location.operationSunday"></ion-input>
-      </ion-item>
+  <ion-item>
+    <ion-label position= "stacked"> Hours of Operation Saturday
+    <ion-badge *ngIf= "locationForm.controls.operationSaturday.touched && locationForm.controls.operationSunday.invalid" color= "danger"> Required</ion-badge>
+  </ion-label>
+    <ion-input formControlName = "operationSaturday"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position= "stacked"> Hours of Operation Sunday
+    <ion-badge *ngIf= "locationForm.controls.operationSunday.touched && locationForm.controls.operationSunday.invalid" color= "danger"> Required</ion-badge>
+   </ion-label>
+    <ion-input formControlName = "operationSunday"></ion-input>
+  </ion-item>
 
 
-      <ion-item>
-        <ion-label position= "stacked"> Special Note </ion-label>
-        <ion-input [(ngModel)] = "location.special"></ion-input>
-      </ion-item>
+  <ion-item>
+    <ion-label position= "stacked"> Special Note (optional) </ion-label>
+    <ion-input formControlName = "special"></ion-input>
+  </ion-item>
 
 
 
-      <ion-list>
-      <ion-radio-group [(ngModel)] = "location.type">
-        <ion-list-header>
-          <ion-label> Type of Location </ion-label>
-        </ion-list-header>
+  <ion-list>
+  <ion-radio-group formControlName = "type">
+    <ion-list-header>
+      <ion-label> Type of Location
+      <ion-badge *ngIf= "locationForm.controls.type.touched && locationForm.controls.type.invalid" color= "danger"> Required</ion-badge>
+    </ion-label>
+    </ion-list-header>
 
-        <ion-item>
-          <ion-label> Clinic </ion-label>
-          <ion-radio slot="start" value="clinic"></ion-radio>
-        </ion-item>
+    <ion-item>
+      <ion-label> Clinic </ion-label>
+      <ion-radio slot="start" value="clinic"></ion-radio>
+    </ion-item>
 
-        <ion-item>
-          <ion-label> Hospital </ion-label>
-          <ion-radio slot="start" value="hospital"></ion-radio>
-        </ion-item>
+    <ion-item>
+      <ion-label> Hospital </ion-label>
+      <ion-radio slot="start" value="hospital"></ion-radio>
+    </ion-item>
 
-        <ion-item>
-          <ion-label> Therapy </ion-label>
-          <ion-radio slot="start" value="therapy"></ion-radio>
-        </ion-item>
-      </ion-radio-group>
-    </ion-list>
+    <ion-item>
+      <ion-label> Therapy </ion-label>
+      <ion-radio slot="start" value="therapy"></ion-radio>
+    </ion-item>
+  </ion-radio-group>
+</ion-list>
+</form>
 
 </ion-content>
 
@@ -99,7 +125,7 @@
       </ion-button>
     </ion-col>
     <ion-col size="6">
-      <ion-button button [routerLink]="['/locations/']" expand="block" fill="solid" color="success" (click)="updateLocation()">
+      <ion-button button [routerLink]="['/locations/']" expand="block" fill="solid" color="success" (click)="updateLocation(locationForm)" [disabled] = "!locationForm.valid">
         <ion-icon name="save" slot="start"></ion-icon>
         Update
       </ion-button>
