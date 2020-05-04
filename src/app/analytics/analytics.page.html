@@ -35,9 +35,18 @@
     <div *ngIf="pageStatistics" class="ion-padding">
 
       <ion-card style='height:100%'>
-        <ion-card-content >
-          <canvas  #lineChart></canvas>
+        <ion-card-content>
+          <ion-item>
+            <ion-label class = "vertical-rl">
+            Visits
+          </ion-label>
+          <canvas #lineChart id="myGraph"> {{lineChart}}</canvas>
+          </ion-item>
+          <ion-label>
+            Time of Day
+            </ion-label>
         </ion-card-content>
+
       </ion-card>
 
       <ion-item>

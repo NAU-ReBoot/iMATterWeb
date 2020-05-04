@@ -9,6 +9,7 @@ import { AnalyticsService, Analytics, Sessions, UniqueSessions} from '../service
 import {Router} from '@angular/router';
 import {Storage} from '@ionic/storage';
 import { DatePickerModule } from 'ionic4-date-picker';
+import { ChartOptions } from 'chart.js';
 
 @Component({
     selector: 'app-analytics',
@@ -147,12 +148,6 @@ export class AnalyticsPage implements OnInit{
     public openToCalendarSwitch = false;
     public fromDateString: any;
     public toDateString:any;
-
-
-    private _CANVAS  : any;
-
-
-
 
 
     constructor(
@@ -989,36 +984,27 @@ export class AnalyticsPage implements OnInit{
            labels: ["Calendar", "Chat Room" , "Home" , "Info Desk" , "Learning Center", "Survey Center"],
            datasets: [{
              label: "Number of Minutes For Each Page",
-             data:this.finalDurationArray,
+             data: this.finalDurationArray,
              backgroundColor: 'rgb(147,112,219)',
              borderColor: 'rgb(147,112,219)',
-             borderWidth:1
-           }]
+             borderWidth: 3
+           }
+         ]
          },
          options:{
-           responsive: true,
-   				title: {
-   					display: true,
-   					text: 'Analytics Bar Chart'
-   				},
-          scales: {
-            yAxes: [{
-  						scaleLabel: {
-  							display: true,
-  							labelString: 'Time',
-  						}
-  					}],
+           scales: {
+             yAxes: [{
+               scaleLabel:{
+                 display: true,
+                 labelString: 'Time'
+               },
+               ticks: {
+               }
+             }]
+           }
+        }
 
-					xAxes: [{
-						scaleLabel: {
-							display: true,
-							labelString: 'Pages',
-						}
-					}]
-				}
-
-         }
-       });
+         });
 
      }
 
@@ -1043,6 +1029,8 @@ export class AnalyticsPage implements OnInit{
     };
 
     let options =  {
+        responsive: false,
+        maintainAspectRatio: true,
 				title: {
 					display: true,
 					text: 'Analytics Line Chart'

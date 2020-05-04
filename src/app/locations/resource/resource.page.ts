@@ -122,9 +122,9 @@ public locationForm: FormGroup;
 
             }
 
-            slientlyUpdateLocation()
+            slientlyUpdateLocation(location)
             {
-              this.locationService.updateLocation(this.location).then(()=>
+              this.locationService.updateLocation(location).then(()=>
               {
                 console.log("sliently updated location");
 

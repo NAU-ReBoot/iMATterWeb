@@ -11,10 +11,21 @@
 
 ion-card{
 
-       width: 60% !important;
-       height: 60% !important;
-       margin: 20 !important;
+       width: 70% !important;
+       height: 70% !important;
+       margin: 10 !important;
      }
+
+     #myGraph {
+     width: 95%;
+     height: 90%;
+     }
+
+     .vertical-rl {
+  writing-mode: vertical-rl;
+  color: #8A2BE2;
+  display: inline-block;
+}
 
 
      canvas {
