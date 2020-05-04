@@ -19,14 +19,14 @@ declare var gapi: any;
   styleUrls: ['./learningmodules.page.scss'],
 })
 export class LearningmodulesPage implements OnInit {
-  
 
+  public apiResult;
   public learningModules: Observable<LearningModule[]>;
   
   constructor(public learningModService: LearningModuleService,
               public router: Router,
               public storage: Storage,
-              private toastCtrl: ToastController) { }
+              private toastCtrl: ToastController){ }
 
   ngOnInit() {
     this.storage.get('authenticated').then((val) => {
@@ -92,8 +92,22 @@ export class LearningmodulesPage implements OnInit {
               function(err) 
               { 
                 console.error("Execute error", err);
-                //this.showToast('There was an error sending learning module notifications.'); 
+                this.apiResult = "error"
               });
+  }
+
+  alertAPIResponse()
+  {
+    console.log("got here");
+    console.log(this.apiResult);
+    if (this.apiResult === "success")
+    {
+      this.showToast("Learning module notifications were successfully sent!");
+    }
+    else if (this.apiResult === "error")
+    {
+      this.showToast("There was an error sending learning module notifications.");
+    }
   }
 
 }
