@@ -6,13 +6,14 @@
     </ion-title>
     <ion-buttons slot="start">
       <ion-menu-button autoHide="false"></ion-menu-button>
-      <ion-button (click) = "click()"> Add a Location </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-
 <ion-content >
+
+  <ion-button class="fill-button" (click) = "click()"> Add a Location </ion-button>
+
   <div *ngIf = "opened">
       <ion-list>
         <ion-item button [routerLink]="['/locations/resource/', location.id]" *ngFor="let location of (locations | async)">
