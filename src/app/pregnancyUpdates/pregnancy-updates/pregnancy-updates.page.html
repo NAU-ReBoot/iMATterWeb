@@ -13,6 +13,69 @@
     Add New Pregnancy Update
   </ion-button>
 
+
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <ion-item class="custom-divider-header">
+          <ion-text>Days 1 - 70</ion-text>
+        </ion-item>
+        <ng-container *ngFor="let pregUpdateCard of ( pregnancyUpdates | async )">
+          <ion-card button [routerLink]="['/updates-content/', pregUpdateCard.id]" *ngIf="pregUpdateCard.day > 0 && pregUpdateCard.day < 71">
+            <ion-card-header>
+              <ion-card-title>
+                Day: <b>{{ pregUpdateCard.day }}</b>
+              </ion-card-title>
+            </ion-card-header>
+          </ion-card>
+        </ng-container>
+      </ion-col>
+      <ion-col>
+        <ion-item class="custom-divider-header">
+          <ion-text>Days 71 - 140</ion-text>
+        </ion-item>
+        <ng-container *ngFor="let pregUpdateCard of ( pregnancyUpdates | async )">
+          <ion-card button [routerLink]="['/updates-content/', pregUpdateCard.id]" *ngIf="pregUpdateCard.day > 70 && pregUpdateCard.day < 141">
+            <ion-card-header>
+              <ion-card-title>
+                Day: <b>{{ pregUpdateCard.day }}</b>
+              </ion-card-title>
+            </ion-card-header>
+          </ion-card>
+        </ng-container>
+      </ion-col>
+      <ion-col>
+        <ion-item class="custom-divider-header">
+          <ion-text>Days 141 - 210</ion-text>
+        </ion-item>
+        <ng-container *ngFor="let pregUpdateCard of ( pregnancyUpdates | async )">
+          <ion-card button [routerLink]="['/updates-content/', pregUpdateCard.id]" *ngIf="pregUpdateCard.day > 140 && pregUpdateCard.day < 211">
+            <ion-card-header>
+              <ion-card-title>
+                Day: <b>{{ pregUpdateCard.day }}</b>
+              </ion-card-title>
+            </ion-card-header>
+          </ion-card>
+        </ng-container>
+      </ion-col>
+      <ion-col>
+        <ion-item class="custom-divider-header">
+          <ion-text>Days 211 - 280</ion-text>
+        </ion-item>
+        <ng-container *ngFor="let pregUpdateCard of ( pregnancyUpdates | async )">
+          <ion-card button [routerLink]="['/updates-content/', pregUpdateCard.id]" *ngIf="pregUpdateCard.day > 210 && pregUpdateCard.day < 281">
+            <ion-card-header>
+              <ion-card-title>
+                Day: <b>{{ pregUpdateCard.day }}</b>
+              </ion-card-title>
+            </ion-card-header>
+          </ion-card>
+        </ng-container>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <!--
   <ion-list>
     <ion-card button [routerLink]="['/updates-content/', pregUpdateCard.id]" *ngFor="let pregUpdateCard of ( pregnancyUpdates | async )">
       <ion-card-header>
@@ -22,5 +85,5 @@
       </ion-card-header>
     </ion-card>
   </ion-list>
-
+-->
 </ion-content>
