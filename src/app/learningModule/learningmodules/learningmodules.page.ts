@@ -51,15 +51,6 @@ export class LearningmodulesPage implements OnInit {
     });
   }
 
-  ionViewWillEnter()
-  {
-    console.log("ION VIEW WILL ENTER!!");
-
-    /*gapi.load("client:auth2", function() {
-      gapi.auth2.init({client_id: "173430196657-73pv7jdl40pdldfqhacq1f96kfrio0ki.apps.googleusercontent.com"});
-    });*/
-  }
-
   showToast(msg:string)
   {
     this.toastCtrl.create({
