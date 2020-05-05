@@ -22,6 +22,7 @@ export class SuggestionPage implements OnInit {
     userID: '',
     timestamp: '',
     type: '',
+    viewed: false
   };
 
   constructor(private afs: AngularFirestore,

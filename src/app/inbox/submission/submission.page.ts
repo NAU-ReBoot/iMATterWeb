@@ -24,7 +24,8 @@ export class SubmissionPage implements OnInit {
   timestamp: '',
   type: '',
   operatingSys: '',
-  version: ''
+  version: '',
+    viewed: false
 };
 
   constructor(private afs: AngularFirestore,
