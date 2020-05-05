@@ -58,10 +58,6 @@ export class QuizModalPage implements OnInit {
 
   ngOnInit() 
   { 
-    console.log("CURRENT LEARNING MODULE: ");
-    console.log(this.currentLearningModule);
-
-    console.log("learning module iD: " + this.learningModuleID);
     //find the current quiz question that we're viewing and create the reference to it
     for (var index = 0; index < this.currentLearningModule.moduleQuiz.length; index++)
     {
