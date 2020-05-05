@@ -4,9 +4,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { ResourcePageRoutingModule } from './resource-routing.module';
+import { AddLocationPageRoutingModule } from './add-location-routing.module';
 
-import { ResourcePage } from './resource.page';
+import { AddLocationPage } from './add-location.page';
 
 @NgModule({
   imports: [
@@ -14,8 +14,8 @@ import { ResourcePage } from './resource.page';
     FormsModule,
     ReactiveFormsModule,
     IonicModule,
-    ResourcePageRoutingModule
+    AddLocationPageRoutingModule
   ],
-  declarations: [ResourcePage]
+  declarations: [AddLocationPage]
 })
-export class ResourcePageModule {}
+export class AddLocationPageModule {}

@@ -129,6 +129,12 @@ const routes: Routes = [
     path: 'locations',
     loadChildren: () => import('./locations/locations.module').then( m => m.LocationsPageModule)
   }
+  ,
+  {
+   path: 'add-location',
+   loadChildren: () => import('./locations/add-location/add-location.module').then( m => m.AddLocationPageModule)
+ }
+
 
 ];
 @NgModule({

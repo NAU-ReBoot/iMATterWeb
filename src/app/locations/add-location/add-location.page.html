@@ -1,15 +1,14 @@
-
 <ion-header>
-<ion-toolbar>
-  <ion-buttons slot= "start">
-  <ion-back-button defaultHref="/locations"></ion-back-button>
-</ion-buttons>
-  <ion-title *ngIf="location.id">{{location.title}} Location Details</ion-title>
-
-</ion-toolbar>
+  <ion-toolbar>
+    <ion-title>Location Information</ion-title>
+    <ion-buttons slot="start">
+      <ion-menu-button autoHide="false"></ion-menu-button>
+      <ion-back-button defaultHref="/locations"></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
 </ion-header>
 
-<ion-content >
+<ion-content>
   <form [formGroup]="locationForm">
 
   <ion-item>
@@ -112,23 +111,12 @@
 </ion-list>
 </form>
 
-</ion-content>
-
-
-
-<ion-footer *ngIf="location.id">
-  <ion-row no-padding text-center>
-    <ion-col size="6">
-      <ion-button expand="block" fill="outline" color="danger" (click)="deleteLocationConfirmation()">
-        <ion-icon name="trash" slot="start"></ion-icon>
-        Delete
-      </ion-button>
-    </ion-col>
-    <ion-col size="6">
-      <ion-button button [routerLink]="['/locations/']" expand="block" fill="solid" color="success" (click)="updateLocation(locationForm)" [disabled] = "!locationForm.valid">
-        <ion-icon name="save" slot="start"></ion-icon>
-        Update
-      </ion-button>
-    </ion-col>
-  </ion-row>
+<ion-footer >
+  <ion-toolbar>
+    <ion-button class="fill-button" expand="full" (click)="submitLocation(locationForm)" [disabled] = "!locationForm.valid">
+      Submit
+    </ion-button>
+  </ion-toolbar>
 </ion-footer>
+
+</ion-content>
