@@ -78,7 +78,7 @@ export class LearningModuleContentPage implements OnInit {
         moduleVideoID: [''],
         modulePPTurl: [''],
         moduleNext: [''],
-        moduleQuiz: [[]],
+        moduleQuiz: [],
         modulePointsWorth: [''],
         moduleActive: [''],
         userVisibility: [''],
@@ -138,7 +138,7 @@ export class LearningModuleContentPage implements OnInit {
     else
     {
       //this.learningModule.id = id;
-      //this.learningModuleForm.patchValue(this.learningModule);
+      this.learningModuleForm.patchValue(this.learningModule);
     }
 
   }
@@ -161,10 +161,14 @@ export class LearningModuleContentPage implements OnInit {
 
   updateLearningModule()
   {
+    console.log("in update learning module");
+
     if (this.learningModuleForm.status == 'VALID')
     { 
       //IMPORTANT: need to pass in this LM's ID when updating
       this.learningModuleForm.addControl('id', this.formBuilder.control(this.learningModule.id));
+
+      
 
       var newData = this.learningModuleForm.value;
 
@@ -173,6 +177,10 @@ export class LearningModuleContentPage implements OnInit {
         this.showToast('Learning module updated!');
       });
     }
+
+    console.log("AFTER UPDATE");
+    console.log(this.learningModule);
+    console.log(this.learningModuleForm.value);
   }
 
   silentlyUpdateLearningModule()
@@ -219,18 +227,50 @@ export class LearningModuleContentPage implements OnInit {
       component: QuizModalPage,
       componentProps:
       {
-        currentLearningModule: this.learningModule,
+        currentLearningModule: this.learningModuleForm.value,
+        learningModuleID: this.learningModule.id,
         currentQuizQuestion: quizQuestion
       }
     });
 
-    modal.onDidDismiss().then((questionToDelete) => {
+    modal.onDidDismiss().then((responseToHandle) => {
       //questionToDelete.data.dismissed == true means they just pressed "ok" and want to leave without deleting
-      if (questionToDelete.data.dismissed != true) {
+      
+      /*if (questionToDelete.data.dismissed != true) {
         this.questionToDelete = questionToDelete.data;
         //delete the question (questionToDelete.data grabs the question text)
         this.deleteQuestion(questionToDelete.data);
+      }*/
+
+      if (responseToHandle.data == undefined)
+      {
+        console.log("undefined");
       }
+      else
+      {
+        var event = responseToHandle.data.get("event");
+        var content = responseToHandle.data.get("content");
+        console.log("retrieved: " + event);
+        console.log("content: ");
+        console.log(content);
+        
+        if (event == "update")
+        {
+          console.log("got here");
+          this.learningModuleForm.patchValue({moduleQuiz: content});
+          this.learningModule.moduleQuiz = content;
+          console.log("new form value:");
+          console.log(this.learningModuleForm.value);
+          console.log(this.learningModule.moduleQuiz);
+        }
+        else if(event == "delete")
+        {
+          this.deleteQuestion(content);
+        }
+      }
+      console.log("RESPONSE TO HANDLE");
+
+      console.log(responseToHandle);
     });
     
     return await modal.present();
@@ -252,10 +292,21 @@ export class LearningModuleContentPage implements OnInit {
       //in either of these cases, we won't bother pushing to database
       if (dataReturned.data.dismissed != true && dataReturned.data.questionText != '') 
       {
+        console.log("ADD QUESTION DATA RETURNED: ");
+        console.log(dataReturned.data);
         //append new question to moduleQuiz array
         this.learningModule.moduleQuiz.push(dataReturned.data);
-        //Update the learning module to reflect changes in database
-        this.updateLearningModule();
+
+        console.log(this.learningModule.moduleQuiz);
+        console.log(this.learningModuleForm.value);
+
+        console.log("LEARNING MODULE ID: " + this.learningModule.id);
+        //in the case we're adding a new module that doesn't have an ID yet
+        if (this.learningModule.id != null || this.learningModule.id != undefined)
+        {
+          //Update the learning module to reflect changes in database
+          this.updateLearningModule();
+        }
         
         //Recalculate and update the number of points this learning module is worth
         this.calculatePointsWorth();
@@ -281,8 +332,13 @@ export class LearningModuleContentPage implements OnInit {
           this.learningModule.moduleQuiz.splice(index, 1);
        }
      }
-     //update the learning module
-     this.updateLearningModule();
+
+     //if we're not adding a new module (where there's no ID yet)
+    if (this.learningModule.id != null || this.learningModule.id != undefined)
+    {
+      //update the learning module
+      this.updateLearningModule();
+    }
 
      //Recalculate and update the number of points learning module is worth
      this.calculatePointsWorth();
@@ -316,7 +372,13 @@ export class LearningModuleContentPage implements OnInit {
     });
 
     this.learningModule.modulePointsWorth = totalPoints;
-    this.silentlyUpdateLearningModule();
+    this.learningModuleForm.patchValue({modulePointsWorth: totalPoints});
+
+    //if we're not adding a new module (where there's no ID yet)
+    if (this.learningModule.id != null || this.learningModule.id != undefined)
+    {
+      this.silentlyUpdateLearningModule();
+    }
   }
 
   async presentAlert(header: string, message: string) {
