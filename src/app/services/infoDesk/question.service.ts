@@ -110,12 +110,19 @@ export class QuestionService {
     return this.questionCollection.doc(id).delete();
   }
 
-  deleteComment(id: string, postID, currentNumComment): Promise<void> {
-    currentNumComment -= 1;
+  async deleteComment(commentObj, postID, postObj) {
     this.afs.firestore.collection('questions')
-        .doc(postID).update({numOfComments: currentNumComment});
+        .doc(postID).get().then((result) => {
+      let currentNumOfComment = result.get('numOfComments');
+      currentNumOfComment -= 1;
+      this.afs.firestore.collection('questions')
+          .doc(postID).update({numOfComments: currentNumOfComment}).then(() => {
+        this.commentCollection.doc(commentObj.id).delete();
+      });
+    });
 
-    return this.commentCollection.doc(id).delete();
+    this.afs.firestore.collection('questions')
+        .doc(postID).update({commenters: firebase.firestore.FieldValue.arrayRemove(commentObj.userID)});
   }
 
   async addComment(comment: Comment) {
