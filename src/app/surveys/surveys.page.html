@@ -63,8 +63,9 @@
   <div *ngIf="isAfterJoining">
     
     <ion-item>
-      <ion-label position="stacked">Display Survey During days After Joining(separate by comma):</ion-label>
-      <ion-badge *ngIf="surveyForm.controls.daysTillRelease.touched && surveyForm.controls.daysTillRelease.errors?.pattern" color="danger">Invalid Input</ion-badge>
+      <ion-label position="stacked">Display Survey During days After Joining(separate by comma):
+        <ion-badge *ngIf="surveyForm.controls.daysTillRelease.touched && surveyForm.controls.daysTillRelease.errors?.pattern" color="danger">Invalid Input</ion-badge>
+      </ion-label>
       <ion-input formControlName="daysTillRelease" type="string"></ion-input>
     </ion-item>
 
@@ -74,8 +75,9 @@
   <div *ngIf="isDueDate">
     
     <ion-item>
-      <ion-label position="stacked">Display Survey During days Before Due Date(separate by comma):</ion-label>
-      <ion-badge *ngIf="surveyForm.controls.daysBeforeDueDate.touched && surveyForm.controls.daysBeforeDueDate.errors?.pattern" color="danger">Invalid Input</ion-badge>
+      <ion-label position="stacked">Display Survey During days Before Due Date(separate by comma):
+        <ion-badge *ngIf="surveyForm.controls.daysBeforeDueDate.touched && surveyForm.controls.daysBeforeDueDate.errors?.pattern" color="danger">Invalid Input</ion-badge>
+      </ion-label>
       <ion-input formControlName="daysBeforeDueDate" type="string"></ion-input>
     </ion-item>
 
@@ -140,9 +142,10 @@
   <!-- Expiration Field -->
   <div>
     <ion-item>
-      <ion-label position="stacked">Days Visible Before Expiration (enter 0 for never expires)</ion-label>
-      <ion-badge *ngIf="surveyForm.controls.daysTillExpire.touched && surveyForm.controls.daysTillExpire.invalid" color="danger">Required</ion-badge>
-      <ion-badge *ngIf="surveyForm.controls.daysTillExpire.touched && surveyForm.controls.daysTillExpire.errors?.pattern" color="danger">Invalid Input</ion-badge>
+      <ion-label position="stacked">Days Visible Before Expiration (enter 0 for never expires)
+        <ion-badge *ngIf="surveyForm.controls.daysTillExpire.touched && surveyForm.controls.daysTillExpire.invalid" color="danger">Required</ion-badge>
+        <ion-badge *ngIf="surveyForm.controls.daysTillExpire.touched && surveyForm.controls.daysTillExpire.errors?.pattern" color="danger">Invalid Input</ion-badge>
+      </ion-label>
       <ion-input formControlName="daysTillExpire" type="number"></ion-input>
     </ion-item>
   </div>
