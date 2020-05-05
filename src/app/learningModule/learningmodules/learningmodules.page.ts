@@ -29,6 +29,8 @@ export class LearningmodulesPage implements OnInit {
               private toastCtrl: ToastController){ }
 
   ngOnInit() {
+    console.log("NGONINIT!!");
+
     this.storage.get('authenticated').then((val) => {
       if (val === 'false') {
         this.router.navigate(['/login/']);
@@ -47,6 +49,15 @@ export class LearningmodulesPage implements OnInit {
     gapi.load("client:auth2", function() {
       gapi.auth2.init({client_id: "173430196657-73pv7jdl40pdldfqhacq1f96kfrio0ki.apps.googleusercontent.com"});
     });
+  }
+
+  ionViewWillEnter()
+  {
+    console.log("ION VIEW WILL ENTER!!");
+
+    /*gapi.load("client:auth2", function() {
+      gapi.auth2.init({client_id: "173430196657-73pv7jdl40pdldfqhacq1f96kfrio0ki.apps.googleusercontent.com"});
+    });*/
   }
 
   showToast(msg:string)
@@ -92,11 +103,10 @@ export class LearningmodulesPage implements OnInit {
               function(err) 
               { 
                 console.error("Execute error", err);
-                this.apiResult = "error"
               });
   }
 
-  alertAPIResponse()
+  /*alertAPIResponse()
   {
     console.log("got here");
     console.log(this.apiResult);
@@ -108,6 +118,6 @@ export class LearningmodulesPage implements OnInit {
     {
       this.showToast("There was an error sending learning module notifications.");
     }
-  }
+  }*/
 
 }
