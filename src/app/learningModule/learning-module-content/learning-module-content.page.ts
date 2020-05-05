@@ -78,7 +78,7 @@ export class LearningModuleContentPage implements OnInit {
         moduleVideoID: [''],
         modulePPTurl: [''],
         moduleNext: [''],
-        moduleQuiz: [],
+        moduleQuiz: [[]],
         modulePointsWorth: [''],
         moduleActive: [''],
         userVisibility: [''],
@@ -138,7 +138,7 @@ export class LearningModuleContentPage implements OnInit {
     else
     {
       //this.learningModule.id = id;
-      this.learningModuleForm.patchValue(this.learningModule);
+      //this.learningModuleForm.patchValue(this.learningModule);
     }
 
   }
