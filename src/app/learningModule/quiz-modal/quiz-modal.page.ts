@@ -19,6 +19,7 @@ export class QuizModalPage implements OnInit {
   //They needed to be declared before use
   currentLearningModule: LearningModule;
   currentQuizQuestion: Question;
+  learningModuleID: string;
 
   //The reference to the quiz question within the currentLearningModule that will be used to update it
   modalQuizQuestion: Question;
@@ -71,6 +72,8 @@ export class QuizModalPage implements OnInit {
     }
    }
 
+   //var previousUserVisibility = this.lmRecurrenceMap.get(currentMod.id + "storedPrevUV");
+
   dismiss() {
     //update this learning module
     this.updateLearningModule();
@@ -83,11 +86,17 @@ export class QuizModalPage implements OnInit {
   async deleteQuestion(text:string)
   {
     //if we're deleting a question, pass the text of the question to be deleted back to learning-module-content
-    await this.modalController.dismiss(text);
 
+    var returnToContent = new Map();
+
+    returnToContent.set("event", "delete");
+    returnToContent.set("content", text);
+
+    await this.modalController.dismiss(returnToContent);
   }
 
   async deleteQuestionConfirmation() {
+
     const alert = await this.alertController.create({
       header: 'Delete Question?',
       message: 'Are you sure you want to delete this question?',
@@ -102,6 +111,7 @@ export class QuizModalPage implements OnInit {
 
     await alert.present();
   }
+
 
   updateLearningModule()
   {
@@ -134,6 +144,74 @@ export class QuizModalPage implements OnInit {
       });
     }
   }
+
+  updateQuizInLM()
+  {
+    var returnToContent = new Map();
+
+    if (this.learningModuleID != null)
+    {
+      //this is a necessary line for updating this module
+      this.learningModuleForm.addControl('id', this.formBuilder.control(this.learningModuleID));
+
+      var arrayOfQuestions = [];
+
+      //If form valid, recreate the moduleQuiz array except with the updated values from the form
+      if (this.learningModuleForm.status == 'VALID')
+      {
+        for (var index = 0; index <  this.currentLearningModule.moduleQuiz.length; index++)
+        {
+          if (index != this.indexOfQuestion)
+          {
+            arrayOfQuestions.push(this.currentLearningModule.moduleQuiz[index]);
+          }
+          else if (index === this.indexOfQuestion)
+          {
+            arrayOfQuestions.push(this.learningModuleForm.get('moduleQuiz').value);
+          }
+        }
+
+        //Update the moduleQuiz in this LM
+        this.currentLearningModule.moduleQuiz = arrayOfQuestions;
+        this.currentLearningModule.id = this.learningModuleID;
+
+        returnToContent.set("event", "update");
+        returnToContent.set("content", arrayOfQuestions);
+
+        this.modalController.dismiss(returnToContent);
+
+        this.learningModuleService.updateLearningModule(this.currentLearningModule).then(() => 
+        {
+          this.showToast('Quiz question updated!');
+        });
+      }
+    }
+    else if (this.learningModuleID == null)
+    {
+      var arrayOfQuestions = [];
+
+      //If form valid, recreate the moduleQuiz array except with the updated values from the form
+      if (this.learningModuleForm.status == 'VALID')
+      {
+        for (var index = 0; index <  this.currentLearningModule.moduleQuiz.length; index++)
+        {
+          if (index != this.indexOfQuestion)
+          {
+            arrayOfQuestions.push(this.currentLearningModule.moduleQuiz[index]);
+          }
+          else if (index === this.indexOfQuestion)
+          {
+            arrayOfQuestions.push(this.learningModuleForm.get('moduleQuiz').value);
+          }
+        }
+      }
+
+      returnToContent.set("event", "update");
+      returnToContent.set("content", arrayOfQuestions);
+
+      this.modalController.dismiss(returnToContent);
+    }
+}
 
   showToast(msg:string)
   {

@@ -173,6 +173,7 @@ export class LearningModuleContentPage implements OnInit {
         this.showToast('Learning module updated!');
       });
     }
+
   }
 
   silentlyUpdateLearningModule()
@@ -219,17 +220,32 @@ export class LearningModuleContentPage implements OnInit {
       component: QuizModalPage,
       componentProps:
       {
-        currentLearningModule: this.learningModule,
+        currentLearningModule: this.learningModuleForm.value,
+        learningModuleID: this.learningModule.id,
         currentQuizQuestion: quizQuestion
       }
     });
 
-    modal.onDidDismiss().then((questionToDelete) => {
-      //questionToDelete.data.dismissed == true means they just pressed "ok" and want to leave without deleting
-      if (questionToDelete.data.dismissed != true) {
-        this.questionToDelete = questionToDelete.data;
-        //delete the question (questionToDelete.data grabs the question text)
-        this.deleteQuestion(questionToDelete.data);
+    modal.onDidDismiss().then((responseToHandle) => {
+
+      if (responseToHandle.data == undefined)
+      {
+        console.log("undefined");
+      }
+      else
+      {
+        var event = responseToHandle.data.get("event");
+        var content = responseToHandle.data.get("content");
+
+        if (event == "update")
+        {
+          this.learningModuleForm.patchValue({moduleQuiz: content});
+          this.learningModule.moduleQuiz = content;
+        }
+        else if(event == "delete")
+        {
+          this.deleteQuestion(content);
+        }
       }
     });
     
@@ -247,18 +263,27 @@ export class LearningModuleContentPage implements OnInit {
 
     //After modal is dismissed, check to see that something legitimate was returned
     modal.onDidDismiss().then((dataReturned) => {
-      //dataReturned.data.dismissed == true means the "cancel" button was pressed
+      //dataReturned.data.dismissed == means the "cancel" button was pressed
       //dataReturned.data.questionText == '' means they didn't input text for the question
       //in either of these cases, we won't bother pushing to database
       if (dataReturned.data.dismissed != true && dataReturned.data.questionText != '') 
       {
         //append new question to moduleQuiz array
         this.learningModule.moduleQuiz.push(dataReturned.data);
-        //Update the learning module to reflect changes in database
-        this.updateLearningModule();
+
+        //in the case we're adding a new module that doesn't have an ID yet
+        if (this.learningModule.id != null || this.learningModule.id != undefined)
+        {
+          //Update the learning module to reflect changes in database
+          this.updateLearningModule();
+        }
         
         //Recalculate and update the number of points this learning module is worth
         this.calculatePointsWorth();
+      }
+      else if (dataReturned.data == undefined)
+      {
+        console.log("clicked out of add question");
       }
     });
     return await modal.present();
@@ -281,8 +306,13 @@ export class LearningModuleContentPage implements OnInit {
           this.learningModule.moduleQuiz.splice(index, 1);
        }
      }
-     //update the learning module
-     this.updateLearningModule();
+
+     //if we're not adding a new module (where there's no ID yet)
+    if (this.learningModule.id != null || this.learningModule.id != undefined)
+    {
+      //update the learning module
+      this.updateLearningModule();
+    }
 
      //Recalculate and update the number of points learning module is worth
      this.calculatePointsWorth();
@@ -316,7 +346,13 @@ export class LearningModuleContentPage implements OnInit {
     });
 
     this.learningModule.modulePointsWorth = totalPoints;
-    this.silentlyUpdateLearningModule();
+    this.learningModuleForm.patchValue({modulePointsWorth: totalPoints});
+
+    //if we're not adding a new module (where there's no ID yet)
+    if (this.learningModule.id != null || this.learningModule.id != undefined)
+    {
+      this.silentlyUpdateLearningModule();
+    }
   }
 
   async presentAlert(header: string, message: string) {
