@@ -4,6 +4,7 @@ import { map, take } from 'rxjs/operators';
 import * as firebase from 'firebase/app';
 import { Observable } from 'rxjs';
 
+// declares Survey object interface, making sure every Survey object has these fields
 export interface Survey {
   id?: string;
   title: string;
@@ -19,15 +20,6 @@ export interface Survey {
   surveyDescription: string;
 }
 
-export interface Question{
-  questionText: string;
-  choice1: string;
-  choice2: string;
-  choice3: string;
-  choice4: string;
-  choiceSelected?: string;
-  type: string;
-}
 
 @Injectable({
   providedIn: 'root'
@@ -38,7 +30,10 @@ export class FireService {
   private surveyCollection: AngularFirestoreCollection<Survey>;
 
   constructor(private angularfs: AngularFirestore) {
+    // gets the collection of surveys
     this.surveyCollection = this.angularfs.collection<Survey>('surveys');
+    
+    //  looks for changes and updates, also grabs the data
     this.surveys = this.surveyCollection.snapshotChanges().pipe(
         map(actions => {
           return actions.map(a => {
@@ -50,10 +45,12 @@ export class FireService {
     );
   }
 
+  // gets all of the surveys in the survey collection
   getSurveys(){
     return this.surveys;
   }
 
+  // gets an individual survey with id provided
   getSurvey(id: string){
     return this.surveyCollection.doc<Survey>(id).valueChanges().pipe(
         take(1),
@@ -64,10 +61,12 @@ export class FireService {
     );
   }
 
+  // adds the survey to the database
   addSurvey(survey: Survey): Promise<DocumentReference>{
     return this.surveyCollection.add(survey);
   }
 
+  // updates the survey in the database
   updateSurvey(survey: Survey): Promise<void>{
     return this.surveyCollection.doc(survey.id).update({ 
       title: survey.title,
@@ -83,24 +82,8 @@ export class FireService {
       surveyDescription: survey.surveyDescription});
   }
 
+  // deletes the survey with the id provided
   deleteSurvey(id: string): Promise<void>{
     return this.surveyCollection.doc(id).delete();
-  }
-
-  getTime(timeString: string){
-
-    var dateFormat = timeString.split("-");
-    var dateSplit = dateFormat[2].split(":");
-    var minute = dateSplit[1];
-    var year = dateFormat[0];
-    var month = dateFormat[1];
-
-    var secondSplit = dateSplit[0].split("T");
-    var day = secondSplit[0];
-    var hour = secondSplit[1];
-    
-    var dateChose = year + " " + month + " " + day + " " + hour + " " + minute;
-    
-    return dateChose;
   }
 }

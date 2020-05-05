@@ -7,6 +7,8 @@
   </ion-toolbar>
 </ion-header>
 
+<script async defer src="https://apis.google.com/js/api.js"></script>
+
 <ion-content>
 
 <!-- User Sign Up Settings -->
@@ -331,106 +333,108 @@
         </ion-item>
         <ion-item>
           <ion-text> Every Day at</ion-text>
-          <ion-select interface="popover">
-            <ion-select-option>
+          <ion-select interface="popover" [(ngModel)]="learningModuleOne.hour">
+            <ion-select-option [value]=1>
               1
             </ion-select-option>
-            <ion-select-option>
+            <ion-select-option [value]=2>
               2
             </ion-select-option>
-            <ion-select-option>
+            <ion-select-option [value]=3>
               3
             </ion-select-option>
-            <ion-select-option>
+            <ion-select-option [value]=4>
               4
             </ion-select-option>
-            <ion-select-option>
+            <ion-select-option [value]=5>
               5
             </ion-select-option>
-            <ion-select-option>
+            <ion-select-option [value]=6>
               6
             </ion-select-option>
-            <ion-select-option>
+            <ion-select-option [value]=7>
               7
             </ion-select-option>
-            <ion-select-option>
+            <ion-select-option [value]=8>
               8
             </ion-select-option>
-            <ion-select-option>
+            <ion-select-option [value]=9>
               9
             </ion-select-option>
-            <ion-select-option>
+            <ion-select-option [value]=10>
               10
             </ion-select-option>
-            <ion-select-option>
+            <ion-select-option [value]=11>
               11
             </ion-select-option>
-            <ion-select-option>
+            <ion-select-option [value]=12>
               12
             </ion-select-option>
           </ion-select>
-          <ion-select interface="popover">
-            <ion-select-option>
+          <ion-select interface="popover" [(ngModel)]="learningModuleOne.timeOfDay">
+            <ion-select-option value="AM">
               AM
             </ion-select-option>
-            <ion-select-option>
+            <ion-select-option value="PM">
               PM
             </ion-select-option>
           </ion-select>
-          <ion-toggle></ion-toggle>
         </ion-item>
         <ion-item>
           <ion-text> Every Day at</ion-text>
-          <ion-select interface="popover">
-            <ion-select-option>
+          <ion-select interface="popover" [(ngModel)]="learningModuleTwo.hour">
+            <ion-select-option [value]=1>
               1
             </ion-select-option>
-            <ion-select-option>
+            <ion-select-option [value]=2>
               2
             </ion-select-option>
-            <ion-select-option>
+            <ion-select-option [value]=3>
               3
             </ion-select-option>
-            <ion-select-option>
+            <ion-select-option [value]=4>
               4
             </ion-select-option>
-            <ion-select-option>
+            <ion-select-option [value]=5>
               5
             </ion-select-option>
-            <ion-select-option>
+            <ion-select-option [value]=6>
               6
             </ion-select-option>
-            <ion-select-option>
+            <ion-select-option [value]=7>
               7
             </ion-select-option>
-            <ion-select-option>
+            <ion-select-option [value]=8>
               8
             </ion-select-option>
-            <ion-select-option>
+            <ion-select-option [value]=9>
               9
             </ion-select-option>
-            <ion-select-option>
+            <ion-select-option [value]=10>
               10
             </ion-select-option>
-            <ion-select-option>
+            <ion-select-option [value]=11>
               11
             </ion-select-option>
-            <ion-select-option>
+            <ion-select-option [value]=12>
               12
             </ion-select-option>
           </ion-select>
-          <ion-select interface="popover">
-            <ion-select-option>
+          <ion-select interface="popover" [(ngModel)]="learningModuleTwo.timeOfDay">
+            <ion-select-option value="AM">
               AM
             </ion-select-option>
-            <ion-select-option>
+            <ion-select-option value="PM">
               PM
             </ion-select-option>
           </ion-select>
-          <ion-toggle></ion-toggle>
+          <ion-toggle [(ngModel)]="learningModuleTwo.active"></ion-toggle>
         </ion-item>
         <ion-item>
-          <ion-button class="fill-button">Save</ion-button>
+          <!--(click)="authenticate().then(loadClient).then(executeLearningModuleNotif)-->
+          <ion-button class="fill-button" (click)="[updateLMNotifSettings(), authenticate().then(loadClient).then(executeLearningModuleNotif(LMNotifTime))]">
+            Save
+          </ion-button>
         </ion-item>
       </div>
 
@@ -454,106 +458,108 @@
         </ion-item>
         <ion-item>
           <ion-text> Every Day at</ion-text>
-          <ion-select interface="popover">
-            <ion-select-option>
+          <ion-select interface="popover" [(ngModel)]="surveyOne.hour">
+            <ion-select-option [value]=1>
               1
             </ion-select-option>
-            <ion-select-option>
+            <ion-select-option [value]=2>
               2
             </ion-select-option>
-            <ion-select-option>
+            <ion-select-option [value]=3>
               3
             </ion-select-option>
-            <ion-select-option>
+            <ion-select-option [value]=4>
               4
             </ion-select-option>
-            <ion-select-option>
+            <ion-select-option [value]=5>
               5
             </ion-select-option>
-            <ion-select-option>
+            <ion-select-option [value]=6>
               6
             </ion-select-option>
-            <ion-select-option>
+            <ion-select-option [value]=7>
               7
             </ion-select-option>
-            <ion-select-option>
+            <ion-select-option [value]=8>
               8
             </ion-select-option>
-            <ion-select-option>
+            <ion-select-option [value]=9>
               9
             </ion-select-option>
-            <ion-select-option>
+            <ion-select-option [value]=10>
               10
             </ion-select-option>
-            <ion-select-option>
+            <ion-select-option [value]=11>
               11
             </ion-select-option>
-            <ion-select-option>
+            <ion-select-option [value]=12>
               12
             </ion-select-option>
           </ion-select>
-          <ion-select interface="popover">
-            <ion-select-option>
+          <ion-select interface="popover" [(ngModel)]="surveyOne.timeOfDay">
+            <ion-select-option value="AM">
               AM
             </ion-select-option>
-            <ion-select-option>
+            <ion-select-option value="PM">
               PM
             </ion-select-option>
           </ion-select>
-          <ion-toggle></ion-toggle>
         </ion-item>
         <ion-item>
           <ion-text> Every Day at</ion-text>
-          <ion-select interface="popover">
-            <ion-select-option>
+          <ion-select interface="popover" [(ngModel)]="surveyTwo.hour">
+            <ion-select-option [value]=1>
               1
             </ion-select-option>
-            <ion-select-option>
+            <ion-select-option [value]=2>
               2
             </ion-select-option>
-            <ion-select-option>
+            <ion-select-option [value]=3>
               3
             </ion-select-option>
-            <ion-select-option>
+            <ion-select-option [value]=4>
               4
             </ion-select-option>
-            <ion-select-option>
+            <ion-select-option [value]=5>
               5
             </ion-select-option>
-            <ion-select-option>
+            <ion-select-option [value]=6>
               6
             </ion-select-option>
-            <ion-select-option>
+            <ion-select-option [value]=7>
               7
             </ion-select-option>
-            <ion-select-option>
+            <ion-select-option [value]=8>
               8
             </ion-select-option>
-            <ion-select-option>
+            <ion-select-option [value]=9>
               9
             </ion-select-option>
-            <ion-select-option>
+            <ion-select-option [value]=10>
               10
             </ion-select-option>
-            <ion-select-option>
+            <ion-select-option [value]=11>
               11
             </ion-select-option>
-            <ion-select-option>
+            <ion-select-option [value]=12>
               12
             </ion-select-option>
           </ion-select>
-          <ion-select interface="popover">
-            <ion-select-option>
+          <ion-select interface="popover" [(ngModel)]="surveyTwo.timeOfDay">
+            <ion-select-option value="AM">
               AM
             </ion-select-option>
-            <ion-select-option>
+            <ion-select-option value="PM">
               PM
             </ion-select-option>
           </ion-select>
-          <ion-toggle></ion-toggle>
+          <ion-toggle [(ngModel)]="surveyTwo.active"></ion-toggle>
         </ion-item>
         <ion-item>
-          <ion-button class="fill-button">Save</ion-button>
+          <!--(click)="authenticate().then(loadClient).then(executeSurveyNotif)"-->
+          <ion-button class="fill-button" (click)="[updateSurveyNotifSettings(), authenticate().then(loadClient).then(executeSurveyNotif(SurveyNotifTime))]">
+          Save
+          </ion-button>
         </ion-item>
       </div>
 

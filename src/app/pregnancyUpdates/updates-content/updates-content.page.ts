@@ -48,6 +48,8 @@ export class UpdatesContentPage implements OnInit {
           Validators.pattern('^([01]?[0-9]?[0-9]|2[0-7][0-9]|28[0])$')])],
       description: ['',
         Validators.compose([Validators.required, Validators.minLength(1)])],
+      picture: [],
+      fileName: ['']
     });
   }
 
@@ -86,9 +88,19 @@ export class UpdatesContentPage implements OnInit {
   }
 
   updatePregnancyUpdate() {
-    this.pregnancyUpdatesService.updatePregnancyUpdate(this.pregnancyUpdateCard).then(() => {
-      this.showToast('Pregnancy update has been updated!');
-    });
+    
+    //IMPORTANT: add the ID of this card
+    this.pregnancyUpdateForm.addControl('id', this.formBuilder.control(this.pregnancyUpdateCard.id));
+
+    if (this.pregnancyUpdateForm.status == 'VALID')
+    { 
+      var newData = this.pregnancyUpdateForm.value;
+
+      this.pregnancyUpdatesService.updatePregnancyUpdate(newData).then(() => 
+      {
+        this.showToast('Pregnancy update has been updated!');
+      });
+    }
   }
 
   deletePregnancyUpdate() {

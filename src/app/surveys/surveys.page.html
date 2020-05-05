@@ -8,98 +8,143 @@
 </ion-header>
 
 <ion-content>
+  <!-- Survey Form to Validate Fields -->
+  <form [formGroup]="surveyForm">
 
-  <ion-item>
-    <ion-label position="stacked">Choose the name of the survey</ion-label>
-    <ion-input [(ngModel)]="survey.title"></ion-input>
+    <!-- Helpful Information about Survey -->
+    <ion-item-divider class="custom-divider">
+      <ion-label>
+        About Survey
+      </ion-label>
+      
+      <!-- When clicked displays helpful message -->
+      <ion-button fill="clear" (click)="displayHelpInfo()">
+        <ion-icon name="help-circle-outline"></ion-icon>
+      </ion-button>
+
+    </ion-item-divider>
+
+  <!-- Displays Survey type if Survey has ID -->
+  <ion-item *ngIf="survey.id" color="light">
+    <ion-text>
+      Survey Type: {{survey.type}}
+    </ion-text>
   </ion-item>
 
+     <!-- Survey Type Options -->
   <div *ngIf="!survey.id">
-
     <ion-list>
-      <ion-item>
-        <ion-label color="primary">Choose the type of survey</ion-label>
-        <ion-select [(ngModel)]="survey.type" (ionChange)="chosenType()" placeholder="Select One">
-          <ion-select-option  value="After Joining">After user Joining</ion-select-option>
-          <ion-select-option  value="Due Date">Before Due Date</ion-select-option>
-          <ion-select-option  value="Inactive">Inactive User</ion-select-option>
-          <ion-select-option  value="Emotion">Particular Mood</ion-select-option>
+      <ion-item color="light">
+        <ion-label>Choose the type of survey
+          <ion-badge *ngIf="surveyForm.controls.type.touched && surveyForm.controls.type.invalid" color="danger">Required</ion-badge>
+        </ion-label>
+        <ion-select [(ngModel)]="survey.type" formControlName="type" placeholder="Select One">
+          <ion-select-option value="After Joining">After User Joining</ion-select-option>
+          <ion-select-option value="Due Date">Before Due Date</ion-select-option>
+          <ion-select-option value="Inactive">Inactive User</ion-select-option>
+          <ion-select-option value="Emotion">Particular Mood</ion-select-option>
         </ion-select>
       </ion-item>
     </ion-list>
-
   </div>
 
+    <!-- Survey Title Field -->
+    <ion-item>
+      <ion-label position="stacked">Survey Title 
+        <ion-badge *ngIf="surveyForm.controls.title.touched && surveyForm.controls.title.invalid" color="danger">Required</ion-badge>
+      </ion-label>
+      <ion-input formControlName="title"></ion-input>
+    </ion-item>
+ 
+  <!-- Survey Description Field -->
   <ion-item>
-    <ion-label position="stacked">Provide a general Description of the survey</ion-label>
-    <ion-input type="string" [(ngModel)]="survey.surveyDescription"></ion-input>
+    <ion-label position="stacked">Survey Description
+      <ion-badge *ngIf="surveyForm.controls.surveyDescription.touched && surveyForm.controls.surveyDescription.invalid" color="danger">Required</ion-badge>
+    </ion-label>
+    <ion-textarea formControlName="surveyDescription"></ion-textarea>
+  </ion-item>
+ 
+  <ion-item>
+    <ion-label position="stacked">Survey URL
+      <ion-badge *ngIf="surveyForm.controls.surveyLink.touched && surveyForm.controls.surveyLink.invalid" color="danger">Required</ion-badge>
+    </ion-label>
+    <ion-input formControlName="surveyLink" type="url"></ion-input>
   </ion-item>
 
+  <!-- After Joining Field -->
   <div *ngIf="isAfterJoining">
     
     <ion-item>
-      <ion-label position="stacked">Choose one or more days the survey is released after a user joins(separate by comma)</ion-label>
-      <ion-input type="string" [(ngModel)]="survey.daysTillRelease"></ion-input>
+      <ion-label position="stacked">Display Survey During days After Joining (separate by comma):</ion-label>
+      <ion-input formControlName="daysTillRelease" type="string"></ion-input>
     </ion-item>
 
   </div>
 
+  <!-- Before Due Date Field -->
   <div *ngIf="isDueDate">
     
     <ion-item>
-      <ion-label position="stacked">Choose one or more days the survey is released before a user's due date(separate by comma)</ion-label>
-      <ion-input type="string" [(ngModel)]="survey.daysBeforeDueDate"></ion-input>
+      <ion-label position="stacked">Display Survey During Days Before Due Date (separate by comma):</ion-label>
+      <ion-input formControlName="daysBeforeDueDate" type="string"></ion-input>
     </ion-item>
 
   </div>
 
+  <!-- Inactive Days Field -->
   <div *ngIf="isInactive">
     
     <ion-item>
-      <ion-label position="stacked">Choose the number of days of inactivity before survey displays to user</ion-label>
-      <ion-input type="number" [(ngModel)]="survey.daysInactive"></ion-input>
+      <ion-label position="stacked">Display Survey After Days of Inactivity</ion-label>
+      <ion-input formControlName="daysInactive" type="number"></ion-input>
     </ion-item>
 
   </div>
 
+  <!-- Particular Emotion Field -->
   <div *ngIf="isEmotion">
 
     <ion-radio-group
     allow-empty-selection = "true"
-    [(ngModel)]="survey.emotionChosen">
+    formControlName="emotionChosen">
 
     <ion-item>
-      <ion-label>Release if mood is Excited</ion-label>
+      <ion-text>
+        Release if user's mood is:
+      </ion-text>
+    </ion-item>
+    <ion-item>
+      <ion-label>Excited</ion-label>
       <ion-radio slot="start" value="excited"></ion-radio>
     </ion-item>
 
     <ion-item>
-      <ion-label>Release if mood is Happy</ion-label>
+      <ion-label>Happy</ion-label>
       <ion-radio slot="start" value="happy"></ion-radio>
     </ion-item>
 
     <ion-item>
-      <ion-label>Release if mood is Loved</ion-label>
+      <ion-label>Loved</ion-label>
       <ion-radio slot="start" value="loved"></ion-radio>
     </ion-item>
 
     <ion-item>
-      <ion-label>Release if mood is Indifferent</ion-label>
+      <ion-label>Indifferent</ion-label>
       <ion-radio slot="start" value="indifferent"></ion-radio>
     </ion-item>
 
     <ion-item>
-      <ion-label>Release if mood is Overwhelmed</ion-label>
+      <ion-label>Overwhelmed</ion-label>
       <ion-radio slot="start" value="overwhelmed"></ion-radio>
     </ion-item>
 
     <ion-item>
-      <ion-label>Release if mood is Sad</ion-label>
+      <ion-label>Sad</ion-label>
       <ion-radio slot="start" value="sad"></ion-radio>
     </ion-item>
 
     <ion-item>
-      <ion-label>Release if mood is Angry</ion-label>
+      <ion-label>Angry</ion-label>
       <ion-radio slot="start" value="angry"></ion-radio>
     </ion-item>
 
@@ -107,46 +152,44 @@
 
   </div>
 
+  <!-- Expiration Field -->
   <div>
-    <ion-item *ngIf="!isEmotion && !isInactive">
-      <ion-label position="stacked">Choose the number of days after release before the survey expires</ion-label>
-      <ion-input type="number" [(ngModel)]="survey.daysTillExpire"></ion-input>
+    <ion-item>
+      <ion-label position="stacked">Days Visible Before Expiration (enter 0 for never expires)
+        <ion-badge *ngIf="surveyForm.controls.daysTillExpire.touched && surveyForm.controls.daysTillExpire.invalid" color="danger">Required</ion-badge>
+      </ion-label>
+      <ion-input formControlName="daysTillExpire" type="number"></ion-input>
     </ion-item>
   </div>
 
-
   <ion-item>
-    <ion-label position="stacked">URL</ion-label>
-    <ion-input type="url" [(ngModel)]="survey.surveyLink"></ion-input>
+    <ion-label position="stacked">Specify the Number of Points This Survey is Worth</ion-label>
+    <ion-input formControlName="pointsWorth" type="number"></ion-input>
   </ion-item>
 
-  <ion-item>
-    <ion-label position="stacked">Specify the number of points this survey is worth</ion-label>
-    <ion-input type="number" [(ngModel)]="survey.pointsWorth"></ion-input>
-  </ion-item>
-
-  <div *ngIf="survey.id">
-    <h4>Type: {{ survey.type }}</h4>
-  </div>
-
+  <!-- Adds the Survey if it does not have an ID -->
   <div *ngIf="!survey.id">
-    <ion-button class="fill-button" (click)="addSurvey()">Save</ion-button>
+    <ion-button class="fill-button" (click)="addSurvey()" [disabled]="!surveyForm.valid">Save</ion-button>
   </div>
+
+</form>
 
 </ion-content>
 
 <ion-footer *ngIf="survey.id">
   <ion-row no-padding text-center>
 
+    <!-- Deletes Survey -->
     <ion-col size="6">
-      <ion-button expand="block" fill="outline" color="danger" (click)="deleteSurvey()">
-        <ion-icon name="trash"></ion-icon>
+      <ion-button expand="block" fill="outline" color="danger" (click)="deleteSurveyConfirmation()">
+        <ion-icon name="trash" slot="start"></ion-icon>
         Delete
       </ion-button>
     </ion-col>
 
+    <!-- Updates Survey -->
     <ion-col size="6">
-      <ion-button expand="block" fill="solid" color="success" (click)="updateSurvey()">
+      <ion-button expand="block" fill="solid" color="success" (click)="updateSurvey()" [disabled]="!surveyForm.valid">
         <ion-icon name="save" slot="start"></ion-icon>
         Update
       </ion-button>

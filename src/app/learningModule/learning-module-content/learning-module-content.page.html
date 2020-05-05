@@ -16,7 +16,7 @@
       <ion-toggle formControlName="moduleActive"></ion-toggle>
     </ion-item>
 
-    <ion-item-divider color="medium">
+    <ion-item-divider class="custom-divider">
       <ion-label>
         About Module
       </ion-label>
@@ -71,7 +71,7 @@
         <ion-textarea formControlName="moduleContent" rows="3" autoGrow="true"></ion-textarea>
       </ion-item>
 
-    <ion-item-divider color="medium">
+    <ion-item-divider class="custom-divider">
       <ion-label>
         Module Media
       </ion-label>
@@ -95,7 +95,7 @@
       <iframe [src]="sanitizedPPTurl" allowfullscreen></iframe> 
     </ion-item>
     
-    <ion-item-divider color="medium">
+    <ion-item-divider class="custom-divider">
       <ion-label>
         Module Quiz
       </ion-label>
@@ -117,7 +117,7 @@
 
     <ion-button class="fill-button" (click)="addQuestion()">Add Quiz Question</ion-button>
 
-    <ion-item-divider color="medium">
+    <ion-item-divider class="custom-divider">
       <ion-label>
         Link to Another Learning Module
       </ion-label>

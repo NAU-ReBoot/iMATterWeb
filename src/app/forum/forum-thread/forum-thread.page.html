@@ -78,19 +78,18 @@
                 Posted at: {{ comment.timestamp.seconds * 1000 | date:'MM-dd-yyyy h:mm:ss a' }}
               </ion-row>
             </ion-col>
-
           </ion-row>
           <ion-row >
             <p class="content">
               {{ comment.input }}
             </p>
           </ion-row>
-            <ion-row slot="end">
+            <ion-row>
               <div *ngIf="showDeleteOption">
-                <ion-button slot="end" color="danger" (click)="deletePostOrComment('comment', comment, question)"> Delete Comment </ion-button>
+                <ion-button slot="end" fill='none' class="danger-text-button" (click)="deletePostOrComment('comment', comment, question)"> Delete Comment </ion-button>
               </div>
               <div *ngIf="showReportOption" >
-                <ion-button slot="end" color="danger" (click)="reportQuestionOrComment('comment', comment, question)"> Report </ion-button>
+                <ion-button slot="end" fill='none' class="danger-text-button"(click)="reportQuestionOrComment('comment', comment, question)"> Report </ion-button>
               </div>
             </ion-row>
           </div>

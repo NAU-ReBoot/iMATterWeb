@@ -47,6 +47,10 @@
           <ion-label position="stacked">Point Total</ion-label>
           <ion-input [(ngModel)]="user.points"></ion-input>
         </ion-item>
+      <ion-item>
+        <ion-label position="stacked">Notes</ion-label>
+        <ion-input [(ngModel)]="user.notes"></ion-input>
+      </ion-item>
     </ion-list>
 
     <ion-button class="fill-button" expand="block" fill="solid" color="success" (click)="updateUser(user.id)">
@@ -84,6 +88,10 @@
         <ion-label position="stacked">Last Name</ion-label>
         <ion-input [(ngModel)]="provider.lastName"></ion-input>
       </ion-item>
+      <ion-item>
+        <ion-label position="stacked">Notes</ion-label>
+        <ion-input [(ngModel)]="provider.notes"></ion-input>
+      </ion-item>
     </ion-list>
 
     <ion-button class="fill-button" expand="block" fill="solid" color="success" (click)="updateProvider(provider.id)">
@@ -108,8 +116,8 @@
   <ion-list>
     <ion-list-header class="header"> Edit: </ion-list-header>
     <ion-item>
-      <ion-label position="stacked">Email</ion-label>
-      <ion-input [(ngModel)]="admin.email"></ion-input>
+      <ion-label position="stacked">Notes</ion-label>
+      <ion-input [(ngModel)]="admin.notes"></ion-input>
     </ion-item>
   </ion-list>
 
