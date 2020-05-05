@@ -15,22 +15,13 @@
 <ion-radio-group>
 <ion-row padding-top>
     <ion-col>
-      <ion-item>
-        <ion-label class="radio-label-user-type"> Users </ion-label>
-        <ion-radio [checked]="true" class="fill-button" [class.noHighlight]="userView != true" expand="block"  (click)="showUsers()"> </ion-radio>
-      </ion-item>
+      <ion-button class="fill-button" size="large" [class.noHighlight]="userView != true" expand="block"  (click)="showUsers()"> Users </ion-button>
     </ion-col>
     <ion-col>
-      <ion-item>
-        <ion-label class="radio-label-user-type"> Providers </ion-label>
-        <ion-radio class="fill-button" [class.noHighlight]="providerView != true" expand="block"  (click)="showProviders()"> Providers </ion-radio>
-      </ion-item>
+      <ion-button class="fill-button" size="large" [class.noHighlight]="providerView != true" expand="block"  (click)="showProviders()"> Providers </ion-button>
     </ion-col>
     <ion-col>
-      <ion-item>
-        <ion-label class="radio-label-user-type"> Admins </ion-label>
-        <ion-radio class="fill-button" [class.noHighlight]="adminView != true" expand="block"  (click)="showAdmins()"> Administrators </ion-radio>
-      </ion-item>
+      <ion-button class="fill-button" size="large" [class.noHighlight]="adminView != true" expand="block"  (click)="showAdmins()"> Administrators </ion-button>
     </ion-col>
 </ion-row>
 </ion-radio-group>
