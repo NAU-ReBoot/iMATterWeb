@@ -22,7 +22,8 @@ export class ProviderReportPage implements OnInit {
   title: '',
   timestampOfObj: '',
   timestamp: '',
-  type: ''
+  type: '',
+  viewed: false
 };
 
 constructor(private afs: AngularFirestore,

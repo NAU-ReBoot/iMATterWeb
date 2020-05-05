@@ -12,3 +12,13 @@
 .noHighlight {
   --background: var(--secondary-color);
 }
+
+.new {
+  color: var(--main-color);
+  font-size: 12px;
+}
+
+.timestamp {
+  color: gray;
+  font-size: 12px;
+}

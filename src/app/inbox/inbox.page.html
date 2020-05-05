@@ -27,8 +27,15 @@
   <ion-label class="label"> User Reported Problems</ion-label>
   </ion-item>
   <ion-list>
-    <ion-item button [routerLink]="['/inbox/submission/', submission.id]" *ngFor="let submission of (submissions | async)">
-      {{submission.type}} : {{ submission.title }}
+    <ion-item button [routerLink]="['/inbox/submission/', submission.id]" *ngFor="let submission of (submissions | async)"
+              (click)="updateToViewed(submission.id, 'uReport')">
+      <div *ngIf="!submission.viewed">
+        <ion-text class="new" slot='start'> NEW </ion-text>
+      </div>
+      {{ submission.title }}
+      <ion-text slot="end" class="timestamp">
+        {{ submission.timestamp.toDate() | date:'MM-dd-yyyy h:mm:ss.SS a' }}
+      </ion-text>
       <ion-icon name="arrow-forward" slot="end"></ion-icon>
     </ion-item>
   </ion-list>
@@ -39,8 +46,15 @@
       <ion-label class="label"> Provider Reported Posts/Comments</ion-label>
     </ion-item>
     <ion-list>
-      <ion-item button [routerLink]="['/inbox/provider-report/', report.id]" *ngFor="let report of (providerReports | async)">
-        Report : A {{ report.type }} has been reported.
+      <ion-item button [routerLink]="['/inbox/provider-report/', report.id]" *ngFor="let report of (providerReports | async)"
+                (click)="updateToViewed(report.id, 'pReport')">
+        <div *ngIf="!report.viewed">
+          <ion-text class="new" slot='start'> NEW </ion-text>
+        </div>
+        A {{ report.type }} has been reported.
+        <ion-text slot="end" class="timestamp">
+          {{ report.timestamp.toDate() | date:'MM-dd-yyyy h:mm:ss.SS a' }}
+        </ion-text>
         <ion-icon name="arrow-forward" slot="end"></ion-icon>
       </ion-item>
     </ion-list>
@@ -51,8 +65,15 @@
       <ion-label class="label"> User Location Suggestions</ion-label>
     </ion-item>
     <ion-list>
-    <ion-item button [routerLink]="['/inbox/suggestion/', suggestion.id]" *ngFor="let suggestion of (locationSuggestions | async)">
+    <ion-item button [routerLink]="['/inbox/suggestion/', suggestion.id]" *ngFor="let suggestion of (locationSuggestions | async)"
+    (click)="updateToViewed(suggestion.id, 'suggestion')">
+      <div *ngIf="!suggestion.viewed">
+        <ion-text class="new" slot='start'> NEW </ion-text>
+      </div>
       {{suggestion.type}} : {{ suggestion.name }}
+      <ion-text slot="end" class="timestamp">
+        {{ suggestion.timestamp.toDate() | date:'MM-dd-yyyy h:mm:ss.SS a' }}
+      </ion-text>
       <ion-icon name="arrow-forward" slot="end"></ion-icon>
     </ion-item>
     </ion-list>

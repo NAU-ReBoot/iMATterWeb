@@ -51,10 +51,10 @@ export class ChatCohortListPage implements OnInit {
             this.http.get('https://us-central1-techdemofirebase.cloudfunctions.net/deleteOldChatMessages')
                 .subscribe((response) => {
                   this.showToast('Not visible chats have been deleted.'); }, err => {
-                  this.showToast('An error occurred. Please try again. ');
+                  // this.showToast('An error occurred. Please try again. ');
                 }
             );
-            this.showToast('Not visible chats have been deleted.');
+            // this.showToast('Not visible chats have been deleted.');
           }
         }
       ]

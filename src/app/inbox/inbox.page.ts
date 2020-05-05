@@ -43,7 +43,10 @@ export class InboxPage implements OnInit {
     this.problemsView = true;
     this.locationView = false;
     this.reportView = false;
+  }
 
+  updateToViewed(id, type) {
+    this.inboxService.updateNotifAsSeen(id, type);
   }
 
 }
