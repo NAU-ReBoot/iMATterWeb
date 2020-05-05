@@ -130,7 +130,7 @@ export class SurveysPage implements OnInit {
     // if the survey fields are valid, then update the survey in the database using the fs service
     if (this.surveyForm.status == 'VALID')
     { 
-      //IMPORTANT: need to pass in this LM's ID when updating
+      //IMPORTANT: need to pass in this surveys's ID when updating
       this.surveyForm.addControl('id', this.formBuilder.control(this.survey.id));
 
       var newData = this.surveyForm.value;
