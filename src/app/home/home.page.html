@@ -67,15 +67,18 @@
         </ion-item>
         <ion-row>
           <ion-button class="text-button" fill="clear" size="small" (click)="displayAddUser = false; clearUserForm()"> Cancel </ion-button>
-          <ion-button class="fill-button" size="small" [disabled]="!addUserForm.valid" (click)="addUser(addUserForm)"> Submit </ion-button>
+          <ion-button class="fill-button" size="small" [disabled]="!addUserForm.valid" (click)="addUser(addUserForm); displayAddUser = false;"> Submit </ion-button>
         </ion-row>
       </form>
     </div>
 
     <div *ngIf="codeView">
-      <h6>
+      <ion-row>
+        <h6>
           Please give new user the code: {{ user.code }}
-      </h6>
+        </h6>
+        <ion-button class="text-button" fill="clear" size="small" (click)="codeView = false; user.code=''"> OK </ion-button>
+      </ion-row>
     </div>
   </div>
   <div *ngIf="userView">
@@ -178,9 +181,12 @@
     </div>
 
     <div *ngIf="codeView">
-      <h6>
-        Please give new provider the code: {{ provider.code }}
-      </h6>
+      <ion-row>
+        <h6>
+          Please give new provider the code: {{ provider.code }}
+        </h6>
+        <ion-button class="text-button" fill="clear" size="small" (click)="codeView = false; provider.code=''"> OK </ion-button>
+      </ion-row>
     </div>
   </div>
   <div *ngIf="providerView">
@@ -239,9 +245,12 @@
 
     <!-- code -->
     <div *ngIf="codeView">
-      <h6>
-        Please give new administrator the code: {{ admin.code }}
-      </h6>
+      <ion-row>
+        <h6>
+          Please give new administrator the code: {{ admin.code }}
+        </h6>
+        <ion-button class="text-button" fill="clear" size="small" (click)="codeView = false; admin.code=''"> OK </ion-button>
+      </ion-row>
     </div>
   </div>
 
