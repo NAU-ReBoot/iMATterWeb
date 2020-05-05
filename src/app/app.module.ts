@@ -20,6 +20,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { QuizModalPageModule } from './learningModule/quiz-modal/quiz-modal.module';
 import { AddQuizQuestionPageModule } from './learningModule/add-quiz-question/add-quiz-question.module';
 import { DatePickerModule } from 'ionic4-date-picker';
+import { HttpClientModule } from '@angular/common/http';
 
 
 @NgModule({
@@ -37,7 +38,8 @@ import { DatePickerModule } from 'ionic4-date-picker';
     QuizModalPageModule,
     AddQuizQuestionPageModule,
     AngularFireStorageModule,
-    DatePickerModule
+    DatePickerModule,
+    HttpClientModule,
   ],
   
   providers: [

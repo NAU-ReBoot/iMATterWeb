@@ -6,11 +6,14 @@
     <ion-buttons slot="start">
       <ion-menu-button autoHide="false"></ion-menu-button>
     </ion-buttons>
+    <ion-button slot="end" color="danger" (click)="deleteOldChats()"> Delete Not Visible Chats </ion-button>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <ion-text> Click the name of the cohort chat log you would like to see: </ion-text>
+  <ion-item class="custom-divider-header">
+    <ion-text> Click the name of the cohort chat log you would like to see: </ion-text>
+  </ion-item>
   <ion-list>
     <ion-item button [routerLink]="['/chatlog/', cohort.name]" *ngFor="let cohort of (cohorts | async)">
       {{ cohort.name }}

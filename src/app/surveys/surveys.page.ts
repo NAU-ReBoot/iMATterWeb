@@ -159,10 +159,10 @@ export class SurveysPage implements OnInit {
   displayHelpInfo()
   {
     this.presentAlert('About Survey Fields',
-    '<b>Display Survey During days After Joining:</b> ' +
+    '<b>Display Survey During Days After Joining:</b> ' +
       'A comma separated list of the days since joining the app the survey should start being displayed to users. ' +
         ' <br>Example: 5, 10, 15 <br><br>' + 
-    '<b>Display Survey During days Before Due Date:</b> ' +
+    '<b>Display Survey During Days Before Due Date:</b> ' +
       'A comma separated list of the days before due date the survey should start being displayed to users. ' +
         ' <br>Example: 7, 14, 21 <br><br>' + 
     '<b>Days Visible Before Expiration:</b> ' + 

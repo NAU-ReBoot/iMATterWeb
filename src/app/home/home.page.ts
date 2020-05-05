@@ -19,6 +19,7 @@ export class HomePage implements OnInit {
 
   public addAdminForm: FormGroup;
   public addProviderForm: FormGroup;
+  public addUserForm: FormGroup;
   public updateUserForm: FormGroup;
 
   constructor(private createUserService: CreateUserService,
@@ -48,7 +49,8 @@ export class HomePage implements OnInit {
         Validators.compose([Validators.required, Validators.pattern('^(0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])[- /.](19|20)\\d\\d$')]),
       ],
       providerType: [
-        Validators.compose([Validators.required]),
+          '',
+        Validators.compose([Validators.required, Validators.minLength(1)]),
       ],
       notes: [
         ''
@@ -62,6 +64,12 @@ export class HomePage implements OnInit {
       ],
       notes: [
           ''
+      ]
+    });
+
+    this.addUserForm = this.formBuilder.group({
+      notes: [
+        ''
       ]
     });
 
@@ -82,7 +90,6 @@ export class HomePage implements OnInit {
     code: '',
     username: '',
     email:  '',
-    password: '',
     dueMonth: '',
     weeksPregnant: 0,
     location: 0,
@@ -95,7 +102,8 @@ export class HomePage implements OnInit {
     bio:  '',
     points: 0,
     daysSinceLogin: 0,
-    codeEntered: true
+    codeEntered: true,
+    notes: ''
   };
 
   provider: Provider =  {
@@ -140,6 +148,7 @@ export class HomePage implements OnInit {
 
   public displayAddAdmin = false;
   public displayAddProvider = false;
+  public displayAddUser = false;
 
   public users: Observable<User[]>;
   // allows admin to view those that have not signed up yet
@@ -172,6 +181,8 @@ export class HomePage implements OnInit {
           }
         });
       }
+
+
     });
 
     this.users = this.createUserService.getUsers();
@@ -201,11 +212,17 @@ export class HomePage implements OnInit {
     this.displayAddAdmin = false;
   }
 
-  addUser() {
+  showAddUser() {
+    this.displayAddUser = true;
+  }
+
+  addUser(addUserForm: FormGroup) {
+    this.user.notes =  addUserForm.value.notes;
     this.user.code = HomePage.makeString();
     this.createUserService.addUser(this.user);
     this.codeView = true;
     this.emptyUsers = this.createUserService.getEmptyUsers();
+    this.clearUserForm();
   }
 
   updateUser(userType, id) {
@@ -225,6 +242,7 @@ export class HomePage implements OnInit {
   }
 
   addProvider(addProviderForm: FormGroup) {
+    let emailEntered;
     if (!this.addProviderForm.valid) {
       console.log(
           'Need to complete the form, current value: ', addProviderForm.value
@@ -236,6 +254,7 @@ export class HomePage implements OnInit {
       this.provider.dob = addProviderForm.value.dob;
       this.provider.type = 'provider';
       this.provider.providerType =  addProviderForm.value.providerType;
+      this.provider.notes =  addProviderForm.value.notes;
 
       const providerTypeRef = this.afs.firestore.collection('providerTypes').where('type', '==', this.provider.providerType);
       providerTypeRef.get().then((res) => {
@@ -243,18 +262,29 @@ export class HomePage implements OnInit {
           this.provider.profilePic = document.get('profilePic');
           this.provider.code = HomePage.makeString();
 
-          this.afs.firestore.collection('providers').where('email', '==', this.provider.email)
+          this.afs.firestore.collection('admins').where('email', '==', this.provider.email)
               .get().then(snap => {
             if (snap.docs.length > 0) {
               console.log(('taken'));
-              this.showToast('Email already assigned to another provider');
+              this.showToast('Email already assigned to another admin');
+              emailEntered = true;
             } else {
-              this.createUserService.addProvider(this.provider);
-              this.codeView = true;
-              this.displayAddProvider = false;
-              this.clearProviderForm();
+              this.afs.firestore.collection('providers').where('email', '==', this.provider.email)
+                  .get().then(snapshot => {
+                if (snapshot.docs.length > 0) {
+                  console.log(('taken'));
+                  this.showToast('Email already assigned to another provider');
+                  emailEntered = true;
+                } else {
+                  this.createUserService.addProvider(this.provider);
+                  this.codeView = true;
+                  this.displayAddProvider = false;
+                  this.clearProviderForm();
+                }
+              });
             }
           });
+
         });
       });
     }
@@ -269,12 +299,15 @@ export class HomePage implements OnInit {
   }
 
   addAdmin(addAdminForm: FormGroup) {
+    let emailEntered;
+
     if (!addAdminForm.valid) {
       console.log('Need to complete the form', addAdminForm.value);
     } else {
 
       this.admin.email = addAdminForm.value.email;
       this.admin.type = 'admin';
+      this.admin.notes = addAdminForm.value.notes;
 
       this.admin.code = HomePage.makeString();
 
@@ -283,18 +316,35 @@ export class HomePage implements OnInit {
         if (snap.docs.length > 0) {
           console.log(('taken'));
           this.showToast('Email already assigned to another admin');
+          emailEntered = true;
         } else {
-          this.createUserService.addAdmin(this.admin);
-          this.codeView = true;
-          this.displayAddAdmin = false;
-          this.clearAdminForm();
+          this.afs.firestore.collection('providers').where('email', '==', this.admin.email)
+              .get().then(snapshot => {
+            if (snapshot.docs.length > 0) {
+              console.log(('taken'));
+              this.showToast('Email already assigned to another provider');
+              emailEntered = true;
+            } else {
+              this.createUserService.addAdmin(this.admin);
+              this.codeView = true;
+              this.displayAddAdmin = false;
+              this.clearAdminForm();
+            }
+          });
         }
       });
+
     }
   }
 
   deleteAdmin(id) {
     this.createUserService.deleteAdmin(id);
+  }
+
+  clearAllForms() {
+    this.addProviderForm.reset();
+    this.addAdminForm.reset();
+    this.addUserForm.reset();
   }
 
   clearProviderForm() {
@@ -305,25 +355,8 @@ export class HomePage implements OnInit {
     this.addAdminForm.reset();
   }
 
-  checkUserActivity() {
-
-  }
-
-  showToast(msg) {
-    this.toastCtrl.create({
-      message: msg,
-      duration: 2000
-    }).then(toast => toast.present());
-  }
-
-  ionViewDidLeave() {
-    this.codeView = false;
-    this.displayAddProvider = false;
-    this.displayAddAdmin = false;
-
-    this.clearProviderForm();
-    this.clearAdminForm();
-
+  clearUserForm() {
+    this.addUserForm.reset();
   }
 
   async deleteUserConfirmation(userType, id) {
@@ -348,6 +381,37 @@ export class HomePage implements OnInit {
     });
 
     await alert.present();
+  }
+
+/*
+  filterUsers(event) {
+    console.log('called');
+    this.initializeUsers();
+
+    const searchInput = event.target.value;
+
+    if (searchInput) {
+      this.thisUserList = this.thisUserList.filter(currentQuestion => {
+        return(currentQuestion.title.toLowerCase().indexOf(searchInput.toLowerCase()) > -1);
+      });
+    }
+  }*/
+
+  showToast(msg) {
+    this.toastCtrl.create({
+      message: msg,
+      duration: 2000
+    }).then(toast => toast.present());
+  }
+
+  ionViewDidLeave() {
+    this.codeView = false;
+    this.displayAddProvider = false;
+    this.displayAddAdmin = false;
+    this.displayAddUser = false;
+
+    this.clearAllForms();
+
   }
 
 

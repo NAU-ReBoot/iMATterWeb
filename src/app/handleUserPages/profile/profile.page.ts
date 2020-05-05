@@ -1,12 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import {AlertController, ToastController} from '@ionic/angular';
-import { AuthServiceProvider } from '../../services/user/auth.service';
 import { ProfileService } from '../../services/user/profile.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {Storage} from '@ionic/storage';
 import {Admin} from '../../services/createUsers/create-user.service';
-import {EmailValidator} from '@angular/forms';
 
 @Component({
   selector: 'app-profile',
@@ -26,7 +24,9 @@ export class ProfilePage implements OnInit {
     notes: ''
   };
 
-  public userProfile: any;
+  static validateEmail(email) {
+    return /(.+)@(.+){2,}\.(.+){2,}/.test(email);
+  }
 
   constructor(
       private alertCtrl: AlertController,
@@ -68,15 +68,6 @@ export class ProfilePage implements OnInit {
     });
   }
 
-  validateEmail(email) {
-    if ( /(.+)@(.+){2,}\.(.+){2,}/.test(email)) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-
   async updateEmail(): Promise<void> {
     const alert = await this.alertCtrl.create({
       inputs: [
@@ -88,7 +79,7 @@ export class ProfilePage implements OnInit {
         {
           text: 'Update',
           handler: data => {
-            if (this.validateEmail(data.newEmail)) {
+            if (ProfilePage.validateEmail(data.newEmail)) {
             this.profileService.updateEmail(data.newEmail, data.password, this.admin.code,
                 'admins').then(() => {
                   this.showToast('Your email has been updated!');

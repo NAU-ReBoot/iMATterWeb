@@ -16,7 +16,6 @@ export class ViewableProfilePage implements OnInit {
     code: '',
     username: '',
     email: '',
-    password: '',
     dueMonth: '',
     weeksPregnant: 0,
     location: 0,
@@ -29,7 +28,8 @@ export class ViewableProfilePage implements OnInit {
     currentEmotion: '',
     profilePic: '',
     daysSinceLogin: 0,
-    codeEntered: true
+    codeEntered: true,
+    notes: ''
   };
 
   provider: Provider = {

@@ -12,33 +12,73 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-row>
-  <ion-col>
-    <ion-button class="fill-button" [class.noHighlight]="userView != true" expand="block"  (click)="showUsers()"> Users</ion-button>
-  </ion-col>
-  <ion-col>
-    <ion-button class="fill-button" [class.noHighlight]="providerView != true" expand="block"  (click)="showProviders()"> Providers </ion-button>
-  </ion-col>
-  <ion-col>
-    <ion-button class="fill-button" [class.noHighlight]="adminView != true" expand="block"  (click)="showAdmins()"> Administrators </ion-button>
-  </ion-col>
+<ion-radio-group>
+<ion-row padding-top>
+    <ion-col>
+      <ion-button class="fill-button" size="large" [class.noHighlight]="userView != true" expand="block"  (click)="showUsers()"> Users </ion-button>
+    </ion-col>
+    <ion-col>
+      <ion-button class="fill-button" size="large" [class.noHighlight]="providerView != true" expand="block"  (click)="showProviders()"> Providers </ion-button>
+    </ion-col>
+    <ion-col>
+      <ion-button class="fill-button" size="large" [class.noHighlight]="adminView != true" expand="block"  (click)="showAdmins()"> Administrators </ion-button>
+    </ion-col>
 </ion-row>
+</ion-radio-group>
+
+<!--
+<ion-header>
+
+  <ion-searchbar (ionInput)="filterUsers($event)"></ion-searchbar>
+</ion-header>
+-->
 
 
 <ion-content padding>
   <!-- Show users -->
   <div *ngIf="userView">
-    <ion-row>
-    <ion-button class="fill-button" [class.noHighlight]="signedUserView != true" (click)="signedUserView = true; emptyUserView = false"> Signed Up Users</ion-button>
-    <ion-button class="fill-button" [class.noHighlight]="emptyUserView != true" (click)="signedUserView = false; emptyUserView = true"> Not Signed Up Users</ion-button>
-    </ion-row>
-    <ion-button class="fill-button" slot="end" size="large" (click)="addUser()">
+    <ion-radio-group>
+      <ion-row>
+        <ion-col>
+        <ion-item>
+          <ion-label class="radio-label-users"> Signed Up Users </ion-label>
+          <ion-radio [checked]="true" class="fill-button" [class.noHighlight]="signedUserView != true" (click)="signedUserView = true; emptyUserView = false"> Signed Up Users</ion-radio>
+        </ion-item>
+        </ion-col>
+        <ion-col>
+        <ion-item>
+          <ion-label class="radio-label-users"> Not Signed Up Users </ion-label>
+          <ion-radio class="fill-button" [class.noHighlight]="emptyUserView != true" (click)="signedUserView = false; emptyUserView = true"> Not Signed Up Users</ion-radio>
+        </ion-item>
+        </ion-col>
+
+      </ion-row>
+    </ion-radio-group>
+
+    <ion-button class="fill-button" slot="end" size="large" (click)="displayAddUser = true">
       Add User
     </ion-button>
+
+    <div *ngIf="displayAddUser">
+      <form [formGroup]="addUserForm">
+        <ion-item>
+          <ion-label position="stacked"> Notes:</ion-label>
+          <ion-textarea formControlName="notes" placeholder="Optional Notes"></ion-textarea>
+        </ion-item>
+        <ion-row>
+          <ion-button class="text-button" fill="clear" size="small" (click)="displayAddUser = false; clearUserForm()"> Cancel </ion-button>
+          <ion-button class="fill-button" size="small" [disabled]="!addUserForm.valid" (click)="addUser(addUserForm); displayAddUser = false;"> Submit </ion-button>
+        </ion-row>
+      </form>
+    </div>
+
     <div *ngIf="codeView">
-      <h6>
+      <ion-row>
+        <h6>
           Please give new user the code: {{ user.code }}
-      </h6>
+        </h6>
+        <ion-button class="text-button" fill="clear" size="small" (click)="codeView = false; user.code=''"> OK </ion-button>
+      </ion-row>
     </div>
   </div>
   <div *ngIf="userView">
@@ -55,7 +95,8 @@
           <b>Security Q:</b> {{ user.securityQ }}<br>
           <b>Security A:</b> {{ user.securityA }}<br>
           <b>Point Total:</b> {{ user.points }}<br>
-          <b>Last Active:</b> {{ user.daysSinceLogin }} day(s) ago
+          <b>Last Active:</b> {{ user.daysSinceLogin }} day(s) ago<br>
+          <b>Notes:</b> {{ user.notes }} <br>
         </p>
 
         <ion-buttons  slot="end">
@@ -140,12 +181,15 @@
     </div>
 
     <div *ngIf="codeView">
-      <h6>
-        Please give new provider the code: {{ provider.code }}
-      </h6>
+      <ion-row>
+        <h6>
+          Please give new provider the code: {{ provider.code }}
+        </h6>
+        <ion-button class="text-button" fill="clear" size="small" (click)="codeView = false; provider.code=''"> OK </ion-button>
+      </ion-row>
     </div>
   </div>
-  <ion-content *ngIf="providerView">
+  <div *ngIf="providerView">
     <ion-list>
       <ion-item *ngFor="let provider of (providers | async)">
         <p>
@@ -168,7 +212,7 @@
         </ion-buttons>
       </ion-item>
     </ion-list>
-  </ion-content>
+  </div>
 
   <!-- Show admin -->
   <div *ngIf="adminView">
@@ -201,9 +245,12 @@
 
     <!-- code -->
     <div *ngIf="codeView">
-      <h6>
-        Please give new administrator the code: {{ admin.code }}
-      </h6>
+      <ion-row>
+        <h6>
+          Please give new administrator the code: {{ admin.code }}
+        </h6>
+        <ion-button class="text-button" fill="clear" size="small" (click)="codeView = false; admin.code=''"> OK </ion-button>
+      </ion-row>
     </div>
   </div>
 
@@ -225,6 +272,7 @@
           <ion-button color='danger' (click)="deleteUserConfirmation('admin', admin.id)">
             Delete Admin
           </ion-button>
+
         </ion-buttons>
 
       </ion-item>

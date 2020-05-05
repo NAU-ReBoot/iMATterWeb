@@ -140,28 +140,17 @@ export class SignupPage implements OnInit {
                   this.provider.type = doc.get('type');
 
                   this.authService.signupProvider(this.provider, password, username, this.provider.email, bio).then(() => {
-                    this.loading.dismiss().then(() => {
                       this.storage.set('code', this.provider.code);
                       this.storage.set('type', this.provider.type);
-
+                      this.showToast('Account Created');
                       this.router.navigate(['/provider-home']);
-                    });
                   });
                 });
               },
               error => {
-            /*
-                this.loading.dismiss().then(async () => {
-                  const alert = await this.alertCtrl.create({
-                    message: error.message,
-                    buttons: [{text: 'Ok', role: 'cancel'}],
-                  });
-                  await alert.present();
-                });*/
+                this.showToast('Something went wrong, please try again!');
               }
           );
-          // this.loading = await this.loadingCtrl.create();
-          // await this.loading.present();
         }
       });
     }
@@ -196,28 +185,20 @@ export class SignupPage implements OnInit {
                   this.admin.type = doc.get('type');
 
                   this.authService.signupAdmin(this.admin, password, username, this.admin.email).then(() => {
-                    this.loading.dismiss().then(() => {
+
                       this.storage.set('code', this.admin.code);
                       this.storage.set('type', this.admin.type);
 
                       this.router.navigate(['/tabs/home']);
-                    });
+                      this.showToast('Account Created');
+
                   });
                 });
               },
               error => {
-            /*
-                this.loading.dismiss().then(async () => {
-                  const alert = await this.alertCtrl.create({
-                    message: error.message,
-                    buttons: [{text: 'Ok', role: 'cancel'}],
-                  });
-                  await alert.present();
-                });*/
+                this.showToast('Something wen wrong, please try again');
               }
           );
-          // this.loading = await this.loadingCtrl.create();
-          // await this.loading.present();
         }
       });
     }

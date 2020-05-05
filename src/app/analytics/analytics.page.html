@@ -34,11 +34,21 @@
 
     <div *ngIf="pageStatistics" class="ion-padding">
 
-      <ion-card style='height:100%'>
-        <ion-card-content >
-          <canvas  #lineChart></canvas>
-        </ion-card-content>
-      </ion-card>
+  <ion-card style='height:100%'>
+    <ion-card-content>
+      <ion-item>
+        <ion-label class = "vertical-rl">
+        Vists
+      </ion-label>
+      <canvas #lineChart id="myGraph"> {{lineChart}}</canvas>
+      </ion-item>
+      <ion-label class="center" >
+        Time Of Day
+        </ion-label>
+    </ion-card-content>
+  </ion-card>
+  <ion-label>
+    </ion-label>
 
       <ion-item>
         <ion-label> Page </ion-label>
@@ -68,15 +78,23 @@
     <div *ngIf="durationPage" class="ion-padding">
 
       <ion-card style='height:100%'>
-        <ion-card-content >
-          <canvas  #barChart></canvas>
+        <ion-card-content>
+          <ion-item>
+            <ion-label class = "vertical-rl">
+            Minutes
+          </ion-label>
+          <canvas #barChart id="myGraph"> {{barChart}}</canvas>
+          </ion-item>
+          <ion-label class="center" >
+            Pages
+            </ion-label>
         </ion-card-content>
       </ion-card>
 
     </div>
 
 
-    <div *ngIf="!openFromCalendarSwitch && !openToCalendarSwitch">
+    <div *ngIf="!openFromCalendarSwitch && !openToCalendarSwitch && !durationPage">
       <ion-item>
         <ion-icon name="calendar"></ion-icon>
         <ion-button expand="block" fill="clear" (click)= "openFromCalendar()" >From Date </ion-button>
@@ -87,7 +105,7 @@
         <ion-button expand="block" fill="clear" (click)="minEndDate()" (click)= "openToCalendar()" >To Date </ion-button>
         <ion-label>{{toDateString}}</ion-label>
       </ion-item>
-      <ion-button  (click) = "On()" (click)="getMeasureForPages()" padding = "100" type='button'>
+      <ion-button  class="fill-button" (click) = "On()" (click)="getMeasureForPages('none')" padding = "100" type='button'>
         submit
       </ion-button>
       </div>
@@ -104,7 +122,7 @@
           <ion-button expand="block" fill="clear" (click)="minEndDate()" (click)= "openToCalendar()" >To Date </ion-button>
           <ion-label>{{toDateString}}</ion-label>
         </ion-item>
-        <ion-button  (click) = "On()" (click)="totalDurationMeasuresCalculation()" padding = "100" type='button'>
+        <ion-button class="fill-button" (click) = "On()" (click)="totalDurationMeasuresCalculation('none')" padding = "100" type='button'>
           submit
         </ion-button>
         </div>
@@ -127,7 +145,7 @@
       </ion-card>
     </div>
 
-        <div  *ngIf="openToCalendarSwitch && !openFromCalendarSwitch">
+        <div  *ngIf="openToCalendarSwitch && !openFromCalendarSwitch ">
 
           <ion-card>
             <ion-item>

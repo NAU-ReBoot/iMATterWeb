@@ -228,8 +228,10 @@ export class ForumThreadPage implements OnInit {
           handler: () => {
           if (type === 'post') {
             this.deletePost();
+            this.showToast('Post has been deleted');
           } else {
             this.deleteComment(commentObj, postObj);
+            this.showToast('Comment has been deleted');
           }
           }}
       ]

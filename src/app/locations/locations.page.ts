@@ -33,7 +33,6 @@ export class LocationsPage implements OnInit {
   };
 
   public clicked = false;
-  public opened = false;
   public forcedNumber:number;
   public secondFrocedNumber: number;
 
@@ -63,64 +62,10 @@ constructor(public afs: AngularFirestore, public activatedRoute: ActivatedRoute,
 
 ionViewWillEnter()
 {
-  this.opened = true;
-  this.clicked = false;
+
 }
 
 
-
-  submitLocation() {
-
-      this.forcedNumber = 0;
-
-    this.location= this.location;
-
-
-      this.locationService.addLocation(this.location).then(() => {
-      //  this.router.navigateByUrl('/more');
-        this.showToast('Location Added');
-        this.location.title = '';
-        this.location.content = '';
-        this.location.phone = '';
-        this.location.longitude = 0;
-        this.location.latitude = 0;
-        this.location.operationMF = '';
-        this.location.operationSaturday = '';
-        this.location.operationSunday = '';
-        this.location.special = '  ';
-        this.location.type = '';
-      }, err => {
-        this.showToast('There was a problem adding your location');
-      });
-
-      this.slientlyUpdateLocation(this.location);
-
-    }
-
-showToast(msg) {
-  this.toastCtrl.create({
-    message: msg,
-    duration: 2000
-  }).then(toast => toast.present());
-
-  this.opened = true;
-  this.clicked = false;
-}
-
-
-click(){
-  this.clicked = true;
-  this.opened = false;
-}
-
-slientlyUpdateLocation(location)
-{
-  this.locationService.updateLocation(this.location).then(()=>
-  {
-    console.log("sliently updated location");
-
-  })
-}
 
 
 

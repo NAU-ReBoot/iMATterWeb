@@ -16,6 +16,9 @@
         <h2> Code: {{ user.code }}<br> </h2>
       </ion-item>
       <ion-item>
+        <h2> Email: {{ user.email }}<br></h2>
+      </ion-item>
+      <ion-item>
         <h6> Username: {{ user.username }} </h6>
       </ion-item>
       <ion-item>
@@ -36,10 +39,6 @@
     <ion-list>
       <ion-list-header class="header"> Edit: </ion-list-header>
         <ion-item>
-          <ion-label position="stacked">Email</ion-label>
-          <ion-input [(ngModel)]="user.email"></ion-input>
-        </ion-item>
-        <ion-item>
           <ion-label position="stacked">Cohort</ion-label>
           <ion-input [(ngModel)]="user.cohort"></ion-input>
         </ion-item>
@@ -47,6 +46,10 @@
           <ion-label position="stacked">Point Total</ion-label>
           <ion-input [(ngModel)]="user.points"></ion-input>
         </ion-item>
+      <ion-item>
+        <ion-label position="stacked">Notes</ion-label>
+        <ion-input [(ngModel)]="user.notes"></ion-input>
+      </ion-item>
     </ion-list>
 
     <ion-button class="fill-button" expand="block" fill="solid" color="success" (click)="updateUser(user.id)">
@@ -63,6 +66,9 @@
         <h2> Code: {{ provider.code }}<br> </h2>
       </ion-item>
       <ion-item>
+        <h2> Email: {{ provider.email }}<br> </h2>
+      </ion-item>
+      <ion-item>
         <h6> Username: {{ provider.username }} </h6>
       </ion-item>
       <ion-item>
@@ -73,16 +79,16 @@
     <ion-list>
       <ion-list-header class="header"> Edit: </ion-list-header>
       <ion-item>
-        <ion-label position="stacked">Email</ion-label>
-        <ion-input [(ngModel)]="provider.email"></ion-input>
-      </ion-item>
-      <ion-item>
         <ion-label position="stacked">First Name</ion-label>
         <ion-input [(ngModel)]="provider.firstName"></ion-input>
       </ion-item>
       <ion-item>
         <ion-label position="stacked">Last Name</ion-label>
         <ion-input [(ngModel)]="provider.lastName"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="stacked">Notes</ion-label>
+        <ion-input [(ngModel)]="provider.notes"></ion-input>
       </ion-item>
     </ion-list>
 
@@ -108,8 +114,8 @@
   <ion-list>
     <ion-list-header class="header"> Edit: </ion-list-header>
     <ion-item>
-      <ion-label position="stacked">Email</ion-label>
-      <ion-input [(ngModel)]="admin.email"></ion-input>
+      <ion-label position="stacked">Notes</ion-label>
+      <ion-input [(ngModel)]="admin.notes"></ion-input>
     </ion-item>
   </ion-list>
 

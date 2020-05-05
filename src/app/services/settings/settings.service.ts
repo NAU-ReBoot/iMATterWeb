@@ -15,6 +15,13 @@ export interface ProviderType {
   profilePic: string;
 }
 
+export interface mobileNotificationSetting
+{
+  active: boolean,
+  hour: number,
+  timeOfDay: string
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -41,6 +48,10 @@ export class SettingsService {
 
   static getAdminSettings() {
     return firebase.firestore().collection('mobileSettings').doc('adminSettings').get();
+  }
+
+  static getMobileNotifSettings() {
+    return firebase.firestore().collection('mobileSettings').doc('mobileNotifSettings').get();
   }
 
   getProviderTypesCollection() {
@@ -85,6 +96,30 @@ export class SettingsService {
   updatePointsToRedeemGC(newPoints) {
     return this.afs.firestore.collection('mobileSettings')
         .doc('giftCardSettings').update({points: newPoints});
+  }
+
+  updateMobileNotifications(settingToUpdate, updateObject)
+  {
+    if (settingToUpdate === "learningModuleOne")
+    {
+      return this.afs.firestore.collection('mobileSettings')
+      .doc('mobileNotifSettings').update({learningModuleOne: updateObject});
+    }
+    else if (settingToUpdate === "learningModuleTwo")
+    {
+      return this.afs.firestore.collection('mobileSettings')
+      .doc('mobileNotifSettings').update({learningModuleTwo: updateObject});
+    }
+    else if (settingToUpdate === "surveyOne")
+    {
+      return this.afs.firestore.collection('mobileSettings')
+        .doc('mobileNotifSettings').update({surveyOne: updateObject});
+    }
+    else if (settingToUpdate === "surveyTwo")
+    {
+      return this.afs.firestore.collection('mobileSettings')
+        .doc('mobileNotifSettings').update({surveyTwo: updateObject});
+    }
   }
 
   addGCType(gcType) {

@@ -52,6 +52,12 @@
 
 .text-button {
   --color: var(--main-color);
+  --color-activated: var(--secondary-color);
+  --background-hover: var(--secondary-color);
+}
+
+.danger-text-button {
+  --color: red;
 }
 
 .error-message {
@@ -64,4 +70,15 @@
   .item-inner {
     border-bottom: 0 !important;
   }
+}
+
+.custom-divider {
+  --background: #cec1e7;
+  color: black;
+}
+
+.custom-divider-header {
+  --background: #cec1e7;
+  color: black;
+  font-weight: bold;
 }
