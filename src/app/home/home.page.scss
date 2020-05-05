@@ -3,9 +3,23 @@
   --background: var(--secondary-color);
 }
 
+ion-radio {
+  --color: var(--secondary-color);
+  --color-checked: var(--main-color);
+  --border-radius: 50px;
+}
+
 .numOfComments {
   color: #383a3e;
   font-size: 15px;
+}
+
+.radio-label-users {
+  font-size: 20px;
+}
+
+.radio-label-user-type {
+  font-size: 25px;
 }
 
 .padding-top {

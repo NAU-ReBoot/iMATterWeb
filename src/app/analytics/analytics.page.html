@@ -87,7 +87,7 @@
         <ion-button expand="block" fill="clear" (click)="minEndDate()" (click)= "openToCalendar()" >To Date </ion-button>
         <ion-label>{{toDateString}}</ion-label>
       </ion-item>
-      <ion-button  (click) = "On()" (click)="getMeasureForPages()" padding = "100" type='button'>
+      <ion-button  (click) = "On()" (click)="getMeasureForPages('none')" padding = "100" type='button'>
         submit
       </ion-button>
       </div>
@@ -104,7 +104,7 @@
           <ion-button expand="block" fill="clear" (click)="minEndDate()" (click)= "openToCalendar()" >To Date </ion-button>
           <ion-label>{{toDateString}}</ion-label>
         </ion-item>
-        <ion-button  (click) = "On()" (click)="totalDurationMeasuresCalculation()" padding = "100" type='button'>
+        <ion-button  (click) = "On()" (click)="totalDurationMeasuresCalculation('none')" padding = "100" type='button'>
           submit
         </ion-button>
         </div>
