@@ -34,20 +34,21 @@
 
     <div *ngIf="pageStatistics" class="ion-padding">
 
-      <ion-card style='height:100%'>
-        <ion-card-content>
-          <ion-item>
-            <ion-label class = "vertical-rl">
-            Visits
-          </ion-label>
-          <canvas #lineChart id="myGraph"> {{lineChart}}</canvas>
-          </ion-item>
-          <ion-label>
-            Time of Day
-            </ion-label>
-        </ion-card-content>
-
-      </ion-card>
+  <ion-card style='height:100%'>
+    <ion-card-content>
+      <ion-item>
+        <ion-label class = "vertical-rl">
+        Vists
+      </ion-label>
+      <canvas #lineChart id="myGraph"> {{lineChart}}</canvas>
+      </ion-item>
+      <ion-label class="center" >
+        Time Of Day
+        </ion-label>
+    </ion-card-content>
+  </ion-card>
+  <ion-label>
+    </ion-label>
 
       <ion-item>
         <ion-label> Page </ion-label>
@@ -77,8 +78,16 @@
     <div *ngIf="durationPage" class="ion-padding">
 
       <ion-card style='height:100%'>
-        <ion-card-content >
-          <canvas  #barChart></canvas>
+        <ion-card-content>
+          <ion-item>
+            <ion-label class = "vertical-rl">
+            Minutes
+          </ion-label>
+          <canvas #barChart id="myGraph"> {{barChart}}</canvas>
+          </ion-item>
+          <ion-label class="center" >
+            Pages
+            </ion-label>
         </ion-card-content>
       </ion-card>
 

@@ -992,13 +992,29 @@ export class AnalyticsPage implements OnInit{
          ]
          },
          options:{
+           responsive: true,
+           maintainAspectRatio: true,
+           title: {
+   					display: true,
+   					text: 'Analytics Bar Chart'
+   				},
            scales: {
-             yAxes: [{
-               scaleLabel:{
+             xAxes: [{
+               display: true,
+               scaleLabel: {
                  display: true,
                  labelString: 'Time'
                },
+
                ticks: {
+                beginAtZero: false,
+               }
+             }],
+             yAxes: [{
+               display: true,
+               scaleLabel: {
+                 display: true,
+                 labelString: 'Pages'
                }
              }]
            }
@@ -1029,7 +1045,7 @@ export class AnalyticsPage implements OnInit{
     };
 
     let options =  {
-        responsive: false,
+        responsive: true,
         maintainAspectRatio: true,
 				title: {
 					display: true,
@@ -1041,7 +1057,11 @@ export class AnalyticsPage implements OnInit{
 						scaleLabel: {
 							display: true,
 							labelString: 'Month'
-						}
+						},
+            ticks:
+            {
+              beginAtZero: false,
+            }
 					}],
 					yAxes: [{
 						display: true,
