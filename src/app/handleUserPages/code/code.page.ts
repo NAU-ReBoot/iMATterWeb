@@ -36,44 +36,53 @@ export class CodePage implements OnInit {
   ngOnInit() {
   }
 
-  validateCode(code: string) {
-    let docRef = this.afs.firestore.collection('admins').doc(code);
+  checkAdmin(code) {
+    const docRef = this.afs.firestore.collection('admins').doc(code);
     docRef.get().then((docData) => {
       if (docData.exists && docData.get('codeEntered') === false) {
         console.log('Exists');
         this.codeValidated = true;
         this.setCodeToEntered(code, 'admins');
         this.storage.set('userType', 'admin');
-        this.router.navigate(['/signup/', code ]);
+        this.router.navigate(['/signup/', code]);
         this.codeForm.reset();
-      } else if (docData.get('codeEntered') === true) {
+      } else if (docData.exists && docData.get('codeEntered') === true) {
         this.showToast('Code already used');
         this.codeValidated = false;
-      }
-        else {
-        docRef = this.afs.firestore.collection('providers').doc(code);
-        docRef.get().then((doc) => {
-          if (doc.exists && docData.get('codeEntered') === false) {
-            console.log('Exists');
-            this.codeValidated = true;
-            this.setCodeToEntered(code, 'providers');
-            this.storage.set('userType', 'provider');
-            this.router.navigate(['/signup/', code]);
-            this.codeForm.reset();
-          } else if (docData.get('codeEntered') === true) {
-            this.showToast('Code already used');
-            this.codeValidated = false;
-          }
-            else {
-            console.log('No such document!');
-            this.codeValidated = false;
-          }
-        });
+      } else {
+        this.checkProvider(code);
       }
     }).catch((err) => {
       console.log('Error getting document', err);
     });
   }
+
+  checkProvider(code) {
+    const docRef = this.afs.firestore.collection('providers').doc(code);
+    docRef.get().then((doc) => {
+      if (doc.exists && doc.get('codeEntered') === false) {
+        console.log('Exists');
+        this.codeValidated = true;
+        this.setCodeToEntered(code, 'providers');
+        this.storage.set('userType', 'provider');
+        this.router.navigate(['/signup/', code]);
+        this.codeForm.reset();
+      } else if (doc.exists && doc.get('codeEntered') === true) {
+        this.showToast('Code already used');
+        this.codeValidated = false;
+      } else {
+        this.showToast('Code does not exist');
+      }
+    }).catch((err) => {
+      console.log('Error getting document', err);
+    });
+  }
+
+  validateCode(code: string) {
+    this.checkAdmin(code);
+  }
+
+
 
   setCodeToEntered(doc, type) {
     this.afs.firestore.collection(type).doc(doc).update({codeEntered: true});

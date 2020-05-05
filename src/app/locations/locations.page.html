@@ -11,11 +11,8 @@
 </ion-header>
 
 <ion-content >
-
   <ion-button [routerLink]="['/add-location']" class="fill-button">Add Location</ion-button>
-
-  <div *ngIf = "opened">
-
+  <div>
       <ion-list>
         <ion-item button [routerLink]="['/locations/resource/', location.id]" *ngFor="let location of (locations | async)">
           {{ location.title }}

@@ -33,7 +33,6 @@ export class LocationsPage implements OnInit {
   };
 
   public clicked = false;
-  public opened = false;
   public forcedNumber:number;
   public secondFrocedNumber: number;
 
