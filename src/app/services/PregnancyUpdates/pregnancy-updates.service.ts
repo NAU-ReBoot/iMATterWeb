@@ -61,6 +61,8 @@ export class PregnancyUpdatesService {
   }
 
   updatePregnancyUpdate(pregnancyCard: PregnancyUpdateCard): Promise<void> {
+    console.log(pregnancyCard);
+    
     return this.pregnancyUpdatesCollection.doc(pregnancyCard.id).update({
       day: pregnancyCard.day,
       fileName: pregnancyCard.fileName,

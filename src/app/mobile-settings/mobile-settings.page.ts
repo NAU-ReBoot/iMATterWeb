@@ -1,17 +1,48 @@
+/// <reference types="@types/gapi.auth2" />
+
 import { Component, OnInit } from '@angular/core';
-import { SettingsService, GiftCardType, ProviderType } from '../services/settings/settings.service';
+import { SettingsService, GiftCardType, ProviderType, mobileNotificationSetting } from '../services/settings/settings.service';
 import { Storage } from '@ionic/storage';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { Observable, Scheduler } from 'rxjs';
 import { AngularFireStorage, AngularFireUploadTask } from '@angular/fire/storage';
 
+declare var gapi: any;
 @Component({
   selector: 'app-mobile-settings',
   templateUrl: './mobile-settings.page.html',
   styleUrls: ['./mobile-settings.page.scss'],
 })
 export class MobileSettingsPage implements OnInit {
+
+  learningModuleOne: mobileNotificationSetting = 
+  {
+    active: null,
+    hour: 0,
+    timeOfDay: ''
+  }
+
+  learningModuleTwo: mobileNotificationSetting = 
+  {
+    active: null,
+    hour: 0,
+    timeOfDay: ''
+  }
+
+  surveyOne: mobileNotificationSetting = 
+  {
+    active: null,
+    hour: 0,
+    timeOfDay: ''
+  }
+
+  surveyTwo: mobileNotificationSetting = 
+  {
+    active: null,
+    hour: 0,
+    timeOfDay: ''
+  }
 
   constructor(public msService: SettingsService,
               public storage: Storage,
@@ -24,6 +55,10 @@ export class MobileSettingsPage implements OnInit {
     type: '',
     profilePic: ''
   };
+
+  // mobile notification settings
+  public LMNotifTime: string; //learning module
+  public SurveyNotifTime;
 
   // from db
   public autoProfilePic: string;
@@ -109,6 +144,11 @@ export class MobileSettingsPage implements OnInit {
     this.getAdminPic();
     this.getChatRoomLifeSetting();
     this.getChatRoomNumberSetting();
+    this.getMobileNotifSettings();
+
+    gapi.load("client:auth2", function() {
+      gapi.auth2.init({client_id: "173430196657-73pv7jdl40pdldfqhacq1f96kfrio0ki.apps.googleusercontent.com"});
+    });
 
   }
 
@@ -170,6 +210,15 @@ export class MobileSettingsPage implements OnInit {
   getGCTypes() {
     SettingsService.getGCSettings().then((result) => {
       this.typesOfGC = result.get('types');
+    });
+  }
+
+  getMobileNotifSettings() {
+    SettingsService.getMobileNotifSettings().then((result) => {
+      this.learningModuleOne = result.get('learningModuleOne');
+      this.learningModuleTwo = result.get('learningModuleTwo');
+      this.surveyOne = result.get('surveyOne');
+      this.surveyTwo = result.get('surveyTwo');
     });
   }
 
@@ -475,6 +524,157 @@ export class MobileSettingsPage implements OnInit {
 
   ionViewWillLeave() {
     this.initDisplaysToFalse();
+  }
+
+
+//BELOW IS MOBILE NOTIFICATIONS SETTINGS CODE
+
+/**
+ * Handling converting the AM/PM hours to 24hour version to use in cron job
+ */
+convertTo24Hour(hour:number, timeOfDay:String)
+{
+  if (timeOfDay === "AM")
+  {
+    if (hour === 12)
+    {
+      return 0;
+    }
+    else
+    {
+      return hour;
+    }
+  }
+  else if (timeOfDay === "PM")
+  {
+    if (hour === 12)
+    {
+      return hour;
+    }
+    else
+    {
+      return ((24-12) + hour);
+    }
+  }
+
+}
+
+/**
+ * Creates the string that will be used to configure the cloud function trigger time
+ * Operates under the assumption these jobs will run once a day on the given hour
+ * @param hourTwo optional
+ */
+formCronTime(hourOne:number, hourTwo:number = null)
+{
+  var cronString;
+  var hourOneString = hourOne.toString();
+
+  if (hourTwo === null)
+  {
+    cronString = "0 " + hourOneString + " * * *";
+    console.log("CRON STRING: " + cronString);
+    
+    return cronString;
+  }
+  else if (hourTwo !== null)
+  {
+    var hourTwoString = hourTwo.toString();
+    cronString = "0 " + hourOneString + "," + hourTwoString + " * * *";
+    console.log("CRON STRING: " + cronString);
+
+    return cronString;
+  }
+}
+
+/**
+ * Update learning module notification settings in the database
+ * Calculate the LMNotifTime
+ */
+updateLMNotifSettings()
+{
+  this.msService.updateMobileNotifications("learningModuleOne", this.learningModuleOne);
+  this.msService.updateMobileNotifications("learningModuleTwo", this.learningModuleTwo);
+
+  var hourOne = this.convertTo24Hour(this.learningModuleOne.hour, this.learningModuleOne.timeOfDay);
+
+  if (this.learningModuleTwo.active === true)
+  {
+    var hourTwo = this.convertTo24Hour(this.learningModuleTwo.hour, this.learningModuleTwo.timeOfDay);
+    this.LMNotifTime = this.formCronTime(hourOne, hourTwo);
+  }
+  else
+  {
+    this.LMNotifTime = this.formCronTime(hourOne);
+  }
+
+}
+
+/**
+ * Update survey notification settings in the database
+ * Calculate surveyNotifTime
+ */
+updateSurveyNotifSettings()
+{
+  this.msService.updateMobileNotifications("surveyOne", this.surveyOne);
+  this.msService.updateMobileNotifications("surveyTwo", this.surveyTwo);
+
+  var hourOne = this.convertTo24Hour(this.surveyOne.hour, this.surveyOne.timeOfDay);
+
+  if (this.surveyTwo.active === true)
+  {
+    var hourTwo = this.convertTo24Hour(this.surveyTwo.hour, this.surveyTwo.timeOfDay);
+    this.SurveyNotifTime = this.formCronTime(hourOne, hourTwo);
+  }
+  else
+  {
+    this.SurveyNotifTime = this.formCronTime(hourOne);
+  }
+}
+
+  authenticate() {
+    return gapi.auth2.getAuthInstance()
+        .signIn({scope: "https://www.googleapis.com/auth/cloud-platform"})
+        .then(function() { console.log("Sign-in successful"); },
+              function(err) { console.error("Error signing in", err); });
+  }
+
+  loadClient() {
+    gapi.client.setApiKey("YOUR_API_KEY");
+    return gapi.client.load("https://content.googleapis.com/discovery/v1/apis/cloudscheduler/v1/rest")
+        .then(function() { console.log("GAPI client loaded for API"); },
+              function(err) { console.error("Error loading GAPI client for API", err); });
+  }
+  
+  // Updating Learning Module Notifications
+  executeLearningModuleNotif(crontab) {
+    return gapi.client.cloudscheduler.projects.locations.jobs.patch({
+      "name": "projects/techdemofirebase/locations/us-central1/jobs/learning_module_notification",
+      "updateMask": "schedule",
+      "resource": {
+        "schedule": crontab
+      }
+    })
+        .then(function(response) {
+                // Handle the results here (response.result has the parsed body).
+                console.log("Response", response);
+              },
+              function(err) { console.error("Execute error", err); });
+  }
+
+  // Updating Survey Notifications
+  executeSurveyNotif(crontab) {
+    return gapi.client.cloudscheduler.projects.locations.jobs.patch({
+      "name": "projects/techdemofirebase/locations/us-central1/jobs/survey_notification",
+      "updateMask": "schedule",
+      "resource": {
+        "schedule": crontab
+      }
+    })
+        .then(function(response) {
+                // Handle the results here (response.result has the parsed body).
+                console.log("Response", response);
+              },
+              function(err) { console.error("Execute error", err); });
   }
 }
 
