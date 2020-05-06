@@ -10,6 +10,7 @@ import {Router} from '@angular/router';
 import {Storage} from '@ionic/storage';
 import { DatePickerModule } from 'ionic4-date-picker';
 import { ChartOptions } from 'chart.js';
+import { LoadingController } from '@ionic/angular';
 
 @Component({
     selector: 'app-analytics',
@@ -154,7 +155,8 @@ export class AnalyticsPage implements OnInit{
     //    private storage: Storage,
         public afs: AngularFirestore,
         private analyticsService: AnalyticsService,
-        private router: Router, private storage: Storage
+        private router: Router, private storage: Storage,
+        public loadingController: LoadingController
     ) {
         this.db = firebase.firestore();
     }
@@ -196,6 +198,18 @@ export class AnalyticsPage implements OnInit{
     {
 
     }
+
+
+    async presentLoading() {
+    const loading = await this.loadingController.create({
+      message: 'Please wait your graph is loading...',
+      duration: 13999
+    });
+    await loading.present();
+
+  //  const { role, data } = await loading.onDidDismiss();
+  //  console.log('Loading dismissed!');
+  }
 
     pageStatsOff ()
     {
@@ -417,6 +431,7 @@ export class AnalyticsPage implements OnInit{
 
       console.log("inside tester");
       console.log("about call getmeasures ");
+      this.presentLoading();
 
       await this.getDurationMeasures(state);
       await this.storageCaller();
@@ -525,6 +540,7 @@ export class AnalyticsPage implements OnInit{
           this.logArray.length = 0 ;
           this.finalDurationArray= [0,0,0,0,0,0];
           this.displayDuration = 0;
+          this.presentLoading();
 
           await this.getMeasures(state);
           await this.getStorage();
@@ -881,7 +897,7 @@ export class AnalyticsPage implements OnInit{
               this.pageviewArray.push(this.currentView);
             });
 
-      
+
           });
     }
 

@@ -15,7 +15,7 @@
   <div>
       <ion-list>
         <ion-item button [routerLink]="['/locations/resource/', location.id]" *ngFor="let location of (locations | async)">
-          {{ location.title }}
+          {{ location.title }}     |      {{location.street}} 
           <ion-icon name="arrow-forward" slot="end"></ion-icon>
         </ion-item>
       </ion-list>
