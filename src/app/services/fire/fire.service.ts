@@ -74,10 +74,10 @@ export class FireService {
       type: survey.type,
       daysTillRelease: survey.daysTillRelease,
       daysBeforeDueDate: survey.daysBeforeDueDate,
-      daysTillExpire: survey.daysTillExpire,
+      daysTillExpire: Number(survey.daysTillExpire),
       daysInactive: survey.daysInactive,
       emotionChosen: survey.emotionChosen,
-      pointsWorth: survey.pointsWorth,
+      pointsWorth: Number(survey.pointsWorth),
       userVisibility: survey.userVisibility,
       surveyDescription: survey.surveyDescription});
   }

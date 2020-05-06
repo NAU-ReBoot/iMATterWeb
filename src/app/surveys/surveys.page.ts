@@ -43,9 +43,9 @@ export class SurveysPage implements OnInit {
       title: ['', Validators.compose([Validators.required, Validators.minLength(1)])],
       surveyLink: ['', Validators.compose([Validators.required, Validators.minLength(1)])],
       type: ['', Validators.compose([Validators.required, Validators.minLength(1)])],
-      daysTillRelease: [''],
-      daysBeforeDueDate: [''],
-      daysTillExpire: ['', Validators.compose([Validators.required, Validators.minLength(0)])],
+      daysTillRelease: ['', Validators.compose([Validators.pattern('^(0|([1-9][0-9]*,[ ])*[1-9][0-9]*)')])],
+      daysBeforeDueDate: ['', Validators.compose([Validators.pattern('^(0|([1-9][0-9]*,[ ])*[1-9][0-9]*)')])],
+      daysTillExpire: ['', Validators.compose([Validators.required, Validators.minLength(0), Validators.pattern('^(0|[1-9][0-9]*)$')])],
       daysInactive: [''],
       emotionChosen: [''],
       pointsWorth: [''],
@@ -130,7 +130,7 @@ export class SurveysPage implements OnInit {
     // if the survey fields are valid, then update the survey in the database using the fs service
     if (this.surveyForm.status == 'VALID')
     { 
-      //IMPORTANT: need to pass in this LM's ID when updating
+      //IMPORTANT: need to pass in this surveys's ID when updating
       this.surveyForm.addControl('id', this.formBuilder.control(this.survey.id));
 
       var newData = this.surveyForm.value;

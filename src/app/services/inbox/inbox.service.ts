@@ -13,6 +13,7 @@ export interface Submission {
   type: any;
   operatingSys: string;
   version: string;
+  viewed: false;
 }
 
 export interface LocationSuggestion {
@@ -24,6 +25,7 @@ export interface LocationSuggestion {
   userID: string;
   timestamp: any;
   type: any;
+  viewed: false;
 }
 
 export interface ProviderReport {
@@ -38,6 +40,7 @@ export interface ProviderReport {
   timestampOfObj: any;
   timestamp: any;
   type: string;
+  viewed: false;
 }
 
 
@@ -159,6 +162,22 @@ export class InboxService {
 
   deleteProviderReport(id: string): Promise<void> {
     return this.providerReportsCollection.doc(id).delete();
+  }
+
+  updateNotifAsSeen(id, type) {
+    let collection;
+
+    if (type === 'suggestion') {
+      collection = 'locationSuggestions';
+    } else if (type === 'pReport') {
+      collection = 'providerReports';
+
+    } else if (type === 'uReport') {
+      collection = 'submissions';
+    }
+
+    return this.afs.firestore.collection(collection)
+        .doc(id).update({viewed: true});
   }
 
 

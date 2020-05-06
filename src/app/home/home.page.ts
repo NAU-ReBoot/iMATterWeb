@@ -49,7 +49,8 @@ export class HomePage implements OnInit {
         Validators.compose([Validators.required, Validators.pattern('^(0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])[- /.](19|20)\\d\\d$')]),
       ],
       providerType: [
-        Validators.compose([Validators.required]),
+          '',
+        Validators.compose([Validators.required, Validators.minLength(1)]),
       ],
       notes: [
         ''
@@ -180,6 +181,8 @@ export class HomePage implements OnInit {
           }
         });
       }
+
+
     });
 
     this.users = this.createUserService.getUsers();
@@ -239,6 +242,7 @@ export class HomePage implements OnInit {
   }
 
   addProvider(addProviderForm: FormGroup) {
+    let emailEntered;
     if (!this.addProviderForm.valid) {
       console.log(
           'Need to complete the form, current value: ', addProviderForm.value
@@ -258,18 +262,29 @@ export class HomePage implements OnInit {
           this.provider.profilePic = document.get('profilePic');
           this.provider.code = HomePage.makeString();
 
-          this.afs.firestore.collection('providers').where('email', '==', this.provider.email)
+          this.afs.firestore.collection('admins').where('email', '==', this.provider.email)
               .get().then(snap => {
             if (snap.docs.length > 0) {
               console.log(('taken'));
-              this.showToast('Email already assigned to another provider');
+              this.showToast('Email already assigned to another admin');
+              emailEntered = true;
             } else {
-              this.createUserService.addProvider(this.provider);
-              this.codeView = true;
-              this.displayAddProvider = false;
-              this.clearProviderForm();
+              this.afs.firestore.collection('providers').where('email', '==', this.provider.email)
+                  .get().then(snapshot => {
+                if (snapshot.docs.length > 0) {
+                  console.log(('taken'));
+                  this.showToast('Email already assigned to another provider');
+                  emailEntered = true;
+                } else {
+                  this.createUserService.addProvider(this.provider);
+                  this.codeView = true;
+                  this.displayAddProvider = false;
+                  this.clearProviderForm();
+                }
+              });
             }
           });
+
         });
       });
     }
@@ -284,13 +299,15 @@ export class HomePage implements OnInit {
   }
 
   addAdmin(addAdminForm: FormGroup) {
+    let emailEntered;
+
     if (!addAdminForm.valid) {
       console.log('Need to complete the form', addAdminForm.value);
     } else {
 
       this.admin.email = addAdminForm.value.email;
       this.admin.type = 'admin';
-      this.admin.notes =  addAdminForm.value.notes;
+      this.admin.notes = addAdminForm.value.notes;
 
       this.admin.code = HomePage.makeString();
 
@@ -299,13 +316,24 @@ export class HomePage implements OnInit {
         if (snap.docs.length > 0) {
           console.log(('taken'));
           this.showToast('Email already assigned to another admin');
+          emailEntered = true;
         } else {
-          this.createUserService.addAdmin(this.admin);
-          this.codeView = true;
-          this.displayAddAdmin = false;
-          this.clearAdminForm();
+          this.afs.firestore.collection('providers').where('email', '==', this.admin.email)
+              .get().then(snapshot => {
+            if (snapshot.docs.length > 0) {
+              console.log(('taken'));
+              this.showToast('Email already assigned to another provider');
+              emailEntered = true;
+            } else {
+              this.createUserService.addAdmin(this.admin);
+              this.codeView = true;
+              this.displayAddAdmin = false;
+              this.clearAdminForm();
+            }
+          });
         }
       });
+
     }
   }
 

@@ -124,6 +124,7 @@ export class ForumThreadPage implements OnInit {
                     this.showToast('Comment added');
                     this.showCommentBox = false;
                     this.showSubmitButton = false;
+                    this.commentForm.reset();
 
                   }, err => {
                     this.showToast('There was a problem adding your comment');
@@ -199,12 +200,16 @@ export class ForumThreadPage implements OnInit {
 
   deletePost() {
 
-    this.questionService.deleteQuestion(this.question.id);
+    this.questionService.deleteQuestion(this.question.id).then(() => {
+      this.showToast('Question has been deleted')
+    });;
     this.router.navigate(['/forum/']);
   }
 
   deleteComment(commentObj, postObj) {
-    this.questionService.deleteComment(commentObj.id, commentObj.postID, postObj.numOfComments);
+    this.questionService.deleteComment(commentObj, commentObj.postID, postObj).then(() => {
+      this.showToast('Comment has been deleted');
+    });
   }
 
   async deletePostOrComment(type, commentObj, postObj) {
@@ -228,10 +233,8 @@ export class ForumThreadPage implements OnInit {
           handler: () => {
           if (type === 'post') {
             this.deletePost();
-            this.showToast('Post has been deleted');
           } else {
             this.deleteComment(commentObj, postObj);
-            this.showToast('Comment has been deleted');
           }
           }}
       ]
