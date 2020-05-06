@@ -47,7 +47,7 @@ export class LearningmodulesPage implements OnInit {
     this.learningModules = this.learningModService.getAllLearningModules();
     
     gapi.load("client:auth2", function() {
-      gapi.auth2.init({client_id: "173430196657-73pv7jdl40pdldfqhacq1f96kfrio0ki.apps.googleusercontent.com"});
+      gapi.auth2.init({client_id: "626066789753-d0jm6t0ape6tnfvomv2ojuvf73glllk5.apps.googleusercontent.com"});
     });
   }
 
@@ -74,7 +74,7 @@ export class LearningmodulesPage implements OnInit {
   }
 
   loadClient() {
-    gapi.client.setApiKey("AIzaSyBuzbsBUVWvgyqvc3hiUrDWLMMSsCf3a0E");
+    gapi.client.setApiKey("AIzaSyAee_ZhwbI6bgXOoRwe_BfkiQAVYMOg4HQ");
     return gapi.client.load("https://content.googleapis.com/discovery/v1/apis/cloudscheduler/v1/rest")
         .then(function() { console.log("GAPI client loaded for API"); },
               function(err) { console.error("Error loading GAPI client for API", err); });
@@ -83,7 +83,7 @@ export class LearningmodulesPage implements OnInit {
   // Make sure the client is loaded and sign-in is complete before calling this method.
   execute() {
     return gapi.client.cloudscheduler.projects.locations.jobs.run({
-      "name": "projects/techdemofirebase/locations/us-central1/jobs/learning_module_notification",
+      "name": "projects/imatter-nau/locations/us-central1/jobs/learning_module_notification",
       "resource": {}
     })
         .then(function(response) 
@@ -96,19 +96,5 @@ export class LearningmodulesPage implements OnInit {
                 console.error("Execute error", err);
               });
   }
-
-  /*alertAPIResponse()
-  {
-    console.log("got here");
-    console.log(this.apiResult);
-    if (this.apiResult === "success")
-    {
-      this.showToast("Learning module notifications were successfully sent!");
-    }
-    else if (this.apiResult === "error")
-    {
-      this.showToast("There was an error sending learning module notifications.");
-    }
-  }*/
 
 }

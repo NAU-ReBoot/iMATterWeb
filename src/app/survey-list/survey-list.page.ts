@@ -40,7 +40,7 @@ export class SurveyListPage implements OnInit {
     this.surveys = this.fs.getSurveys();
 
     gapi.load("client:auth2", function() {
-      gapi.auth2.init({client_id: "173430196657-73pv7jdl40pdldfqhacq1f96kfrio0ki.apps.googleusercontent.com"});
+      gapi.auth2.init({client_id: "626066789753-d0jm6t0ape6tnfvomv2ojuvf73glllk5.apps.googleusercontent.com"});
     });
 
   }
@@ -60,7 +60,7 @@ export class SurveyListPage implements OnInit {
               function(err) { console.error("Error signing in", err); });
   }
   loadClient() {
-    gapi.client.setApiKey("AIzaSyBuzbsBUVWvgyqvc3hiUrDWLMMSsCf3a0E");
+    gapi.client.setApiKey("AIzaSyAee_ZhwbI6bgXOoRwe_BfkiQAVYMOg4HQ");
     return gapi.client.load("https://content.googleapis.com/discovery/v1/apis/cloudscheduler/v1/rest")
         .then(function() { console.log("GAPI client loaded for API"); },
               function(err) { console.error("Error loading GAPI client for API", err); });
@@ -68,7 +68,7 @@ export class SurveyListPage implements OnInit {
   // Make sure the client is loaded and sign-in is complete before calling this method.
   execute() {
     return gapi.client.cloudscheduler.projects.locations.jobs.run({
-      "name": "projects/techdemofirebase/locations/us-central1/jobs/survey_notification",
+      "name": "projects/imatter-nau/locations/us-central1/jobs/survey_notification",
       "resource": {}
     })
         .then(function(response) {
