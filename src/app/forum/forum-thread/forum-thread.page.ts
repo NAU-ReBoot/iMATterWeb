@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { QuestionService, Question, Comment } from 'src/app/services/infoDesk/question.service';
+import { QuestionService, Question, Answer } from 'src/app/services/infoDesk/question.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {AlertController, ToastController} from '@ionic/angular';
 import { Storage } from '@ionic/storage';
@@ -24,13 +24,13 @@ export class ForumThreadPage implements OnInit {
     timestamp: FieldValue,
     profilePic: '',
     anon: false,
-    numOfComments: 0
+    numOfAnswers: 0,
   };
 
-  comment: Comment = {
+  answer: Answer = {
     input: '',
     username: '',
-    postID: '',
+    questionID: '',
     userID: '',
     timestamp: FieldValue,
     profilePic: '',
@@ -39,16 +39,16 @@ export class ForumThreadPage implements OnInit {
 
   };
 
-  public showCommentBox = false;
+  public showAnswerBox = false;
   public showSubmitButton = false;
 
 
-  public comments: Observable<any>;
+  public answers: Observable<any>;
   // for admin
   public showDeleteOption: boolean;
   // for provider
   public showReportOption: boolean;
-  public commentForm: FormGroup;
+  public answerForm: FormGroup;
 
   constructor(public afs: AngularFirestore,
               public activatedRoute: ActivatedRoute,
@@ -58,7 +58,7 @@ export class ForumThreadPage implements OnInit {
               public storage: Storage,
               public alertController: AlertController,
               public formBuilder: FormBuilder) {
-    this.commentForm = this.formBuilder.group({
+    this.answerForm = this.formBuilder.group({
       comment: ['',
         Validators.compose([Validators.required, Validators.minLength(1)])],
     });
@@ -76,12 +76,12 @@ export class ForumThreadPage implements OnInit {
       this.questionService.getQuestion(id).subscribe(question => {
         this.question = question;
       });
-      this.comments = this.questionService.getComments(id);
+      this.answers = this.questionService.getAnswers(id);
     }
 
     this.storage.get('type').then((type => {
       if (type) {
-        this.comment.type = type;
+        this.answer.type = type;
         if (type === 'admin') {
           this.showDeleteOption = true;
         } else {
@@ -91,18 +91,18 @@ export class ForumThreadPage implements OnInit {
     }));
   }
 
-  addComment(commentForm: FormGroup) {
-    if (commentForm.valid) {
+  addAnswer(answerForm: FormGroup) {
+    if (answerForm.valid) {
       let ref;
-      this.comment.postID = this.question.id;
-      this.comment.input = commentForm.value.comment;
+      this.answer.questionID = this.question.id;
+      this.answer.input = answerForm.value.comment;
       console.log('in');
 
       this.storage.get('type').then((val) => {
         if (val) {
           console.log(val);
-          this.comment.type = val;
-          console.log(this.comment.type);
+          this.answer.type = val;
+          console.log(this.answer.type);
           if (val === 'admin') {
             ref = this.afs.firestore.collection('admins');
           } else {
@@ -115,19 +115,19 @@ export class ForumThreadPage implements OnInit {
               ref = ref.where('code', '==', code);
               ref.get().then((result) => {
                 result.forEach(doc => {
-                  this.comment.userID = code;
-                  this.comment.username = doc.get('username');
-                  this.comment.timestamp = firebase.firestore.FieldValue.serverTimestamp();
-                  this.comment.profilePic = doc.get('profilePic');
+                  this.answer.userID = code;
+                  this.answer.username = doc.get('username');
+                  this.answer.timestamp = firebase.firestore.FieldValue.serverTimestamp();
+                  this.answer.profilePic = doc.get('profilePic');
 
-                  this.questionService.addComment(this.comment).then(() => {
-                    this.showToast('Comment added');
-                    this.showCommentBox = false;
+                  this.questionService.addAnswer(this.answer).then(() => {
+                    this.showToast('Answer added');
+                    this.showAnswerBox = false;
                     this.showSubmitButton = false;
-                    this.commentForm.reset();
+                    this.answerForm.reset();
 
                   }, err => {
-                    this.showToast('There was a problem adding your comment');
+                    this.showToast('There was a problem adding your answer');
                   });
 
                 });
@@ -146,21 +146,21 @@ export class ForumThreadPage implements OnInit {
     }).then(toast => toast.present());
   }
 
-  displayCommentBox() {
-    this.showCommentBox = true;
+  displayAnswerBox() {
+    this.showAnswerBox = true;
     this.showSubmitButton = true;
   }
 
-  async reportQuestionOrComment(type, comment, question) {
+  async reportQuestionOrAnswer(type, answer, question) {
     let headerMessage = '';
     let messageDetail = '';
 
-    if (type === 'post') {
+    if (type === 'question') {
       headerMessage = 'Report question?';
       messageDetail = 'Are you sure you want to report this question?';
     } else {
-      headerMessage = 'Report comment?';
-      messageDetail = 'Are you sure you want to report this comment?';
+      headerMessage = 'Report answer?';
+      messageDetail = 'Are you sure you want to report this answer?';
     }
 
     const alert = await this.alertController.create({
@@ -174,18 +174,18 @@ export class ForumThreadPage implements OnInit {
               if (code) {
                 this.afs.firestore.collection('providers').where('code', '==', code).get().then((result) => {
                   result.forEach(doc => {
-                    if (type === 'post') {
+                    if (type === 'question') {
                       const providerUsername = doc.get('username');
                       console.log(providerUsername);
-                      this.questionService.reportPost(question, providerUsername);
-                      this.showToast('Post has been reported');
+                      this.questionService.reportQuestion(question, providerUsername);
+                      this.showToast('Question has been reported');
                     } else {
                       const providerUsername = doc.get('username');
-                      this.questionService.reportComment(question, comment, providerUsername);
-                      this.showToast('Comment has been reported');
+                      this.questionService.reportAnswer(question, answer, providerUsername);
+                      this.showToast('Answer has been reported');
                     }
                   }, err => {
-                    this.showToast('There was a problem adding your comment');
+                    this.showToast('There was a problem reporting the answer');
                   });
                 });
               }
@@ -198,30 +198,30 @@ export class ForumThreadPage implements OnInit {
     await alert.present();
   }
 
-  deletePost() {
+  deleteQuestion() {
 
     this.questionService.deleteQuestion(this.question.id).then(() => {
-      this.showToast('Question has been deleted')
-    });;
+      this.showToast('Question has been deleted');
+    });
     this.router.navigate(['/forum/']);
   }
 
-  deleteComment(commentObj, postObj) {
-    this.questionService.deleteComment(commentObj, commentObj.postID, postObj).then(() => {
-      this.showToast('Comment has been deleted');
+  deleteAnswer(answerObj, QuestionObj) {
+    this.questionService.deleteAnswer(answerObj, answerObj.questionID, QuestionObj).then(() => {
+      this.showToast('Answer has been deleted');
     });
   }
 
-  async deletePostOrComment(type, commentObj, postObj) {
+  async deleteQuestionOrAnswer(type, answerObj, QuestionObj) {
     let headerMessage = '';
     let messageDetail = '';
 
-    if (type === 'post') {
-      headerMessage = 'Delete question?';
-      messageDetail = 'This will delete question and all comments';
+    if (type === 'question') {
+      headerMessage = 'Delete Question?';
+      messageDetail = 'This will delete question and all answers';
     } else {
-      headerMessage = 'Delete comment?';
-      messageDetail = 'This will delete only this comment';
+      headerMessage = 'Delete Answer?';
+      messageDetail = 'This will delete only this answer';
     }
 
     const alert = await this.alertController.create({
@@ -231,10 +231,10 @@ export class ForumThreadPage implements OnInit {
         {text: 'Cancel'},
         {text: 'Delete',
           handler: () => {
-          if (type === 'post') {
-            this.deletePost();
+          if (type === 'question') {
+            this.deleteQuestion();
           } else {
-            this.deleteComment(commentObj, postObj);
+            this.deleteAnswer(answerObj, QuestionObj);
           }
           }}
       ]

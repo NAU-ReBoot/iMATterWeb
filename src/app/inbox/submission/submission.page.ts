@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { InboxService, Submission} from '../../services/inbox/inbox.service';
+import { InboxService, Report} from '../../services/inbox/inbox.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {AlertController, ToastController} from '@ionic/angular';
 import { Storage } from '@ionic/storage';
@@ -16,7 +16,7 @@ import FieldValue = firebase.firestore.FieldValue;
 })
 export class SubmissionPage implements OnInit {
 
-  submission: Submission = {
+  report: Report = {
   title: '',
   description: '',
   username: '',
@@ -52,22 +52,22 @@ export class SubmissionPage implements OnInit {
 
     let id = this.activatedRoute.snapshot.paramMap.get('id');
     if (id) {
-      this.inboxService.getSubmission(id).subscribe(submission => {
-        this.submission = submission;
+      this.inboxService.getReport(id).subscribe(report => {
+        this.report = report;
       });
     }
   }
 
-  async deleteSubmissionConfirmation() {
+  async deleteReportConfirmation() {
 
     const alert = await this.alertController.create({
       header: 'Delete submission?',
-      message: 'Do you want to delete this submission?',
+      message: 'Do you want to delete this report?',
       buttons: [
         {text: 'Cancel'},
         {text: 'Delete',
           handler: () => {
-          this.deleteSubmission();
+          this.deleteReport();
           }}
       ]
     });
@@ -75,8 +75,8 @@ export class SubmissionPage implements OnInit {
     await alert.present();
   }
 
-  deleteSubmission() {
-    this.inboxService.deleteSubmission(this.submission.id);
+  deleteReport() {
+    this.inboxService.deleteReport(this.report.id);
     this.router.navigate(['/inbox/']);
   }
 

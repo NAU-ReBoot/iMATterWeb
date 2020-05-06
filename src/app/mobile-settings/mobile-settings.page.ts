@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { Observable, Scheduler } from 'rxjs';
 import { AngularFireStorage, AngularFireUploadTask } from '@angular/fire/storage';
+import {HttpClient} from '@angular/common/http';
 
 declare var gapi: any;
 @Component({
@@ -49,6 +50,7 @@ export class MobileSettingsPage implements OnInit {
               public router: Router,
               public alertController: AlertController,
               public AFSStorage: AngularFireStorage,
+              private http: HttpClient
               ) { }
 
   providerType: ProviderType = {
@@ -232,6 +234,7 @@ export class MobileSettingsPage implements OnInit {
 
   async updateNumberOfChatsToLive(): Promise<void> {
     const alert = await this.alertController.create({
+      header: 'How many chats should stay visible?',
       inputs: [
         { name: 'newNumber', placeholder: 'New Number of Chats Visible', type: 'number'},
       ],
@@ -252,6 +255,7 @@ export class MobileSettingsPage implements OnInit {
 
   async updateChatHoursToLive(): Promise<void> {
     const alert = await this.alertController.create({
+      header: 'How long should chats stay visible?',
       inputs: [
         { name: 'newHours', placeholder: 'New Hours to Last', type: 'number'},
       ],
@@ -270,8 +274,36 @@ export class MobileSettingsPage implements OnInit {
     await alert.present();
   }
 
+  // uses http request to call firebase cloud function that deletes all chats set to not visible
+  // use for storage purposes and clearing out old chats in log
+  async deleteOldChats() {
+    const alert = await this.alertController.create({
+      header: 'Delete All Chats Not Visible?',
+      message: 'Chats are visible based on the settings provided. i.e. Number of chats or hours to live. Once chats are not' +
+          ' in the set visibility standards, they are set to invisible to users but not admins. ' +
+          'Confirming this will delete all chats that are currently set to not visible from storage permanently.',
+      buttons: [
+        {text: 'Cancel'},
+        {text: 'Delete Messages',
+          handler: () => {
+            this.http.get('https://us-central1-imatter-nau.cloudfunctions.net/deleteOldChatMessages\n')
+                .subscribe((response) => {
+                      // this.showToast('Not visible chats have been deleted.');
+                  }, err => {
+                      // this.showToast('An error occurred. Please try again. ');
+                    }
+                );
+            // this.showToast('Not visible chats have been deleted.');
+          }
+        }
+      ]
+    });
+    await alert.present();
+  }
+
   async updateGCEmail(): Promise<void> {
     const alert = await this.alertController.create({
+      header: 'Change who receives gift card redemption emails:',
       inputs: [
         { name: 'newEmail', placeholder: 'New Email'},
       ],
@@ -292,6 +324,7 @@ export class MobileSettingsPage implements OnInit {
 
   async updatePointsToRedeemGC(): Promise<void> {
     const alert = await this.alertController.create({
+      header: 'How many points to redeem gift card?',
       inputs: [
         { name: 'newPoints', placeholder: 'New Point Amount', type: 'number'},
       ],
@@ -317,6 +350,7 @@ export class MobileSettingsPage implements OnInit {
 
   async addGCType(): Promise<void> {
     const alert = await this.alertController.create({
+      header: 'What is the type of gift card?',
       inputs: [
         { name: 'newType', placeholder: 'New Gift Card Type'},
       ],
@@ -336,6 +370,7 @@ export class MobileSettingsPage implements OnInit {
 
   async addNewSecurityQ(): Promise<void> {
     const alert = await this.alertController.create({
+      header: 'Enter the new security question option:',
       inputs: [
         { name: 'newQ', placeholder: 'New Security Question'},
       ],

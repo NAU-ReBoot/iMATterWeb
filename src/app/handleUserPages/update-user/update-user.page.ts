@@ -4,6 +4,8 @@ import {AngularFirestore} from '@angular/fire/firestore';
 import {ToastController} from '@ionic/angular';
 import {Storage} from '@ionic/storage';
 import {Admin, CreateUserService, Provider, User} from '../../services/createUsers/create-user.service';
+import {ProviderType, SettingsService} from '../../services/settings/settings.service';
+import {Observable} from 'rxjs';
 
 
 @Component({
@@ -49,6 +51,11 @@ export class UpdateUserPage implements OnInit {
     notes: ''
   };
 
+  providerType: ProviderType = {
+    type: '',
+    profilePic: ''
+  };
+
   admin: Admin = {
     code: '',
     username: '',
@@ -61,13 +68,16 @@ export class UpdateUserPage implements OnInit {
   };
 
   public userType: string;
+  public providerTypes: Observable<any>;
 
   constructor(public router: Router,
               public afs: AngularFirestore,
               public toastCtrl: ToastController,
               public storage: Storage,
               public activatedRoute: ActivatedRoute,
-              public createUserService: CreateUserService,) { }
+              public createUserService: CreateUserService,
+              private sService: SettingsService,
+              ) { }
 
   ngOnInit() {
 
@@ -85,9 +95,7 @@ export class UpdateUserPage implements OnInit {
     });
 
     this.userType = this.activatedRoute.snapshot.paramMap.get('userType');
-    console.log(this.userType);
     let id = this.activatedRoute.snapshot.paramMap.get('id');
-    console.log(id);
     if (id) {
       if (this.userType === 'user') {
         this.createUserService.getUser(id).subscribe(user => {
@@ -100,6 +108,7 @@ export class UpdateUserPage implements OnInit {
       } else if (this.userType === 'provider') {
         this.createUserService.getProvider(id).subscribe(provider => {
           this.provider = provider;
+          this.providerTypes = this.sService.getProviderTypes();
         });
       }
     }

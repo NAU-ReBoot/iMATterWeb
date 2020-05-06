@@ -35,23 +35,23 @@ export class SettingsService {
   }
 
   static getChatRoomSettings() {
-    return firebase.firestore().collection('mobileSettings').doc('chatroomSettings').get();
+    return firebase.firestore().collection('settings').doc('chatroomSettings').get();
   }
 
   static getGCSettings() {
-    return firebase.firestore().collection('mobileSettings').doc('giftCardSettings').get();
+    return firebase.firestore().collection('settings').doc('giftCardSettings').get();
   }
 
   static getUserSignUpSettings() {
-    return firebase.firestore().collection('mobileSettings').doc('userSignUpSettings').get();
+    return firebase.firestore().collection('settings').doc('userSignUpSettings').get();
   }
 
   static getAdminSettings() {
-    return firebase.firestore().collection('mobileSettings').doc('adminSettings').get();
+    return firebase.firestore().collection('settings').doc('adminSettings').get();
   }
 
   static getMobileNotifSettings() {
-    return firebase.firestore().collection('mobileSettings').doc('mobileNotifSettings').get();
+    return firebase.firestore().collection('settings').doc('mobileNotifSettings').get();
   }
 
   getProviderTypesCollection() {
@@ -74,27 +74,27 @@ export class SettingsService {
   }
 
   updateChatHourstoLive(newHours: number) {
-    return this.afs.firestore.collection('mobileSettings')
+    return this.afs.firestore.collection('settings')
         .doc('chatroomSettings').update({hours: Number(newHours)});
   }
 
   updateNumberOfChatsLive(newNumber: number) {
-    return this.afs.firestore.collection('mobileSettings')
+    return this.afs.firestore.collection('settings')
         .doc('chatroomSettings').update({numberOfChats: Number(newNumber)});
   }
 
   updateChatLifeType(newLifeType) {
-    return this.afs.firestore.collection('mobileSettings')
+    return this.afs.firestore.collection('settings')
         .doc('chatroomSettings').update({lifeType: newLifeType});
   }
 
   updateGCEmail(newEmail) {
-    return this.afs.firestore.collection('mobileSettings')
+    return this.afs.firestore.collection('settings')
         .doc('giftCardSettings').update({email: newEmail});
   }
 
   updatePointsToRedeemGC(newPoints) {
-    return this.afs.firestore.collection('mobileSettings')
+    return this.afs.firestore.collection('settings')
         .doc('giftCardSettings').update({points: newPoints});
   }
 
@@ -102,64 +102,64 @@ export class SettingsService {
   {
     if (settingToUpdate === "learningModuleOne")
     {
-      return this.afs.firestore.collection('mobileSettings')
+      return this.afs.firestore.collection('settings')
       .doc('mobileNotifSettings').update({learningModuleOne: updateObject});
     }
     else if (settingToUpdate === "learningModuleTwo")
     {
-      return this.afs.firestore.collection('mobileSettings')
+      return this.afs.firestore.collection('settings')
       .doc('mobileNotifSettings').update({learningModuleTwo: updateObject});
     }
     else if (settingToUpdate === "surveyOne")
     {
-      return this.afs.firestore.collection('mobileSettings')
+      return this.afs.firestore.collection('settings')
         .doc('mobileNotifSettings').update({surveyOne: updateObject});
     }
     else if (settingToUpdate === "surveyTwo")
     {
-      return this.afs.firestore.collection('mobileSettings')
+      return this.afs.firestore.collection('settings')
         .doc('mobileNotifSettings').update({surveyTwo: updateObject});
     }
   }
 
   addGCType(gcType) {
-    return this.afs.firestore.collection('mobileSettings')
+    return this.afs.firestore.collection('settings')
         .doc('giftCardSettings').update({types: firebase.firestore.FieldValue.arrayUnion(gcType)});
   }
 
   removeGCType(gcType) {
-    return this.afs.firestore.collection('mobileSettings')
+    return this.afs.firestore.collection('settings')
         .doc('giftCardSettings').update({types: firebase.firestore.FieldValue.arrayRemove(gcType)});
   }
 
 
   addNewSecurityQ(newQ) {
-    return this.afs.firestore.collection('mobileSettings')
+    return this.afs.firestore.collection('settings')
         .doc('userSignUpSettings').update({securityQs: firebase.firestore.FieldValue.arrayUnion(newQ)});
   }
 
   removeSecurityQ(newQ) {
-    return this.afs.firestore.collection('mobileSettings')
+    return this.afs.firestore.collection('settings')
         .doc('userSignUpSettings').update({securityQs: firebase.firestore.FieldValue.arrayRemove(newQ)});
   }
 
   updateAutoProfilePic(newPic) {
-    return this.afs.firestore.collection('mobileSettings')
+    return this.afs.firestore.collection('settings')
         .doc('userSignUpSettings').update({autoProfilePic: newPic});
   }
 
   updateAdminPic(newPic) {
-    return this.afs.firestore.collection('mobileSettings')
+    return this.afs.firestore.collection('settings')
         .doc('adminSettings').update({profilePic: newPic});
   }
 
   addNewProfilePic(newPic) {
-    return this.afs.firestore.collection('mobileSettings')
+    return this.afs.firestore.collection('settings')
         .doc('userSignUpSettings').update({profilePictures: firebase.firestore.FieldValue.arrayUnion(newPic)});
   }
 
   removeProfilePic(pic) {
-    return this.afs.firestore.collection('mobileSettings')
+    return this.afs.firestore.collection('settings')
         .doc('userSignUpSettings').update({profilePictures: firebase.firestore.FieldValue.arrayRemove(pic)});
   }
 

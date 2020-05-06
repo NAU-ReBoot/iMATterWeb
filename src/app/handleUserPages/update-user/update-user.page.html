@@ -77,7 +77,12 @@
     </ion-list>
 
     <ion-list>
-      <ion-list-header class="header"> Edit: </ion-list-header>
+      <ion-list-header class="header"> Edit: </ion-list-header>        <ion-item>
+      <ion-label>Provider Type</ion-label>
+      <ion-select [(ngModel)]="provider.providerType"  placeholder="{{provider.providerType}}" >
+        <ion-select-option *ngFor="let type of (providerTypes | async)" >{{type.type}}</ion-select-option>
+      </ion-select>
+    </ion-item>
       <ion-item>
         <ion-label position="stacked">First Name</ion-label>
         <ion-input [(ngModel)]="provider.firstName"></ion-input>

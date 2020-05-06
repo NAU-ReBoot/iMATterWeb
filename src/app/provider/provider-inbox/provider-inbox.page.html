@@ -6,14 +6,11 @@
 
 <ion-content>
   <ion-list>
-
-
-
     <ion-item button [routerLink]="['./message/', notif.id]" *ngFor="let notif of (emotionNotifs | async)" (click)="updateToViewed(notif.id)">
       <div *ngIf="!notif.viewed">
-        <ion-text class="new" slot='start'> NEW </ion-text>
+        <ion-icon name="square"></ion-icon>
       </div>
-      <p>User <b> {{ notif.username }} </b> entered the <b> {{ notif.emotionEntered }} </b> emotion </p>
+      <p>  User <b> {{ notif.username }} </b>  entered the  <b> {{ notif.emotionEntered }} </b>  emotion </p>
         <ion-text slot="end" class="timestamp">
         {{ notif.timestamp.toDate() | date:'MM-dd-yyyy h:mm:ss.SS a' }}
         </ion-text>

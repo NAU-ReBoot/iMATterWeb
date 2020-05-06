@@ -29,7 +29,7 @@
       <!-- Hide auto pic content -->
       <div *ngIf="displayAutoPic == false">
         <ion-item class="subheader">
-          <ion-label class="label" (click)="displayAutoPic = true"> Auto Profile Picture
+          <ion-label class="label" (click)="displayAutoPic = true"> Auto and Anonymous Profile Picture
             <ion-icon size="large" name="arrow-dropright"></ion-icon>
           </ion-label>
         </ion-item>
@@ -186,6 +186,7 @@
       </ion-item>
       </div>
 
+
       <!-- Hide Chat Number Settings -->
       <div *ngIf="displayNumberForChats == false" >
         <ion-item class="subheader">
@@ -210,7 +211,9 @@
         </ion-item>
       </div>
 
-
+      <div>
+        <ion-button color="danger" (click)="deleteOldChats()"> Cleanup Invisible Chats </ion-button>
+      </div>
 
     </div>
 

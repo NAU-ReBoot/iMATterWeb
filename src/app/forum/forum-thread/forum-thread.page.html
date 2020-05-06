@@ -3,8 +3,8 @@
     <ion-title>
       Information Desk
     </ion-title>
-      <ion-button *ngIf="showDeleteOption" slot="end" color="danger" (click)="deletePostOrComment('post', 'none', question)"> Delete Post </ion-button>
-      <ion-button *ngIf="showReportOption" slot="end" color="danger" (click)="reportQuestionOrComment('post', 'none', question)"> Report </ion-button>
+      <ion-button *ngIf="showDeleteOption" slot="end" color="danger" (click)="deleteQuestionOrAnswer('question', 'none', question)"> Delete Question </ion-button>
+      <ion-button *ngIf="showReportOption" slot="end" color="danger" (click)="deleteQuestionOrAnswer('question', 'none', question)"> Report </ion-button>
   </ion-toolbar>
 </ion-header>
 
@@ -50,49 +50,49 @@
 
     <h6> Answers: </h6>
     <ion-list>
-      <ion-item *ngFor="let comment of (comments | async)" class="ion-item">
+      <ion-item *ngFor="let answer of (answers | async)" class="ion-item">
           <div>
           <ion-row>
 
-            <div *ngIf="!comment.anon && comment.type != 'admin'">
+            <div *ngIf="!answer.anon && answer.type != 'admin'">
               <ion-col size=".7">
-                <ion-button class="thumbnail" fill="clear"  (click)="goToProfile(comment.userID, question.id)">
+                <ion-button class="thumbnail" fill="clear"  (click)="goToProfile(answer.userID, question.id)">
                   <ion-thumbnail slot="start">
-                    <ion-img src="{{ comment.profilePic }}"> </ion-img>
+                    <ion-img src="{{ answer.profilePic }}"> </ion-img>
                   </ion-thumbnail>
                 </ion-button>
               </ion-col>
             </div>
-            <div *ngIf="comment.anon || comment.type == 'admin'">
+            <div *ngIf="answer.anon || answer.type == 'admin'">
               <ion-col size=".7">
                 <ion-button class="thumbnail" fill="clear"  disabled="true">
                   <ion-thumbnail slot="start">
-                    <ion-img src="{{ comment.profilePic }}"> </ion-img>
+                    <ion-img src="{{ answer.profilePic }}"> </ion-img>
                   </ion-thumbnail>
                 </ion-button>
               </ion-col>
             </div>
             <ion-col>
-              <b> {{ comment.username }} </b>
+              <b> {{ answer.username }} </b>
               <ion-row class="comment-type">
-                {{ comment.type }}
+                {{ answer.type }}
               </ion-row>
               <ion-row>
-                Posted at: {{ comment.timestamp.seconds * 1000 | date:'MM-dd-yyyy h:mm:ss a' }}
+                Posted at: {{ answer.timestamp.seconds * 1000 | date:'MM-dd-yyyy h:mm:ss a' }}
               </ion-row>
             </ion-col>
           </ion-row>
           <ion-row >
             <p class="content">
-              {{ comment.input }}
+              {{ answer.input }}
             </p>
           </ion-row>
             <ion-row>
               <div *ngIf="showDeleteOption">
-                <ion-button slot="end" fill='none' class="danger-text-button" (click)="deletePostOrComment('comment', comment, question)"> Delete Comment </ion-button>
+                <ion-button slot="end" fill='none' class="danger-text-button" (click)="deleteQuestionOrAnswer('answer', answer, question)"> Delete Answer </ion-button>
               </div>
               <div *ngIf="showReportOption" >
-                <ion-button slot="end" fill='none' class="danger-text-button"(click)="reportQuestionOrComment('comment', comment, question)"> Report </ion-button>
+                <ion-button slot="end" fill='none' class="danger-text-button"(click)="reportQuestionOrAnswer('answer', answer, question)"> Report </ion-button>
               </div>
             </ion-row>
           </div>
@@ -100,26 +100,26 @@
       </ion-item>
     </ion-list>
 
-  <ion-button *ngIf="!showSubmitButton" class="fill-button" expand="full" (click)="displayCommentBox(); ">
-    Reply
+  <ion-button *ngIf="!showSubmitButton" class="fill-button" expand="full" (click)="displayAnswerBox(); ">
+    Answer
   </ion-button>
-  <div *ngIf="showCommentBox">
-    <form [formGroup]="commentForm">
+  <div *ngIf="showAnswerBox">
+    <form [formGroup]="answerForm">
       <ion-item>
         <ion-label position="stacked">Enter Answer:</ion-label>
         <ion-textarea autoGrow="true" spellcheck="true" autocapitalize="true" formControlName="comment" placeholder="What would you like to say?"
-          [class.invalid]="!commentForm.controls['comment'].valid && commentForm.controls['comment'].touched"></ion-textarea>
+          [class.invalid]="!answerForm.controls['comment'].valid && answerForm.controls['comment'].touched"></ion-textarea>
       </ion-item>
-      <ion-item class="error-message" *ngIf="!commentForm.controls['comment'].valid && commentForm.controls['comment'].touched">
+      <ion-item class="error-message" *ngIf="!answerForm.controls['comment'].valid && answerForm.controls['comment'].touched">
         <ion-label>Please enter a message.</ion-label>
       </ion-item>
       <ion-row>
         <ion-col>
-          <ion-button *ngIf="showSubmitButton" fill="clear" class="text-button" expand="full"  (click)="showSubmitButton = false; showCommentBox = false">
+          <ion-button *ngIf="showSubmitButton" fill="clear" class="text-button" expand="full"  (click)="showSubmitButton = false; showAnswerBox = false">
             Cancel </ion-button>
         </ion-col>
         <ion-col>
-          <ion-button *ngIf="showSubmitButton" class="fill-button" expand="full"  (click)="addComment(commentForm)"> Submit </ion-button>
+          <ion-button *ngIf="showSubmitButton" class="fill-button" expand="full"  (click)="addAnswer(answerForm)"> Submit </ion-button>
         </ion-col>
       </ion-row>
     </form>
