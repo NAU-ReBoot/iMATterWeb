@@ -182,7 +182,8 @@ export class CreateUserService {
           email: provider.email,
           firstName: provider.firstName,
           lastName: provider.lastName,
-          notes: provider.notes});
+          notes: provider.notes,
+          providerType: provider.providerType});
   }
 
   deleteProvider(id: string): Promise<void> {

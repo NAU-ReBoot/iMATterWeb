@@ -3,10 +3,9 @@ import {PregnancyUpdateCard, PregnancyUpdatesService} from '../../services/pregn
 import {ActivatedRoute, Router} from '@angular/router';
 import {AlertController, ToastController} from '@ionic/angular';
 import {Storage} from '@ionic/storage';
-import {finalize} from 'rxjs/operators';
 import {Observable} from 'rxjs';
-import { AngularFireStorage, AngularFireUploadTask } from '@angular/fire/storage';
-import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
+import { AngularFireStorage } from '@angular/fire/storage';
+import { AngularFirestore } from '@angular/fire/firestore';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 @Component({

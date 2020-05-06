@@ -62,7 +62,7 @@ export class SubmissionPage implements OnInit {
 
     const alert = await this.alertController.create({
       header: 'Delete submission?',
-      message: 'Do you want to delete this submission?',
+      message: 'Do you want to delete this report?',
       buttons: [
         {text: 'Cancel'},
         {text: 'Delete',

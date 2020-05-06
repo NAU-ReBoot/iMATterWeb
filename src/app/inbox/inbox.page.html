@@ -30,7 +30,7 @@
     <ion-item button [routerLink]="['/inbox/submission/', submission.id]" *ngFor="let submission of (submissions | async)"
               (click)="updateToViewed(submission.id, 'uReport')">
       <div *ngIf="!submission.viewed">
-        <ion-text class="new" slot='start'> NEW </ion-text>
+          <ion-icon name="square"></ion-icon>
       </div>
       {{ submission.title }}
       <ion-text slot="end" class="timestamp">
@@ -49,7 +49,7 @@
       <ion-item button [routerLink]="['/inbox/provider-report/', report.id]" *ngFor="let report of (providerReports | async)"
                 (click)="updateToViewed(report.id, 'pReport')">
         <div *ngIf="!report.viewed">
-          <ion-text class="new" slot='start'> NEW </ion-text>
+          <ion-icon name="square"></ion-icon>
         </div>
         A {{ report.type }} has been reported.
         <ion-text slot="end" class="timestamp">
@@ -68,7 +68,7 @@
     <ion-item button [routerLink]="['/inbox/suggestion/', suggestion.id]" *ngFor="let suggestion of (locationSuggestions | async)"
     (click)="updateToViewed(suggestion.id, 'suggestion')">
       <div *ngIf="!suggestion.viewed">
-        <ion-text class="new" slot='start'> NEW </ion-text>
+        <ion-icon name="square"></ion-icon>
       </div>
       {{suggestion.type}} : {{ suggestion.name }}
       <ion-text slot="end" class="timestamp">

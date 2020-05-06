@@ -1,13 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { PregnancyUpdatesService, PregnancyUpdateCard } from '../../services/pregnancyUpdates/pregnancy-updates.service';
 import { Observable } from 'rxjs';
-import {ActivatedRoute, Router} from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToastController} from '@ionic/angular';
-import {Storage} from '@ionic/storage';
-import { AngularFireStorage, AngularFireUploadTask } from '@angular/fire/storage';
-import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
-import { finalize, tap } from 'rxjs/operators';
-import {Form, FormBuilder, FormGroup, Validators} from '@angular/forms';
+import { Storage } from '@ionic/storage';
+import { AngularFireStorage } from '@angular/fire/storage';
+import { AngularFirestore } from '@angular/fire/firestore';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-add-update',
