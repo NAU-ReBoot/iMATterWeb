@@ -3,7 +3,7 @@ import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument,
 import { map, take } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
-export interface Submission {
+export interface Report {
   id?: string;
   title: string;
   description: string;
@@ -48,9 +48,9 @@ export interface ProviderReport {
   providedIn: 'root'
 })
 export class InboxService {
-  private submissions: Observable<Submission[]>;
-  private submissionCollection: AngularFirestoreCollection<Submission>;
-  private submission: Submission;
+  private reports: Observable<Report[]>;
+  private reportCollection: AngularFirestoreCollection<Report>;
+  private report: Report;
 
   private locationSuggestions: Observable<LocationSuggestion[]>;
   private locationSuggestionsCollection: AngularFirestoreCollection<LocationSuggestion>;
@@ -61,11 +61,11 @@ export class InboxService {
   constructor(private afs: AngularFirestore) {
   }
 
-  getSubmissionCollection() {
+  getReportCollection() {
 
-    this.submissionCollection = this.afs.collection<Submission>('submissions', ref => ref.orderBy('timestamp', 'desc'));
+    this.reportCollection = this.afs.collection<Report>('reports', ref => ref.orderBy('timestamp', 'desc'));
 
-    this.submissions = this.submissionCollection.snapshotChanges().pipe(
+    this.reports = this.reportCollection.snapshotChanges().pipe(
         map(actions => {
           return actions.map(a => {
             const data = a.payload.doc.data();
@@ -77,23 +77,23 @@ export class InboxService {
 
   }
 
-  getSubmissions(): Observable<Submission[]> {
-    this.getSubmissionCollection();
-    return this.submissions;
+  getReports(): Observable<Report[]> {
+    this.getReportCollection();
+    return this.reports;
   }
 
-  getSubmission(id: string): Observable<Submission> {
-    return this.submissionCollection.doc<Submission>(id).valueChanges().pipe(
+  getReport(id: string): Observable<Report> {
+    return this.reportCollection.doc<Report>(id).valueChanges().pipe(
         take(1),
-        map(submission => {
-          submission.id = id;
-          return submission;
+        map(report => {
+          report.id = id;
+          return report;
         })
     );
   }
 
-  deleteSubmission(id: string): Promise<void> {
-    return this.submissionCollection.doc(id).delete();
+  deleteReport(id: string): Promise<void> {
+    return this.reportCollection.doc(id).delete();
   }
 
   getLocationSuggestionsCollection() {
@@ -173,7 +173,7 @@ export class InboxService {
       collection = 'providerReports';
 
     } else if (type === 'uReport') {
-      collection = 'submissions';
+      collection = 'reports';
     }
 
     return this.afs.firestore.collection(collection)

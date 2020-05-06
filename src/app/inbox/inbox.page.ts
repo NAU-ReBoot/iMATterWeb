@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {Observable} from 'rxjs';
-import {InboxService, LocationSuggestion, Submission, ProviderReport} from '../services/inbox/inbox.service';
+import {InboxService, LocationSuggestion, Report, ProviderReport} from '../services/inbox/inbox.service';
 import { Storage } from '@ionic/storage';
 import { Router } from '@angular/router';
 
@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
 })
 export class InboxPage implements OnInit {
 
-  public submissions: Observable<Submission[]>;
+  public reports: Observable<Report[]>;
   public locationSuggestions: Observable<LocationSuggestion[]>;
   public providerReports: Observable<ProviderReport[]>;
   public problemsView;
@@ -36,7 +36,7 @@ export class InboxPage implements OnInit {
         });
       }
     });
-    this.submissions = this.inboxService.getSubmissions();
+    this.reports = this.inboxService.getReports();
     this.locationSuggestions = this.inboxService.getLocationSuggestions();
     this.providerReports = this.inboxService.getProviderReports();
 

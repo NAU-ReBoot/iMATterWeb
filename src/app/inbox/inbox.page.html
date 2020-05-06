@@ -27,14 +27,14 @@
   <ion-label class="label"> User Reported Problems</ion-label>
   </ion-item>
   <ion-list>
-    <ion-item button [routerLink]="['/inbox/submission/', submission.id]" *ngFor="let submission of (submissions | async)"
-              (click)="updateToViewed(submission.id, 'uReport')">
-      <div *ngIf="!submission.viewed">
+    <ion-item button [routerLink]="['/inbox/submission/', report.id]" *ngFor="let report of (reports | async)"
+              (click)="updateToViewed(report.id, 'uReport')">
+      <div *ngIf="!report.viewed">
           <ion-icon name="square"></ion-icon>
       </div>
-      {{ submission.title }}
+      {{ report.title }}
       <ion-text slot="end" class="timestamp">
-        {{ submission.timestamp.toDate() | date:'MM-dd-yyyy h:mm:ss.SS a' }}
+        {{ report.timestamp.toDate() | date:'MM-dd-yyyy h:mm:ss.SS a' }}
       </ion-text>
       <ion-icon name="arrow-forward" slot="end"></ion-icon>
     </ion-item>

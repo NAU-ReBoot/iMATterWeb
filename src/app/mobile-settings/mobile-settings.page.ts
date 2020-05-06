@@ -286,7 +286,7 @@ export class MobileSettingsPage implements OnInit {
         {text: 'Cancel'},
         {text: 'Delete Messages',
           handler: () => {
-            this.http.get('https://us-central1-techdemofirebase.cloudfunctions.net/deleteOldChatMessages')
+            this.http.get('https://us-central1-imatter-nau.cloudfunctions.net/deleteOldChatMessages\n')
                 .subscribe((response) => {
                       // this.showToast('Not visible chats have been deleted.');
                   }, err => {

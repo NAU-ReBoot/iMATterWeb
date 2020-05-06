@@ -1,9 +1,9 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>
-      Type: {{ submission.type }}
+      Type: {{ report.type }}
     </ion-title>
-    <ion-button slot="end" color="danger" (click)="deleteSubmissionConfirmation()"> Delete </ion-button>
+    <ion-button slot="end" color="danger" (click)="deleteReportConfirmation()"> Delete </ion-button>
   </ion-toolbar>
 </ion-header>
 
@@ -11,31 +11,31 @@
   <ion-list>
     <ion-item>
       <p>
-      <b> Submitted by: </b>  {{ submission.username }}
+      <b> Submitted by: </b>  {{ report.username }}
     </ion-item>
     <ion-item>
       <p>
-      <b> User ID: </b>  {{ submission.userID }}
+      <b> User ID: </b>  {{ report.userID }}
       </p>
     </ion-item>
     <ion-item>
       <p>
-      <b> Android or iOS: </b>  {{ submission.operatingSys }}
+      <b> Android or iOS: </b>  {{ report.operatingSys }}
       </p>
     </ion-item>
     <ion-item>
       <p>
-        <b> Version: </b>  {{ submission.version }}
+        <b> Version: </b>  {{ report.version }}
       </p>
     </ion-item>
     <ion-item>
       <p>
-      <b> Title: </b>  {{ submission.title }}
+      <b> Title: </b>  {{ report.title }}
       </p>
     </ion-item>
     <ion-item>
       <p>
-      <b> Description: </b>  {{ submission.description }}
+      <b> Description: </b>  {{ report.description }}
       </p>
     </ion-item>
   </ion-list>
