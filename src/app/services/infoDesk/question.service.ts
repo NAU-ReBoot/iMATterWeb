@@ -14,12 +14,12 @@ export interface Question {
   timestamp: any;
   profilePic: any;
   anon: boolean;
-  numOfComments: number;
+  numOfAnswers: number;
 }
 
-export interface Comment {
+export interface Answer {
   id?: string;
-  postID: string;
+  questionID: string;
   input: string;
   username: string;
   userID: string;
@@ -38,9 +38,9 @@ export class QuestionService {
   private questionCollection: AngularFirestoreCollection<Question>;
   private question: Question;
 
-  private commentCollection: AngularFirestoreCollection<Comment>;
-  private comments: Observable<Comment[]>;
-  private comment: Comment;
+  private answerCollection: AngularFirestoreCollection<Answer>;
+  private answers: Observable<Answer[]>;
+  private answer: Answer;
 
   private username: string;
 
@@ -63,14 +63,14 @@ export class QuestionService {
     return this.questions;
   }
 
-  getComments(postID) {
-    this.getCommentCollection(postID);
-    return this.comments;
+  getAnswers(questionID) {
+    this.getAnswerCollection(questionID);
+    return this.answers;
   }
 
-  getCommentCollection(postID) {
-    this.commentCollection = this.afs.collection('comments', ref => ref.where('postID', '==', postID).orderBy('timestamp'));
-    this.comments = this.commentCollection.snapshotChanges().pipe(
+  getAnswerCollection(questionID) {
+    this.answerCollection = this.afs.collection('answers', ref => ref.where('questionID', '==', questionID).orderBy('timestamp'));
+    this.answers = this.answerCollection.snapshotChanges().pipe(
         map(actions => {
           return actions.map(a => {
             const data = a.payload.doc.data();
@@ -95,7 +95,7 @@ export class QuestionService {
 
   deleteQuestion(id: string): Promise<void> {
 
-    this.afs.firestore.collection('comments').where('postID', '==', id).get()
+    this.afs.firestore.collection('answers').where('questionID', '==', id).get()
         .then(querySnapshot => {
           // Once we get the results, begin a batch
           var batch = this.afs.firestore.batch();
@@ -110,65 +110,65 @@ export class QuestionService {
     return this.questionCollection.doc(id).delete();
   }
 
-  async deleteComment(commentObj, postID, postObj) {
+  async deleteAnswer(answerObj, questionID, questionObj) {
     this.afs.firestore.collection('questions')
-        .doc(postID).get().then((result) => {
-      let currentNumOfComment = result.get('numOfComments');
-      currentNumOfComment -= 1;
+        .doc(questionID).get().then((result) => {
+      let currentNumOfAnswers = result.get('numOfAnswers');
+      currentNumOfAnswers -= 1;
       this.afs.firestore.collection('questions')
-          .doc(postID).update({numOfComments: currentNumOfComment}).then(() => {
-        this.commentCollection.doc(commentObj.id).delete();
+          .doc(questionID).update({numOfAnswers: currentNumOfAnswers}).then(() => {
+        this.answerCollection.doc(answerObj.id).delete();
       });
     });
 
     this.afs.firestore.collection('questions')
-        .doc(postID).update({commenters: firebase.firestore.FieldValue.arrayRemove(commentObj.userID)});
+        .doc(questionID).update({commenters: firebase.firestore.FieldValue.arrayRemove(answerObj.userID)});
   }
 
-  async addComment(comment: Comment) {
+  async addAnswer(answer: Answer) {
 
     this.afs.firestore.collection('questions')
-        .doc(comment.postID).update({numOfComments: firebase.firestore.FieldValue.increment(1),
-      commenters: firebase.firestore.FieldValue.arrayUnion(comment.userID)});
+        .doc(answer.questionID).update({numOfAnswers: firebase.firestore.FieldValue.increment(1),
+      commenters: firebase.firestore.FieldValue.arrayUnion(answer.userID)});
 
-    this.afs.collection('comments').add({
-      username: comment.username,
-      input: comment.input,
-      postID: comment.postID,
-      userID: comment.userID,
-      timestamp: comment.timestamp,
-      type: comment.type,
-      profilePic: comment.profilePic
+    this.afs.collection('answers').add({
+      username: answer.username,
+      input: answer.input,
+      questionID: answer.questionID,
+      userID: answer.userID,
+      timestamp: answer.timestamp,
+      type: answer.type,
+      profilePic: answer.profilePic
     });
   }
 
-  reportPost(post, providerUsername) {
+  reportQuestion(question, providerUsername) {
     this.afs.collection('providerReports').add({
       provider: providerUsername,
-      username: post.username,
-      input: post.description,
-      postID: post.id,
-      userID: post.userID,
-      title: post.title,
-      timestampOfObj: post.timestamp,
+      username: question.username,
+      input: question.description,
+      questionID: question.id,
+      userID: question.userID,
+      title: question.title,
+      timestampOfObj: question.timestamp,
       timestamp: firebase.firestore.FieldValue.serverTimestamp(),
       type: 'question'
     });
   }
 
-  reportComment(post, comment, providerUsername) {
+  reportAnswer(question, answer, providerUsername) {
 
     this.afs.collection('providerReports').add({
       provider: providerUsername,
-      username: comment.username,
-      input: comment.input,
-      postID: post.id,
-      commentID: comment.id,
-      title: post.title,
-      userID: comment.userID,
-      timestampOfObj: comment.timestamp,
+      username: answer.username,
+      input: answer.input,
+      question: question.id,
+      answerID: answer.id,
+      title: question.title,
+      userID: answer.userID,
+      timestampOfObj: answer.timestamp,
       timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-      type: 'comment'
+      type: 'answer'
     });
 }
 

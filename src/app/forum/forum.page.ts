@@ -19,8 +19,8 @@ export class ForumPage implements OnInit {
   public searchControl: FormControl;
   public items: any;
 
-  public allPosts: boolean;
-  public usersPosts: boolean;
+  public allQuestions: boolean;
+  public usersQuestions: boolean;
 
   public questionList: any[];
   public loadedQuestionList: any[];
@@ -42,8 +42,8 @@ export class ForumPage implements OnInit {
       }
     });
 
-    this.allPosts = true;
-    this.usersPosts = false;
+    this.allQuestions = true;
+    this.usersQuestions = false;
 
     this.questions = this.questionService.getQuestions();
     this.getUserQuestions();

@@ -168,7 +168,7 @@ export class SignupPage implements OnInit {
       this.admin.code = this.id;
       this.admin.username = username;
       this.admin.password = password;
-      this.admin.profilePic = 'https://firebasestorage.googleapis.com/v0/b/techdemofirebase.appspot.com/o/ProviderProfileImages%2F1453544.png?alt=media&token=fd46b228-4473-4d30-907d-f3209dc1b790';
+      this.getAdminPic();
 
       this.afs.firestore.collection('admins').where('username', '==', this.admin.username)
           .get().then(snap => {
@@ -211,6 +211,12 @@ export class SignupPage implements OnInit {
   changePic(url: string) {
     this.showImages = false;
     this.picURL = url;
+  }
+
+  getAdminPic() {
+    firebase.firestore().collection('settings').doc('adminSettings').get().then((result) => {
+      this.admin.profilePic = result.get('profilePic');
+    });
   }
 
   showToast(msg) {

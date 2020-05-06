@@ -62,7 +62,7 @@ export class ChatlogPage implements OnInit {
     this.id = this.activatedRoute.snapshot.paramMap.get('id');
 
     this.afs.collection('chats',
-        ref => ref.where('cohort', '==', this.id).orderBy('timestamp'))
+        ref => ref.where('cohort', '==', this.id).orderBy('timestamp', 'asc'))
         .valueChanges({ idField: 'id' }).subscribe(chatsList => {
       this.chatsList = chatsList;
       console.log(this.chatsList);

@@ -234,6 +234,7 @@ export class MobileSettingsPage implements OnInit {
 
   async updateNumberOfChatsToLive(): Promise<void> {
     const alert = await this.alertController.create({
+      header: 'How many chats should stay visible?',
       inputs: [
         { name: 'newNumber', placeholder: 'New Number of Chats Visible', type: 'number'},
       ],
@@ -254,6 +255,7 @@ export class MobileSettingsPage implements OnInit {
 
   async updateChatHoursToLive(): Promise<void> {
     const alert = await this.alertController.create({
+      header: 'How long should chats stay visible?',
       inputs: [
         { name: 'newHours', placeholder: 'New Hours to Last', type: 'number'},
       ],
@@ -301,6 +303,7 @@ export class MobileSettingsPage implements OnInit {
 
   async updateGCEmail(): Promise<void> {
     const alert = await this.alertController.create({
+      header: 'Change who receives gift card redemption emails:',
       inputs: [
         { name: 'newEmail', placeholder: 'New Email'},
       ],
@@ -321,6 +324,7 @@ export class MobileSettingsPage implements OnInit {
 
   async updatePointsToRedeemGC(): Promise<void> {
     const alert = await this.alertController.create({
+      header: 'How many points to redeem gift card?',
       inputs: [
         { name: 'newPoints', placeholder: 'New Point Amount', type: 'number'},
       ],
@@ -346,6 +350,7 @@ export class MobileSettingsPage implements OnInit {
 
   async addGCType(): Promise<void> {
     const alert = await this.alertController.create({
+      header: 'What is the type of gift card?',
       inputs: [
         { name: 'newType', placeholder: 'New Gift Card Type'},
       ],
@@ -365,6 +370,7 @@ export class MobileSettingsPage implements OnInit {
 
   async addNewSecurityQ(): Promise<void> {
     const alert = await this.alertController.create({
+      header: 'Enter the new security question option:',
       inputs: [
         { name: 'newQ', placeholder: 'New Security Question'},
       ],
