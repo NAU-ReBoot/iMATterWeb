@@ -313,6 +313,11 @@
         <ion-icon size="large" name="arrow-dropdown"></ion-icon>
       </ion-list-header>
 
+    <ion-button fill="clear" (click)="displayHelpInfo()" *ngIf="displayNotificationSettings == true">
+      <ion-icon name="help-circle-outline"></ion-icon>
+      <ion-label>About Mobile Notifications</ion-label>
+    </ion-button>
+
       <!-- Hide Learning Module Notification Settings -->
       <div *ngIf="displayLMNotifSettings == false">
         <ion-item class="subheader">
@@ -332,7 +337,7 @@
           </ion-label>
         </ion-item>
         <ion-item>
-          <ion-text> Every Day at</ion-text>
+          <ion-text> Learning module notifications will send every day at</ion-text>
           <ion-select interface="popover" [(ngModel)]="learningModuleOne.hour">
             <ion-select-option [value]=1>
               1
@@ -381,7 +386,7 @@
           </ion-select>
         </ion-item>
         <ion-item>
-          <ion-text> Every Day at</ion-text>
+          <ion-text> And will also send every day at</ion-text>
           <ion-select interface="popover" [(ngModel)]="learningModuleTwo.hour">
             <ion-select-option [value]=1>
               1
@@ -457,7 +462,7 @@
           </ion-label>
         </ion-item>
         <ion-item>
-          <ion-text> Every Day at</ion-text>
+          <ion-text> Survey notifications will send every day at</ion-text>
           <ion-select interface="popover" [(ngModel)]="surveyOne.hour">
             <ion-select-option [value]=1>
               1
@@ -506,7 +511,7 @@
           </ion-select>
         </ion-item>
         <ion-item>
-          <ion-text> Every Day at</ion-text>
+          <ion-text> And will also send every day at</ion-text>
           <ion-select interface="popover" [(ngModel)]="surveyTwo.hour">
             <ion-select-option [value]=1>
               1

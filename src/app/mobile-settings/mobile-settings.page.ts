@@ -676,5 +676,23 @@ updateSurveyNotifSettings()
               },
               function(err) { console.error("Execute error", err); });
   }
+
+  async presentAlert(header: string, message: string) {
+    const alert = await this.alertController.create({
+          header,
+          message,
+          buttons: ['OK']
+      });
+
+    await alert.present();
+  }
+
+  displayHelpInfo()
+  {
+    this.presentAlert('About Mobile Notifications',
+      'Newly added learning modules and surveys will not appear to users until push notifications are sent for them. ' +
+      '<br><br> This configures the times that notifications for new learning modules and surveys will be sent to mobile application users.' +
+      '<br><br> The second notification time setting is optional and can be turned on and off using the toggle.');
+  }
 }
 
