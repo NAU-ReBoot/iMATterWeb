@@ -241,6 +241,9 @@ export class LearningModuleContentPage implements OnInit {
         {
           this.learningModuleForm.patchValue({moduleQuiz: content});
           this.learningModule.moduleQuiz = content;
+
+          //Recalculate and update the number of points this learning module is worth
+          this.calculatePointsWorth();
         }
         else if(event == "delete")
         {
