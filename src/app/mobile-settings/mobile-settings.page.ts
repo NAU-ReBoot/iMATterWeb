@@ -149,7 +149,7 @@ export class MobileSettingsPage implements OnInit {
     this.getMobileNotifSettings();
 
     gapi.load("client:auth2", function() {
-      gapi.auth2.init({client_id: "173430196657-73pv7jdl40pdldfqhacq1f96kfrio0ki.apps.googleusercontent.com"});
+      gapi.auth2.init({client_id: "626066789753-d0jm6t0ape6tnfvomv2ojuvf73glllk5.apps.googleusercontent.com"});
     });
 
   }
@@ -674,7 +674,7 @@ updateSurveyNotifSettings()
   }
 
   loadClient() {
-    gapi.client.setApiKey("YOUR_API_KEY");
+    gapi.client.setApiKey("AIzaSyAee_ZhwbI6bgXOoRwe_BfkiQAVYMOg4HQ");
     return gapi.client.load("https://content.googleapis.com/discovery/v1/apis/cloudscheduler/v1/rest")
         .then(function() { console.log("GAPI client loaded for API"); },
               function(err) { console.error("Error loading GAPI client for API", err); });
@@ -683,7 +683,7 @@ updateSurveyNotifSettings()
   // Updating Learning Module Notifications
   executeLearningModuleNotif(crontab) {
     return gapi.client.cloudscheduler.projects.locations.jobs.patch({
-      "name": "projects/techdemofirebase/locations/us-central1/jobs/learning_module_notification",
+      "name": "projects/imatter-nau/locations/us-central1/jobs/learning_module_notification",
       "updateMask": "schedule",
       "resource": {
         "schedule": crontab
@@ -699,7 +699,7 @@ updateSurveyNotifSettings()
   // Updating Survey Notifications
   executeSurveyNotif(crontab) {
     return gapi.client.cloudscheduler.projects.locations.jobs.patch({
-      "name": "projects/techdemofirebase/locations/us-central1/jobs/survey_notification",
+      "name": "projects/imatter-nau/locations/us-central1/jobs/survey_notification",
       "updateMask": "schedule",
       "resource": {
         "schedule": crontab
