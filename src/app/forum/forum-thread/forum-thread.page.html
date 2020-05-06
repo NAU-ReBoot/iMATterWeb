@@ -89,7 +89,7 @@
           </ion-row>
             <ion-row>
               <div *ngIf="showDeleteOption">
-                <ion-button slot="end" fill='none' class="danger-text-button" (click)="deletePostOrComment('comment', comment, question)"> Delete Comment </ion-button>
+                <ion-button slot="end" fill='none' class="danger-text-button" (click)="deletePostOrComment('comment', comment, question)"> Delete Answer </ion-button>
               </div>
               <div *ngIf="showReportOption" >
                 <ion-button slot="end" fill='none' class="danger-text-button"(click)="reportQuestionOrComment('comment', comment, question)"> Report </ion-button>
@@ -101,7 +101,7 @@
     </ion-list>
 
   <ion-button *ngIf="!showSubmitButton" class="fill-button" expand="full" (click)="displayCommentBox(); ">
-    Reply
+    Answer
   </ion-button>
   <div *ngIf="showCommentBox">
     <form [formGroup]="commentForm">

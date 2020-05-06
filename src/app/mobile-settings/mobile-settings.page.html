@@ -186,6 +186,7 @@
       </ion-item>
       </div>
 
+
       <!-- Hide Chat Number Settings -->
       <div *ngIf="displayNumberForChats == false" >
         <ion-item class="subheader">
@@ -210,7 +211,9 @@
         </ion-item>
       </div>
 
-
+      <div>
+        <ion-button color="danger" (click)="deleteOldChats()"> Cleanup Chats From Database </ion-button>
+      </div>
 
     </div>
 

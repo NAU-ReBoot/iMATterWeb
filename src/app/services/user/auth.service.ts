@@ -19,7 +19,7 @@ export class AuthServiceProvider {
   private adminCollection: AngularFirestoreCollection<Admin>;
 
   constructor(private afs: AngularFirestore) {
-    this.providerCollection = this.afs.collection<Provider>('providers');
+    this.providerCollection = this.afs.collection<Provider>('providers', ref => ref.orderBy('lastName', 'asc'));
     this.providers = this.providerCollection.snapshotChanges().pipe(
         map(actions => {
           return actions.map(a => {
@@ -30,7 +30,7 @@ export class AuthServiceProvider {
         })
     );
 
-    this.adminCollection = this.afs.collection<Admin>('admins');
+    this.adminCollection = this.afs.collection<Admin>('admins', ref => ref.orderBy('email', 'asc'));
     this.admins = this.adminCollection.snapshotChanges().pipe(
         map(actions => {
           return actions.map(a => {

@@ -38,7 +38,7 @@ export class UpdatesContentPage implements OnInit {
       public toastCtrl: ToastController,
       public storage: Storage,
       public AFSStorage: AngularFireStorage,
-      public database: AngularFirestore,
+      public afs: AngularFirestore,
       public formBuilder: FormBuilder,
       public alertController: AlertController) {
 
@@ -92,13 +92,20 @@ export class UpdatesContentPage implements OnInit {
     //IMPORTANT: add the ID of this card
     this.pregnancyUpdateForm.addControl('id', this.formBuilder.control(this.pregnancyUpdateCard.id));
 
-    if (this.pregnancyUpdateForm.status == 'VALID')
-    { 
+    if (this.pregnancyUpdateForm.status == 'VALID') {
       var newData = this.pregnancyUpdateForm.value;
 
-      this.pregnancyUpdatesService.updatePregnancyUpdate(newData).then(() => 
-      {
-        this.showToast('Pregnancy update has been updated!');
+      this.afs.firestore.collection('pregnancyUpdates').where('day', '==', Number(this.pregnancyUpdateForm.value.day))
+          .get().then(snap => {
+        if (snap.docs.length > 0) {
+          this.showToast('An update for this day has already been created!');
+        } else {
+          this.pregnancyUpdateCard.day = Number(this.pregnancyUpdateForm.value.day);
+          this.pregnancyUpdateCard.description = this.pregnancyUpdateForm.value.description;
+          this.pregnancyUpdatesService.updatePregnancyUpdate(this.pregnancyUpdateCard).then(() => {
+            this.showToast('Pregnancy update has been updated!');
+          });
+        }
       });
     }
   }

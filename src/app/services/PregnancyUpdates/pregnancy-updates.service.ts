@@ -52,8 +52,8 @@ export class PregnancyUpdatesService {
     );
   }
 
-  addPregnancyUpdate(pregnancyCard: PregnancyUpdateCard): Promise<void> {
-    return this.pregnancyUpdatesCollection.doc(pregnancyCard.day.toString()).set({
+  addPregnancyUpdate(pregnancyCard: PregnancyUpdateCard) {
+    return this.afs.collection('pregnancyUpdates').add({
       day: pregnancyCard.day,
       fileName: pregnancyCard.fileName,
       description: pregnancyCard.description,

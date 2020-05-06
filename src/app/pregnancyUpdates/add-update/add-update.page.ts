@@ -37,7 +37,7 @@ export class AddUpdatePage implements OnInit {
       public toastCtrl: ToastController,
       public storage: Storage,
       public AFSStorage: AngularFireStorage,
-      public database: AngularFirestore,
+      public afs: AngularFirestore,
       public formBuilder: FormBuilder) {
 
     this.pregnancyUpdateForm = this.formBuilder.group({
@@ -72,15 +72,22 @@ export class AddUpdatePage implements OnInit {
     if (!pregnancyUpdateForm.valid) {
       this.showToast('Incomplete Pregnancy Update');
     } else {
-      this.pregnancyUpdateCard.day = Number(pregnancyUpdateForm.value.day);
-      this.pregnancyUpdateCard.description = pregnancyUpdateForm.value.description;
 
-      this.pregnancyUpdatesService.addPregnancyUpdate(this.pregnancyUpdateCard).then(() => {
-        this.router.navigateByUrl('/pregnancy-updates');
-        this.showToast('Pregnancy update added');
-        this.pregnancyUpdateForm.reset();
-      }, err => {
-        this.showToast('There was a problem adding your pregnancy update');
+      this.afs.firestore.collection('pregnancyUpdates').where('day', '==', Number(this.pregnancyUpdateForm.value.day))
+          .get().then(snap => {
+        if (snap.docs.length > 0) {
+          this.showToast('An update for this day has already been created! Please delete that one before continuing or update for that day.');
+        } else {
+          this.pregnancyUpdateCard.day = Number(pregnancyUpdateForm.value.day);
+          this.pregnancyUpdateCard.description = pregnancyUpdateForm.value.description;
+          this.pregnancyUpdatesService.addPregnancyUpdate(this.pregnancyUpdateCard).then(() => {
+            this.router.navigateByUrl('/pregnancy-updates');
+            this.showToast('Pregnancy update added');
+            this.pregnancyUpdateForm.reset();
+          }, err => {
+            this.showToast('There was a problem adding your pregnancy update');
+          });
+        }
       });
     }
   }

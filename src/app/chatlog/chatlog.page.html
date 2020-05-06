@@ -12,7 +12,7 @@
 <ion-content>
     <div *ngFor="let chat of chatsList" class="message-wrap">
 
-      <!-- Automatic message -->
+      <!-- Automatic message.. leaving here in case this ever needs to be seen-->
       <div *ngIf="chat.type == 'auto' || chat.type == 'emotion'; else elseBlock">
         <!--
         <div align-self-center class="timestamp">

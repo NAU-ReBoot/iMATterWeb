@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { Observable, Scheduler } from 'rxjs';
 import { AngularFireStorage, AngularFireUploadTask } from '@angular/fire/storage';
+import {HttpClient} from '@angular/common/http';
 
 declare var gapi: any;
 @Component({
@@ -49,6 +50,7 @@ export class MobileSettingsPage implements OnInit {
               public router: Router,
               public alertController: AlertController,
               public AFSStorage: AngularFireStorage,
+              private http: HttpClient
               ) { }
 
   providerType: ProviderType = {
@@ -266,6 +268,33 @@ export class MobileSettingsPage implements OnInit {
           },
         },
       ],
+    });
+    await alert.present();
+  }
+
+  // uses http request to call firebase cloud function that deletes all chats set to not visible
+  // use for storage purposes and clearing out old chats in log
+  async deleteOldChats() {
+    const alert = await this.alertController.create({
+      header: 'Delete All Chats Not Visible?',
+      message: 'Chats are visible based on the settings provided. i.e. Number of chats or hours to live. Once chats are not' +
+          ' in the set visibility standards, they are set to invisible to users but not admins. ' +
+          'Confirming this will delete all chats that are currently set to not visible from storage permanently.',
+      buttons: [
+        {text: 'Cancel'},
+        {text: 'Delete Messages',
+          handler: () => {
+            this.http.get('https://us-central1-techdemofirebase.cloudfunctions.net/deleteOldChatMessages')
+                .subscribe((response) => {
+                      // this.showToast('Not visible chats have been deleted.');
+                  }, err => {
+                      // this.showToast('An error occurred. Please try again. ');
+                    }
+                );
+            // this.showToast('Not visible chats have been deleted.');
+          }
+        }
+      ]
     });
     await alert.present();
   }

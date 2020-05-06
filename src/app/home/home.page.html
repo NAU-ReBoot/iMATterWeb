@@ -116,6 +116,7 @@
         <ion-item *ngFor="let emptyUser of (emptyUsers | async)">
           <p>
             <b>Code:</b> {{ emptyUser.code }}<br>
+            <b>Notes:</b> {{ emptyUser.notes }}<br>
           </p>
 
           <ion-buttons  slot="end">

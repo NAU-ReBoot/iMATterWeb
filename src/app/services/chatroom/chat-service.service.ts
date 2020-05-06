@@ -59,7 +59,7 @@ export class ChatService {
   getChatCollection(cohortID) {
 
     this.chatCollection = this.afs.collection('chats',
-        ref => ref.where('cohort', '==', cohortID).orderBy('timestamp'));
+        ref => ref.where('cohort', '==', cohortID).orderBy('timestamp', 'desc'));
 
     this.chats = this.chatCollection.snapshotChanges().pipe(
         map(actions => {

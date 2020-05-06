@@ -159,8 +159,8 @@ export class ForumThreadPage implements OnInit {
       headerMessage = 'Report question?';
       messageDetail = 'Are you sure you want to report this question?';
     } else {
-      headerMessage = 'Report comment?';
-      messageDetail = 'Are you sure you want to report this comment?';
+      headerMessage = 'Report answer?';
+      messageDetail = 'Are you sure you want to report this answer?';
     }
 
     const alert = await this.alertController.create({
@@ -178,14 +178,14 @@ export class ForumThreadPage implements OnInit {
                       const providerUsername = doc.get('username');
                       console.log(providerUsername);
                       this.questionService.reportPost(question, providerUsername);
-                      this.showToast('Post has been reported');
+                      this.showToast('Question has been reported');
                     } else {
                       const providerUsername = doc.get('username');
                       this.questionService.reportComment(question, comment, providerUsername);
-                      this.showToast('Comment has been reported');
+                      this.showToast('Answer has been reported');
                     }
                   }, err => {
-                    this.showToast('There was a problem adding your comment');
+                    this.showToast('There was a problem reporting the answer');
                   });
                 });
               }
@@ -201,8 +201,8 @@ export class ForumThreadPage implements OnInit {
   deletePost() {
 
     this.questionService.deleteQuestion(this.question.id).then(() => {
-      this.showToast('Question has been deleted')
-    });;
+      this.showToast('Question has been deleted');
+    });
     this.router.navigate(['/forum/']);
   }
 
@@ -217,10 +217,10 @@ export class ForumThreadPage implements OnInit {
     let messageDetail = '';
 
     if (type === 'post') {
-      headerMessage = 'Delete question?';
+      headerMessage = 'Delete Question?';
       messageDetail = 'This will delete question and all comments';
     } else {
-      headerMessage = 'Delete comment?';
+      headerMessage = 'Delete Answer?';
       messageDetail = 'This will delete only this comment';
     }
 
