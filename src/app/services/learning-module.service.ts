@@ -80,11 +80,20 @@ export class LearningModuleService {
 
   addLearningModule(learningModule: LearningModule): Promise<DocumentReference>
   {
+    learningModule.moduleExpiration = Number(learningModule.moduleExpiration);
+    learningModule.moduleQuiz.forEach(element => {
+      element.pointsWorth = Number(element.pointsWorth);
+    });
+
     return this.learningModuleCollection.add(learningModule);
   }
 
   updateLearningModule(learningModule: LearningModule): Promise<void>
   {
+    learningModule.moduleQuiz.forEach(element => {
+      element.pointsWorth = Number(element.pointsWorth);
+    });
+
     return this.learningModuleCollection.doc(learningModule.id).update({ 
       moduleTitle: learningModule.moduleTitle, 
       moduleDescription: learningModule.moduleDescription, 
