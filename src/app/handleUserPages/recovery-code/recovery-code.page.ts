@@ -174,6 +174,7 @@ export class RecoveryCodePage implements OnInit {
                     });
                 });				
             } else {
+				this.showToast('Code invalid')
                 console.log('Email does not exist');
                 this.userEmail = false;
             }
