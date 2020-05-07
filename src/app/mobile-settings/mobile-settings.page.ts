@@ -395,6 +395,7 @@ export class MobileSettingsPage implements OnInit {
 
   async updateAutoProfilePic(picURL): Promise<void> {
     this.msService.updateAutoProfilePic(picURL);
+    this.autoProfilePic = picURL;
     this.getAutoProfilePic();
   }
 
@@ -421,7 +422,6 @@ export class MobileSettingsPage implements OnInit {
       this.UploadedFileURL = fileRef.getDownloadURL();
 
       this.UploadedFileURL.subscribe(resp => {
-        this.autoProfilePic = resp;
         this.msService.addNewProfilePic(resp);
         this.getProfilePics();
       });
