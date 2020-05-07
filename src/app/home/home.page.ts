@@ -81,6 +81,10 @@ export class HomePage implements OnInit {
       points: [
         '',
         Validators.compose([Validators.nullValidator]),
+      ],
+      notes: [
+        '',
+        Validators.compose([Validators.nullValidator]),
       ]
     });
 

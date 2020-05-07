@@ -100,14 +100,17 @@ export class SignupPage implements OnInit {
         console.log(val)
         if (val === 'admin') {
           this.typeAdmin = true;
+          this.getEmail(this.id, 'admin');
         } else {
           this.typeAdmin = false;
+          this.getEmail(this.id, 'provider');
         }
       }
     });
   }
 
   ionViewWillEnter() {
+
   }
 
   async signupProvider(signupForm: FormGroup) {
@@ -121,6 +124,8 @@ export class SignupPage implements OnInit {
       const bio: string = signupForm.value.bio;
 
       this.provider.code = this.id;
+
+
       this.provider.username = username;
       this.provider.password = password;
       this.provider.bio = bio;
@@ -155,6 +160,25 @@ export class SignupPage implements OnInit {
       });
     }
   }
+
+  getEmail(id, type) {
+    if (type === 'provider') {
+      const ref = this.afs.firestore.collection('providers').where('code', '==', this.id);
+      ref.get().then((result) => {
+        result.forEach(doc => {
+          this.provider.email = doc.get('email');
+        });
+      });
+    } else {
+      const ref = this.afs.firestore.collection('admins').where('code', '==', this.id);
+      ref.get().then((result) => {
+        result.forEach(doc => {
+          this.admin.email = doc.get('email');
+        });
+      });
+    }
+  }
+
 
   async signupAdmin(signupForm: FormGroup) {
     if (!signupForm.valid) {

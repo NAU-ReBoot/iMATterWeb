@@ -10,13 +10,15 @@
     Welcome to iMATter!
   </h3>
   <p class="content">
-    Hello, welcome to iMATter! In order to get started, we need some information. Please fill out
+    Hello, welcome to iMATter! In order to get started, we need some information to complete the sign up process. Please fill out
     the form below to begin using iMATter.
   </p>
 </ion-text>
 
 <!-- If user is admin type-->
 <ion-content *ngIf="typeAdmin; else elseBlock">
+  <p padding-horizontal> You are creating an account as a, <b> administrator. </b><br> </p>
+  <p padding-horizontal> Your email was already entered by an administrator. The email is: <b> {{admin.email}} </b> </p>
   <form [formGroup]="signupAdminForm">
     <ion-item>
       <ion-label position="stacked">Username</ion-label>
@@ -41,8 +43,9 @@
 <!-- If user is provider type-->
 <ion-content>
 <ng-template #elseBlock>
+  <p padding-horizontal> You are creating an account as a <b> provider. </b><br> </p>
+  <p padding-horizontal> Your email was already entered by an administrator. The email is: <b> {{provider.email}} </b> </p>
   <form [formGroup]="signupProviderForm">
-
     <ion-item>
       <ion-label position="stacked">Username</ion-label>
       <ion-input formControlName="username" type="email" placeholder="Your Username"></ion-input>
