@@ -124,4 +124,7 @@ export class LoginPage implements OnInit {
             duration: 2000
         }).then(toast => toast.present());
     }
+    toggleDarkTheme() {
+        document.body.classList.toggle('dark');
+    }
 }
