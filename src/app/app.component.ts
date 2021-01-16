@@ -37,5 +37,7 @@ export class AppComponent {
     this.storage.set('authenticated', 'false');
     this.router.navigateByUrl('login');
   }
-
+  toggleDarkTheme() {
+    document.body.classList.toggle('dark');
+  }
 }
