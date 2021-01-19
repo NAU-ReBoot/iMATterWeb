@@ -99,6 +99,10 @@ const routes: Routes = [
     loadChildren: () => import('./pregnancyUpdates/pregnancy-updates/pregnancy-updates.module').then(m => m.PregnancyUpdatesPageModule)
   },
   {
+    path: 'quotes',
+    loadChildren: () => import('./quotes/quotes.module').then(m => m.QuotesPageModule)
+  },
+  {
     path: 'updates-content/:id',
     loadChildren: () => import('./pregnancyUpdates/updates-content/updates-content.module').then(m => m.UpdatesContentPageModule)
   },
@@ -125,7 +129,8 @@ const routes: Routes = [
   {
     path: 'provider-inbox',
     loadChildren: () => import('./provider/provider-inbox/provider-inbox.module').then( m => m.ProviderInboxPageModule)
-  },  {
+  },
+  {
     path: 'locations',
     loadChildren: () => import('./locations/locations.module').then( m => m.LocationsPageModule)
   }
