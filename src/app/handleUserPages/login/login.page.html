@@ -33,7 +33,7 @@
       <ion-item>
         <ion-label position="stacked">Password</ion-label>
         <ion-input formControlName="password" type="password" placeholder="Password"
-                [class.invalid]="!loginForm.controls['password'].valid && loginForm.controls['password'].touched">
+                [class.invalid]="!loginForm.controls['password'].valid && loginForm.controls['password'].touched" (keydown)="handleKeyDown($event)">
         </ion-input>
       </ion-item>
       <ion-item class="error-message" *ngIf="!loginForm.controls['password'].valid && loginForm.controls['password'].touched">
@@ -59,3 +59,9 @@
     <ion-toggle (ionChange)="toggleDarkTheme()"></ion-toggle>
   </ion-item>
 </ion-footer>
+
+<script>
+  document.addEventListener('keydown', function(event) {
+    console.log(event);
+  })
+</script>

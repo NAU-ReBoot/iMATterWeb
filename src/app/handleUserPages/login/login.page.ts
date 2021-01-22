@@ -118,6 +118,12 @@ export class LoginPage implements OnInit {
         });
     }
 
+    handleKeyDown(event: any) {
+        if (event.keyCode === 13) {
+            this.validateUser(this.loginForm);
+        }
+    }
+
     showToast(msg) {
         this.toastCtrl.create({
             message: msg,

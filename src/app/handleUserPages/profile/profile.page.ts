@@ -127,8 +127,8 @@ export class ProfilePage implements OnInit {
     const alert = await this.alertCtrl.create({
       inputs: [
         { name: 'oldPassword', placeholder: 'Old password', type: 'password' },
-        { name: 'verifyPassword', placeholder: 'Verify your old password', type: 'password' },
         { name: 'newPassword', placeholder: 'New password - Must be 8 characters', type: 'password', min: 8 },
+        { name: 'verifyPassword', placeholder: 'Verify your new password', type: 'password' },
 
       ],
       buttons: [
@@ -136,7 +136,7 @@ export class ProfilePage implements OnInit {
         {
           text: 'Save',
           handler: data => {
-            if (data.oldPassword === data.verifyPassword) {
+            if (data.newPassword === data.verifyPassword) {
               if (data.newPassword.length >= 8) {
                 this.profileService.updatePassword(data.newPassword, data.oldPassword, data.verifyPassword, this.admin.code,
                     'admins').then(() => {
@@ -151,7 +151,7 @@ export class ProfilePage implements OnInit {
                 return false;
               }
             } else {
-              alert.message = 'Your old passwords do not match';
+              alert.message = 'The passwords you entered do not match';
               return false;
             }
           },
