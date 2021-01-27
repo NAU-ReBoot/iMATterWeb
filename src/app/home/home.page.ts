@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import {ProviderType, SettingsService} from '../services/settings/settings.service';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {AlertController, ToastController} from '@ionic/angular';
+import {ClipboardModule} from '@angular/cdk/clipboard';
 
 @Component({
   selector: 'app-tab1',
@@ -29,7 +30,8 @@ export class HomePage implements OnInit {
               private sService: SettingsService,
               private afs: AngularFirestore,
               private toastCtrl: ToastController,
-              private alertController: AlertController) {
+              private alertController: AlertController,
+              private clipboard: Clipboard) {
 
     this.addProviderForm = this.formBuilder.group({
       nameFirst: [
@@ -418,5 +420,72 @@ export class HomePage implements OnInit {
 
   }
 
+  showNewUser() {
+    this.alertController.create({
+      header: 'New User',
+      inputs: [
+        {
+          name: 'newUserNote',
+          type: 'text',
+          placeholder: 'notes (optional)'
+        }
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel'
+        },
+        {
+          text: 'Continue',
+          handler: (alertData) => {
+            console.log(alertData.newUserNote);
+            this.user.notes = alertData.newUserNote;
+            this.showNewUserCode();
+          }
+        }
+      ]
+    }).then(res => {
+      console.log(res);
+      res.present();
+    });
+  }
 
+  showNewUserCode() {
+    this.user.code = HomePage.makeString();
+    this.alertController.create({
+      header: 'New user code: ' + this.user.code,
+      buttons: [
+        {
+          text: 'Copy code',
+          handler: () => {
+            this.clipboard.copy('TEST COPY');
+          }
+        },
+        {
+          text: 'Close',
+          role: 'cancel'
+        }
+      ]
+    }).then(res => {
+      console.log(res);
+      this.createUserService.addUser(this.user);
+      res.present();
+    });
+  }
+
+  copyTextToClipboard(val) {
+    const selBox = document.createElement('textarea');
+    selBox.style.position = 'fixed';
+    selBox.style.left = '0';
+    selBox.style.top = '0';
+    selBox.style.opacity = '0';
+    selBox.value = val;
+    document.body.appendChild(selBox);
+    selBox.focus();
+    selBox.select();
+    document.execCommand('copy');
+    document.body.removeChild(selBox);
+  }
 }
+
+

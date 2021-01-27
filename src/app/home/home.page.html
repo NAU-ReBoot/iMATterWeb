@@ -55,7 +55,7 @@
       </ion-row>
     </ion-radio-group>
 
-    <ion-button class="fill-button" slot="end" size="large" (click)="displayAddUser = true">
+    <ion-button class="fill-button" slot="end" size="large" (click)="showNewUser()"> <!--"displayAddUser = true"-->
       Add User
     </ion-button>
 
@@ -71,6 +71,7 @@
         </ion-row>
       </form>
     </div>
+
 
     <div *ngIf="codeView">
       <ion-row>
