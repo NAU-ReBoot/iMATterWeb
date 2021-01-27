@@ -121,6 +121,9 @@
           </p>
 
           <ion-buttons  slot="end">
+            <ion-button (click)="copyText(emptyUser.code)">
+              Copy User Code
+            </ion-button>
             <ion-button color='danger' (click)="deleteUserConfirmation('empty', emptyUser.id)">
               Delete Empty User
             </ion-button>

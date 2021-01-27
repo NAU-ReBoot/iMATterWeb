@@ -7,7 +7,6 @@ import { Router } from '@angular/router';
 import {ProviderType, SettingsService} from '../services/settings/settings.service';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {AlertController, ToastController} from '@ionic/angular';
-import {ClipboardModule} from '@angular/cdk/clipboard';
 
 @Component({
   selector: 'app-tab1',
@@ -30,8 +29,8 @@ export class HomePage implements OnInit {
               private sService: SettingsService,
               private afs: AngularFirestore,
               private toastCtrl: ToastController,
-              private alertController: AlertController,
-              private clipboard: Clipboard) {
+              private alertController: AlertController) {
+
 
     this.addProviderForm = this.formBuilder.group({
       nameFirst: [
@@ -458,7 +457,7 @@ export class HomePage implements OnInit {
         {
           text: 'Copy code',
           handler: () => {
-            this.clipboard.copy('TEST COPY');
+            this.copyText(this.user.code);
           }
         },
         {
@@ -473,18 +472,12 @@ export class HomePage implements OnInit {
     });
   }
 
-  copyTextToClipboard(val) {
-    const selBox = document.createElement('textarea');
-    selBox.style.position = 'fixed';
-    selBox.style.left = '0';
-    selBox.style.top = '0';
-    selBox.style.opacity = '0';
-    selBox.value = val;
-    document.body.appendChild(selBox);
-    selBox.focus();
-    selBox.select();
+  copyText(copyData) {
+    document.addEventListener('copy', (e: ClipboardEvent) => {
+      e.clipboardData.setData('text/plain', copyData);
+      e.preventDefault();
+    });
     document.execCommand('copy');
-    document.body.removeChild(selBox);
   }
 }
 
