@@ -459,12 +459,9 @@ export class HomePage implements OnInit {
           handler: () => {
             this.copyText(this.user.code);
           }
-        },
-        {
-          text: 'Close',
-          role: 'cancel'
         }
-      ]
+      ],
+      backdropDismiss: true
     }).then(res => {
       console.log(res);
       this.createUserService.addUser(this.user);
