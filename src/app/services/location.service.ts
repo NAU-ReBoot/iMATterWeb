@@ -13,9 +13,20 @@ export interface Location {
   longitude: number;
   street: string;
   phone: string;
-  operationMF: string;
-  operationSaturday: string;
-  operationSunday: string;
+  operationMOpen: string;
+  operationMClose: string;
+  operationTOpen: string;
+  operationTClose: string;
+  operationWOpen: string;
+  operationWClose: string;
+  operationThOpen: string;
+  operationThClose: string;
+  operationFOpen: string;
+  operationFClose: string;
+  operationSatOpen: string;
+  operationSatClose: string;
+  operationSunOpen: string;
+  operationSunClose: string;
   special: string;
   type: string;
 }
@@ -40,7 +51,7 @@ export class LocationService {
   {
     this.locationCollection = this.afs.collection<Location>('resourceLocations', ref => ref.orderBy('title', 'asc'));
 
-    this.locations= this.locationCollection.snapshotChanges().pipe(
+    this.locations = this.locationCollection.snapshotChanges().pipe(
         map(actions => {
           return actions.map(a => {
             const data = a.payload.doc.data();
@@ -87,9 +98,20 @@ export class LocationService {
        longitude: Number(location.longitude),
        street: location.street,
        phone: location.phone,
-       operationMF: location.operationMF,
-       operationSaturday: location.operationSaturday,
-       operationSunday: location.operationSunday,
+       operationMOpen: location.operationMOpen,
+       operationMClose: location.operationMClose,
+       operationTOpen: location.operationTOpen,
+       operationTClose: location.operationTClose,
+       operationWOpen: location.operationWOpen,
+       operationWClose: location.operationWClose,
+       operationThOpen: location.operationThOpen,
+       operationThClose: location.operationThClose,
+       operationFOpen: location.operationFOpen,
+       operationFClose: location.operationFClose,
+       operationSatOpen: location.operationSatOpen,
+       operationSatClose: location.operationSatClose,
+       operationSunOpen: location.operationSunOpen,
+       operationSunClose: location.operationSunClose,
        special: location.special,
        type: location.type
      });

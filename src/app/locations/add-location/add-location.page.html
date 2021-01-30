@@ -56,59 +56,152 @@
     <ion-input formControlName = "longitude"></ion-input>
   </ion-item>
 
-  <ion-item>
-    <ion-label position= "stacked"> Hours of Operation Monday - Friday
-    <ion-badge *ngIf= "locationForm.controls.operationMF.touched && locationForm.controls.operationMF.invalid" color= "danger"> Required</ion-badge>
-  </ion-label>
-    <ion-input formControlName = "operationMF"></ion-input>
+  <ion-item lines="none">
+    <ion-label position= "stacked"> Hours of Operation (leave blank if closed)</ion-label>
   </ion-item>
-
-  <ion-item>
-    <ion-label position= "stacked"> Hours of Operation Saturday
-    <ion-badge *ngIf= "locationForm.controls.operationSaturday.touched && locationForm.controls.operationSunday.invalid" color= "danger"> Required</ion-badge>
-  </ion-label>
-    <ion-input formControlName = "operationSaturday"></ion-input>
-  </ion-item>
-
-  <ion-item>
-    <ion-label position= "stacked"> Hours of Operation Sunday
-    <ion-badge *ngIf= "locationForm.controls.operationSunday.touched && locationForm.controls.operationSunday.invalid" color= "danger"> Required</ion-badge>
-   </ion-label>
-    <ion-input formControlName = "operationSunday"></ion-input>
-  </ion-item>
-
+  <ion-list>
+    <ion-item lines="none">
+      <ion-label slot="start">Monday </ion-label>
+      <ion-item slot="start">
+        <ion-label position = "floating">Open</ion-label>
+        <ion-datetime value="closed" formControlName="operationMOpen" display-format="HH:mm A" picker-format="h:mm A" minute-values="0,30"></ion-datetime>
+      </ion-item>
+      <ion-item slot="start">
+        <ion-label position = "floating">Close</ion-label>
+        <ion-datetime value="closed" formControlName="operationMClose" display-format="HH:mm A" picker-format="h:mm A" minute-values="0,30"></ion-datetime>
+      </ion-item>
+    </ion-item>
+    <ion-item lines="none">
+      <ion-label slot="start">Tuesday </ion-label>
+      <ion-item slot="start">
+        <ion-label position = "floating">Open</ion-label>
+        <ion-datetime value="closed" formControlName="operationTOpen" display-format="HH:mm A" picker-format="h:mm A" minute-values="0,30"></ion-datetime>
+      </ion-item>
+      <ion-item slot="start">
+        <ion-label position = "floating">Close</ion-label>
+        <ion-datetime value="closed" formControlName="operationTClose" display-format="HH:mm A" picker-format="h:mm A" minute-values="0,30"></ion-datetime>
+      </ion-item>
+    </ion-item>
+    <ion-item lines="none">
+      <ion-label slot="start">Wednesday </ion-label>
+      <ion-item slot="start">
+        <ion-label position = "floating">Open</ion-label>
+        <ion-datetime value="closed" formControlName="operationWOpen" display-format="HH:mm A" picker-format="h:mm A" minute-values="0,30"></ion-datetime>
+      </ion-item>
+      <ion-item slot="start">
+        <ion-label position = "floating">Close</ion-label>
+        <ion-datetime value="closed" formControlName="operationWClose" display-format="HH:mm A" picker-format="h:mm A" minute-values="0,30"></ion-datetime>
+      </ion-item>
+    </ion-item>
+    <ion-item lines="none">
+      <ion-label slot="start">Thursday </ion-label>
+      <ion-item slot="start">
+        <ion-label position = "floating">Open</ion-label>
+        <ion-datetime value="closed" formControlName="operationThOpen" display-format="HH:mm A" picker-format="h:mm A" minute-values="0,30"></ion-datetime>
+      </ion-item>
+      <ion-item slot="start">
+        <ion-label position = "floating">Close</ion-label>
+        <ion-datetime value="closed" formControlName="operationThOpen" display-format="HH:mm A" picker-format="h:mm A" minute-values="0,30"></ion-datetime>
+      </ion-item>
+    </ion-item>
+    <ion-item lines="none">
+      <ion-label slot="start">Friday </ion-label>
+      <ion-item slot="start">
+        <ion-label position = "floating">Open</ion-label>
+        <ion-datetime value="closed" formControlName="operationFOpen" display-format="HH:mm A" picker-format="h:mm A" minute-values="0,30"></ion-datetime>
+      </ion-item>
+      <ion-item slot="start">
+        <ion-label position = "floating">Close</ion-label>
+        <ion-datetime value="closed" formControlName="operationFClose" display-format="HH:mm A" picker-format="h:mm A" minute-values="0,30"></ion-datetime>
+      </ion-item>
+    </ion-item>
+    <ion-item lines="none">
+      <ion-label slot="start">Saturday </ion-label>
+      <ion-item slot="start">
+        <ion-label position = "floating">Open</ion-label>
+        <ion-datetime value="closed" formControlName="operationSatOpen" display-format="HH:mm A" picker-format="h:mm A" minute-values="0,30"></ion-datetime>
+      </ion-item>
+      <ion-item slot="start">
+        <ion-label position = "floating">Close</ion-label>
+        <ion-datetime value="closed" formControlName="operationSatOpen" display-format="HH:mm A" picker-format="h:mm A" minute-values="0,30"></ion-datetime>
+      </ion-item>
+    </ion-item>
+    <ion-item lines="none">
+      <ion-label slot="start">Sunday </ion-label>
+      <ion-item slot="start">
+        <ion-label position = "floating">Open</ion-label>
+        <ion-datetime value="closed" formControlName="operationSunOpen" display-format="HH:mm A" picker-format="h:mm A" minute-values="0,30"></ion-datetime>
+      </ion-item>
+      <ion-item slot="start">
+        <ion-label position = "floating">Close</ion-label>
+        <ion-datetime value="closed" formControlName="operationSunClose" display-format="HH:mm A" picker-format="h:mm A" minute-values="0,30"></ion-datetime>
+      </ion-item>
+    </ion-item>
+  </ion-list>
+<!--  <ion-row>-->
+<!--    <ion-col>-->
+<!--      <ion-item>-->
+<!--      <ion-label position= "floating"> Monday-->
+<!--        <ion-badge *ngIf= "locationForm.controls.operationMF.touched && locationForm.controls.operationMF.invalid" color= "danger"> Required</ion-badge>-->
+<!--      </ion-label>-->
+<!--        <ion-row>-->
+<!--        <ion-col>-->
+<!--          <ion-item>-->
+<!--            <ion-label position = "floating">Open</ion-label>-->
+<!--            <ion-datetime formControlName="operationMF" picker-format="h:mm A" minute-values="0,30"></ion-datetime>-->
+<!--          </ion-item>-->
+<!--        </ion-col>-->
+<!--        <ion-col>-->
+<!--          <ion-item>-->
+<!--            <ion-label position = "floating">Close</ion-label>-->
+<!--            <ion-datetime formControlName="operationMF" picker-format="h:mm A" minute-values="0,30"></ion-datetime>-->
+<!--          </ion-item>-->
+<!--        </ion-col>-->
+<!--      </ion-row>-->
+<!--        &lt;!&ndash;        <ion-input formControlName = "operationMF"></ion-input>&ndash;&gt;-->
+<!--      </ion-item>-->
+<!--    </ion-col>-->
+<!--  </ion-row>-->
 
   <ion-item>
     <ion-label position= "stacked"> Special Note (optional) </ion-label>
     <ion-input formControlName = "special"></ion-input>
   </ion-item>
 
+  <ion-item>
+    <ion-label position="stacked">Type of Location</ion-label>
+    <ion-select formControlName="type" interface="popover">
+      <ion-select-option value="mat">MAT Provider</ion-select-option>
+      <ion-select-option value="hospital">Hospital</ion-select-option>
+      <ion-select-option value="counseling">Counseling</ion-select-option>
+      <ion-select-option value="other">Other Resource</ion-select-option>
+    </ion-select>
+  </ion-item>
 
+<!--  <ion-list>-->
+<!--  <ion-radio-group formControlName = "type">-->
+<!--    <ion-list-header>-->
+<!--      <ion-label> Type of Location-->
+<!--      <ion-badge *ngIf= "locationForm.controls.type.touched && locationForm.controls.type.invalid" color= "danger"> Required</ion-badge>-->
+<!--    </ion-label>-->
+<!--    </ion-list-header>-->
 
-  <ion-list>
-  <ion-radio-group formControlName = "type">
-    <ion-list-header>
-      <ion-label> Type of Location
-      <ion-badge *ngIf= "locationForm.controls.type.touched && locationForm.controls.type.invalid" color= "danger"> Required</ion-badge>
-    </ion-label>
-    </ion-list-header>
+<!--    <ion-item>-->
+<!--      <ion-label> Clinic </ion-label>-->
+<!--      <ion-radio slot="start" value="clinic"></ion-radio>-->
+<!--    </ion-item>-->
 
-    <ion-item>
-      <ion-label> Clinic </ion-label>
-      <ion-radio slot="start" value="clinic"></ion-radio>
-    </ion-item>
+<!--    <ion-item>-->
+<!--      <ion-label> Hospital </ion-label>-->
+<!--      <ion-radio slot="start" value="hospital"></ion-radio>-->
+<!--    </ion-item>-->
 
-    <ion-item>
-      <ion-label> Hospital </ion-label>
-      <ion-radio slot="start" value="hospital"></ion-radio>
-    </ion-item>
-
-    <ion-item>
-      <ion-label> Therapy </ion-label>
-      <ion-radio slot="start" value="therapy"></ion-radio>
-    </ion-item>
-  </ion-radio-group>
-</ion-list>
+<!--    <ion-item>-->
+<!--      <ion-label> Therapy </ion-label>-->
+<!--      <ion-radio slot="start" value="therapy"></ion-radio>-->
+<!--    </ion-item>-->
+<!--  </ion-radio-group>-->
+<!--</ion-list>-->
 </form>
 
 <ion-footer >
