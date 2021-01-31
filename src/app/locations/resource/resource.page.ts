@@ -122,20 +122,20 @@ public locationForm: FormGroup;
                 this.location.longitude = Number(locationForm.value.longitude);
                 this.location.street = locationForm.value.street;
                 this.location.phone = locationForm.value.phone;
-                this.location.operationMOpen = locationForm.value.operationMOpen;
-                this.location.operationMClose = locationForm.value.operationMClose;
-                this.location.operationTOpen = locationForm.value.operationTOpen;
-                this.location.operationTClose = locationForm.value.operationTClose;
-                this.location.operationWOpen = locationForm.value.operationWOpen;
-                this.location.operationWClose = locationForm.value.operationWClose;
-                this.location.operationThOpen = locationForm.value.operationThOpen;
-                this.location.operationThClose = locationForm.value.operationThClose;
-                this.location.operationFOpen = locationForm.value.operationFOpen;
-                this.location.operationFClose = locationForm.value.operationFClose;
-                this.location.operationSatOpen = locationForm.value.operationSatOpen;
-                this.location.operationSatClose = locationForm.value.operationSatClose;
-                this.location.operationSunOpen = locationForm.value.operationSunOpen;
-                this.location.operationSunClose = locationForm.value.operationSunClose;
+                this.location.operationMOpen = this.hoursOfOperation(locationForm.value.operationMOpen);
+                this.location.operationMClose = this.hoursOfOperation(locationForm.value.operationMClose);
+                this.location.operationTOpen = this.hoursOfOperation(locationForm.value.operationTOpen);
+                this.location.operationTClose = this.hoursOfOperation(locationForm.value.operationTClose);
+                this.location.operationWOpen = this.hoursOfOperation(locationForm.value.operationWOpen);
+                this.location.operationWClose = this.hoursOfOperation(locationForm.value.operationWClose);
+                this.location.operationThOpen = this.hoursOfOperation(locationForm.value.operationThOpen);
+                this.location.operationThClose = this.hoursOfOperation(locationForm.value.operationThClose);
+                this.location.operationFOpen = this.hoursOfOperation(locationForm.value.operationFOpen);
+                this.location.operationFClose = this.hoursOfOperation(locationForm.value.operationFClose);
+                this.location.operationSatOpen = this.hoursOfOperation(locationForm.value.operationSatOpen);
+                this.location.operationSatClose = this.hoursOfOperation(locationForm.value.operationSatClose);
+                this.location.operationSunOpen = this.hoursOfOperation(locationForm.value.operationSunOpen);
+                this.location.operationSunClose = this.hoursOfOperation(locationForm.value.operationSunClose);
                 this.location.special = locationForm.value.special + ' ';
                 this.location.type = locationForm.value.type;
 
@@ -178,14 +178,13 @@ public locationForm: FormGroup;
               }).then(toast => toast.present());
             }
 
-            getTime(dateStr) {
-              const d = dateStr.split('T')[1];
-              let m = d.split(':')[0];
-              const n = d.split(':')[1];
-              const AMOrPM = m >= 12 ? 'pm' : 'am';
-              m = (m % 12) || 12;
-              return m + ':' + n + ' ' + AMOrPM;
-            }
+hoursOfOperation(day) {
+  if (day === '') {
+    return 'CLOSED';
+  } else {
+    return day;
+  }
+}
 
             async deleteLocationConfirmation() {
               const alert = await this.alertController.create({

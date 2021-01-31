@@ -61,7 +61,7 @@ export class AddLocationPage implements OnInit {
                     Validators.pattern('^(-?(?:1[0-7]|[1-9])?\\d(?:\\.\\d{1,24})?|180(?:\\.0{1,24})?)$')])],
                   street: ['', Validators.compose([Validators.required, Validators.minLength(1)])],
                   phone: ['', Validators.compose([Validators.required, Validators.minLength(1),
-                    Validators.pattern('^(\\([0-9][0-9][1-9]\\)[0-9][1-9][0-9]-[1-9][0-9][1-9][0-9] )')])],
+                    Validators.pattern('^(\\([0-9][0-9][1-9]\\)[0-9][1-9][0-9]-[1-9][0-9][1-9][0-9])')])],
                   operationMOpen: ['', Validators.pattern('^([0-1]?[0-9]|2[0-3]):[0-5][0-9] ?([AaPp][Mm])$')],
                   operationMClose: ['', Validators.pattern('^([0-1]?[0-9]|2[0-3]):[0-5][0-9] ?([AaPp][Mm])$')],
                   operationTOpen: ['', Validators.pattern('^([0-1]?[0-9]|2[0-3]):[0-5][0-9] ?([AaPp][Mm])$')],
@@ -117,20 +117,20 @@ export class AddLocationPage implements OnInit {
         this.location.longitude = Number(locationForm.value.longitude);
         this.location.street = locationForm.value.street;
         this.location.phone = locationForm.value.phone;
-        this.location.operationMOpen =  locationForm.value.operationMOpen;
-        this.location.operationMClose = locationForm.value.operationMClose;
-        this.location.operationTOpen = locationForm.value.operationTOpen;
-        this.location.operationTClose = locationForm.value.operationTClose;
-        this.location.operationWOpen = locationForm.value.operationWOpen;
-        this.location.operationWClose = locationForm.value.operationWClose;
-        this.location.operationThOpen = locationForm.value.operationThOpen;
-        this.location.operationThClose = locationForm.value.operationThClose;
-        this.location.operationFOpen = locationForm.value.operationFOpen;
-        this.location.operationFClose = locationForm.value.operationFClose;
-        this.location.operationSatOpen = locationForm.value.operationSatOpen;
-        this.location.operationSatClose = locationForm.value.operationSatClose;
-        this.location.operationSunOpen = locationForm.value.operationSunOpen;
-        this.location.operationSunClose = locationForm.value.operationSunClose;
+        this.location.operationMOpen = this.hoursOfOperation(locationForm.value.operationMOpen);
+        this.location.operationMClose = this.hoursOfOperation(locationForm.value.operationMClose);
+        this.location.operationTOpen = this.hoursOfOperation(locationForm.value.operationTOpen);
+        this.location.operationTClose = this.hoursOfOperation(locationForm.value.operationTClose);
+        this.location.operationWOpen = this.hoursOfOperation(locationForm.value.operationWOpen);
+        this.location.operationWClose = this.hoursOfOperation(locationForm.value.operationWClose);
+        this.location.operationThOpen = this.hoursOfOperation(locationForm.value.operationThOpen);
+        this.location.operationThClose = this.hoursOfOperation(locationForm.value.operationThClose);
+        this.location.operationFOpen = this.hoursOfOperation(locationForm.value.operationFOpen);
+        this.location.operationFClose = this.hoursOfOperation(locationForm.value.operationFClose);
+        this.location.operationSatOpen = this.hoursOfOperation(locationForm.value.operationSatOpen);
+        this.location.operationSatClose = this.hoursOfOperation(locationForm.value.operationSatClose);
+        this.location.operationSunOpen = this.hoursOfOperation(locationForm.value.operationSunOpen);
+        this.location.operationSunClose = this.hoursOfOperation(locationForm.value.operationSunClose);
         this.location.special = locationForm.value.special + ' ';
         this.location.type = locationForm.value.type;
 
@@ -151,13 +151,12 @@ export class AddLocationPage implements OnInit {
 
   }
 
-  getTime(dateStr) {
-    const d = dateStr.split('T')[1];
-    let m = d.split(':')[0];
-    const n = d.split(':')[1];
-    const AMOrPM = m >= 12 ? 'pm' : 'am';
-    m = (m % 12) || 12;
-    return m + ':' + n + ' ' + AMOrPM;
+  hoursOfOperation(day) {
+    if (day === '') {
+      return 'CLOSED';
+    } else {
+      return day;
+    }
   }
 
   showToast(msg) {
