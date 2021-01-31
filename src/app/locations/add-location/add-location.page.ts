@@ -61,21 +61,21 @@ export class AddLocationPage implements OnInit {
                     Validators.pattern('^(-?(?:1[0-7]|[1-9])?\\d(?:\\.\\d{1,24})?|180(?:\\.0{1,24})?)$')])],
                   street: ['', Validators.compose([Validators.required, Validators.minLength(1)])],
                   phone: ['', Validators.compose([Validators.required, Validators.minLength(1),
-                    Validators.pattern('^(\\([0-9][0-9][1-9]\\)[0-9][1-9][0-9]-[1-9][0-9][1-9][0-9])')])],
-                  operationMOpen: [''],
-                  operationMClose: [''],
-                  operationTOpen: [''],
-                  operationTClose: [''],
-                  operationWOpen: [''],
-                  operationWClose: [''],
-                  operationThOpen: [''],
-                  operationThClose: [''],
-                  operationFOpen: [''],
-                  operationFClose: [''],
-                  operationSatOpen: [''],
-                  operationSatClose: [''],
-                  operationSunOpen: [''],
-                  operationSunClose: [''],
+                    Validators.pattern('^(\\([0-9][0-9][1-9]\\)[0-9][1-9][0-9]-[1-9][0-9][1-9][0-9] )')])],
+                  operationMOpen: ['', Validators.pattern('^([0-1]?[0-9]|2[0-3]):[0-5][0-9] ?([AaPp][Mm])$')],
+                  operationMClose: ['', Validators.pattern('^([0-1]?[0-9]|2[0-3]):[0-5][0-9] ?([AaPp][Mm])$')],
+                  operationTOpen: ['', Validators.pattern('^([0-1]?[0-9]|2[0-3]):[0-5][0-9] ?([AaPp][Mm])$')],
+                  operationTClose: ['', Validators.pattern('^([0-1]?[0-9]|2[0-3]):[0-5][0-9] ?([AaPp][Mm])$')],
+                  operationWOpen: ['', Validators.pattern('^([0-1]?[0-9]|2[0-3]):[0-5][0-9] ?([AaPp][Mm])$')],
+                  operationWClose: ['', Validators.pattern('^([0-1]?[0-9]|2[0-3]):[0-5][0-9] ?([AaPp][Mm])$')],
+                  operationThOpen: ['', Validators.pattern('^([0-1]?[0-9]|2[0-3]):[0-5][0-9] ?([AaPp][Mm])$')],
+                  operationThClose: ['', Validators.pattern('^([0-1]?[0-9]|2[0-3]):[0-5][0-9] ?([AaPp][Mm])$')],
+                  operationFOpen: ['', Validators.pattern('^([0-1]?[0-9]|2[0-3]):[0-5][0-9] ?([AaPp][Mm])$')],
+                  operationFClose: ['', Validators.pattern('^([0-1]?[0-9]|2[0-3]):[0-5][0-9] ?([AaPp][Mm])$')],
+                  operationSatOpen: ['', Validators.pattern('^([0-1]?[0-9]|2[0-3]):[0-5][0-9] ?([AaPp][Mm])$')],
+                  operationSatClose: ['', Validators.pattern('^([0-1]?[0-9]|2[0-3]):[0-5][0-9] ?([AaPp][Mm])$')],
+                  operationSunOpen: ['', Validators.pattern('^([0-1]?[0-9]|2[0-3]):[0-5][0-9] ?([AaPp][Mm])$')],
+                  operationSunClose: ['', Validators.pattern('^([0-1]?[0-9]|2[0-3]):[0-5][0-9] ?([AaPp][Mm])$')],
                   special: [''],
                   type: ['', Validators.compose([Validators.required, Validators.minLength(1)])]
                 });
@@ -117,7 +117,7 @@ export class AddLocationPage implements OnInit {
         this.location.longitude = Number(locationForm.value.longitude);
         this.location.street = locationForm.value.street;
         this.location.phone = locationForm.value.phone;
-        this.location.operationMOpen = locationForm.value.operationMOpen;
+        this.location.operationMOpen =  locationForm.value.operationMOpen;
         this.location.operationMClose = locationForm.value.operationMClose;
         this.location.operationTOpen = locationForm.value.operationTOpen;
         this.location.operationTClose = locationForm.value.operationTClose;
@@ -134,6 +134,8 @@ export class AddLocationPage implements OnInit {
         this.location.special = locationForm.value.special + ' ';
         this.location.type = locationForm.value.type;
 
+        console.log(this.location);
+
         this.locationService.addLocation(this.location).then(() => {
             this.showToast('Location Added');
 
@@ -147,7 +149,16 @@ export class AddLocationPage implements OnInit {
 
 
 
-      }
+  }
+
+  getTime(dateStr) {
+    const d = dateStr.split('T')[1];
+    let m = d.split(':')[0];
+    const n = d.split(':')[1];
+    const AMOrPM = m >= 12 ? 'pm' : 'am';
+    m = (m % 12) || 12;
+    return m + ':' + n + ' ' + AMOrPM;
+  }
 
   showToast(msg) {
     this.toastCtrl.create({

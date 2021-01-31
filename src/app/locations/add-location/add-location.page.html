@@ -57,84 +57,98 @@
   </ion-item>
 
   <ion-item lines="none">
-    <ion-label position= "stacked"> Hours of Operation (leave blank if closed)</ion-label>
+    <ion-label position= "stacked"> Hours of Operation (leave blank if closed)<br>Please specify hour, minutes, and AM/PM</ion-label>
   </ion-item>
   <ion-list>
     <ion-item lines="none">
       <ion-label slot="start">Monday </ion-label>
       <ion-item slot="start">
         <ion-label position = "floating">Open</ion-label>
-        <ion-datetime value="closed" formControlName="operationMOpen" display-format="HH:mm A" picker-format="h:mm A" minute-values="0,30"></ion-datetime>
+        <ion-badge *ngIf= "locationForm.controls.operationMOpen.touched && locationForm.controls.operationMOpen.errors?.pattern" color= "danger"> Invalid Input</ion-badge>
+        <ion-input formControlName="operationMOpen"></ion-input>
       </ion-item>
       <ion-item slot="start">
         <ion-label position = "floating">Close</ion-label>
-        <ion-datetime value="closed" formControlName="operationMClose" display-format="HH:mm A" picker-format="h:mm A" minute-values="0,30"></ion-datetime>
+        <ion-badge *ngIf= "locationForm.controls.operationMClose.touched && locationForm.controls.operationMClose.errors?.pattern" color= "danger"> Invalid Input</ion-badge>
+        <ion-input formControlName="operationMClose"></ion-input>
       </ion-item>
     </ion-item>
     <ion-item lines="none">
       <ion-label slot="start">Tuesday </ion-label>
       <ion-item slot="start">
         <ion-label position = "floating">Open</ion-label>
-        <ion-datetime value="closed" formControlName="operationTOpen" display-format="HH:mm A" picker-format="h:mm A" minute-values="0,30"></ion-datetime>
+        <ion-badge *ngIf= "locationForm.controls.operationTOpen.touched && locationForm.controls.operationTOpen.errors?.pattern" color= "danger"> Invalid Input</ion-badge>
+        <ion-input formControlName="operationTOpen"></ion-input>
       </ion-item>
       <ion-item slot="start">
         <ion-label position = "floating">Close</ion-label>
-        <ion-datetime value="closed" formControlName="operationTClose" display-format="HH:mm A" picker-format="h:mm A" minute-values="0,30"></ion-datetime>
+        <ion-badge *ngIf= "locationForm.controls.operationTClose.touched && locationForm.controls.operationTClose.errors?.pattern" color= "danger"> Invalid Input</ion-badge>
+        <ion-input formControlName="operationTClose"></ion-input>
       </ion-item>
     </ion-item>
     <ion-item lines="none">
       <ion-label slot="start">Wednesday </ion-label>
       <ion-item slot="start">
         <ion-label position = "floating">Open</ion-label>
-        <ion-datetime value="closed" formControlName="operationWOpen" display-format="HH:mm A" picker-format="h:mm A" minute-values="0,30"></ion-datetime>
+        <ion-badge *ngIf= "locationForm.controls.operationWOpen.touched && locationForm.controls.operationWOpen.errors?.pattern" color= "danger"> Invalid Input</ion-badge>
+        <ion-input formControlName="operationWOpen"></ion-input>
       </ion-item>
       <ion-item slot="start">
         <ion-label position = "floating">Close</ion-label>
-        <ion-datetime value="closed" formControlName="operationWClose" display-format="HH:mm A" picker-format="h:mm A" minute-values="0,30"></ion-datetime>
+        <ion-badge *ngIf= "locationForm.controls.operationWClose.touched && locationForm.controls.operationWClose.errors?.pattern" color= "danger"> Invalid Input</ion-badge>
+        <ion-input formControlName="operationWClose"></ion-input>
       </ion-item>
     </ion-item>
     <ion-item lines="none">
       <ion-label slot="start">Thursday </ion-label>
       <ion-item slot="start">
         <ion-label position = "floating">Open</ion-label>
-        <ion-datetime value="closed" formControlName="operationThOpen" display-format="HH:mm A" picker-format="h:mm A" minute-values="0,30"></ion-datetime>
+        <ion-badge *ngIf= "locationForm.controls.operationThOpen.touched && locationForm.controls.operationThOpen.errors?.pattern" color= "danger"> Invalid Input</ion-badge>
+        <ion-input formControlName="operationThOpen"></ion-input>
       </ion-item>
       <ion-item slot="start">
         <ion-label position = "floating">Close</ion-label>
-        <ion-datetime value="closed" formControlName="operationThOpen" display-format="HH:mm A" picker-format="h:mm A" minute-values="0,30"></ion-datetime>
+        <ion-badge *ngIf= "locationForm.controls.operationThClose.touched && locationForm.controls.operationThClose.errors?.pattern" color= "danger"> Invalid Input</ion-badge>
+        <ion-input formControlName="operationThClose"></ion-input>
       </ion-item>
     </ion-item>
     <ion-item lines="none">
       <ion-label slot="start">Friday </ion-label>
       <ion-item slot="start">
         <ion-label position = "floating">Open</ion-label>
-        <ion-datetime value="closed" formControlName="operationFOpen" display-format="HH:mm A" picker-format="h:mm A" minute-values="0,30"></ion-datetime>
+        <ion-badge *ngIf= "locationForm.controls.operationFOpen.touched && locationForm.controls.operationFOpen.errors?.pattern" color= "danger"> Invalid Input</ion-badge>
+        <ion-input formControlName="operationFOpen"></ion-input>
       </ion-item>
       <ion-item slot="start">
         <ion-label position = "floating">Close</ion-label>
-        <ion-datetime value="closed" formControlName="operationFClose" display-format="HH:mm A" picker-format="h:mm A" minute-values="0,30"></ion-datetime>
+        <ion-badge *ngIf= "locationForm.controls.operationFClose.touched && locationForm.controls.operationFClose.errors?.pattern" color= "danger"> Invalid Input</ion-badge>
+        <ion-input formControlName="operationFClose"></ion-input>
       </ion-item>
     </ion-item>
     <ion-item lines="none">
       <ion-label slot="start">Saturday </ion-label>
       <ion-item slot="start">
         <ion-label position = "floating">Open</ion-label>
-        <ion-datetime value="closed" formControlName="operationSatOpen" display-format="HH:mm A" picker-format="h:mm A" minute-values="0,30"></ion-datetime>
+        <ion-badge *ngIf= "locationForm.controls.operationSatOpen.touched && locationForm.controls.operationSatOpen.errors?.pattern" color= "danger"> Invalid Input</ion-badge>
+        <ion-input formControlName="operationSatOpen"></ion-input>
       </ion-item>
       <ion-item slot="start">
         <ion-label position = "floating">Close</ion-label>
-        <ion-datetime value="closed" formControlName="operationSatOpen" display-format="HH:mm A" picker-format="h:mm A" minute-values="0,30"></ion-datetime>
+        <ion-badge *ngIf= "locationForm.controls.operationSatClose.touched && locationForm.controls.operationSatClose.errors?.pattern" color= "danger"> Invalid Input</ion-badge>
+        <ion-input formControlName="operationSatClose"></ion-input>
       </ion-item>
     </ion-item>
     <ion-item lines="none">
       <ion-label slot="start">Sunday </ion-label>
       <ion-item slot="start">
         <ion-label position = "floating">Open</ion-label>
-        <ion-datetime value="closed" formControlName="operationSunOpen" display-format="HH:mm A" picker-format="h:mm A" minute-values="0,30"></ion-datetime>
+        <ion-badge *ngIf= "locationForm.controls.operationSunOpen.touched && locationForm.controls.operationSunOpen.errors?.pattern" color= "danger"> Invalid Input</ion-badge>
+        <ion-input formControlName="operationSunOpen"></ion-input>
       </ion-item>
       <ion-item slot="start">
         <ion-label position = "floating">Close</ion-label>
-        <ion-datetime value="closed" formControlName="operationSunClose" display-format="HH:mm A" picker-format="h:mm A" minute-values="0,30"></ion-datetime>
+        <ion-badge *ngIf= "locationForm.controls.operationSunClose.touched && locationForm.controls.operationSunClose.errors?.pattern" color= "danger"> Invalid Input</ion-badge>
+        <ion-input formControlName="operationSunClose"></ion-input>
       </ion-item>
     </ion-item>
   </ion-list>
@@ -170,11 +184,12 @@
 
   <ion-item>
     <ion-label position="stacked">Type of Location</ion-label>
+    <ion-badge *ngIf= "locationForm.controls.type.touched && locationForm.controls.type.invalid" color= "danger"> Required</ion-badge>
     <ion-select formControlName="type" interface="popover">
-      <ion-select-option value="mat">MAT Provider</ion-select-option>
-      <ion-select-option value="hospital">Hospital</ion-select-option>
-      <ion-select-option value="counseling">Counseling</ion-select-option>
-      <ion-select-option value="other">Other Resource</ion-select-option>
+      <ion-select-option value="MAT Provider">MAT Provider</ion-select-option>
+      <ion-select-option value="Hospital">Hospital</ion-select-option>
+      <ion-select-option value="Counseling">Counseling</ion-select-option>
+      <ion-select-option value="Other">Other Resource</ion-select-option>
     </ion-select>
   </ion-item>
 
@@ -182,7 +197,6 @@
 <!--  <ion-radio-group formControlName = "type">-->
 <!--    <ion-list-header>-->
 <!--      <ion-label> Type of Location-->
-<!--      <ion-badge *ngIf= "locationForm.controls.type.touched && locationForm.controls.type.invalid" color= "danger"> Required</ion-badge>-->
 <!--    </ion-label>-->
 <!--    </ion-list-header>-->
 
