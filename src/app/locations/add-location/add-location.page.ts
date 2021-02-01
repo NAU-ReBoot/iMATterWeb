@@ -8,6 +8,7 @@ import {AngularFirestore} from '@angular/fire/firestore';
 import * as firebase from 'firebase/app';
 import FieldValue = firebase.firestore.FieldValue;
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {element} from "protractor";
 
 @Component({
   selector: 'app-add-location',
@@ -31,20 +32,20 @@ export class AddLocationPage implements OnInit {
     longitude: 0,
     street: '',
     phone: '',
-    operationMOpen: '',
-    operationMClose: '',
-    operationTOpen: '',
-    operationTClose: '',
-    operationWOpen: '',
-    operationWClose: '',
-    operationThOpen: '',
-    operationThClose: '',
-    operationFOpen: '',
-    operationFClose: '',
-    operationSatOpen: '',
-    operationSatClose: '',
-    operationSunOpen: '',
-    operationSunClose: '',
+    MOpen: '',
+    MClose: '',
+    TOpen: '',
+    TClose: '',
+    WOpen: '',
+    WClose: '',
+    ThOpen: '',
+    ThClose: '',
+    FOpen: '',
+    FClose: '',
+    SatOpen: '',
+    SatClose: '',
+    SunOpen: '',
+    SunClose: '',
     special: '',
     type: ''
   };
@@ -62,20 +63,20 @@ export class AddLocationPage implements OnInit {
                   street: ['', Validators.compose([Validators.required, Validators.minLength(1)])],
                   phone: ['', Validators.compose([Validators.required, Validators.minLength(1),
                     Validators.pattern('^(\\([0-9][0-9][1-9]\\)[0-9][1-9][0-9]-[1-9][0-9][1-9][0-9])')])],
-                  operationMOpen: ['', Validators.pattern('^([0-1]?[0-9]|2[0-3]):[0-5][0-9] ?([AaPp][Mm])$')],
-                  operationMClose: ['', Validators.pattern('^([0-1]?[0-9]|2[0-3]):[0-5][0-9] ?([AaPp][Mm])$')],
-                  operationTOpen: ['', Validators.pattern('^([0-1]?[0-9]|2[0-3]):[0-5][0-9] ?([AaPp][Mm])$')],
-                  operationTClose: ['', Validators.pattern('^([0-1]?[0-9]|2[0-3]):[0-5][0-9] ?([AaPp][Mm])$')],
-                  operationWOpen: ['', Validators.pattern('^([0-1]?[0-9]|2[0-3]):[0-5][0-9] ?([AaPp][Mm])$')],
-                  operationWClose: ['', Validators.pattern('^([0-1]?[0-9]|2[0-3]):[0-5][0-9] ?([AaPp][Mm])$')],
-                  operationThOpen: ['', Validators.pattern('^([0-1]?[0-9]|2[0-3]):[0-5][0-9] ?([AaPp][Mm])$')],
-                  operationThClose: ['', Validators.pattern('^([0-1]?[0-9]|2[0-3]):[0-5][0-9] ?([AaPp][Mm])$')],
-                  operationFOpen: ['', Validators.pattern('^([0-1]?[0-9]|2[0-3]):[0-5][0-9] ?([AaPp][Mm])$')],
-                  operationFClose: ['', Validators.pattern('^([0-1]?[0-9]|2[0-3]):[0-5][0-9] ?([AaPp][Mm])$')],
-                  operationSatOpen: ['', Validators.pattern('^([0-1]?[0-9]|2[0-3]):[0-5][0-9] ?([AaPp][Mm])$')],
-                  operationSatClose: ['', Validators.pattern('^([0-1]?[0-9]|2[0-3]):[0-5][0-9] ?([AaPp][Mm])$')],
-                  operationSunOpen: ['', Validators.pattern('^([0-1]?[0-9]|2[0-3]):[0-5][0-9] ?([AaPp][Mm])$')],
-                  operationSunClose: ['', Validators.pattern('^([0-1]?[0-9]|2[0-3]):[0-5][0-9] ?([AaPp][Mm])$')],
+                  MOpen: ['', Validators.pattern('^([0-1]?[0-9]|2[0-3]):[0-5][0-9] ?([AaPp][Mm])$')],
+                  MClose: ['', Validators.pattern('^([0-1]?[0-9]|2[0-3]):[0-5][0-9] ?([AaPp][Mm])$')],
+                  TOpen: ['', Validators.pattern('^([0-1]?[0-9]|2[0-3]):[0-5][0-9] ?([AaPp][Mm])$')],
+                  TClose: ['', Validators.pattern('^([0-1]?[0-9]|2[0-3]):[0-5][0-9] ?([AaPp][Mm])$')],
+                  WOpen: ['', Validators.pattern('^([0-1]?[0-9]|2[0-3]):[0-5][0-9] ?([AaPp][Mm])$')],
+                  WClose: ['', Validators.pattern('^([0-1]?[0-9]|2[0-3]):[0-5][0-9] ?([AaPp][Mm])$')],
+                  ThOpen: ['', Validators.pattern('^([0-1]?[0-9]|2[0-3]):[0-5][0-9] ?([AaPp][Mm])$')],
+                  ThClose: ['', Validators.pattern('^([0-1]?[0-9]|2[0-3]):[0-5][0-9] ?([AaPp][Mm])$')],
+                  FOpen: ['', Validators.pattern('^([0-1]?[0-9]|2[0-3]):[0-5][0-9] ?([AaPp][Mm])$')],
+                  FClose: ['', Validators.pattern('^([0-1]?[0-9]|2[0-3]):[0-5][0-9] ?([AaPp][Mm])$')],
+                  SatOpen: ['', Validators.pattern('^([0-1]?[0-9]|2[0-3]):[0-5][0-9] ?([AaPp][Mm])$')],
+                  SatClose: ['', Validators.pattern('^([0-1]?[0-9]|2[0-3]):[0-5][0-9] ?([AaPp][Mm])$')],
+                  SunOpen: ['', Validators.pattern('^([0-1]?[0-9]|2[0-3]):[0-5][0-9] ?([AaPp][Mm])$')],
+                  SunClose: ['', Validators.pattern('^([0-1]?[0-9]|2[0-3]):[0-5][0-9] ?([AaPp][Mm])$')],
                   special: [''],
                   type: ['', Validators.compose([Validators.required, Validators.minLength(1)])]
                 });
@@ -117,20 +118,20 @@ export class AddLocationPage implements OnInit {
         this.location.longitude = Number(locationForm.value.longitude);
         this.location.street = locationForm.value.street;
         this.location.phone = locationForm.value.phone;
-        this.location.operationMOpen = this.hoursOfOperation(locationForm.value.operationMOpen);
-        this.location.operationMClose = this.hoursOfOperation(locationForm.value.operationMClose);
-        this.location.operationTOpen = this.hoursOfOperation(locationForm.value.operationTOpen);
-        this.location.operationTClose = this.hoursOfOperation(locationForm.value.operationTClose);
-        this.location.operationWOpen = this.hoursOfOperation(locationForm.value.operationWOpen);
-        this.location.operationWClose = this.hoursOfOperation(locationForm.value.operationWClose);
-        this.location.operationThOpen = this.hoursOfOperation(locationForm.value.operationThOpen);
-        this.location.operationThClose = this.hoursOfOperation(locationForm.value.operationThClose);
-        this.location.operationFOpen = this.hoursOfOperation(locationForm.value.operationFOpen);
-        this.location.operationFClose = this.hoursOfOperation(locationForm.value.operationFClose);
-        this.location.operationSatOpen = this.hoursOfOperation(locationForm.value.operationSatOpen);
-        this.location.operationSatClose = this.hoursOfOperation(locationForm.value.operationSatClose);
-        this.location.operationSunOpen = this.hoursOfOperation(locationForm.value.operationSunOpen);
-        this.location.operationSunClose = this.hoursOfOperation(locationForm.value.operationSunClose);
+        this.location.MOpen = this.hoursOfOperation(locationForm.value.MOpen);
+        this.location.MClose = this.hoursOfOperation(locationForm.value.MClose);
+        this.location.TOpen = this.hoursOfOperation(locationForm.value.TOpen);
+        this.location.TClose = this.hoursOfOperation(locationForm.value.TClose);
+        this.location.WOpen = this.hoursOfOperation(locationForm.value.WOpen);
+        this.location.WClose = this.hoursOfOperation(locationForm.value.WClose);
+        this.location.ThOpen = this.hoursOfOperation(locationForm.value.ThOpen);
+        this.location.ThClose = this.hoursOfOperation(locationForm.value.ThClose);
+        this.location.FOpen = this.hoursOfOperation(locationForm.value.FOpen);
+        this.location.FClose = this.hoursOfOperation(locationForm.value.FClose);
+        this.location.SatOpen = this.hoursOfOperation(locationForm.value.SatOpen);
+        this.location.SatClose = this.hoursOfOperation(locationForm.value.SatClose);
+        this.location.SunOpen = this.hoursOfOperation(locationForm.value.SunOpen);
+        this.location.SunClose = this.hoursOfOperation(locationForm.value.SunClose);
         this.location.special = locationForm.value.special + ' ';
         this.location.type = locationForm.value.type;
 
@@ -157,6 +158,18 @@ export class AddLocationPage implements OnInit {
     } else {
       return day;
     }
+  }
+
+  copyHours() {
+    const mondayOpen = (document.getElementById('MOpen') as HTMLInputElement).value;
+    const mondayClose = (document.getElementById('MClose') as HTMLInputElement).value;
+    console.log(mondayOpen);
+    console.log(mondayClose);
+    const weekdays = ['M', 'T', 'W', 'Th', 'F'];
+    weekdays.forEach( (element) => {
+      (document.getElementById(element + 'Open') as HTMLInputElement).value = mondayOpen;
+      (document.getElementById(element + 'Close') as HTMLInputElement).value = mondayClose;
+    });
   }
 
   showToast(msg) {

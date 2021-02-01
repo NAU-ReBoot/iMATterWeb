@@ -13,20 +13,20 @@ export interface Location {
   longitude: number;
   street: string;
   phone: string;
-  operationMOpen: string;
-  operationMClose: string;
-  operationTOpen: string;
-  operationTClose: string;
-  operationWOpen: string;
-  operationWClose: string;
-  operationThOpen: string;
-  operationThClose: string;
-  operationFOpen: string;
-  operationFClose: string;
-  operationSatOpen: string;
-  operationSatClose: string;
-  operationSunOpen: string;
-  operationSunClose: string;
+  MOpen: string;
+  MClose: string;
+  TOpen: string;
+  TClose: string;
+  WOpen: string;
+  WClose: string;
+  ThOpen: string;
+  ThClose: string;
+  FOpen: string;
+  FClose: string;
+  SatOpen: string;
+  SatClose: string;
+  SunOpen: string;
+  SunClose: string;
   special: string;
   type: string;
 }
@@ -98,20 +98,20 @@ export class LocationService {
        longitude: Number(location.longitude),
        street: location.street,
        phone: location.phone,
-       operationMOpen: location.operationMOpen,
-       operationMClose: location.operationMClose,
-       operationTOpen: location.operationTOpen,
-       operationTClose: location.operationTClose,
-       operationWOpen: location.operationWOpen,
-       operationWClose: location.operationWClose,
-       operationThOpen: location.operationThOpen,
-       operationThClose: location.operationThClose,
-       operationFOpen: location.operationFOpen,
-       operationFClose: location.operationFClose,
-       operationSatOpen: location.operationSatOpen,
-       operationSatClose: location.operationSatClose,
-       operationSunOpen: location.operationSunOpen,
-       operationSunClose: location.operationSunClose,
+       MOpen: location.MOpen,
+       MClose: location.MClose,
+       TOpen: location.TOpen,
+       TClose: location.TClose,
+       WOpen: location.WOpen,
+       WClose: location.WClose,
+       ThOpen: location.ThOpen,
+       ThClose: location.ThClose,
+       FOpen: location.FOpen,
+       FClose: location.FClose,
+       SatOpen: location.SatOpen,
+       SatClose: location.SatClose,
+       SunOpen: location.SunOpen,
+       SunClose: location.SunClose,
        special: location.special,
        type: location.type
      });
