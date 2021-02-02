@@ -25,15 +25,26 @@ export class LocationsPage implements OnInit {
     longitude: 0,
     street: '',
     phone: '',
-    operationMF: '',
-    operationSaturday: '',
-    operationSunday: '',
+    MOpen: '',
+    MClose: '',
+    TOpen: '',
+    TClose: '',
+    WOpen: '',
+    WClose: '',
+    ThOpen: '',
+    ThClose: '',
+    FOpen: '',
+    FClose: '',
+    SatOpen: '',
+    SatClose: '',
+    SunOpen: '',
+    SunClose: '',
     special: '',
     type: ''
   };
 
   public clicked = false;
-  public forcedNumber:number;
+  public forcedNumber: number;
   public secondFrocedNumber: number;
 
 //  public locations: Observable<any>;
@@ -41,8 +52,7 @@ export class LocationsPage implements OnInit {
 constructor(public afs: AngularFirestore, public activatedRoute: ActivatedRoute, public locationService: LocationService,
             public toastCtrl: ToastController, public router: Router, public storage: Storage) { }
 
-  ngOnInit()
-  {
+  ngOnInit() {
     this.storage.get('authenticated').then((val) => {
       if (val === 'false') {
         this.router.navigate(['/login/']);
@@ -56,12 +66,11 @@ constructor(public afs: AngularFirestore, public activatedRoute: ActivatedRoute,
       }
     });
 
-  this.locations = this.locationService.getLocations();
+    this.locations = this.locationService.getLocations();
 
 }
 
-ionViewWillEnter()
-{
+ionViewWillEnter() {
 
 }
 

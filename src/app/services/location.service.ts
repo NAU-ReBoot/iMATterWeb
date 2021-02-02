@@ -41,14 +41,12 @@ export class LocationService {
   private locationCollection: AngularFirestoreCollection<Location>;
   private location: Location;
 
-
   constructor(private afs: AngularFirestore) {
 
   }
 
 
-  getLocationCollection()
-  {
+  getLocationCollection() {
     this.locationCollection = this.afs.collection<Location>('resourceLocations', ref => ref.orderBy('title', 'asc'));
 
     this.locations = this.locationCollection.snapshotChanges().pipe(
@@ -63,23 +61,20 @@ export class LocationService {
   }
 
 
-  getLocations(): Observable<Location[]>
-  {
+  getLocations(): Observable<Location[]> {
     this.getLocationCollection();
     return this.locations;
   }
-
 
   getLocation(id: string): Observable<Location> {
     return this.locationCollection.doc<Location>(id).valueChanges().pipe(
         take(1),
         map(location => {
           location.id = id;
-          return location
+          return location;
         })
     );
   }
-
 
   addLocation(location: Location): Promise<DocumentReference> {
     return this.locationCollection.add(location);
@@ -89,8 +84,7 @@ export class LocationService {
     return this.locationCollection.doc(id).delete();
   }
 
-  updateLocation(location: Location): Promise<void>
-  {
+  updateLocation(location: Location): Promise<void> {
      return this.locationCollection.doc(location.id).update({
        title: location.title,
        content: location.content,
