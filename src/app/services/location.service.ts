@@ -29,6 +29,8 @@ export interface Location {
   SunClose: string;
   special: string;
   type: string;
+  callCenter: boolean;
+  openAllDay: boolean;
 }
 
 @Injectable({

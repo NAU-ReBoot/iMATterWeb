@@ -8,7 +8,8 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import * as firebase from 'firebase/app';
 import FieldValue = firebase.firestore.FieldValue;
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { element } from "protractor";
+import { element } from 'protractor';
+import {forEach} from "@angular-devkit/schematics";
 
 @Component({
   selector: 'app-add-location',
@@ -47,12 +48,14 @@ export class AddLocationPage implements OnInit {
     SunOpen: '',
     SunClose: '',
     special: '',
-    type: ''
+    type: '',
+    callCenter: false,
+    openAllDay: false
   };
 
   constructor(public afs: AngularFirestore, public activatedRoute: ActivatedRoute, public locationService: LocationService,
-    public toastCtrl: ToastController, public router: Router, public storage: Storage,
-    private formBuilder: FormBuilder) {
+              public toastCtrl: ToastController, public router: Router, public storage: Storage,
+              private formBuilder: FormBuilder) {
     this.locationForm = this.formBuilder.group({
       title: ['', Validators.compose([Validators.required, Validators.minLength(1)])],
       content: ['', Validators.compose([Validators.required, Validators.minLength(1)])],
@@ -60,23 +63,23 @@ export class AddLocationPage implements OnInit {
       Validators.pattern('^-?(?:90(?:(?:\\.0{1,24})?)|(?:[0-9]|[1-8][0-9])(?:(?:\\.[0-9]{1,24})?))$')])],
       longitude: ['', Validators.compose([Validators.required, Validators.minLength(1),
       Validators.pattern('^(-?(?:1[0-7]|[1-9])?\\d(?:\\.\\d{1,24})?|180(?:\\.0{1,24})?)$')])],
-      street: ['', Validators.compose([Validators.required, Validators.minLength(1)])],
+      street: [''],
       phone: ['', Validators.compose([Validators.required, Validators.minLength(1),
       Validators.pattern('^(\\([0-9][0-9][0-9]\\)[0-9][0-9][0-9]-[0-9][0-9][0-9][0-9])')])],
-      MOpen: ['', Validators.pattern('^([0-1]?[0-9]|2[0-3]):[0-5][0-9] ?([AaPp][Mm])$')],
-      MClose: ['', Validators.pattern('^([0-1]?[0-9]|2[0-3]):[0-5][0-9] ?([AaPp][Mm])$')],
-      TOpen: ['', Validators.pattern('^([0-1]?[0-9]|2[0-3]):[0-5][0-9] ?([AaPp][Mm])$')],
-      TClose: ['', Validators.pattern('^([0-1]?[0-9]|2[0-3]):[0-5][0-9] ?([AaPp][Mm])$')],
-      WOpen: ['', Validators.pattern('^([0-1]?[0-9]|2[0-3]):[0-5][0-9] ?([AaPp][Mm])$')],
-      WClose: ['', Validators.pattern('^([0-1]?[0-9]|2[0-3]):[0-5][0-9] ?([AaPp][Mm])$')],
-      ThOpen: ['', Validators.pattern('^([0-1]?[0-9]|2[0-3]):[0-5][0-9] ?([AaPp][Mm])$')],
-      ThClose: ['', Validators.pattern('^([0-1]?[0-9]|2[0-3]):[0-5][0-9] ?([AaPp][Mm])$')],
-      FOpen: ['', Validators.pattern('^([0-1]?[0-9]|2[0-3]):[0-5][0-9] ?([AaPp][Mm])$')],
-      FClose: ['', Validators.pattern('^([0-1]?[0-9]|2[0-3]):[0-5][0-9] ?([AaPp][Mm])$')],
-      SatOpen: ['', Validators.pattern('^([0-1]?[0-9]|2[0-3]):[0-5][0-9] ?([AaPp][Mm])$')],
-      SatClose: ['', Validators.pattern('^([0-1]?[0-9]|2[0-3]):[0-5][0-9] ?([AaPp][Mm])$')],
-      SunOpen: ['', Validators.pattern('^([0-1]?[0-9]|2[0-3]):[0-5][0-9] ?([AaPp][Mm])$')],
-      SunClose: ['', Validators.pattern('^([0-1]?[0-9]|2[0-3]):[0-5][0-9] ?([AaPp][Mm])$')],
+      MOpen: ['', Validators.pattern('^(([0-1]?[0-9]|2[0-3]):[0-5][0-9] ?([AaPp][Mm]))|[C][L][O][S][E][D]$')],
+      MClose: ['', Validators.pattern('^(([0-1]?[0-9]|2[0-3]):[0-5][0-9] ?([AaPp][Mm]))|[C][L][O][S][E][D]$')],
+      TOpen: ['', Validators.pattern('^(([0-1]?[0-9]|2[0-3]):[0-5][0-9] ?([AaPp][Mm]))|[C][L][O][S][E][D]$')],
+      TClose: ['', Validators.pattern('^(([0-1]?[0-9]|2[0-3]):[0-5][0-9] ?([AaPp][Mm]))|[C][L][O][S][E][D]$')],
+      WOpen: ['', Validators.pattern('^(([0-1]?[0-9]|2[0-3]):[0-5][0-9] ?([AaPp][Mm]))|[C][L][O][S][E][D]$')],
+      WClose: ['', Validators.pattern('^(([0-1]?[0-9]|2[0-3]):[0-5][0-9] ?([AaPp][Mm]))|[C][L][O][S][E][D]$')],
+      ThOpen: ['', Validators.pattern('^(([0-1]?[0-9]|2[0-3]):[0-5][0-9] ?([AaPp][Mm]))|[C][L][O][S][E][D]$')],
+      ThClose: ['', Validators.pattern('^(([0-1]?[0-9]|2[0-3]):[0-5][0-9] ?([AaPp][Mm]))|[C][L][O][S][E][D]$')],
+      FOpen: ['', Validators.pattern('^(([0-1]?[0-9]|2[0-3]):[0-5][0-9] ?([AaPp][Mm]))|[C][L][O][S][E][D]$')],
+      FClose: ['', Validators.pattern('^(([0-1]?[0-9]|2[0-3]):[0-5][0-9] ?([AaPp][Mm]))|[C][L][O][S][E][D]$')],
+      SatOpen: ['', Validators.pattern('^(([0-1]?[0-9]|2[0-3]):[0-5][0-9] ?([AaPp][Mm]))|[C][L][O][S][E][D]$')],
+      SatClose: ['', Validators.pattern('^(([0-1]?[0-9]|2[0-3]):[0-5][0-9] ?([AaPp][Mm]))|[C][L][O][S][E][D]$')],
+      SunOpen: ['', Validators.pattern('^(([0-1]?[0-9]|2[0-3]):[0-5][0-9] ?([AaPp][Mm]))|[C][L][O][S][E][D]$')],
+      SunClose: ['', Validators.pattern('^(([0-1]?[0-9]|2[0-3]):[0-5][0-9] ?([AaPp][Mm]))|[C][L][O][S][E][D]$')],
       special: [''],
       type: ['', Validators.compose([Validators.required, Validators.minLength(1)])]
     });
@@ -116,22 +119,26 @@ export class AddLocationPage implements OnInit {
       this.location.content = locationForm.value.content;
       this.location.latitude = Number(locationForm.value.latitude);
       this.location.longitude = Number(locationForm.value.longitude);
-      this.location.street = locationForm.value.street;
+      if (!this.location.callCenter) {
+        this.location.street = locationForm.value.street;
+      }
       this.location.phone = locationForm.value.phone;
-      this.location.MOpen = this.hoursOfOperation(locationForm.value.MOpen);
-      this.location.MClose = this.hoursOfOperation(locationForm.value.MClose);
-      this.location.TOpen = this.hoursOfOperation(locationForm.value.TOpen);
-      this.location.TClose = this.hoursOfOperation(locationForm.value.TClose);
-      this.location.WOpen = this.hoursOfOperation(locationForm.value.WOpen);
-      this.location.WClose = this.hoursOfOperation(locationForm.value.WClose);
-      this.location.ThOpen = this.hoursOfOperation(locationForm.value.ThOpen);
-      this.location.ThClose = this.hoursOfOperation(locationForm.value.ThClose);
-      this.location.FOpen = this.hoursOfOperation(locationForm.value.FOpen);
-      this.location.FClose = this.hoursOfOperation(locationForm.value.FClose);
-      this.location.SatOpen = this.hoursOfOperation(locationForm.value.SatOpen);
-      this.location.SatClose = this.hoursOfOperation(locationForm.value.SatClose);
-      this.location.SunOpen = this.hoursOfOperation(locationForm.value.SunOpen);
-      this.location.SunClose = this.hoursOfOperation(locationForm.value.SunClose);
+      if (!this.location.openAllDay) {
+        this.location.MOpen = this.hoursOfOperation(locationForm.value.MOpen);
+        this.location.MClose = this.hoursOfOperation(locationForm.value.MClose);
+        this.location.TOpen = this.hoursOfOperation(locationForm.value.TOpen);
+        this.location.TClose = this.hoursOfOperation(locationForm.value.TClose);
+        this.location.WOpen = this.hoursOfOperation(locationForm.value.WOpen);
+        this.location.WClose = this.hoursOfOperation(locationForm.value.WClose);
+        this.location.ThOpen = this.hoursOfOperation(locationForm.value.ThOpen);
+        this.location.ThClose = this.hoursOfOperation(locationForm.value.ThClose);
+        this.location.FOpen = this.hoursOfOperation(locationForm.value.FOpen);
+        this.location.FClose = this.hoursOfOperation(locationForm.value.FClose);
+        this.location.SatOpen = this.hoursOfOperation(locationForm.value.SatOpen);
+        this.location.SatClose = this.hoursOfOperation(locationForm.value.SatClose);
+        this.location.SunOpen = this.hoursOfOperation(locationForm.value.SunOpen);
+        this.location.SunClose = this.hoursOfOperation(locationForm.value.SunClose);
+      }
       this.location.special = locationForm.value.special + ' ';
       this.location.type = locationForm.value.type;
       console.log(this.location);
@@ -186,5 +193,33 @@ export class AddLocationPage implements OnInit {
     });
   }
 
+  disableStreet() {
+    console.log('Disable street');
+    console.log(document.getElementById('streetInput') as HTMLInputElement);
+    (document.getElementById('streetInput') as HTMLInputElement).disabled = true;
+    this.location.callCenter = true;
+  }
 
+  enableStreet() {
+    (document.getElementById('streetInput') as HTMLInputElement).disabled = false;
+    this.location.callCenter = false;
+  }
+
+  disableHoursOfOp() {
+    console.log(document.getElementsByClassName('hoursOfOp'));
+    const hours = document.getElementsByClassName('hoursOfOp');
+    Array.from(hours).forEach(value => {
+      value.classList.add('ion-hide');
+    });
+    this.location.openAllDay = true;
+  }
+
+  enableHoursOfOp() {
+    console.log(document.getElementsByClassName('hoursOfOp'));
+    const hours = document.getElementsByClassName('hoursOfOp');
+    Array.from(hours).forEach(value => {
+      value.classList.remove('ion-hide');
+    });
+    this.location.openAllDay = false;
+  }
 }

@@ -15,7 +15,8 @@
   <div>
       <ion-list>
         <ion-item button [routerLink]="['/locations/resource/', location.id]" *ngFor="let location of (locations | async)">
-          {{ location.title }}     |      {{location.street}}  | {{location.type}}
+          <div *ngIf="!location.callCenter"> {{ location.title }}     |      {{location.street}}  | {{location.type}} </div>
+          <div *ngIf="location.callCenter"> {{ location.title }}     |      No Physical Location  | {{location.type}} </div>
           <ion-icon name="arrow-forward" slot="end"></ion-icon>
         </ion-item>
       </ion-list>
