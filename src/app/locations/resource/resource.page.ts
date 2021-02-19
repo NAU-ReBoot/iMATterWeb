@@ -25,6 +25,7 @@ export class ResourcePage implements OnInit {
     location: Location = {
         title: '',
         content: '',
+        addressType: '',
         latitude: 0,
         longitude: 0,
         street: '',
@@ -45,12 +46,11 @@ export class ResourcePage implements OnInit {
         SunClose: '',
         special: '',
         type: '',
-        callCenter: false,
-        openAllDay: false,
+        hourType: ''
     };
 
-    public openAllDay = false;
-    public callCenter = false;
+    // public openAllDay = false;
+    // public callCenter = false;
 
     constructor(private afs: AngularFirestore, private activatedRoute: ActivatedRoute, private locationService: LocationService,
                 private toastCtrl: ToastController, private router: Router, private storage: Storage,
@@ -58,10 +58,12 @@ export class ResourcePage implements OnInit {
         this.locationForm = this.formBuilder.group({
             title: ['', Validators.compose([Validators.required, Validators.minLength(1)])],
             content: ['', Validators.compose([Validators.required, Validators.minLength(1)])],
+            addressType: ['', Validators.compose([Validators.required])],
             latitude: ['', Validators.compose([Validators.required, Validators.minLength(1),
                 Validators.pattern('^-?(?:90(?:(?:\\.0{1,24})?)|(?:[0-9]|[1-8][0-9])(?:(?:\\.[0-9]{1,24})?))$')])],
             longitude: ['', Validators.compose([Validators.required, Validators.minLength(1),
                 Validators.pattern('^(-?(?:1[0-7]|[1-9])?\\d(?:\\.\\d{1,24})?|180(?:\\.0{1,24})?)$')])],
+            hourType: ['', Validators.compose([Validators.required])],
             street: [''],
             phone: ['', Validators.compose([Validators.required, Validators.minLength(1),
                 Validators.pattern('^(\\([0-9][0-9][0-9]\\)[0-9][0-9][0-9]-[0-9][0-9][0-9][0-9])')])],
@@ -80,6 +82,7 @@ export class ResourcePage implements OnInit {
             SunOpen: ['', Validators.pattern('^(([0-1]?[0-9]|2[0-3]):[0-5][0-9] ?([AaPp][Mm]))|[C][L][O][S][E][D]$')],
             SunClose: ['', Validators.pattern('^(([0-1]?[0-9]|2[0-3]):[0-5][0-9] ?([AaPp][Mm]))|[C][L][O][S][E][D]$')],
             checkbox: [''],
+
             special: [''],
             type: ['', Validators.compose([Validators.required, Validators.minLength(1)])]
         });
@@ -102,6 +105,12 @@ export class ResourcePage implements OnInit {
         const id = this.activatedRoute.snapshot.paramMap.get('id');
         if (id) {
             this.locationService.getLocation(id).subscribe(location => {
+                if (location.hourType === undefined) {
+                    location.hourType = 'specific';
+                }
+                if (location.addressType === undefined) {
+                    location.addressType = 'physical';
+                }
                 this.location = location;
                 this.locationForm.patchValue(this.location);
             });
@@ -122,13 +131,15 @@ export class ResourcePage implements OnInit {
         if (this.locationForm.status === 'VALID') {
             this.location.title = locationForm.value.title;
             this.location.content = locationForm.value.content;
+            this.location.addressType = locationForm.value.addressType;
             this.location.latitude = Number(locationForm.value.latitude);
             this.location.longitude = Number(locationForm.value.longitude);
-            if (!this.location.callCenter) {
+            if (this.location.addressType === 'physical') {
                 this.location.street = locationForm.value.street;
             }
             this.location.phone = locationForm.value.phone;
-            if (!this.location.openAllDay) {
+            this.location.hourType = locationForm.value.hourType;
+            if (this.location.hourType === 'specific') {
                 this.location.MOpen = this.hoursOfOperation(locationForm.value.MOpen);
                 this.location.MClose = this.hoursOfOperation(locationForm.value.MClose);
                 this.location.TOpen = this.hoursOfOperation(locationForm.value.TOpen);
@@ -144,10 +155,6 @@ export class ResourcePage implements OnInit {
                 this.location.SunOpen = this.hoursOfOperation(locationForm.value.SunOpen);
                 this.location.SunClose = this.hoursOfOperation(locationForm.value.SunClose);
             }
-            this.location.special = locationForm.value.special + ' ';
-            this.location.type = locationForm.value.type;
-            this.location.callCenter = this.callCenter;
-            this.location.openAllDay = this.openAllDay;
 
             this.locationService.updateLocation(this.location).then(() => {
                 this.showToast('Location Updated!');
@@ -236,13 +243,14 @@ export class ResourcePage implements OnInit {
     disableStreet() {
         console.log('Disable street');
         console.log(document.getElementById('streetInput') as HTMLInputElement);
-        (document.getElementById('streetInput') as HTMLInputElement).disabled = true;
-        this.callCenter = true;
+        document.getElementById('streetInput').classList.add('ion-hide');
+        // this.location.callCenter = true;
     }
 
     enableStreet() {
-        (document.getElementById('streetInput') as HTMLInputElement).disabled = false;
-        this.callCenter = false;
+        // (document.getElementById('streetInput') as HTMLInputElement).disabled = false;
+        document.getElementById('streetInput').classList.remove('ion-hide');
+        // this.location.callCenter = false;
     }
 
     disableHoursOfOp() {
@@ -251,7 +259,7 @@ export class ResourcePage implements OnInit {
         Array.from(hours).forEach(value => {
             value.classList.add('ion-hide');
         });
-        this.openAllDay = true;
+        // this.location.openAllDay = true;
     }
 
     enableHoursOfOp() {
@@ -260,6 +268,6 @@ export class ResourcePage implements OnInit {
         Array.from(hours).forEach(value => {
             value.classList.remove('ion-hide');
         });
-        this.openAllDay = false;
+        // this.location.openAllDay = false;
     }
 }

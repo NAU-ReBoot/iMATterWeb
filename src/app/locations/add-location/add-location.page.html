@@ -25,11 +25,11 @@
                     </ion-item>
                 </ion-col>
             </ion-row>
-            <ion-radio-group>
+            <ion-radio-group formControlName="addressType">
                 <ion-row>
                     <ion-col size="2">
                         <ion-item lines="none">
-                            <ion-radio value="location" checked="true" (ionSelect)="enableStreet()"></ion-radio>
+                            <ion-radio value="physical" (ionSelect)="enableStreet()"></ion-radio>
                             <ion-label style="font-size: 0.6em">Physical Location</ion-label>
                         </ion-item>
                     </ion-col>
@@ -56,7 +56,7 @@
             </ion-row>
             <ion-row>
                 <ion-col size="6">
-                    <ion-item>
+                    <ion-item id="streetInput">
                         <ion-label position="stacked"> Street Address
                             <ion-badge
                                     *ngIf="locationForm.controls.street.touched && locationForm.controls.street.invalid"
@@ -64,7 +64,7 @@
                                 Required
                             </ion-badge>
                         </ion-label>
-                        <ion-input id="streetInput" formControlName="street"></ion-input>
+                        <ion-input formControlName="street"></ion-input>
                     </ion-item>
                 </ion-col>
             </ion-row>
@@ -117,18 +117,18 @@
                     </ion-item>
                 </ion-col>
             </ion-row>
-            <ion-radio-group>
+            <ion-radio-group formControlName="hourType">
                 <ion-row>
                     <ion-col size="2">
                         <ion-item lines="none">
-                            <ion-radio value="specific" checked="true" (ionSelect)="enableHoursOfOp()"></ion-radio>
+                            <ion-radio value="specific" (ionSelect)="enableHoursOfOp()"></ion-radio>
                             <ion-label style="font-size: 0.6em">Specific Hours</ion-label>
                         </ion-item>
                     </ion-col>
                     <ion-col size="2">
                         <ion-item lines="none">
                             <ion-radio value="24hr" (ionSelect)="disableHoursOfOp()"></ion-radio>
-                            <ion-label style="font-size: 0.6em">Open 24 hrs</ion-label>
+                            <ion-label style="font-size: 0.6em">24 Hours</ion-label>
                         </ion-item>
                     </ion-col>
                 </ion-row>

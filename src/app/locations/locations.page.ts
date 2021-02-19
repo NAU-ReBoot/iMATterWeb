@@ -39,10 +39,9 @@ export class LocationsPage implements OnInit {
     SatClose: '',
     SunOpen: '',
     SunClose: '',
-    callCenter: false,
-    openAllDay: false,
     special: '',
-    type: ''
+    type: '',
+    hourType: ''
   };
 
   public clicked = false;

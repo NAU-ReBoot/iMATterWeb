@@ -9,6 +9,7 @@ export interface Location {
   id?: string;
   title: string;
   content: string;
+  addressType: string;
   latitude: number;
   longitude: number;
   street: string;
@@ -29,8 +30,7 @@ export interface Location {
   SunClose: string;
   special: string;
   type: string;
-  callCenter: boolean;
-  openAllDay: boolean;
+  hourType: string;
 }
 
 @Injectable({
@@ -90,6 +90,7 @@ export class LocationService {
      return this.locationCollection.doc(location.id).update({
        title: location.title,
        content: location.content,
+       addressType: location.addressType,
        latitude: Number(location.latitude),
        longitude: Number(location.longitude),
        street: location.street,
@@ -108,6 +109,7 @@ export class LocationService {
        SatClose: location.SatClose,
        SunOpen: location.SunOpen,
        SunClose: location.SunClose,
+       hourType: location.hourType,
        special: location.special,
        type: location.type
      });
