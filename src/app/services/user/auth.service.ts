@@ -72,12 +72,12 @@ export class AuthServiceProvider {
 
   signupProvider(provider: Provider, password: string, username: string, email: string, bio: string): Promise<any> {
     return this.providerCollection.doc(provider.code).set({code: provider.code,
-        password: password, username: username, email: email, bio: bio}, { merge: true } );
+        password: provider.password, username: provider.username, email: provider.email, bio: provider.bio}, { merge: true } );
   }
 
   signupAdmin(admin: Admin, password: string, username: string, email: string): Promise<any> {
     return this.adminCollection.doc(admin.code).set({code: admin.code,
-      password: password, username: username, email: email, profilePic: admin.profilePic}, { merge: true });
+      password: admin.password, username: admin.username, email: admin.email, profilePic: admin.profilePic}, { merge: true });
   }
 
 }
