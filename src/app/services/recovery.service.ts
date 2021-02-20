@@ -40,12 +40,11 @@ export class RecoveryEmailService {
     }
 
     async addRecovery(recoveryEmail: RecoveryEmail) {
-        this.afs.collection('recoveryEmail').add({
+        await this.afs.collection('recoveryEmail').add({
             email: recoveryEmail.email,
             code: recoveryEmail.code,
             test: 'hello'
         });
+        console.log('added');
     }
-
-
 }

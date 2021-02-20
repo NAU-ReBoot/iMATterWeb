@@ -4,16 +4,20 @@ admin.initializeApp(functions.config().firebase);
 
 var newChat;
 const nodemailer = require('nodemailer');
-//admin.initializeApp(functions.config().firebase);
+// admin.initializeApp(functions.config().firebase);
 
 
-//admin.initializeApp();
+// admin.initializeApp();
 require('dotenv').config()
 
 const {SENDER_EMAIL, SENDER_PASS} = process.env;
 
+exports.helloWorld = functions.https.onRequest((request, response) => {
+    response.send("hello from firebase");
+})
+
 exports.sendRecoveryEmail = functions.firestore.document('recoveryEmail/{docID}').onCreate((snap, context) => {
-    console.log('HELLO');
+    console.log('created!');
     const data = snap.data();
     let authData = nodemailer.createTransport({
         host: 'smtp.gmail.com',
@@ -23,8 +27,6 @@ exports.sendRecoveryEmail = functions.firestore.document('recoveryEmail/{docID}'
             user: SENDER_EMAIL,
             pass: SENDER_PASS
         }
-
-
     });
 
     authData.sendMail({
@@ -33,6 +35,6 @@ exports.sendRecoveryEmail = functions.firestore.document('recoveryEmail/{docID}'
         subject: "Imatter InfoDesk", // Subject line
         text: "Here is your recovery code: " + data.code, // plain text body
         html: "Here is your recovery code: " + data.code // html body
-        //res.send("sent");
+        // res.send("sent");
     }).then(res => console.log('successfully sent that mail')).catch(err => console.log(err));
 });

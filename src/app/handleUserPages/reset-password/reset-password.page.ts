@@ -78,8 +78,6 @@ export class ResetPasswordPage implements OnInit {
                         console.log(this.recoveryEmail.email);
                         this.recoveryEmailService.addRecovery(this.recoveryEmail);
                         this.router.navigateByUrl('recovery-code');
-
-
                     });
                 });
 
@@ -103,10 +101,8 @@ export class ResetPasswordPage implements OnInit {
                                 this.recoveryEmailService.addRecovery(this.recoveryEmail);
                                 this.router.navigateByUrl('recovery-code');
 
-
                             });
                         });
-                        this.showToast("Email sent");
                     } else {
                         this.userEmail = false;
                         this.showToast('Email  is not valid');
