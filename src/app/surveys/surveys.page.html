@@ -55,7 +55,15 @@
       </ion-label>
       <ion-input formControlName="title"></ion-input>
     </ion-item>
- 
+
+    <!-- Survey Title Field -->
+    <ion-item>
+      <ion-label position="stacked">Display Name (title on the app)
+        <ion-badge *ngIf="surveyForm.controls.display.touched && surveyForm.controls.display.invalid" color="danger">Required</ion-badge>
+      </ion-label>
+      <ion-input formControlName="display"></ion-input>
+    </ion-item>
+
   <!-- Survey Description Field -->
   <ion-item>
     <ion-label position="stacked">Survey Description

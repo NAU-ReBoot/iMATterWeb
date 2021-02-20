@@ -8,6 +8,7 @@ import { Observable } from 'rxjs';
 export interface Survey {
   id?: string;
   title: string;
+  display: string;
   surveyLink: string;
   type: string;
   daysTillRelease: string;
@@ -32,7 +33,7 @@ export class FireService {
   constructor(private angularfs: AngularFirestore) {
     // gets the collection of surveys
     this.surveyCollection = this.angularfs.collection<Survey>('surveys');
-    
+
     //  looks for changes and updates, also grabs the data
     this.surveys = this.surveyCollection.snapshotChanges().pipe(
         map(actions => {
@@ -46,7 +47,7 @@ export class FireService {
   }
 
   // gets all of the surveys in the survey collection
-  getSurveys(){
+  getSurveys() {
     return this.surveys;
   }
 
@@ -56,7 +57,7 @@ export class FireService {
         take(1),
         map(survey => {
           survey.id = id;
-          return survey
+          return survey;
         })
     );
   }
@@ -68,8 +69,9 @@ export class FireService {
 
   // updates the survey in the database
   updateSurvey(survey: Survey): Promise<void>{
-    return this.surveyCollection.doc(survey.id).update({ 
+    return this.surveyCollection.doc(survey.id).update({
       title: survey.title,
+      display: survey.display,
       surveyLink: survey.surveyLink,
       type: survey.type,
       daysTillRelease: survey.daysTillRelease,
@@ -83,7 +85,7 @@ export class FireService {
   }
 
   // deletes the survey with the id provided
-  deleteSurvey(id: string): Promise<void>{
+  deleteSurvey(id: string): Promise<void> {
     return this.surveyCollection.doc(id).delete();
   }
 }
