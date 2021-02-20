@@ -5,7 +5,6 @@
       <ion-label position="stacked">Code</ion-label>
       <ion-input
 			  formControlName="recoveryCode"
-              type="recoveryCode"
               type="text"
               placeholder="Enter your code"
               
@@ -15,8 +14,7 @@
 	  <ion-item>
 	  <ion-input
 			  formControlName="recoveryPassword"
-              type="recoveryPassword"
-              type="text"
+              type="password"
               placeholder="Enter the new password"
 			  [class.invalid]="!enterCodeForm.controls['recoveryPassword'].valid && enterCodeForm.controls['recoveryPassword'].touched"
               

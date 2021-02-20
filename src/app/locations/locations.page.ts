@@ -21,6 +21,7 @@ export class LocationsPage implements OnInit {
   location: Location = {
     title: '',
     content: '',
+    addressType: '',
     latitude: 0,
     longitude: 0,
     street: '',
