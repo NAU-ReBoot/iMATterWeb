@@ -29,7 +29,7 @@ export class SurveysPage implements OnInit {
         pointsWorth: 0,
         userVisibility: [],
         surveyDescription: '',
-    }
+    };
 
     constructor(private activatedRoute: ActivatedRoute,
                 private fs: FireService,
