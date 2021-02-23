@@ -31,6 +31,7 @@ export interface Location {
   special: string;
   type: string;
   hourType: string;
+  url: string;
 }
 
 @Injectable({
@@ -111,7 +112,8 @@ export class LocationService {
        SunClose: location.SunClose,
        hourType: location.hourType,
        special: location.special,
-       type: location.type
+       type: location.type,
+       url: location.url
      });
   }
 

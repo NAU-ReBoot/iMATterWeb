@@ -51,6 +51,7 @@ export class AddLocationPage implements OnInit {
     special: '',
     type: '',
     hourType: '',
+    url: ''
   };
 
   constructor(public afs: AngularFirestore, public activatedRoute: ActivatedRoute, public locationService: LocationService,
@@ -145,6 +146,7 @@ export class AddLocationPage implements OnInit {
       }
       this.location.special = locationForm.value.special + ' ';
       this.location.type = locationForm.value.type;
+      this.location.url = locationForm.value.url;
       console.log(this.location);
 
       this.locationService.addLocation(this.location).then(() => {

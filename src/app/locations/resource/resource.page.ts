@@ -46,7 +46,8 @@ export class ResourcePage implements OnInit {
         SunClose: '',
         special: '',
         type: '',
-        hourType: ''
+        hourType: '',
+        url: ''
     };
 
     // public openAllDay = false;
@@ -84,6 +85,7 @@ export class ResourcePage implements OnInit {
             checkbox: [''],
 
             special: [''],
+            url: [''],
             type: ['', Validators.compose([Validators.required, Validators.minLength(1)])]
         });
     }
@@ -155,6 +157,9 @@ export class ResourcePage implements OnInit {
                 this.location.SunOpen = this.hoursOfOperation(locationForm.value.SunOpen);
                 this.location.SunClose = this.hoursOfOperation(locationForm.value.SunClose);
             }
+            this.location.special = locationForm.value.special + ' ';
+            this.location.type = locationForm.value.type;
+            this.location.url = locationForm.value.url;
 
             this.locationService.updateLocation(this.location).then(() => {
                 this.showToast('Location Updated!');

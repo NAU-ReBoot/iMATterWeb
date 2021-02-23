@@ -42,7 +42,8 @@ export class LocationsPage implements OnInit {
     SunClose: '',
     special: '',
     type: '',
-    hourType: ''
+    hourType: '',
+    url: ''
   };
 
   public clicked = false;
