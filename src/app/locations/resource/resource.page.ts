@@ -162,7 +162,7 @@ export class ResourcePage implements OnInit {
             this.location.url = locationForm.value.url;
 
             this.locationService.updateLocation(this.location).then(() => {
-                this.showToast('Location Updated!');
+                this.showToast(this.location.title + ' Updated!');
 
                 this.router.navigateByUrl('/locations');
             }, err => {
