@@ -48,6 +48,18 @@ const routes: Routes = [
     loadChildren: () => import('./survey-list/survey-list.module').then( m => m.SurveyListPageModule)
   },
   {
+    path: 'challenges',
+    loadChildren: () => import('./challenges/challenges.module').then( m => m.ChallengesPageModule)
+  },
+  // {
+  //   path: 'editChallenge/:id',
+  //   loadChildren: () => import('./challenges/new/newChallenge.module').then(m => m.EditChallengePageModule)
+  // },
+  {
+    path: 'newChallenge',
+    loadChildren: () => import('./challenges/new/newChallenge.module').then(m => m.NewChallengePageModule)
+  },
+  {
     path: 'learningmodules',
     loadChildren: () => import('./learningModule/learningmodules/learningmodules.module')
         .then( m => m.LearningmodulesPageModule)

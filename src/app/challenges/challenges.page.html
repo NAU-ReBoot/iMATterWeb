@@ -1,0 +1,26 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-title>Challenges</ion-title>
+        <ion-buttons slot="start">
+            <ion-menu-button autoHide="false"></ion-menu-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+    <ion-button class="fill-button" [routerLink]="['/newChallenge']">
+        <ion-icon name="add-circle-outline"></ion-icon>
+        Add New Challenge
+    </ion-button>
+
+    <ng-container *ngFor="let challenge of (challenges | async)" >
+        <ion-item>
+            <ion-label>
+                {{ challenge.title }}
+            </ion-label>
+        </ion-item>
+    </ng-container>
+</ion-content>
+
+
