@@ -52,11 +52,15 @@ const routes: Routes = [
     loadChildren: () => import('./challenges/challenges.module').then( m => m.ChallengesPageModule)
   },
   // {
-  //   path: 'editChallenge/:id',
+  //   path: 'challenge/edit/:id',
   //   loadChildren: () => import('./challenges/new/newChallenge.module').then(m => m.EditChallengePageModule)
   // },
   {
     path: 'newChallenge',
+    loadChildren: () => import('./challenges/new/newChallenge.module').then(m => m.NewChallengePageModule)
+  },
+  {
+    path: 'newChallenge/:id',
     loadChildren: () => import('./challenges/new/newChallenge.module').then(m => m.NewChallengePageModule)
   },
   {

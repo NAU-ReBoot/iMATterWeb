@@ -15,12 +15,19 @@
     </ion-button>
 
     <ng-container *ngFor="let challenge of (challenges | async)" >
-        <ion-item>
+        <ion-item button [routerLink]="['/newChallenge', challenge.id]">
             <ion-label>
                 {{ challenge.title }}
             </ion-label>
         </ion-item>
     </ng-container>
+
 </ion-content>
 
+<ion-footer>
+    <ion-item>
+        <ion-label>Upload Challenge (.json files only)</ion-label>
+        <input type="file" accept=".json" id="fileUpload" (change)="readJSON()">
+    </ion-item>
+</ion-footer>
 
