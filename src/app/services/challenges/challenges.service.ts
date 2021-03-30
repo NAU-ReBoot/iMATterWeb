@@ -87,10 +87,11 @@ export class ChallengeService {
     }
 
     // updates the survey in the database
-    updateChallenge(challenge: Challenge): Promise<void>{
+    updateChallenge(challenge: Challenge): Promise<void> {
         return this.challengesCollection.doc(challenge.id).update({
             title: challenge.title,
             description: challenge.description,
+            coverPicture: challenge.coverPicture,
             type: challenge.type,
             length: challenge.length,
             contents: challenge.contents});

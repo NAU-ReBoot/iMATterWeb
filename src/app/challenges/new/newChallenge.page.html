@@ -61,12 +61,8 @@
                 <ion-col size="6">
                     <ion-item>
                         <ion-label position="stacked">Categories
-<!--                            <ion-badge-->
-<!--                                    *ngIf="challengesForm.controls.type.touched && challengesForm.controls.type.invalid"-->
-<!--                                    color="danger"> Required-->
-<!--                            </ion-badge>-->
                         </ion-label>
-                        <ion-select name="type" [(ngModel)]="challenge.type">
+                        <ion-select name="type" [(ngModel)]="challenge.type" value="{{challenge.type}}">
                             <ion-select-option *ngFor="let type of (challengeTypes|async)" value="{{type.type}}">{{type.type}}</ion-select-option>
                         </ion-select>
                     </ion-item>
@@ -76,10 +72,6 @@
                 <ion-col size="3">
                     <ion-item>
                         <ion-label position="stacked"> Length of Challenges (days)
-<!--                            <ion-badge-->
-<!--                                    *ngIf="challengesForm.controls.length.touched && challengesForm.controls.length.invalid"-->
-<!--                                    color="danger"> Required-->
-<!--                            </ion-badge>-->
                         </ion-label>
                         <ion-input name="length" id="length" type="number" max="30" min="1" [(ngModel)]="challenge.length"></ion-input>
                     </ion-item>
@@ -102,12 +94,12 @@
                                 <ion-textarea type="text" name="taskActivity{{i}}" [(ngModel)]="challenge.contents[i].activity"></ion-textarea>
                             </ion-item>
                             <ion-item>
-                                <ion-label position="stacked">Tips (separate each tip with a comma)</ion-label>
-                                <ion-input type="text" name="taskTips{{i}}" [(ngModel)]="challenge.contents[i].tips"></ion-input>
+                                <ion-label position="stacked">Benefits (separate each item with a semicolon)</ion-label>
+                                <ion-textarea type="text" name="taskTips{{i}}" [(ngModel)]="challenge.contents[i].benefits"></ion-textarea>
                             </ion-item>
                             <ion-item>
-                                <ion-label position="stacked">Resource (separate each resource with a comma)</ion-label>
-                                <ion-input type="text" name="taskResources{{i}}" [(ngModel)]="challenge.contents[i].resources"></ion-input>
+                                <ion-label position="stacked">Tips and resources (separate each item with semicolon)</ion-label>
+                                <ion-textarea type="text" name="taskResources{{i}}" [(ngModel)]="challenge.contents[i].tips"></ion-textarea>
                             </ion-item>
                         </ng-container>
                     </ion-list>

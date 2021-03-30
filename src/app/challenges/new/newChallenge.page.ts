@@ -73,6 +73,10 @@ export class NewChallengePage implements OnInit {
         if (id) {
             this.fs.getChallenge(id).subscribe(challenge => {
                 this.challenge = challenge;
+                this.challenge.contents.forEach(task => {
+                    task.benefits = task.benefits.join(';');
+                    task.tips = task.tips.join(';');
+                });
                 console.log(this.challenge);
             });
 
@@ -83,27 +87,54 @@ export class NewChallengePage implements OnInit {
         console.log(this.challenge);
         if (this.challenge.id) {
             const file = (document.getElementById('pictureInput') as HTMLInputElement).files[0];
-            this.fileName = file.name;
-            // The storage path
-            const path = `ChallengeImages/${new Date().getTime()}_${file.name}`;
-            // this.ch.fileName = `${new Date().getTime()}_${file.name}`;
-            // File reference
-            const fileRef = this.fireStorage.ref(path);
-            // The main task
-            this.task = this.fireStorage.upload(path, file).then(() => {
-                // Get uploaded file storage path
-                this.uploadedFileURL = fileRef.getDownloadURL();
+            if (file === undefined) {
+                this.challenge.contents.forEach(task => {
+                    task.benefits = task.benefits.split(';');
+                    task.tips = task.tips.split(';');
+                });
+                console.log(file);
+                this.fs.updateChallenge(this.challenge).then(() => {
+                    this.showToast('Challenge updated');
+                });
+                return;
+            } else {
+                this.fileName = file.name;
+                // The storage path
+                const path = `ChallengeImages/${new Date().getTime()}_${file.name}`;
+                // this.ch.fileName = `${new Date().getTime()}_${file.name}`;
+                // File reference
+                const fileRef = this.fireStorage.ref(path);
+                // The main task
+                this.task = this.fireStorage.upload(path, file).then(() => {
+                    // Get uploaded file storage path
+                    this.uploadedFileURL = fileRef.getDownloadURL();
 
-                this.uploadedFileURL.subscribe(resp => {
-                    this.challenge.coverPicture = resp;
-                    console.log(this.challenge);
-                    this.fs.updateChallenge(this.challenge).then(() => {
-                        this.showToast('Challenge updated');
+                    this.uploadedFileURL.subscribe(resp => {
+                        this.challenge.coverPicture = resp;
+                        this.challenge.contents.forEach(task => {
+                            task.benefits = task.benefits.split(';');
+                            task.tips = task.tips.split(';');
+                        });
+                        console.log(this.challenge);
+                        this.fs.updateChallenge(this.challenge).then(() => {
+                            this.showToast('Challenge updated');
+                        });
                     });
                 });
-            });
+            }
         } else {
             const file = (document.getElementById('pictureInput') as HTMLInputElement).files[0];
+            if (!file) {
+                this.challenge.contents.forEach(task => {
+                    task.benefits = task.benefits.split(';');
+                    task.tips = task.tips.split(';');
+                });
+                this.fs.addChallenge(this.challenge).then(() => {
+                    this.router.navigateByUrl('/challenges');
+                    this.showToast('Challenge added');
+                });
+                return;
+            }
             this.fileName = file.name;
             // The storage path
             const path = `ChallengeImages/${new Date().getTime()}_${file.name}`;
@@ -117,6 +148,10 @@ export class NewChallengePage implements OnInit {
 
                 this.uploadedFileURL.subscribe(resp => {
                     this.challenge.coverPicture = resp;
+                    this.challenge.contents.forEach(task => {
+                        task.benefits = task.benefits.split(';');
+                        task.tips = task.tips.split(';');
+                    });
                     console.log(this.challenge);
                     this.fs.addChallenge(this.challenge).then(() => {
                         this.router.navigateByUrl('/challenges');
@@ -148,7 +183,7 @@ export class NewChallengePage implements OnInit {
         this.challengeContent = [];
         for (let i = 1; i <= lengthAsNum; i++) {
             this.challengeContent.push('day' + i);
-            this.challenge.contents.push({title: '', activity: '', tips: '', resources: ''});
+            this.challenge.contents.push({title: '', activity: '', benefits: '', tips: ''});
         }
         console.log(this.challengeContent);
     }
