@@ -89,9 +89,11 @@ export class NewChallengePage implements OnInit {
             const file = (document.getElementById('pictureInput') as HTMLInputElement).files[0];
             if (file === undefined) {
                 this.challenge.contents.forEach(task => {
+                    task.length = parseInt(task.length, 10);
                     task.benefits = task.benefits.split(';');
                     task.tips = task.tips.split(';');
                 });
+                this.challenge.coverPicture = '';
                 console.log(file);
                 this.fs.updateChallenge(this.challenge).then(() => {
                     this.showToast('Challenge updated');
@@ -112,6 +114,7 @@ export class NewChallengePage implements OnInit {
                     this.uploadedFileURL.subscribe(resp => {
                         this.challenge.coverPicture = resp;
                         this.challenge.contents.forEach(task => {
+                            task.length = parseInt(task.length, 10);
                             task.benefits = task.benefits.split(';');
                             task.tips = task.tips.split(';');
                         });
@@ -124,11 +127,13 @@ export class NewChallengePage implements OnInit {
             }
         } else {
             const file = (document.getElementById('pictureInput') as HTMLInputElement).files[0];
-            if (!file) {
+            if (file === undefined) {
                 this.challenge.contents.forEach(task => {
+                    task.length = parseInt(task.length, 10);
                     task.benefits = task.benefits.split(';');
                     task.tips = task.tips.split(';');
                 });
+                this.challenge.coverPicture = '';
                 this.fs.addChallenge(this.challenge).then(() => {
                     this.router.navigateByUrl('/challenges');
                     this.showToast('Challenge added');
@@ -149,6 +154,7 @@ export class NewChallengePage implements OnInit {
                 this.uploadedFileURL.subscribe(resp => {
                     this.challenge.coverPicture = resp;
                     this.challenge.contents.forEach(task => {
+                        task.length = parseInt(task.length, 10);
                         task.benefits = task.benefits.split(';');
                         task.tips = task.tips.split(';');
                     });
