@@ -1,0 +1,61 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-title>Challenge Categories</ion-title>
+        <ion-buttons slot="start">
+            <ion-menu-button autoHide="false"></ion-menu-button>
+            <ion-back-button defaultHref="/challenges"></ion-back-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-grid>
+        <ion-row *ngFor="let category of (categories | async)">
+            <ion-item-divider>
+                <ion-col size="6" *ngIf="category.active == true" class="active">
+                    {{ category.type }}
+                </ion-col>
+                <ion-col size="6" *ngIf="category.active == false" class="inactive">
+                    {{ category.type }}
+                </ion-col>
+                <ion-col size="3">
+                    <ion-thumbnail>
+                        <ion-img src="{{ category.picture }}"></ion-img>
+                    </ion-thumbnail>
+                </ion-col>
+                <ion-col size="3" id="{{category.id}}" (click)="activate(category.id, category.active)">
+                    <div *ngIf="category.active == true" style="color: var(--ion-color-success)">
+                        Enabled
+                    </div>
+                    <div  *ngIf="category.active == false" style="color: var(--ion-color-danger)">
+                        Disabled
+                    </div>
+                </ion-col>
+            </ion-item-divider>
+        </ion-row>
+    </ion-grid>
+    <form (ngSubmit)="logForm()">
+        <ion-grid>
+            <ion-row>
+                <ion-col size="6">
+                    <ion-item>
+                        <ion-input name="type"
+                                   placeholder="New challenge type"
+                                   required="true"
+                                   [(ngModel)]="category.type"></ion-input>
+                    </ion-item>
+                </ion-col>
+                <ion-col size="4">
+                    <ion-item>
+                        <input id="pictureInput" type="file" name="picture">
+                    </ion-item>
+                </ion-col>
+                <ion-col size="2">
+                    <ion-button type="submit">
+                        Submit
+                    </ion-button>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+    </form>
+</ion-content>

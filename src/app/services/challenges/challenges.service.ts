@@ -21,6 +21,7 @@ export interface ChallengeType {
     id?: string;
     type: string;
     picture: string;
+    active: boolean;
 }
 
 
@@ -71,7 +72,7 @@ export class ChallengeService {
     }
 
     // gets an individual survey with id provided
-    getChallenge(id: string){
+    getChallenge(id: string) {
         return this.challengesCollection.doc<Challenge>(id).valueChanges().pipe(
             take(1),
             map(challenge => {
@@ -80,10 +81,24 @@ export class ChallengeService {
             })
         );
     }
+
+    getChallengeType(id: string) {
+        return this.challengeTypesCollection.doc<ChallengeType>(id).valueChanges().pipe(
+            take(1),
+            map(type => {
+                type.id = id;
+                return type;
+            })
+        );
+    }
     //
     // adds the survey to the database
     addChallenge(challenge: Challenge): Promise<DocumentReference> {
         return this.challengesCollection.add(challenge);
+    }
+
+    addChallengeType(challengeType: ChallengeType): Promise<DocumentReference> {
+        return this.challengeTypesCollection.add(challengeType);
     }
 
     // updates the survey in the database
@@ -97,6 +112,17 @@ export class ChallengeService {
             contents: challenge.contents});
     }
 
+    deactivateChallengeTypes(id: string): Promise<void> {
+        return this.challengeTypesCollection.doc(id).update({
+            active: false
+        });
+    }
+
+    activateChallengeTypes(id: string): Promise<void> {
+        return this.challengeTypesCollection.doc(id).update({
+            active: true
+        });
+    }
     // deletes the survey with the id provided
     deleteChallenge(id: string): Promise<void> {
         return this.challengesCollection.doc(id).delete();

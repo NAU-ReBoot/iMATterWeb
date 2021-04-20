@@ -13,6 +13,9 @@
         <ion-icon name="add-circle-outline"></ion-icon>
         Add New Challenge
     </ion-button>
+    <ion-button class="fill-button ion-float-right" [routerLink]="['/challengeTypes']">
+        Challenge Types
+    </ion-button>
 
     <ng-container *ngFor="let challenge of (challenges | async)" >
         <ion-item button [routerLink]="['/newChallenge', challenge.id]">

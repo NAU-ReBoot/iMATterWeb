@@ -63,7 +63,9 @@
                         <ion-label position="stacked">Categories
                         </ion-label>
                         <ion-select name="type" [(ngModel)]="challenge.type" value="{{challenge.type}}">
-                            <ion-select-option *ngFor="let type of (challengeTypes|async)" value="{{type.type}}">{{type.type}}</ion-select-option>
+                            <ng-container *ngFor="let type of (challengeTypes|async)">
+                                <ion-select-option *ngIf="type.active" value="{{type.type}}">{{type.type}}</ion-select-option>
+                            </ng-container>
                         </ion-select>
                     </ion-item>
                 </ion-col>

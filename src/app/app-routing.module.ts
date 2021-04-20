@@ -51,6 +51,10 @@ const routes: Routes = [
     path: 'challenges',
     loadChildren: () => import('./challenges/challenges.module').then( m => m.ChallengesPageModule)
   },
+  {
+    path: 'challengeTypes',
+    loadChildren: () => import('./challenges/types/challengeTypes.module').then( m => m.ChallengeTypesPageModule)
+  },
   // {
   //   path: 'challenge/edit/:id',
   //   loadChildren: () => import('./challenges/new/newChallenge.module').then(m => m.EditChallengePageModule)
