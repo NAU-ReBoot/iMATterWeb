@@ -84,6 +84,14 @@
             </ion-row>
             <ion-row>
                 <ion-col size="6">
+                    <div style="font-size: 0.8em; color: #4B5257">
+                        Changing the length of the challenge will reset the current contents.
+                        (i.e. changing from 10 days to 5 days will erase all data previously entered into the 10 days)
+                    </div>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col size="6">
                     <ion-list>
                         <ng-container *ngFor="let day of challenge.contents; let i = index">
                             <ion-label position="stacked">Task {{i + 1}}</ion-label>

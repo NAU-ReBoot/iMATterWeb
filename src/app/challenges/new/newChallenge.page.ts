@@ -89,14 +89,17 @@ export class NewChallengePage implements OnInit {
             const file = (document.getElementById('pictureInput') as HTMLInputElement).files[0];
             if (file === undefined) {
                 this.challenge.contents.forEach(task => {
-                    task.length = parseInt(task.length, 10);
                     task.benefits = task.benefits.split(';');
                     task.tips = task.tips.split(';');
                 });
-                this.challenge.coverPicture = '';
+                // this.challenge.coverPicture = this.challenge.coverPicture;
                 console.log(file);
                 this.fs.updateChallenge(this.challenge).then(() => {
                     this.showToast('Challenge updated');
+                    this.challenge.contents.forEach(task => {
+                        task.benefits = task.benefits.join(';');
+                        task.tips = task.tips.join(';');
+                    });
                 });
                 return;
             } else {
@@ -114,13 +117,16 @@ export class NewChallengePage implements OnInit {
                     this.uploadedFileURL.subscribe(resp => {
                         this.challenge.coverPicture = resp;
                         this.challenge.contents.forEach(task => {
-                            task.length = parseInt(task.length, 10);
                             task.benefits = task.benefits.split(';');
                             task.tips = task.tips.split(';');
                         });
                         console.log(this.challenge);
                         this.fs.updateChallenge(this.challenge).then(() => {
                             this.showToast('Challenge updated');
+                            this.challenge.contents.forEach(task => {
+                                task.benefits = task.benefits.join(';');
+                                task.tips = task.tips.join(';');
+                            });
                         });
                     });
                 });
@@ -129,7 +135,6 @@ export class NewChallengePage implements OnInit {
             const file = (document.getElementById('pictureInput') as HTMLInputElement).files[0];
             if (file === undefined) {
                 this.challenge.contents.forEach(task => {
-                    task.length = parseInt(task.length, 10);
                     task.benefits = task.benefits.split(';');
                     task.tips = task.tips.split(';');
                 });
@@ -154,7 +159,6 @@ export class NewChallengePage implements OnInit {
                 this.uploadedFileURL.subscribe(resp => {
                     this.challenge.coverPicture = resp;
                     this.challenge.contents.forEach(task => {
-                        task.length = parseInt(task.length, 10);
                         task.benefits = task.benefits.split(';');
                         task.tips = task.tips.split(';');
                     });
@@ -183,15 +187,19 @@ export class NewChallengePage implements OnInit {
     }
 
     addContent() {
-        const length = (document.getElementById('length') as HTMLInputElement).value;
-        const lengthAsNum: number = +length;
-        console.log(lengthAsNum);
+        console.log(this.challenge.length);
+        const length = this.challenge.length;
+        // const length = (document.getElementById('length') as HTMLInputElement).value;
+        // const lengthAsNum: number = +length;
+        console.log(length);
         this.challengeContent = [];
-        for (let i = 1; i <= lengthAsNum; i++) {
+        this.challenge.contents = [];
+        for (let i = 1; i <= length; i++) {
             this.challengeContent.push('day' + i);
             this.challenge.contents.push({title: '', activity: '', benefits: '', tips: ''});
         }
         console.log(this.challengeContent);
+        console.log(this.challenge.contents);
     }
 
     async deleteChallengeConfirmation() {

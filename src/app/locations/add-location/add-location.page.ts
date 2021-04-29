@@ -68,7 +68,7 @@ export class AddLocationPage implements OnInit {
       street: [''],
       hourType: ['', Validators.compose([Validators.required])],
       phone: ['', Validators.compose([Validators.required, Validators.minLength(1),
-      Validators.pattern('^(\\([0-9][0-9][0-9]\\)[0-9][0-9][0-9]-[0-9][0-9][0-9][0-9])')])],
+      Validators.pattern('^(1?\ ?\\([0-9][0-9][0-9]\\)\ ?[0-9][0-9][0-9]-[0-9][0-9][0-9][0-9])')])],
       MOpen: ['', Validators.pattern('^(([0-1]?[0-9]|2[0-3]):[0-5][0-9] ?([AaPp][Mm]))|[C][L][O][S][E][D]$')],
       MClose: ['', Validators.pattern('^(([0-1]?[0-9]|2[0-3]):[0-5][0-9] ?([AaPp][Mm]))|[C][L][O][S][E][D]$')],
       TOpen: ['', Validators.pattern('^(([0-1]?[0-9]|2[0-3]):[0-5][0-9] ?([AaPp][Mm]))|[C][L][O][S][E][D]$')],
