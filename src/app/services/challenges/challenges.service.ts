@@ -13,8 +13,15 @@ export interface Challenge {
     description: string;
     type: string;
     length: number;
-    pictures: any[];
+    coverPicture: any;
     contents: any[];
+}
+
+export interface ChallengeType {
+    id?: string;
+    type: string;
+    picture: string;
+    active: boolean;
 }
 
 
@@ -25,6 +32,8 @@ export interface Challenge {
 export class ChallengeService {
     private challenges: Observable<Challenge[]>;
     private challengesCollection: AngularFirestoreCollection<Challenge>;
+    private challengeTypes: Observable<ChallengeType[]>;
+    private challengeTypesCollection: AngularFirestoreCollection<ChallengeType>;
 
     constructor(private angularfs: AngularFirestore, private afs: AngularFireStorage) {
         // gets the collection of surveys
@@ -40,50 +49,84 @@ export class ChallengeService {
                 });
             })
         );
+
+        this.challengeTypesCollection = this.angularfs.collection<ChallengeType>('challengeTypes');
+        this.challengeTypes = this.challengeTypesCollection.snapshotChanges().pipe(
+            map(actions => {
+                return actions.map(a => {
+                    const data = a.payload.doc.data();
+                    const id = a.payload.doc.id;
+                    return { id, ...data};
+                });
+            })
+        );
     }
 
     // gets all of the surveys in the survey collection
     getChallenges() {
         return this.challenges;
     }
-    //
-    // // gets an individual survey with id provided
-    // getSurvey(id: string){
-    //     return this.surveyCollection.doc<Survey>(id).valueChanges().pipe(
-    //         take(1),
-    //         map(survey => {
-    //             survey.id = id;
-    //             return survey;
-    //         })
-    //     );
-    // }
+
+    getTypes() {
+        return this.challengeTypes;
+    }
+
+    // gets an individual survey with id provided
+    getChallenge(id: string) {
+        return this.challengesCollection.doc<Challenge>(id).valueChanges().pipe(
+            take(1),
+            map(challenge => {
+                challenge.id = id;
+                return challenge;
+            })
+        );
+    }
+
+    getChallengeType(id: string) {
+        return this.challengeTypesCollection.doc<ChallengeType>(id).valueChanges().pipe(
+            take(1),
+            map(type => {
+                type.id = id;
+                return type;
+            })
+        );
+    }
     //
     // adds the survey to the database
     addChallenge(challenge: Challenge): Promise<DocumentReference> {
         return this.challengesCollection.add(challenge);
     }
-    //
-    // // updates the survey in the database
-    // updateSurvey(survey: Survey): Promise<void>{
-    //     return this.surveyCollection.doc(survey.id).update({
-    //         title: survey.title,
-    //         display: survey.display,
-    //         surveyLink: survey.surveyLink,
-    //         type: survey.type,
-    //         daysTillRelease: survey.daysTillRelease,
-    //         daysBeforeDueDate: survey.daysBeforeDueDate,
-    //         daysTillExpire: Number(survey.daysTillExpire),
-    //         daysInactive: survey.daysInactive,
-    //         emotionChosen: survey.emotionChosen,
-    //         pointsWorth: Number(survey.pointsWorth),
-    //         userVisibility: survey.userVisibility,
-    //         surveyDescription: survey.surveyDescription});
-    // }
-    //
-    // // deletes the survey with the id provided
-    // deleteSurvey(id: string): Promise<void> {
-    //     return this.surveyCollection.doc(id).delete();
-    // }
+
+    addChallengeType(challengeType: ChallengeType): Promise<DocumentReference> {
+        return this.challengeTypesCollection.add(challengeType);
+    }
+
+    // updates the survey in the database
+    updateChallenge(challenge: Challenge): Promise<void> {
+        return this.challengesCollection.doc(challenge.id).update({
+            title: challenge.title,
+            description: challenge.description,
+            coverPicture: challenge.coverPicture,
+            type: challenge.type,
+            length: challenge.length,
+            contents: challenge.contents});
+    }
+
+    deactivateChallengeTypes(id: string): Promise<void> {
+        return this.challengeTypesCollection.doc(id).update({
+            active: false
+        });
+    }
+
+    activateChallengeTypes(id: string): Promise<void> {
+        return this.challengeTypesCollection.doc(id).update({
+            active: true
+        });
+    }
+    // deletes the survey with the id provided
+    deleteChallenge(id: string): Promise<void> {
+        return this.challengesCollection.doc(id).delete();
+    }
 
     async uploadFileToStorage(file, type, name) {
         const randomId = Math.random()

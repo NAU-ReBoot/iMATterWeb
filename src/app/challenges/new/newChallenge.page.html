@@ -9,60 +9,63 @@
 </ion-header>
 
 <ion-content>
-    <form [formGroup]="challengesForm">
+    <form (ngSubmit)="logForm()">
         <ion-grid>
             <ion-row>
                 <ion-col size="6">
                     <ion-item>
                         <ion-label position="stacked"> Challenge Title
-                            <ion-badge
-                                    *ngIf="challengesForm.controls.title.touched && challengesForm.controls.title.invalid"
-                                    color="danger">
-                                Required
-                            </ion-badge>
+<!--                            <ion-badge-->
+<!--                                    *ngIf="challengesForm.controls.title.touched && challengesForm.controls.title.invalid"-->
+<!--                                    color="danger">-->
+<!--                                Required-->
+<!--                            </ion-badge>-->
                         </ion-label>
-                        <ion-input formControlName="title"></ion-input>
+                        <ion-input name="title" [(ngModel)]="challenge.title"></ion-input>
                     </ion-item>
                 </ion-col>
             </ion-row>
-            <ion-row>
-                <ion-col size="6">
-                    <ion-item>
-                        <ion-label position="stacked"> Cover Picture
-                        </ion-label>
-                        <input type="file" id="coverPicture" (change)="uploadImage('coverPicture')"/>
-                    </ion-item>
-                </ion-col>
-            </ion-row>
+<!--            <ion-row>-->
+<!--                <ion-col size="6">-->
+<!--                    <ion-item>-->
+<!--                        <ion-label position="stacked"> Cover Picture-->
+<!--                        </ion-label>-->
+<!--                        <input type="file" class="upload" id="coverPicture" (change)="uploadedImage = $event.target.files"/>-->
+<!--                    </ion-item>-->
+<!--                </ion-col>-->
+<!--            </ion-row>-->
             <ion-row>
                 <ion-col size="6">
                     <ion-item>
                         <ion-label position="stacked"> Challenge Description
-                            <ion-badge
-                                    *ngIf="challengesForm.controls.description.touched && challengesForm.controls.description.invalid"
-                                    color="danger"> Required
-                            </ion-badge>
                         </ion-label>
-                        <ion-textarea formControlName="description"></ion-textarea>
+                        <ion-textarea name="desc" [(ngModel)]="challenge.description"></ion-textarea>
                     </ion-item>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col size="6">
+                    <ion-item>
+                        <ion-label position="stacked"> Challenge Picture
+                        </ion-label>
+                        <input id="pictureInput" type="file" name="picture">
+                    </ion-item>
+                </ion-col>
+                <ion-col>
+                    <ion-thumbnail>
+                        <ion-img *ngIf="challenge.id" src="{{challenge.coverPicture}}"></ion-img>
+                    </ion-thumbnail>
                 </ion-col>
             </ion-row>
             <ion-row>
                 <ion-col size="6">
                     <ion-item>
                         <ion-label position="stacked">Categories
-                            <ion-badge
-                                    *ngIf="challengesForm.controls.type.touched && challengesForm.controls.type.invalid"
-                                    color="danger"> Required
-                            </ion-badge>
                         </ion-label>
-                        <ion-select formControlName="type" multiple="true">
-                            <ion-select-option value="nutrition">Nutrition</ion-select-option>
-                            <ion-select-option value="parenting">Parenting</ion-select-option>
-                            <ion-select-option value="mindfulness">Mindfulness</ion-select-option>
-                            <ion-select-option value="mentalHealth">Mental Health</ion-select-option>
-                            <ion-select-option value="exercise">Exercise</ion-select-option>
-                            <ion-select-option value="miscellaneous">Miscellaneous</ion-select-option>
+                        <ion-select name="type" [(ngModel)]="challenge.type" value="{{challenge.type}}">
+                            <ng-container *ngFor="let type of (challengeTypes|async)">
+                                <ion-select-option *ngIf="type.active" value="{{type.type}}">{{type.type}}</ion-select-option>
+                            </ng-container>
                         </ion-select>
                     </ion-item>
                 </ion-col>
@@ -71,12 +74,8 @@
                 <ion-col size="3">
                     <ion-item>
                         <ion-label position="stacked"> Length of Challenges (days)
-                            <ion-badge
-                                    *ngIf="challengesForm.controls.length.touched && challengesForm.controls.length.invalid"
-                                    color="danger"> Required
-                            </ion-badge>
                         </ion-label>
-                        <ion-input id="length" type="number" max="30" min="1" formControlName="length"></ion-input>
+                        <ion-input name="length" id="length" type="number" max="30" min="1" [(ngModel)]="challenge.length"></ion-input>
                     </ion-item>
                 </ion-col>
                 <ion-col size="3">
@@ -85,34 +84,66 @@
             </ion-row>
             <ion-row>
                 <ion-col size="6">
-                    <ion-list *ngFor="let day of challengeContent">
-                        <ion-label position="stacked">Day {{challengeContent.indexOf(day) + 1}}</ion-label>
-                        <ion-item>
-                            <ion-label position="stacked">Title</ion-label>
-                            <ion-input type="text" id="title{{day}}"></ion-input>
-                        </ion-item>
-                        <ion-item>
-                            <ion-label position="stacked">Description</ion-label>
-                            <ion-input type="text" id="desc{{day}}"></ion-input>
-                        </ion-item>
-                        <ion-item>
-                            <ion-label position="stacked">URL</ion-label>
-                            <ion-input type="text" id="url{{day}}"></ion-input>
-                        </ion-item>
-                        <ion-item>
-                            <input type="file" id="{{day}}" (change)="uploadImage(day)"/>
-                        </ion-item>
+                    <div style="font-size: 0.8em; color: #4B5257">
+                        Changing the length of the challenge will reset the current contents.
+                        (i.e. changing from 10 days to 5 days will erase all data previously entered into the 10 days)
+                    </div>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col size="6">
+                    <ion-list>
+                        <ng-container *ngFor="let day of challenge.contents; let i = index">
+                            <ion-label position="stacked">Task {{i + 1}}</ion-label>
+                            <ion-item>
+                                <ion-label position="stacked">Title</ion-label>
+                                <ion-input type="text" name="taskTitle{{i}}" [(ngModel)]="challenge.contents[i].title"></ion-input>
+                            </ion-item>
+                            <ion-item>
+                                <ion-label position="stacked">Activity</ion-label>
+                                <ion-textarea type="text" name="taskActivity{{i}}" [(ngModel)]="challenge.contents[i].activity"></ion-textarea>
+                            </ion-item>
+                            <ion-item>
+                                <ion-label position="stacked">Benefits (separate each item with a semicolon)</ion-label>
+                                <ion-textarea type="text" name="taskTips{{i}}" [(ngModel)]="challenge.contents[i].benefits"></ion-textarea>
+                            </ion-item>
+                            <ion-item>
+                                <ion-label position="stacked">Tips and resources (separate each item with semicolon)</ion-label>
+                                <ion-textarea type="text" name="taskResources{{i}}" [(ngModel)]="challenge.contents[i].tips"></ion-textarea>
+                            </ion-item>
+                        </ng-container>
                     </ion-list>
                 </ion-col>
             </ion-row>
         </ion-grid>
+        <ion-button type="submit" *ngIf="!challenge.id">
+            Submit
+        </ion-button>
+
+        <ion-row *ngIf="challenge.id">
+            <!-- Deletes Survey -->
+            <ion-col size="6">
+                <ion-button expand="block" fill="outline" color="danger" (click)="deleteChallengeConfirmation()">
+                    <ion-icon name="trash" slot="start"></ion-icon>
+                    Delete
+                </ion-button>
+            </ion-col>
+
+            <!-- Updates Survey -->
+            <ion-col size="6">
+                <ion-button expand="block" fill="solid" color="success" type="submit">
+                    <ion-icon name="save" slot="start"></ion-icon>
+                    Update
+                </ion-button>
+            </ion-col>
+        </ion-row>
     </form>
     <ion-footer>
         <ion-toolbar>
-            <ion-button class="fill-button" expand="full" (click)="submitChallenge(challengesForm)"
-                        [disabled]="!challengesForm.valid">
-                Submit
-            </ion-button>
+<!--            <ion-button class="fill-button" expand="full" (click)="uploadImage(uploadedImage, challengesForm)">-->
+<!--                Submit-->
+<!--            </ion-button>-->
+
         </ion-toolbar>
     </ion-footer>
 </ion-content>

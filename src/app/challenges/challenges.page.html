@@ -13,14 +13,24 @@
         <ion-icon name="add-circle-outline"></ion-icon>
         Add New Challenge
     </ion-button>
+    <ion-button class="fill-button ion-float-right" [routerLink]="['/challengeTypes']">
+        Challenge Types
+    </ion-button>
 
     <ng-container *ngFor="let challenge of (challenges | async)" >
-        <ion-item>
+        <ion-item button [routerLink]="['/newChallenge', challenge.id]">
             <ion-label>
                 {{ challenge.title }}
             </ion-label>
         </ion-item>
     </ng-container>
+
 </ion-content>
 
+<ion-footer>
+    <ion-item>
+        <ion-label>Upload Challenge (.json files only)</ion-label>
+        <input type="file" accept=".json" id="fileUpload" (change)="readJSON()">
+    </ion-item>
+</ion-footer>
 
