@@ -92,6 +92,7 @@ export class NewChallengePage implements OnInit {
                     task.benefits = task.benefits.split(';');
                     task.tips = task.tips.split(';');
                 });
+                this.challenge.length = this.challenge.length as number;
                 // this.challenge.coverPicture = this.challenge.coverPicture;
                 console.log(file);
                 this.fs.updateChallenge(this.challenge).then(() => {
@@ -116,6 +117,7 @@ export class NewChallengePage implements OnInit {
 
                     this.uploadedFileURL.subscribe(resp => {
                         this.challenge.coverPicture = resp;
+                        this.challenge.length = this.challenge.length as number;
                         this.challenge.contents.forEach(task => {
                             task.benefits = task.benefits.split(';');
                             task.tips = task.tips.split(';');
@@ -139,6 +141,7 @@ export class NewChallengePage implements OnInit {
                     task.tips = task.tips.split(';');
                 });
                 this.challenge.coverPicture = '';
+                this.challenge.length = this.challenge.length as number;
                 this.fs.addChallenge(this.challenge).then(() => {
                     this.router.navigateByUrl('/challenges');
                     this.showToast('Challenge added');
@@ -158,6 +161,7 @@ export class NewChallengePage implements OnInit {
 
                 this.uploadedFileURL.subscribe(resp => {
                     this.challenge.coverPicture = resp;
+                    this.challenge.length = this.challenge.length as number;
                     this.challenge.contents.forEach(task => {
                         task.benefits = task.benefits.split(';');
                         task.tips = task.tips.split(';');

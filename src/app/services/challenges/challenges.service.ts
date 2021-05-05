@@ -108,7 +108,7 @@ export class ChallengeService {
             description: challenge.description,
             coverPicture: challenge.coverPicture,
             type: challenge.type,
-            length: challenge.length,
+            length: challenge.length as number,
             contents: challenge.contents});
     }
 
