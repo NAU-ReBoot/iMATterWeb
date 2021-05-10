@@ -10,7 +10,6 @@ import {PregnancyUpdateCard} from "../PregnancyUpdates/pregnancy-updates.service
 export interface QuotesCard {
     id?: string;
     filename: string;
-    description: string;
     picture: string;
 }
 
@@ -61,13 +60,11 @@ export class QuotesService {
     //     );
     // }
     //
-    // addPregnancyUpdate(pregnancyCard: PregnancyUpdateCard) {
-    //     return this.afs.collection('pregnancyUpdates').add({
-    //         day: pregnancyCard.day,
-    //         fileName: pregnancyCard.fileName,
-    //         description: pregnancyCard.description,
-    //         picture: pregnancyCard.picture});
-    // }
+    addQuote(quote: QuotesCard) {
+        return this.afs.collection('quotes').add({
+            filename: quote.filename,
+            picture: quote.picture});
+    }
     //
     // updatePregnancyUpdate(pregnancyCard: PregnancyUpdateCard): Promise<void> {
     //     console.log(pregnancyCard);
