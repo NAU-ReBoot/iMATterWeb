@@ -11,10 +11,36 @@
 <ion-content>
     <ion-grid>
         <ion-row>
+            <ion-button class="fill-button ion-align-self-end" (click)="showForm()">
+                <ion-icon name="add-circle-outline"></ion-icon> Add New
+            </ion-button>
+        </ion-row>
+        <ion-row>
+            <ng-container>
+                <form id="newQuote" class="ion-hide ion-padding" (ngSubmit)="logForm()">
+                    <ion-item>
+                        <ion-label position="stacked"> New Quote Picture</ion-label>
+                        <input id="pictureInput" type="file" name="picture">
+                    </ion-item>
+                    <ion-button type="submit" class="ion-padding">
+                        Submit
+                    </ion-button>
+                </form>
+            </ng-container>
+        </ion-row>
+        <ion-row>
                 <ion-col sizeLg="2" sizeMd="4" sizeXs="6" *ngFor="let quoteCard of (quotes | async)">
-                    <img src="{{ quoteCard.picture }}">
+                    <img src="{{ quoteCard.picture }}" (click)="showImage(quoteCard.picture)">
                 </ion-col>
         </ion-row>
     </ion-grid>
+
+
 </ion-content>
+
+<div id="overlay">
+    <div id="pic" (click)="exitImage()">
+        <img style="object-fit: contain" src="{{displayImage}}" width="400" height="500">
+    </div>
+</div>
 
