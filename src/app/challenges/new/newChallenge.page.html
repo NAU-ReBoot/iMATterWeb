@@ -15,25 +15,11 @@
                 <ion-col size="6">
                     <ion-item>
                         <ion-label position="stacked"> Challenge Title
-<!--                            <ion-badge-->
-<!--                                    *ngIf="challengesForm.controls.title.touched && challengesForm.controls.title.invalid"-->
-<!--                                    color="danger">-->
-<!--                                Required-->
-<!--                            </ion-badge>-->
                         </ion-label>
                         <ion-input name="title" [(ngModel)]="challenge.title"></ion-input>
                     </ion-item>
                 </ion-col>
             </ion-row>
-<!--            <ion-row>-->
-<!--                <ion-col size="6">-->
-<!--                    <ion-item>-->
-<!--                        <ion-label position="stacked"> Cover Picture-->
-<!--                        </ion-label>-->
-<!--                        <input type="file" class="upload" id="coverPicture" (change)="uploadedImage = $event.target.files"/>-->
-<!--                    </ion-item>-->
-<!--                </ion-col>-->
-<!--            </ion-row>-->
             <ion-row>
                 <ion-col size="6">
                     <ion-item>
@@ -44,7 +30,7 @@
                 </ion-col>
             </ion-row>
             <ion-row>
-                <ion-col size="6">
+                <ion-col size="5">
                     <ion-item>
                         <ion-label position="stacked"> Challenge Picture
                         </ion-label>
@@ -55,6 +41,27 @@
                     <ion-thumbnail>
                         <ion-img *ngIf="challenge.id" src="{{challenge.coverPicture}}"></ion-img>
                     </ion-thumbnail>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col size="5">
+                    <ion-item>
+                        <ion-label position="stacked"> Challenge Icon</ion-label>
+                        <input id="iconInput" type="file" name="icon" (change)="uploadIcon()">
+                    </ion-item>
+                </ion-col>
+                <ion-col>
+                    <ion-thumbnail>
+                        <ion-img *ngIf="challenge.id" src="{{challenge.icon}}"></ion-img>
+                    </ion-thumbnail>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col size="6">
+                    <div style="font-size: 0.8em; color: #4B5257">
+                        The challenge icon will be displayed as a small 16px by 16px thumbnail image. Keep this in mind
+                        when choosing an icon image.
+                    </div>
                 </ion-col>
             </ion-row>
             <ion-row>

@@ -20,6 +20,7 @@ export class ChallengesPage implements OnInit {
         type: '',
         length: 0,
         coverPicture: '',
+        icon: '',
         contents: []
     };
 

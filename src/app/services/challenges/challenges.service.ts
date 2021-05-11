@@ -14,6 +14,7 @@ export interface Challenge {
     type: string;
     length: number;
     coverPicture: any;
+    icon: any;
     contents: any[];
 }
 
@@ -107,6 +108,7 @@ export class ChallengeService {
             title: challenge.title,
             description: challenge.description,
             coverPicture: challenge.coverPicture,
+            icon: challenge.icon,
             type: challenge.type,
             length: challenge.length as number,
             contents: challenge.contents});

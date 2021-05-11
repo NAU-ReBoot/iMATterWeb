@@ -26,6 +26,7 @@ export class LocationsPage implements OnInit {
     longitude: 0,
     street: '',
     phone: '',
+    phone24Hour: undefined,
     MOpen: '',
     MClose: '',
     TOpen: '',

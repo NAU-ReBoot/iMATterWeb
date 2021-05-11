@@ -17,6 +17,7 @@ export class QuotesPage implements OnInit {
     public fileName: string;
     public uploadedFileURL: Observable<string>;
     public displayImage: string;
+    public displayImageId: string;
 
     quote: QuotesCard = {
         filename: '',
@@ -84,13 +85,19 @@ export class QuotesPage implements OnInit {
         formElem.classList.remove('ion-hide');
     }
 
-    showImage(picture) {
+    showImage(picture, id) {
+        this.displayImageId = id;
         this.displayImage = picture;
         document.getElementById('overlay').style.display = 'block';
     }
 
     exitImage() {
         document.getElementById('overlay').style.display = 'none';
+    }
+
+    deleteQuote() {
+        this.quotesService.deleteQuote(this.displayImageId);
+        this.showToast('This image will not longer display to users.');
     }
 
     showToast(msg) {

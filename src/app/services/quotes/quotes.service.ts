@@ -76,7 +76,8 @@ export class QuotesService {
     //         picture: pregnancyCard.picture});
     // }
     //
-    // deletePregnancyUpdate(id: string): Promise<void> {
-    //     return this.pregnancyUpdatesCollection.doc(id).delete();
-    // }
+
+    deleteQuote(id: string): Promise<void> {
+        return this.quotesCollection.doc(id).delete();
+    }
 }

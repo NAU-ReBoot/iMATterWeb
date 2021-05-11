@@ -30,6 +30,7 @@ export class ResourcePage implements OnInit {
         longitude: 0,
         street: '',
         phone: '',
+        phone24Hour: undefined,
         MOpen: '',
         MClose: '',
         TOpen: '',
@@ -68,6 +69,7 @@ export class ResourcePage implements OnInit {
             street: [''],
             phone: ['', Validators.compose([Validators.required, Validators.minLength(1),
                 Validators.pattern('^(1?\ ?\\([0-9][0-9][0-9]\\)\ ?[0-9][0-9][0-9]-[0-9][0-9][0-9][0-9])')])],
+            phone24Hour: [''],
             MOpen: ['', Validators.pattern('^(([0-1]?[0-9]|2[0-3]):[0-5][0-9] ?([AaPp][Mm]))|[C][L][O][S][E][D]$')],
             MClose: ['', Validators.pattern('^(([0-1]?[0-9]|2[0-3]):[0-5][0-9] ?([AaPp][Mm]))|[C][L][O][S][E][D]$')],
             TOpen: ['', Validators.pattern('^(([0-1]?[0-9]|2[0-3]):[0-5][0-9] ?([AaPp][Mm]))|[C][L][O][S][E][D]$')],
@@ -83,7 +85,6 @@ export class ResourcePage implements OnInit {
             SunOpen: ['', Validators.pattern('^(([0-1]?[0-9]|2[0-3]):[0-5][0-9] ?([AaPp][Mm]))|[C][L][O][S][E][D]$')],
             SunClose: ['', Validators.pattern('^(([0-1]?[0-9]|2[0-3]):[0-5][0-9] ?([AaPp][Mm]))|[C][L][O][S][E][D]$')],
             checkbox: [''],
-
             special: [''],
             url: [''],
             type: ['', Validators.compose([Validators.required, Validators.minLength(1)])]
@@ -129,7 +130,6 @@ export class ResourcePage implements OnInit {
 
 
     updateLocation(locationForm: FormGroup) {
-
         if (this.locationForm.status === 'VALID') {
             this.location.title = locationForm.value.title;
             this.location.content = locationForm.value.content;
@@ -140,6 +140,7 @@ export class ResourcePage implements OnInit {
                 this.location.street = locationForm.value.street;
             }
             this.location.phone = locationForm.value.phone;
+            this.location.phone24Hour = locationForm.value.phone24Hour;
             this.location.hourType = locationForm.value.hourType;
             if (this.location.hourType === 'specific') {
                 this.location.MOpen = this.hoursOfOperation(locationForm.value.MOpen);
@@ -163,6 +164,7 @@ export class ResourcePage implements OnInit {
 
             this.locationService.updateLocation(this.location).then(() => {
                 this.showToast(this.location.title + ' Updated!');
+                console.log(this.location);
 
                 this.router.navigateByUrl('/locations');
             }, err => {

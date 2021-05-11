@@ -14,6 +14,7 @@ export interface Location {
   longitude: number;
   street: string;
   phone: string;
+  phone24Hour: boolean;
   MOpen: string;
   MClose: string;
   TOpen: string;
@@ -96,6 +97,7 @@ export class LocationService {
        longitude: Number(location.longitude),
        street: location.street,
        phone: location.phone,
+       phone24Hour: location.phone24Hour,
        MOpen: location.MOpen,
        MClose: location.MClose,
        TOpen: location.TOpen,

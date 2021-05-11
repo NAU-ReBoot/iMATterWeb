@@ -33,6 +33,7 @@ export class NewChallengePage implements OnInit {
         type: '',
         length: 0,
         coverPicture: '',
+        icon: '',
         contents: []
     };
 
@@ -85,6 +86,7 @@ export class NewChallengePage implements OnInit {
 
     logForm() {
         console.log(this.challenge);
+
         if (this.challenge.id) {
             const file = (document.getElementById('pictureInput') as HTMLInputElement).files[0];
             if (file === undefined) {
@@ -175,6 +177,27 @@ export class NewChallengePage implements OnInit {
             });
         }
     }
+
+    uploadIcon() {
+        console.log('picture detected');
+        const file = (document.getElementById('iconInput') as HTMLInputElement).files[0];
+        this.fileName = file.name;
+        // The storage path
+        const path = `ChallengeImages/${new Date().getTime()}_${file.name}`;
+        // this.ch.fileName = `${new Date().getTime()}_${file.name}`;
+        // File reference
+        const fileRef = this.fireStorage.ref(path);
+        // The main task
+        this.task = this.fireStorage.upload(path, file).then(() => {
+            // Get uploaded file storage path
+            this.uploadedFileURL = fileRef.getDownloadURL();
+
+            this.uploadedFileURL.subscribe(resp => {
+               this.challenge.icon = resp;
+            });
+        });
+    }
+
 
     async addChallenge(challengesForm: FormGroup) {
         if (!challengesForm.valid) {

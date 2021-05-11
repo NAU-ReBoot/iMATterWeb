@@ -30,7 +30,7 @@
         </ion-row>
         <ion-row>
                 <ion-col sizeLg="2" sizeMd="4" sizeXs="6" *ngFor="let quoteCard of (quotes | async)">
-                    <img src="{{ quoteCard.picture }}" (click)="showImage(quoteCard.picture)">
+                    <img src="{{ quoteCard.picture }}" (click)="showImage(quoteCard.picture, quoteCard.id)">
                 </ion-col>
         </ion-row>
     </ion-grid>
@@ -38,9 +38,10 @@
 
 </ion-content>
 
-<div id="overlay">
-    <div id="pic" (click)="exitImage()">
+<div id="overlay" (click)="exitImage()">
+    <div id="pic">
         <img style="object-fit: contain" src="{{displayImage}}" width="400" height="500">
+        <ion-icon name="trash" style="color: var(--ion-color-danger); left: 100%; position:absolute;" (click)="deleteQuote()"></ion-icon>
     </div>
 </div>
 
